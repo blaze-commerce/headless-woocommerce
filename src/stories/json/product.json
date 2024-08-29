@@ -1,0 +1,21 @@
+{
+  "id": "0",
+  "name": "Product Title",
+  "onSale": false,
+  "permalink": "",
+  "price": {
+    "AUD": 2
+  },
+  "thumbnail": {
+    "altText": "",
+    "src": "",
+    "title": ""
+  },
+  "regularPrice": {
+    "AUD": 2
+  },
+  "salePrice": {
+    "AUD": 1
+  },
+  "stockStatus": "instock"
+}

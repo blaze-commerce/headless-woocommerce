@@ -1,0 +1,56 @@
+{
+  "images": [
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2015/08/Wine_duo_gift_box_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_213_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_230_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2015/08/Wine_duo_gift_box_LR.jpg"
+    }
+  ],
+  "gridImages": [
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2015/08/Wine_duo_gift_box_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_213_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_230_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2015/08/Wine_duo_gift_box_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_213_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_230_LR.jpg"
+    }
+  ],
+  "imageWithVideos": [
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2023/03/videoplayback-1.mp4",
+      "sources": [
+        {
+          "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2023/03/videoplayback-1.mp4",
+          "type": "video/mp4"
+        }
+      ]
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2015/08/Wine_duo_gift_box_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_213_LR.jpg"
+    },
+    {
+      "src": "https://gb-headless-v2.blz.onl/wp-content/uploads/2021/09/GB22_04_230_LR.jpg"
+    }
+  ]
+}

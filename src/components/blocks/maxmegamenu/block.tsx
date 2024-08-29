@@ -1,0 +1,181 @@
+import HTMLReactParser from 'html-react-parser';
+import { createPortal } from 'react-dom';
+import { isMobile } from 'react-device-detect';
+import { filter } from 'lodash';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+import { BlockComponentProps } from '@src/components/blocks';
+import { ChevronDown } from '@components/svg/chevron-down';
+import { MegaMenuSubMenu } from '@src/components/blocks/maxmegamenu/mega-menu-sub-menu';
+import {
+  Menu,
+  MenuListItem,
+  MenuWrapper,
+} from '@src/components/blocks/maxmegamenu/styled-components';
+import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
+import { MobileMenuListItem } from '@src/components/blocks/maxmegamenu/mobile-menu-list-item';
+import { Overlay } from '@src/components/overlay';
+
+import { getMenuById } from '@src/lib/helpers/menu';
+import { useSiteContext } from '@src/context/site-context';
+import { cn } from '@src/lib/helpers/helper';
+import { NormalSubMenu } from '@src/components/blocks/maxmegamenu/normal-sub-menu';
+
+export const MAXMEGAMENU_BLOCK_NAME = 'maxmegamenu/location';
+
+export type BoxControlProps = Partial<{
+  bottom: string;
+  left: string;
+  right: string;
+  top: string;
+}>;
+
+export type MaxMegaMenuAttributes = Partial<{
+  className: string;
+  fontSize: number;
+  fontWeight: string;
+  letterCase: string;
+  mainNavigationBackgroundColor: string;
+  menuCentered: boolean;
+  menuFullWidth: boolean;
+  menuMaxWidth: string;
+  menuId: string;
+  menuLinkBackgroundColor: string;
+  menuLinkColor: string;
+  menuLinkHoverBackgroundColor: string;
+  menuLinkHoverColor: string;
+  mobileMenuLinkColor: string;
+  menuLinkMargin: BoxControlProps;
+  menuLinkPadding: BoxControlProps;
+  menuSeparatorColor: string;
+  submenuContainerBackgroundColor: string;
+  submenuFullWidth: boolean;
+  submenuLinkBackgroundColor: string;
+  submenuLinkColor: string;
+  submenuLinkHoverBackgroundColor: string;
+  submenuLinkHoverColor: string;
+  mobileSubmenuLinkColor: string;
+  submenuContainerPadding: BoxControlProps;
+  submenuLinkMargin: BoxControlProps;
+  submenuLinkPadding: BoxControlProps;
+}>;
+
+export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
+  const { asPath } = useRouter();
+  const { setShowMenu, showMenu } = useSiteContext();
+  const [linkHovered, setLinkHovered] = useState(false);
+
+  useEffect(() => {
+    setLinkHovered(false);
+    setShowMenu(false);
+  }, [asPath]);
+
+  if (MAXMEGAMENU_BLOCK_NAME !== block.blockName) {
+    return null;
+  }
+
+  const attributes = block.attrs as MaxMegaMenuAttributes;
+
+  const menuId = attributes.menuId || '';
+  const mainMenu = getMenuById(parseInt(menuId, 10));
+
+  if (!mainMenu) {
+    return null;
+  }
+
+  const mainMenuItems = filter(mainMenu.items, (item) => !!item.title);
+
+  return (
+    <>
+      {!isMobile && (
+        <MenuWrapper
+          className={cn(`nav flex w-full ${attributes.className}`, {
+            hovered: linkHovered,
+            'justify-center': attributes.menuCentered,
+          })}
+          $attrs={attributes}
+        >
+          <Menu
+            $isCentered={attributes.menuCentered}
+            $isFullWidth={attributes.menuFullWidth}
+            $menuMaxWidth={attributes.menuMaxWidth}
+            className={cn('flex items-center relative', {
+              'w-full': attributes.submenuFullWidth,
+            })}
+          >
+            {Object.values(mainMenuItems).map((item) => {
+              const childMenus = item.children || [];
+              const hasChildMenus = childMenus.length > 0 || false;
+              const isMegaMenu = !!childMenus.find((menu) => menu.type === 'megamenu');
+
+              return (
+                <MenuListItem
+                  key={item?.url}
+                  $attrs={attributes}
+                  className="nav-item flex items-center"
+                  onMouseEnter={() => setLinkHovered(true)}
+                  onMouseLeave={() => setLinkHovered(false)}
+                >
+                  <MenuLink
+                    $padding={attributes.menuLinkPadding}
+                    $color={attributes.menuLinkColor}
+                    $backgroundColor={attributes.menuLinkBackgroundColor}
+                    $fontWeight={attributes.fontWeight}
+                    $letterCase={attributes.letterCase}
+                    $hoverColor={attributes.menuLinkHoverColor}
+                    $hoverBackgroundColor={attributes.menuLinkHoverBackgroundColor}
+                    className="flex cursor-pointer items-center gap-2.5"
+                    href={item.url}
+                  >
+                    {HTMLReactParser(item.title || '')}
+
+                    {hasChildMenus && <ChevronDown />}
+                  </MenuLink>
+
+                  {hasChildMenus && isMegaMenu && (
+                    <MegaMenuSubMenu
+                      items={childMenus}
+                      originalItems={mainMenu.items}
+                      attributes={attributes}
+                    />
+                  )}
+                  {hasChildMenus && !isMegaMenu && (
+                    <NormalSubMenu
+                      items={childMenus}
+                      attributes={attributes}
+                    />
+                  )}
+                </MenuListItem>
+              );
+            })}
+          </Menu>
+        </MenuWrapper>
+      )}
+
+      {typeof window !== 'undefined' &&
+        createPortal(
+          <Overlay
+            isShowing={showMenu}
+            setIsShowing={setShowMenu}
+            style={{
+              backgroundColor: attributes.mainNavigationBackgroundColor || '#fff',
+            }}
+            baseTextColor={attributes.mobileMenuLinkColor}
+          >
+            <Menu className="relative overlaywats">
+              {Object.values(mainMenuItems).map((menuItem) => (
+                <MobileMenuListItem
+                  key={menuItem.url}
+                  menuItem={menuItem}
+                  attributes={attributes}
+                  originalItems={mainMenu.items}
+                />
+              ))}
+            </Menu>
+          </Overlay>,
+          document.body
+        )}
+    </>
+  );
+};

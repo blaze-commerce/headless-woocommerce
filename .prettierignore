@@ -1,0 +1,6 @@
+.yarn
+.next
+dist
+node_modules
+.json
+.github

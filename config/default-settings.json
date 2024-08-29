@@ -1,0 +1,309 @@
+{
+  "shop": {
+    "layout": {
+      "resultCount": {
+        "color": "#6e6e6e"
+      },
+      "productCards": {
+        "imageMaxWidth": 0,
+        "imagePadding": 20,
+        "titleFontSize": "16px",
+        "cardShadow": true,
+        "badgeType": 2,
+        "showRating": true,
+        "hasAddToCart": true,
+        "detailsAlignment": "center",
+        "buttonTransparent": true,
+        "imageLayout": "square",
+        "hasBorders": true,
+        "cardPadding": 26,
+        "saleBadgeColor": "#4A5468",
+        "newBadgeColor": "#4A5468",
+        "reviewStarColor": "#AF8C5A",
+        "hasItemsLeftBadge": false,
+        "itemsLeftBadgeColor": "#4A5468",
+        "wishlistButtonType": 1,
+        "showReviewCount": false,
+        "showDiscountLabel": false,
+        "discountLabelBackgroundColor": "#4A5468"
+      },
+      "priceRangeSlider": {
+        "color": "#191e34"
+      },
+      "activeFilters": null,
+      "productColumns": "4",
+      "productCount": "16",
+      "productFilters": "2",
+      "banner": "1"
+    },
+    "options": {
+      "showAddToCartButton": true,
+      "outOfStockMessage": "OUT OF STOCK"
+    }
+  },
+  "product": {
+    "productDetails": {
+      "showSku": false,
+      "showBrand": false,
+      "showStockInformation": true,
+      "emailWhenAvailable": true,
+      "showCategories": false,
+      "newsletter": true,
+      "brandTaxonomyIdentifier": "",
+      "stockDisplayFormat": "low_amount"
+    },
+    "features": {
+      "shortDescription": {
+        "enabled": true
+      },
+      "recentlyViewed": {
+        "enabled": true,
+        "showNumProducts": 4
+      },
+      "additionalWarningMessage": {
+        "enabled": false
+      },
+      "calculateShipping": {
+        "enabled": false
+      },
+      "averageRatingText": {
+        "enabled": true
+      }
+    },
+    "productGallery": {
+      "newProductBadgeThreshold": "30",
+      "showNewProductBadge": true,
+      "zoomType": "2",
+      "isGrid": false
+    },
+    "font": {
+      "tabs": {
+        "weight": "600",
+        "size": "18px"
+      },
+      "regularPrice": {
+        "color": "#191e34"
+      },
+      "recentlyViewedAndCrossSells": {
+        "size": "18px",
+        "weight": "600"
+      },
+      "salePrice": {
+        "color": "#bebebe"
+      },
+      "price": {
+        "weight": "600"
+      }
+    },
+    "layout": {
+      "wishlist": {
+        "buttonType": "1"
+      },
+      "descriptionTabLocation": "1",
+      "tabsCase": "2",
+      "productTabs": "accordion",
+      "recentlyViewedAndCrossSellAlignment": "left"
+    },
+    "descriptionAfterContent": "",
+    "usingCompositeProduct": false,
+    "freeShippingThreshold": {}
+  },
+  "colors": {
+    "button": {
+      "background": "#2563EB",
+      "text": "#ffffff",
+      "hoverText": "#ffffff",
+      "hoverBackground": "#2563EB"
+    },
+    "background": {
+      "secondary": "#191e34",
+      "primary": "#2563EB",
+      "tertiary": "#f7f7f7"
+    },
+    "wishlist": {
+      "background": "#ffffff",
+      "iconFill": "#000000",
+      "iconStroke": "#000000",
+      "hoverBackground": "#ffffff",
+      "hoverIconFill": "#000000",
+      "hoverIconStroke": "#000000"
+    }
+  },
+  "store": {
+    "date": {
+      "format": "en-GB",
+      "day": "2-digit",
+      "year": "numeric",
+      "month": "2-digit"
+    },
+    "favicon": "https://blazecommerce.io/wp-content/uploads/2023/09/blaze_commerce_favicon-1.png",
+    "breadcrumb": "/",
+    "breadcrumbMobile": {
+      "enabled": true
+    },
+    "reviewService": "judge.me",
+    "containerWidth": {
+      "desktop": "1200"
+    },
+    "gtmId": null,
+    "woocommerceCalcTaxes": true,
+    "woocommercePricesIncludeTax": true,
+    "freeShippingThreshold": {},
+    "fontFamily": "Poppins",
+    "isCompositeEnabled": false,
+    "isAfterpayEnabled": "1",
+    "isMulticurrency": true,
+    "reviewsPlugin": "",
+    "review": {
+      "judgemeSettings": {},
+      "businessReviewsBundleSettings": {
+        "collection": ""
+      }
+    },
+    "woocommerceTaxSetup": {
+      "displayPricesIncludingTax": "incl",
+      "priceDisplaySuffix": ""
+    }
+  },
+  "homepage": {
+    "layout": {
+      "blogs": {
+        "readMore": {
+          "enabled": false
+        },
+        "date": {
+          "enabled": false
+        },
+        "description": {
+          "enabled": false
+        }
+      },
+      "featuredProducts": {
+        "hasDots": false
+      },
+      "featuredCategories": {
+        "cardLayout": {
+          "border": {
+            "enabled": false
+          }
+        },
+        "shortDescription": {
+          "enabled": false
+        }
+      },
+      "banner": {
+        "fullWidth": true
+      }
+    }
+  },
+  "header": {
+    "mainMenu": {
+      "menuId": "4",
+      "backgroundColor": "#fff"
+    },
+    "options": {
+      "phoneNumber": {
+        "displayType": "icon",
+        "enabled": false,
+        "label": "Contact Us",
+        "valueDisplayText": null,
+        "value": null
+      },
+      "cart": {
+        "displayType": "icon_only",
+        "label": "My Cart"
+      },
+      "myAccount": {
+        "displayType": "icon_only",
+        "label": "My Account"
+      },
+      "isSticky": true,
+      "courtesyNav": {
+        "enabled": false,
+        "displayType": "icon",
+        "hasIcon": false,
+        "hasChevronDownIcon": false,
+        "label": "Contact Us",
+        "menuId": null
+      },
+      "wishlist": {
+        "enabled": false,
+        "displayType": "icon_only",
+        "label": "My Wishlist"
+      },
+      "email": {
+        "enabled": false,
+        "displayType": "icon_only"
+      }
+    },
+    "topNavOrder": {
+      "contactUs": "2",
+      "phoneNumber": "1",
+      "myAccount": "3",
+      "wishlist": "5",
+      "courtesyNavigation": "4",
+      "cart": "6"
+    },
+    "layout": {
+      "cartIcon": "1",
+      "cartIconLayout": "1",
+      "desktop": "1",
+      "mobile": "1"
+    },
+    "customColors": {
+      "enabled": false
+    },
+    "logo": {
+      "desktop": {
+        "src": "",
+        "wpSrc": "https://cart.ezywiper-bc-v1.blz.onl/wp-content/uploads/2023/09/ezywiper-white-green.png"
+      },
+      "mobile": {
+        "src": "",
+        "wpSrc": "https://cart.ezywiper-bc-v1.blz.onl/wp-content/uploads/2023/09/ezywiper-white-green.png"
+      }
+    }
+  },
+  "search": {
+    "input": {
+      "transparent": false,
+      "customColors": {
+        "enabled": false
+      }
+    },
+    "results": {
+      "categoryCount": "5",
+      "productCount": "10",
+      "showSku": false,
+      "showBlogPost": false,
+      "customColors": {
+        "enabled": false
+      }
+    }
+  },
+  "cart": {
+    "options": {
+      "hideViewCartButton": false
+    }
+  },
+  "siteMessageTopHeader": [],
+  "siteMessage": [],
+  "footerContentBefore": [],
+  "footerContent1": [],
+  "footerContent2": [],
+  "footerContent3": [],
+  "footerContent4": [],
+  "footerContent5": [],
+  "footerContentAfter": [],
+  "cookieDomain": ".ezywiper-bc-v1.blz.onl",
+  "showFreeShippingBanner": false,
+  "showFreeShippingMinicartComponent": false,
+  "regions": {
+    "AU": [
+      "AU"
+    ]
+  },
+  "homepageSlug": "home",
+  "categoryPageDefaultSort": "{\"sort_option\":\"sort_0\"}",
+  "showVariantAsSeparateProductCards": false
+}

@@ -1,0 +1,126 @@
+{
+  "bird-control": {
+    "product": {
+      "name": "Railing Mount",
+      "permalink": "https://birdcontrolaustralia.com.au/shop/marine-and-boat-bird-deterrent/railing-mount/",
+      "thumbnail": {
+        "altText": "",
+        "src": "https://birdcontrolaustralia.com.au/wp-content/uploads/2014/05/rail-mount_1-275x275.jpg",
+        "title": ""
+      }
+    },
+    "productColumns": "4",
+    "badgeType": 3,
+    "titleFontSize": "20px",
+    "hasAddToCart": true,
+    "showRating": true,
+    "showReviewCount": true,
+    "reviewCount": "2",
+    "saleBadgeColor": "#000000",
+    "newBadgeColor": "#DB4437"
+  },
+  "garden-world": {
+    "product": {
+      "name": "Blue Heeler – Sitting",
+      "permalink": "https://gardenworld.com.au/shop/figurines-statues/blue-heeler-sitting/",
+      "thumbnail": {
+        "altText": "",
+        "src": "https://gardenworld.com.au/wp-content/uploads/2023/03/UF51730-1-245x245.jpg",
+        "title": ""
+      }
+    },
+    "productColumns": "4",
+    "badgeType": 3,
+    "titleFontSize": "18px",
+    "hasAddToCart": true,
+    "saleBadgeColor": "#61CE70",
+    "newBadgeColor": "#FF9393"
+  },
+  "jackie-mack-designs": {
+    "product": {
+      "name": "SPRING EAR CUFF",
+      "permalink": "https://www.jackiemackdesigns.com/product/spring-ear-cuff-gold/",
+      "thumbnail": {
+        "altText": "",
+        "src": "https://cdn.jackiemackdesigns.com/wp-content/uploads/2021/09/spring-ear-cuff-gold-jackie-mack-designs-300x300.jpg",
+        "title": ""
+      }
+    },
+    "productColumns": "4",
+    "badgeType": 2,
+    "showRating": true,
+    "titleFontSize": "12px",
+    "showWishlistButton": true,
+    "hasItemsLeftBadge": true,
+    "showDiscountLabel": true,
+    "discountLabelBackgroundColor": "#F6E7E6",
+    "discountPercent": "20",
+    "saleBadgeColor": "#FFBDB9",
+    "newBadgeColor": "#F8F5EE",
+    "itemsLeftBadgeColor": "#F6E7E6"
+  },
+  "premium-vape": {
+    "product": {
+      "name": "JUUL® Device Kit – SLATE",
+      "permalink": "https://premiumvape.com/product/juul-device-kit-slate/",
+      "thumbnail": {
+        "altText": "",
+        "src": "https://premiumvape.com/wp-content/uploads/2021/05/Juul-Vape-Device-Slate-from-Premium-Vape-300x300.gif",
+        "title": ""
+      }
+    },
+    "productColumns": "4",
+    "showRating": true,
+    "hasBorders": true,
+    "imagePadding": 20,
+    "titleFontSize": "14px",
+    "showReviewCount": true,
+    "reviewCount": "2",
+    "showGST": true,
+    "saleBadgeColor": "#1096D0",
+    "newBadgeColor": "#74767D"
+  },
+  "red-horse-products": {
+    "product": {
+      "name": "Artimud",
+      "permalink": "https://redhorseproducts.com/shop/hoof-care/artimud/",
+      "thumbnail": {
+        "altText": "",
+        "src": "https://redhorseproducts.com/wp-content/uploads/2017/09/Artimud_300g-220x220.jpg",
+        "title": ""
+      }
+    },
+    "productColumns": "4",
+    "badgeType": 3,
+    "showRating": true,
+    "titleFontSize": "18px",
+    "showFromPrice": true,
+    "showAvailableOptions": true,
+    "availableOptionsCount": "2",
+    "showReviewCount": true,
+    "reviewCount": "2",
+    "saleBadgeColor": "#1E2B42",
+    "newBadgeColor": "#74767D"
+  },
+  "truckers-toy-store": {
+    "product": {
+      "name": "Lens Dome Red",
+      "permalink": "https://truckerstoystore.com.au/shop/104/interior-truck-accessories/interior-lens-interior-truck-accessories/lens-dome-freightliner-kenworth-pb-red/",
+      "thumbnail": {
+        "altText": "",
+        "src": "https://truckerstoystore.b-cdn.net/wp-content/uploads/2016/02/4307R-Dome-Light-Lens-Truckers-Toy-Store-500x500.png.webp",
+        "title": ""
+      }
+    },
+    "productColumns": "4",
+    "badgeType": 3,
+    "titleFontSize": "20px",
+    "hasAddToCart": true,
+    "showWishlistButton": true,
+    "wishlistButtonType": 2,
+    "showAvailableOptions": true,
+    "availableOptionsCount": "2",
+    "saleBadgeColor": "#CC0000",
+    "newBadgeColor": "#343438"
+  }
+}
