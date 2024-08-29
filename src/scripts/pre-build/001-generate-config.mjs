@@ -233,7 +233,10 @@ export default async function execute(params) {
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
     settingsWithDefaults.categoryPageDefaultSort = typesenseConfigs?.categoryPageDefaultSort?.value;
-    settingsWithDefaults.store.favicon = typesenseConfigs?.siteIconUrl?.value;
+    const favIcon = typesenseConfigs?.siteIconUrl?.value;
+    if (!_.isEmpty(favIcon)) {
+      settingsWithDefaults.store.favicon = typesenseConfigs?.siteIconUrl?.value;
+    }
     settingsWithDefaults.store.fontFamily = typesenseConfigs?.fontFamily?.value || 'Poppins';
 
     settingsWithDefaults.product.descriptionAfterContent =
