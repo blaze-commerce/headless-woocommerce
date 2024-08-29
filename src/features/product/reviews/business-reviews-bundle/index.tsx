@@ -75,10 +75,6 @@ export const BusinessReviewsBundle = () => {
       .then((json) => {
         setbrbData(json.data as TBRBData);
       });
-
-    return () => {
-      controller.abort();
-    };
   }, []);
 
   if (settings?.store?.reviewsPlugin !== 'business-reviews-bundle') return null;
