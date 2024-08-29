@@ -1,12 +1,11 @@
 import siteSettings from '@public/site.json';
 import { useSiteContext } from '@src/context/site-context';
 import { numberFormat } from '@src/lib/helpers/product';
-import { SettingProps } from '@src/models/settings';
 
 export const FreeShippingProgress = () => {
   const { cart, availableFreeShippingMethod, currentCurrency } = useSiteContext();
 
-  if (!(siteSettings as SettingProps).showFreeShippingMinicartComponent) return null;
+  if (!siteSettings.showFreeShippingMinicartComponent) return null;
   const treshold = parseFloat(availableFreeShippingMethod?.minAmount || '');
   const cartSubtotal = parseFloat(cart?.subtotal || '0');
   const totalTax = parseFloat(cart?.totalTax || '0');

@@ -1,13 +1,12 @@
 import siteSettings from '@public/site.json';
 import { useSiteContext } from '@src/context/site-context';
 import { numberFormat } from '@src/lib/helpers/product';
-import { SettingProps } from '@src/models/settings';
 
 export const FreeShippingBanner = () => {
   const { cart, availableFreeShippingMethod } = useSiteContext();
   const cartSubtotal = parseInt(cart?.subtotal || '0');
 
-  if (!(siteSettings as SettingProps).showFreeShippingBanner) return null;
+  if (!siteSettings.showFreeShippingBanner) return null;
 
   if (!availableFreeShippingMethod || cartSubtotal === 0) {
     return null;
