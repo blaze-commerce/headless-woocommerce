@@ -1,4 +1,5 @@
 import { ReactElement, Fragment } from 'react';
+import { cn } from '@src/lib/helpers/helper';
 import { useSiteContext } from '@src/context/site-context';
 import { formatPrice } from '@src/lib/helpers/helper';
 import { Product } from '@src/models/product';
@@ -21,10 +22,24 @@ export const SimplePrice = ({ product, isTaxExclusive }: TSimplePrice) => {
 
   if (isTaxExclusive) {
     renderedResult.push(
-      <span className="price !mb-0">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
+      <span
+        className={cn('simple-price', {
+          'font-semibold text-base md:text-lg': isOnSale && salePrice,
+        })}
+      >
+        {formatPrice(product.metaData?.priceWithTax, currency)}
+      </span>
     );
   } else {
-    renderedResult.push(<span className="price !mb-0">{formatPrice(price, currency)}</span>);
+    renderedResult.push(
+      <span
+        className={cn('simple-price', {
+          'font-semibold text-base md:text-lg': isOnSale && salePrice,
+        })}
+      >
+        {formatPrice(price, currency)}
+      </span>
+    );
   }
 
   return (

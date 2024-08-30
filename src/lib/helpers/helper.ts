@@ -249,8 +249,7 @@ export const isImage = (images: Image[], mainImageSrc: string) => {
 };
 
 export const validateEmail = (email: string) => {
-  const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
+  const validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (email.match(validRegex)) {
     return true;
   } else {
@@ -357,4 +356,18 @@ export const updateCanonicalLink = (html: string, newCanonicalUrl: string): stri
   }
 
   return '';
+};
+
+/**
+ * Convert a string to a slug that can be used in URLs
+ * @param   string text
+ * @returns string
+ */
+export const sanitizeTitle = (text: string): string => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 };

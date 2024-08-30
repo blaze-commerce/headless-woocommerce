@@ -11,8 +11,9 @@ import type {
   ProductStocStatuses,
   ProductTabs,
   ProductTaxonomy,
-  ProductBundle,
+  ProductBundleConfiguration,
   Variation,
+  ProductAddons,
 } from '@models/product/types';
 import { AccordionItem } from '@src/components/accordion';
 import { MAX_QUERY_LIMIT, WoolessTypesense } from '@src/lib/typesense';
@@ -21,6 +22,7 @@ import { formatTextWithNewline } from '@src/lib/helpers/helper';
 import { ProductElement, Settings, Store } from '@src/lib/typesense/types';
 import { getVariations, transformToProduct, transformToProducts } from '@src/lib/typesense/product';
 import { PRODUCT_TYPES } from '@src/lib/constants/product';
+import { Store as TStoreSetting } from '@src/models/settings/store';
 
 export type ProductBackorderStatus = 'yes' | 'no' | 'notify';
 
@@ -30,10 +32,10 @@ export type DefaultAttribute = {
 
 export type ProductTypesenseResponse = Partial<{
   additionalTabs: ProductTabs[];
-  addons: string;
+  addons?: ProductAddons[];
   attributes: Attributes;
   backorder: ProductBackorderStatus;
-  bundle?: ProductBundle;
+  bundle?: ProductBundleConfiguration;
   categoryLinks: string[];
   categoryNames: string[];
   createdAt: number;
@@ -96,11 +98,11 @@ type ProductQuery = Partial<{
 
 export class Product {
   readonly additionalTabs?: ProductTabs[];
-  readonly addons?: string;
+  readonly addons?: ProductAddons[];
   readonly attributes?: Attributes | { [key: string]: string };
   readonly defaultAttributes?: DefaultAttribute;
   readonly backorder?: ProductBackorderStatus;
-  readonly bundle?: ProductBundle;
+  readonly bundle?: ProductBundleConfiguration;
   readonly categoryLinks?: string[];
   readonly categoryNames?: string[];
   readonly createdAt?: number;
@@ -156,7 +158,7 @@ export class Product {
 
   constructor(props: ProductTypesenseResponse) {
     this.additionalTabs = isEmpty(props.additionalTabs) ? [] : props.additionalTabs;
-    this.addons = props.addons;
+    this.addons = props?.addons;
     this.backorder = props.backorder;
     this.bundle = props.bundle;
     this.categoryLinks = props.categoryLinks;
@@ -368,7 +370,7 @@ export class Product {
   }
 
   get shouldShowAddToCart() {
-    if (!this.isOutOfStock && !this.isGiftCard) {
+    if (!this.isOutOfStock) {
       return true;
     }
 
@@ -552,5 +554,37 @@ export class Product {
     if (!this.price) return true;
 
     return this.price[currency] === 0;
+  }
+
+  hasAddons() {
+    return this.addons && this.addons.length > 0;
+  }
+
+  get bundleHasPricedIndividually() {
+    // find in bundle.products[].settings if priceIndividually is true
+    // return true if found
+    if (this.productType !== 'bundle') {
+      return false;
+    }
+
+    const productWithPricedIndividually = this.bundle?.products?.filter(
+      (product) => product.settings.pricedIndividually
+    );
+
+    if (productWithPricedIndividually && productWithPricedIndividually.length > 0) return true;
+
+    return false;
+  }
+
+  get shouldDisplaySelectOptionsText() {
+    if (this.productType === 'variable') {
+      return true;
+    }
+
+    if (this.productType === 'bundle') {
+      return this.bundleHasPricedIndividually;
+    }
+
+    return false;
   }
 }

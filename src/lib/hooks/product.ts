@@ -1,5 +1,5 @@
 import { Product } from '@src/models/product';
-import { ProductBundle } from '@src/models/product/types';
+import { ProductBundleConfiguration } from '@src/models/product/types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -26,8 +26,10 @@ export const useAttributeParams = (): AttributeParams => {
   return attributes;
 };
 
-export const useProductBundle = (product: Product | undefined): null | ProductBundle => {
-  const [bundles, setBundles] = useState<ProductBundle | null>(null);
+export const useProductBundle = (
+  product: Product | undefined
+): null | ProductBundleConfiguration => {
+  const [bundles, setBundles] = useState<ProductBundleConfiguration | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();

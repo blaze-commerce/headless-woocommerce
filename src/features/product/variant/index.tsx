@@ -1,8 +1,19 @@
-import { BoxedVariant } from '@src/features/product/variant/boxed-variant';
-import { SelectVariant } from '@src/features/product/variant/select-variant';
-import { ImageVariant } from '@src/features/product/variant/image-variant';
+import dynamic from 'next/dynamic';
+
 import { useProductContext } from '@src/context/product-context';
 import { Attribute } from '@src/models/product/types';
+
+const BoxedVariant = dynamic(() =>
+  import('@src/features/product/variant/boxed-variant').then((mod) => mod.BoxedVariant)
+);
+
+const SelectVariant = dynamic(() =>
+  import('@src/features/product/variant/select-variant').then((mod) => mod.SelectVariant)
+);
+
+const ImageVariant = dynamic(() =>
+  import('@src/features/product/variant/image-variant').then((mod) => mod.ImageVariant)
+);
 
 export const Variant = () => {
   const { product, additionalData } = useProductContext();

@@ -42,6 +42,7 @@ export const SelectVariant: React.FC<Props> = ({ attribute }) => {
     const currentImageSrc = find(attributeImageSrc, [name, e.target.value]);
     setImageThumbnailAttribute(currentImageSrc as Image);
     onAttributeSelect(name, e.target.value);
+    selectedRef.current = e.target.value;
   };
 
   return (

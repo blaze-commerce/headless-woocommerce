@@ -17,6 +17,8 @@ import { ITaxonomyContentProps } from '@src/lib/types/taxonomy';
 import { TaxonomyContext } from '@src/context/taxonomy-context';
 import { TaxonomyContent } from '@src/components/content/taxonomy-content';
 import uniqid from 'uniqid';
+import { ImageGlider } from '@src/components/blocks/wooless/image-glider';
+import { BlogPosts } from '@src/components/blocks/wooless/blog-posts';
 
 export const Container = ({ block }: BlockComponentProps) => {
   // we just make sure that the block name is correct and innterblocks is not empty otherwise
@@ -97,6 +99,14 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'WishListIcon')) {
     return <WishListIconBlock block={block} />;
+  }
+
+  if (isBlockA(block, 'ImageGlider')) {
+    return <ImageGlider block={block} />;
+  }
+
+  if (isBlockA(block, 'BlogPosts')) {
+    return <BlogPosts block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;
