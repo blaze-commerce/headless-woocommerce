@@ -16,7 +16,7 @@ import { UserContextProvider } from '@src/context/user-context';
 import { client } from '@src/lib/apollo-client';
 import { env } from '@src/lib/env';
 import { ErrorBoundary } from '@src/components/error-boundary';
-import { useMetaPageView, useRedirectSite } from '@src/lib/hooks';
+import { useMetaPageView } from '@src/lib/hooks';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const { NEXT_PUBLIC_GTM_ID } = env();
@@ -30,7 +30,6 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  useRedirectSite();
   useMetaPageView();
 
   useEffect(() => {
