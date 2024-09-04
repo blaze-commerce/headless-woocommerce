@@ -13,4 +13,4 @@ export * from '@src/lib/hooks/calculate-shipping';
 export * from '@src/lib/hooks/viewport';
 export * from '@src/lib/hooks/meta-page-view';
 export * from '@src/lib/hooks/news-letter';
-export * from '@src/lib/hooks/redirect';
+
