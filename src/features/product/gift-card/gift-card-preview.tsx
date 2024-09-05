@@ -9,6 +9,7 @@ import { env } from '@src/lib/env';
 import { Product } from '@src/models/product';
 import { Settings } from '@src/models/settings';
 import { addYears, currentDate as currentDateFn, formatDate } from '@src/lib/helpers/date';
+import { Divider } from '@mui/material';
 
 const { NEXT_PUBLIC_SHOP_NAME } = env();
 
@@ -35,7 +36,7 @@ export const GiftCardPreview = () => {
 
   return (
     <div>
-      <PrefetchLink href="/">
+      {store?.giftCardHeaderImage && (
         <Image
           src={store?.giftCardHeaderImage as string}
           alt="Gift Card Header"
@@ -43,7 +44,7 @@ export const GiftCardPreview = () => {
           height={200}
           className="w-full h-auto"
         />
-      </PrefetchLink>
+      )}
       <div className="my-6 space-y-3 flex flex-col text-[#333333]">
         {giftCardInput?.['giftcard-recipient-field'] && (
           <span>To: {giftCardInput?.['giftcard-recipient-field']}</span>
@@ -82,10 +83,11 @@ export const GiftCardPreview = () => {
         </div>
       </div>
       {store?.giftCardFooterText && (
-        <div className="space-y-3 my-6 text-xs text-[#505050] text-center">
+        <div className="space-y-3 my-6 text-sm text-[#505050] text-left">
           {HTMLReactParser(store?.giftCardFooterText as string)}
         </div>
       )}
+      <Divider className="mb-4" />
     </div>
   );
 };

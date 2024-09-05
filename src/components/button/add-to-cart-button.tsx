@@ -72,7 +72,7 @@ export const AddToCartButton = (props: Props) => {
     className
   );
 
-  if (product.permalink && 'variable' === product.productType) {
+  if (product.permalink && product.shouldDisplaySelectOptionsText) {
     return (
       <Link
         href={product.permalink}

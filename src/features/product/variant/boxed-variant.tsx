@@ -17,6 +17,7 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
     variation: {
       image: [, setImageThumbnailAttribute],
     },
+    addToCartStatus: [, setDisableAddToCart],
   } = useProductContext();
   const { name, label, options } = attribute;
   const attributeImageSrc = product?.variantImageSrc;
@@ -36,19 +37,21 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
       }
       onAttributeSelect(name, attributeParams[name]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attributeParams]);
 
   if (isEmpty(product?.variantImageSrc)) return null;
 
   const handleOnChange = (value: string, label: string) => {
     setCurrentAttributeLabel(label);
+    setDisableAddToCart(false);
     onAttributeSelect(name, value);
   };
 
   return (
     <div className="mb-4">
       <label className="block text-sm font-bold mb-1 capitalize">{label}:</label>
-      <div className="flex space-x-2">
+      <div className="flex flex-wrap gap-2">
         {options.map((option, index) => (
           <label
             htmlFor={`${name}-${option.name}`}
@@ -65,7 +68,7 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
                 handleOnChange(e.target.value, option.label);
               }}
             />
-            <div className="cursor-pointer border peer-checked:border-black peer-checked:border-2 py-2 px-8 h-full flex items-center justify-center text-center">
+            <div className="cursor-pointer border peer-checked:border-black py-2 px-8 h-full flex items-center justify-center text-center text-brand-button-text hover:text-brand-hover-button-text hover:bg-brand-hover-button-background peer-checked:bg-brand-button-background">
               {option.label}
             </div>
           </label>

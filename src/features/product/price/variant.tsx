@@ -1,6 +1,6 @@
 import { ReactElement, Fragment } from 'react';
 import { useSiteContext } from '@src/context/site-context';
-import { formatPrice } from '@src/lib/helpers/helper';
+import { cn, formatPrice } from '@src/lib/helpers/helper';
 import { Product } from '@src/models/product';
 
 type TVariablePrice = {
@@ -24,13 +24,23 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
 
       if (isTaxExclusive) {
         renderedResult.push(
-          <span className="price !mb-0">
+          <span
+            className={cn('variant-price ', {
+              'font-semibold text-base md:text-lg': isOnSale && salePrice,
+            })}
+          >
             {formatPrice(product.metaData?.priceWithTax, currency)}
           </span>
         );
       } else {
         renderedResult.push(
-          <span className="price !mb-0">{formatPrice(salePrice, currency)}</span>
+          <span
+            className={cn('variant-price ', {
+              'font-semibold text-base md:text-lg': isOnSale && salePrice,
+            })}
+          >
+            {formatPrice(salePrice, currency)}
+          </span>
         );
       }
     } else {
@@ -38,7 +48,15 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
       if (isTaxExclusive) {
         price = product.variantMinPriceWithTax;
       }
-      renderedResult.push(<span className="price !mb-0">{formatPrice(price, currency)}</span>);
+      renderedResult.push(
+        <span
+          className={cn('variant-price ', {
+            'font-semibold text-base md:text-lg': isOnSale && salePrice,
+          })}
+        >
+          {formatPrice(price, currency)}
+        </span>
+      );
     }
 
     // variable product with different min and max price
@@ -52,7 +70,7 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
     }
 
     renderedResult.push(
-      <span className="price !mb-0">
+      <span>
         {formatPrice(minPrice, currency)} – {formatPrice(maxPrice, currency)}
       </span>
     );

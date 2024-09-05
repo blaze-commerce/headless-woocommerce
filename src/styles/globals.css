@@ -386,7 +386,7 @@ ul.minicart-items li:last-of-type>.border-b {
 }
 
 .price {
-  @apply text-lg leading-6 flex flex-col md:flex-row space-x-1 relative items-baseline;
+  @apply text-lg leading-6 flex md:flex-row space-x-1 relative items-baseline;
   font-weight: var(--price-font-weight);
   color: var(--price-regurlar-color);
 }
@@ -630,6 +630,7 @@ button.button-cart {
   @apply px-3 py-2 border;
 }
 
+
 .page h2 {
   @apply text-2xl font-bold;
 }
@@ -760,4 +761,8 @@ button.button-cart {
 
 .product-hits .ais-Hits-list {
   @apply md:grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 md:gap-6;
+}
+
+.loading-placeholder {
+  @apply animate-pulse bg-gray-300 rounded-md;
 }

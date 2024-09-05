@@ -11,7 +11,7 @@ import { ProductRating } from '@src/features/product/product-rating';
 import { seoUrlParser } from '@src/components/page-seo';
 import { WishListIcon, WishListActions } from '@src/features/wish-list/wish-list-icon';
 import { AddToCartButton } from '@src/components/button/add-to-cart-button';
-import { Price } from '@src/features/product/price';
+import { ProductPrice as Price } from '@src/features/product/product-price';
 import { useSiteContext } from '@src/context/site-context';
 import { env } from '@src/lib/env';
 import { track } from '@src/lib/track';
@@ -25,7 +25,6 @@ import { cn, isImage, isLightColor } from '@src/lib/helpers/helper';
 import { useWishListStorage } from '@src/lib/hooks';
 import TSThumbnail from '@src/lib/typesense/image';
 import type { ProductCards } from '@src/models/settings/shop';
-import Link from 'next/link';
 
 interface Props extends ProductCards {
   product: Product;
@@ -64,7 +63,7 @@ export const ProductCard = (props: Props) => {
 
   const { regularPrice, price, salePrice, onSale, productType } = product || {};
 
-  const { prefetch, push, asPath } = useRouter();
+  const { prefetch } = useRouter();
   const parsedProduct = Product.buildFromResponse(product as ProductTypesenseResponse);
 
   useEffectOnce(() => {
@@ -541,11 +540,7 @@ export const ProductCard = (props: Props) => {
 
           <div className="flex flex-col flex-start">
             <div className="product-card-label">{renderProductCardTitle()}</div>
-            <Price
-              product={parsedProduct}
-              currency={currentCurrency}
-              isTaxExclusive={settings?.isTaxExclusive}
-            />
+            <Price />
             <div className="relative z-[8] mt-auto max-w-max">{renderAddToCartButton()}</div>
           </div>
         </div>
@@ -585,9 +580,6 @@ export const ProductCard = (props: Props) => {
         {showRating && renderRating()}
         <div className={`text-${detailsAlignment} w-full lg:w-auto`}>
           <Price
-            product={parsedProduct}
-            currency={currentCurrency}
-            isTaxExclusive={settings?.isTaxExclusive}
             className={cn({
               'justify-left': detailsAlignment === 'left',
               'justify-center': detailsAlignment === 'center',

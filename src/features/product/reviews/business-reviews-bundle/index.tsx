@@ -98,13 +98,13 @@ export const BusinessReviewsBundle = () => {
             <Link
               href={brbData.href}
               target="_blank"
-              className="p-2 inline-block break-keep text-white text-[0.65em] leading-4 bg-[#0a6cff] rounded-full"
+              className="p-2 inline-block break-keep !text-white text-[0.65em] leading-4 bg-[#0a6cff] rounded-full whitespace-nowrap"
             >
               See all reviews
             </Link>
             <a
               href="#"
-              className="p-2 inline-block break-keep text-white text-[0.65em] leading-4 bg-[#0a6cff] rounded-full"
+              className="p-2 inline-block break-keep !text-white text-[0.65em] leading-4 bg-[#0a6cff] rounded-full whitespace-nowrap"
               onClick={() => {
                 _rplg_popup(brbData.popupLink, 800, 600);
               }}
@@ -113,7 +113,7 @@ export const BusinessReviewsBundle = () => {
             </a>
           </div>
         </div>
-        <div className="w-full md:w-[480px] flex flex-row items-center lg:w-[931px]">
+        <div className="w-full md:w-[480px] flex flex-row items-center lg:w-[931px] justify-center">
           <div
             ref={leftArrow}
             onClick={onLeftArrowClick}

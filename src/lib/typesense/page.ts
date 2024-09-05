@@ -5,6 +5,7 @@ import client from '@src/lib/typesense/client';
 import TS_CONFIG from '@src/lib/typesense/config';
 import { ITSPage } from '@src/lib/typesense/types';
 import { PageSlugs } from '@src/schemas/page-schema';
+import { isEmpty, reduce } from 'lodash';
 const { NEXT_PUBLIC_STORE_ID } = env();
 
 export type PageThumbnail = {
@@ -42,6 +43,37 @@ export class Page {
       .search(searchParameters);
     const results = response.hits?.map((hit) => hit.document);
     return results || [];
+  }
+
+  static async findByThumbnail(): Promise<PageTypesenseResponse[]> {
+    const searchParameters = {
+      q: '*',
+      query_by: 'name',
+      page: 1,
+      per_page: 250,
+      include_fields: 'name,permalink,thumbnail,slug,updatedAt,publishedAt,content',
+      sort_by: 'publishedAt:desc',
+    };
+
+    const response = await getTypesenseClient()
+      .collections<PageTypesenseResponse>(`page-${NEXT_PUBLIC_STORE_ID}`)
+      .documents()
+      .search(searchParameters);
+    const results = response.hits?.map((hit) => hit.document);
+
+    return (
+      reduce(
+        results,
+        (result: PageTypesenseResponse[], page: PageTypesenseResponse) => {
+          if (!isEmpty(page?.thumbnail) && page?.thumbnail?.src) {
+            result.push(page);
+          }
+
+          return result;
+        },
+        []
+      ) || []
+    );
   }
 }
 

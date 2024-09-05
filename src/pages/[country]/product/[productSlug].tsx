@@ -186,7 +186,7 @@ export const ProductPage = (props: Props) => {
 
   return (
     <MainContentWrapper>
-      <div className=" flex flex-row flex-wrap mb-40">
+      <div className="container flex flex-row flex-wrap mb-40">
         <ProductContextProvider
           product={product}
           additionalData={props.additionalData}

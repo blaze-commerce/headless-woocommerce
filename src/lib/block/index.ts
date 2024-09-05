@@ -527,8 +527,10 @@ export const parseToTailwindClasses = (block: ParsedBlock) => {
 
 export const isBlockA = (block: ParsedBlock, blockLabel: string) => {
   const attribute = block.attrs as BlockAttributes;
-
-  if ('generateblocks/container' === block.blockName && blockLabel === attribute.blockLabel) {
+  if (
+    'generateblocks/container' === block.blockName &&
+    (blockLabel === attribute.blockLabel || blockLabel === attribute?.metadata?.name)
+  ) {
     return true;
   }
 

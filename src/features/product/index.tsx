@@ -127,7 +127,7 @@ export const Product = () => {
         />
       </div>
       <ProductGallery />
-      <div className="lg:basis-6/12 2xl:basis-[43%] lg:mb-20 w-full md:px-4 md:py-6">
+      <div className="lg:basis-6/12 2xl:basis-[43%] lg:mb-20 w-full md:px-4">
         <div className="rounded border px-4 py-6 border-[#F3EADE] space-y-4">
           <ProductTitle />
           <ProductBrand />
@@ -145,12 +145,13 @@ export const Product = () => {
           </div>
           {/* In Stock */}
           <ProductStockStatus />
-          <Divider />
+          <Divider className="block" />
           <ProductNotifyMe />
           <ProductShortDescription />
           {/* <BundleInfo /> */}
           {/* Variants */}
           <Variant />
+          {product.hasVariations && <Divider />}
           <CompositeComponents />
           <GiftCardForm />
           {/* Quantity And Add to cart button */}

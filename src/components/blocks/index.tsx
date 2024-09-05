@@ -28,6 +28,14 @@ export interface ParsedBlock extends GutenbergParsedBlock {
   innerBlocks: ParsedBlock[];
   attrs: {
     uniqueId?: string;
+    className?: string;
+    metadata?: Partial<{
+      name?: string;
+    }>;
+    htmlAttributes?: Partial<{
+      attribute: string;
+      value: string;
+    }>;
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentProps?: any;
