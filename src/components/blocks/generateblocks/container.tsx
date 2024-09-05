@@ -19,6 +19,7 @@ import { TaxonomyContent } from '@src/components/content/taxonomy-content';
 import uniqid from 'uniqid';
 import { ImageGlider } from '@src/components/blocks/wooless/image-glider';
 import { BlogPosts } from '@src/components/blocks/wooless/blog-posts';
+import { PopoverSearchBlock } from '@src/components/blocks/popover-search';
 
 export const Container = ({ block }: BlockComponentProps) => {
   // we just make sure that the block name is correct and innterblocks is not empty otherwise
@@ -107,6 +108,10 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'BlogPosts')) {
     return <BlogPosts block={block} />;
+  }
+
+  if (isBlockA(block, 'PopoverSearch')) {
+    return <PopoverSearchBlock block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

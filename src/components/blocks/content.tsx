@@ -17,6 +17,7 @@ export const Content = ({ content }: ContentProps) => {
       {parsedContent.map((block, index) => {
         const BlockComponent = blocks[block.blockName as BlockName];
         if (!BlockComponent || typeof BlockComponent === 'undefined') {
+          console.log('block.blockName', block.blockName);
           return null;
         }
 

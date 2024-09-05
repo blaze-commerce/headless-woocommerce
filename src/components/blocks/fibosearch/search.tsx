@@ -7,7 +7,9 @@ import { cn } from '@src/lib/helpers/helper';
 export const Search = ({ block }: BlockComponentProps) => {
   const { settings } = useSiteContext();
 
-  if (block.blockName !== 'fibosearch/search') {
+  const allowedBlocks = ['fibosearch/search', 'core/search'];
+
+  if (block.blockName && !allowedBlocks.includes(block.blockName)) {
     return null;
   }
 
@@ -18,10 +20,6 @@ export const Search = ({ block }: BlockComponentProps) => {
   }
 
   const { input, results } = search;
-  const searchAttributes = {
-    input,
-    results,
-  };
   const attribute = block.attrs as BlockAttributes;
   return (
     <div className={cn(`_${block.id} w-full`, attribute.className)}>

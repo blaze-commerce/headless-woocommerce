@@ -9,11 +9,12 @@ import { ParsedBlock } from '@src/components/blocks';
 import * as fs from 'fs';
 import { parse } from '@wordpress/block-serialization-default-parser';
 import { BlockAttributes } from '@src/lib/block/types';
-import { parseImageClass } from '@src/components/blocks/wooless/image';
+
 import { map } from 'lodash';
 import { generateRandomString } from '@src/lib/helpers';
 import { getPageBySlug } from '@src/lib/typesense/page';
 import path from 'path';
+import { parseImageClass } from '@src/lib/helpers/image';
 
 export const maybeDeleteFile = async (filePath: string) => {
   if (fs.existsSync(filePath)) {
