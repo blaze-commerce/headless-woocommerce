@@ -1,7 +1,12 @@
 import { gql } from '@apollo/client';
 import siteData from '@public/site.json';
 
-const BUNDLE_FRAGMENT = siteData.isBundleProductEnabled ? '' : '';
+const BUNDLE_FRAGMENT = siteData.isBundleProductEnabled
+  ? ` ... on BundleProduct {
+        price(format: RAW)
+        stockQuantity
+      }`
+  : '';
 
 const CART_FIELDS = (currency?: string) => `
 cart${currency ? `(currency: "${currency}")` : ''} {
