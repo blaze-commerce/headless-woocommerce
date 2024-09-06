@@ -100,7 +100,7 @@ export const Search: React.FC<Props> = (props) => {
   };
 
   const renderProducts = () => {
-    const productCount = '4';
+    const productCount = '10';
     const { enabled = false } = results.customColors || {};
     return (
       <Index indexName={TS_CONFIG.collectionNames.product}>
@@ -172,7 +172,6 @@ export const Search: React.FC<Props> = (props) => {
         <div>
           <Hits hitComponent={CategoryHit} />
         </div>
-        <div className="my-2.5" />
       </Index>
     );
   };
@@ -208,21 +207,11 @@ export const Search: React.FC<Props> = (props) => {
             className="cursor-pointer text-[#B0B0B0] w-6 h-6 border border-[#B0B0B0] rounded-full p-0.5"
           />
         </div>
-        <div className="flex flex-wrap overflow-auto min-h-[calc(100vh-500px)] xl:min-h-[calc(100vh-200px)] px-6 ">
+        <div className="flex flex-col overflow-auto h-[calc(100vh-500px)] xl:h-[calc(100vh-200px)] px-6 ">
           <NoResultsBoundary fallback={<NoResults />}>
-            <div className="hidden md:flex ">
-              <div className="w-[22.67%]">
-                {renderCategory()}
-                {renderBlog()}
-              </div>
-              <div className="w-[77.33%] pl-6">{renderProducts()}</div>
-            </div>
-
-            <div className="md:hidden">
-              {renderCategory()}
-              {renderProducts()}
-              {renderBlog()}
-            </div>
+            {renderCategory()}
+            {renderProducts()}
+            {renderBlog()}
           </NoResultsBoundary>
         </div>
       </div>
