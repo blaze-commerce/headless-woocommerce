@@ -64,6 +64,7 @@ export const blocks = {
   'core/paragraph': Paragraph,
   'core/site-logo': SiteLogo,
   'fibosearch/search': Search,
+  'core/search': Search,
   'generateblocks/container': Container,
   'generateblocks/grid': Grid,
   'generateblocks/image': Image,
