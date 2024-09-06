@@ -759,9 +759,6 @@ button.button-cart {
   @apply mb-5 font-semibold;
 }
 
-.product-hits .ais-Hits-list {
-  @apply md:grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 md:gap-6;
-}
 
 .loading-placeholder {
   @apply animate-pulse bg-gray-300 rounded-md;

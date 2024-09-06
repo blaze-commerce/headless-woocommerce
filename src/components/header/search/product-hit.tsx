@@ -44,10 +44,10 @@ export const ProductHit = ({ hit }: any) => {
       ref={ref}
       onMouseEnter={handleMouseEnter}
       onClick={handleMouseClick}
-      className="flex md:flex-col gap-4 justify-start group cursor-pointer mb-2.5 hover:bg-[#F2F2F2]"
+      className="flex gap-4 justify-start group cursor-pointer mb-2.5 hover:bg-[#F2F2F2]"
     >
       <div>
-        <div className="w-[56px] md:w-full h-[56px] md:h-[280px] overflow-hidden group-hover:opacity-75">
+        <div className="w-[63px] h-[55px] overflow-hidden bg-gray-200 group-hover:opacity-75 ml-1">
           {thumbnail?.src ? (
             <Image
               src={thumbnail.src}
@@ -70,15 +70,12 @@ export const ProductHit = ({ hit }: any) => {
 
       <div className="space-y-2">
         <p
-          className={cn('mb-1 text-xs xl:text-sm', {
+          className={cn('mb-1 text-xs xl:text-sm mt-0.5', {
             'text-[#303030]': !settings?.search?.results?.customColors?.enabled,
           })}
         >
           {decode(hit.name)}
         </p>
-        {/* <p className="mb-1">
-            {parse(decode(hit.shortDescription))}
-          </p> */}
         {!isFree && (
           <p>
             {isOnSale ? (
