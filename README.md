@@ -2,7 +2,7 @@
 
 ### Open-source headless WooCommerce for blazing-fast performance and exceptional user experience**
 
-[Website](https://blazecommerce.io/) | [Doco](https://blazecommerce.io/docs/) | [Quick Start](https://doc.clickup.com/36771024/p/h/13256g-92838/8e9b926963c4c28) | [Slack Community](https://join.slack.com/t/blaze-community/shared_invite/zt-2pov0vyr8-7eEk2nGY~NJsjGfrrXP4Sg)
+[Website](https://blazecommerce.io/) | [Docs](https://docs.blazecommerce.io/) | [Slack Community](https://join.slack.com/t/blaze-community/shared_invite/zt-2pov0vyr8-7eEk2nGY~NJsjGfrrXP4Sg)
 
 ---
 
@@ -66,8 +66,8 @@ Blaze Commerce is designed for:
 
 - **Managed via WordPress/WooCommerce:** Harnessing the power and familiarity of WordPress and WooCommerce for seamless store management.
 
-[Website](https://blazecommerce.io/) | [Doco](https://blazecommerce.io/docs/) | [Quick Start](https://doc.clickup.com/36771024/p/h/13256g-92838/8e9b926963c4c28) | [Slack Community](https://join.slack.com/t/blaze-community/shared_invite/zt-2pov0vyr8-7eEk2nGY~NJsjGfrrXP4Sg)
+[Website](https://blazecommerce.io/) | [Docs](https://docs.blazecommerce.io/) | [Slack Community](https://join.slack.com/t/blaze-community/shared_invite/zt-2pov0vyr8-7eEk2nGY~NJsjGfrrXP4Sg)
 
 # Quick Start
 
-Use the '[Getting Started](https://doc.clickup.com/36771024/p/h/13256g-92838/8e9b926963c4c28)' guide to take Woo headless in 15 mins. 
+Use the '[Getting Started](https://docs.blazecommerce.io/quick-start)' guide to take Woo headless in 15 mins. 
