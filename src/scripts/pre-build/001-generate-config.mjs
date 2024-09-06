@@ -40,7 +40,8 @@ const configNames = [
   'reviews_plugin',
   'category_page_default_sort',
   'font_family',
-  'site_icon_url'
+  'site_icon_url',
+  'is_bundle_product_enabled'
 ];
 
 const loadFile = (file) => {
@@ -232,6 +233,7 @@ export default async function execute(params) {
 
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
+    settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(typesenseConfigs?.isBundleProductEnabled?.value);
     settingsWithDefaults.categoryPageDefaultSort = typesenseConfigs?.categoryPageDefaultSort?.value;
     const favIcon = typesenseConfigs?.siteIconUrl?.value;
     if (!_.isEmpty(favIcon)) {
