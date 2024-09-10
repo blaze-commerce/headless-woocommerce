@@ -10,7 +10,7 @@ Blaze Commerce is how WooCommerce stores go headless with ease. Our open-source 
 
 ## Who is using Blaze Commerce? 
 
-[Gourmet Baseket](https://gourmetbasket.com.au/), [Jackie Mack Designs]([url](https://www.jackiemackdesigns.com/)), [Admerch]([url](https://admerch.com.au/))
+[Gourmet Baseket](https://gourmetbasket.com.au/), [Jackie Mack Designs](https://www.jackiemackdesigns.com/), [Admerch](https://admerch.com.au/)
 
 ## Our Point of View
 
