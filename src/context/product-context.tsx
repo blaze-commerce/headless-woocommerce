@@ -259,7 +259,9 @@ export const ProductContextProvider: React.FC<{
 
   // disable add to cart if product is out of stock ( inculudes bundle or addons )
   useEffect(() => {
-    setDisableAddToCart(true);
+    if (outOfStockStatus) {
+      setDisableAddToCart(true);
+    }
   }, [outOfStockStatus]);
 
   const onAttributeSelect = (attribute: string, value: string) => {
