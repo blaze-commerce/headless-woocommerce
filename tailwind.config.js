@@ -9,7 +9,7 @@ module.exports = {
     './public/site.json',
     './src/styles/styles.css',
     './public/menu.json',
-    './public/product.json',
+    './public/single-product.json',
     './public/footer.json',
     './public/header.json',
     './public/styles/styles.css',
