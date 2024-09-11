@@ -14,13 +14,14 @@ export const MiniCart = ({ block, force = false }: Props) => {
 
   const attributes = block.attrs as any;
   const color = find(attributes?.htmlAttributes, ['attribute', 'data-color']);
+  const iconColor = color?.value || attributes.iconColor?.color;
 
   return (
     <div>
       <CartBasketIcon
         showText={false}
         showIcon={true}
-        color={color?.value || attributes.iconColor?.color}
+        color={iconColor ?? '#F7F7F7'}
       />
     </div>
   );
