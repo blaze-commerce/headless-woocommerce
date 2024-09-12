@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { Column } from '@src/components/blocks/core/column';
 import { Columns } from '@src/components/blocks/core/columns';
 import { Container } from '@src/components/blocks/generateblocks/container';
@@ -23,11 +24,21 @@ import { Buttons } from '@src/components/blocks/core/buttons';
 import { Button } from '@src/components/blocks/core/button';
 import { GenerateBlocksButton } from '@src/components/blocks/generateblocks/button/block';
 
+const Group = dynamic(() => import('@src/components/blocks/group').then((mod) => mod.Group));
+const WooCommerceBreadcrumbs = dynamic(() =>
+  import('@src/components/blocks/woocommerce/breadcrumbs').then((mod) => mod.Breadcrumbs)
+);
+const WooCommerceProductImageGallery = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-image-gallery').then((mod) => mod.Gallery)
+);
+
 export interface ParsedBlock extends GutenbergParsedBlock {
   id?: string;
   innerBlocks: ParsedBlock[];
   attrs: {
     uniqueId?: string;
+    tagName?: string;
+    width?: string;
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentProps?: any;
@@ -66,6 +77,9 @@ export const blocks = {
   'woocommerce/mini-cart': MiniCart,
   'core/shortcode': Shortcode,
   'core/separator': Separator,
+  'core/group': Group,
+  'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
+  'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
 };
 
 // Define type alias for block names

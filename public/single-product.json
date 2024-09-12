@@ -5,7 +5,7 @@
     "innerBlocks": [],
     "innerHTML": "",
     "innerContent": [],
-    "id": "Ohdxjj"
+    "id": "U3NY3a"
   },
   {
     "blockName": null,
@@ -13,7 +13,7 @@
     "innerBlocks": [],
     "innerHTML": "\n\n",
     "innerContent": ["\n\n"],
-    "id": "v3BqL9"
+    "id": "KJl18e"
   },
   {
     "blockName": "core/group",
@@ -25,7 +25,7 @@
         "innerBlocks": [],
         "innerHTML": "",
         "innerContent": [],
-        "id": "89cUk9"
+        "id": "UjqyXy"
       },
       {
         "blockName": "woocommerce/store-notices",
@@ -33,7 +33,7 @@
         "innerBlocks": [],
         "innerHTML": "",
         "innerContent": [],
-        "id": "1ndeyT"
+        "id": "MhB2wP"
       },
       {
         "blockName": "core/columns",
@@ -49,7 +49,7 @@
                 "innerBlocks": [],
                 "innerHTML": "",
                 "innerContent": [],
-                "id": "6C0XrX"
+                "id": "ef4wv2"
               }
             ],
             "innerHTML": "\n<div class=\"wp-block-column\" style=\"flex-basis:512px\"></div>\n",
@@ -58,7 +58,7 @@
               null,
               "</div>\n"
             ],
-            "id": "3MazmE"
+            "id": "HhOnCG"
           },
           {
             "blockName": "core/column",
@@ -73,7 +73,7 @@
                 "innerBlocks": [],
                 "innerHTML": "",
                 "innerContent": [],
-                "id": "V4mr7g"
+                "id": "uYCxHH"
               },
               {
                 "blockName": "woocommerce/product-rating",
@@ -81,7 +81,7 @@
                 "innerBlocks": [],
                 "innerHTML": "",
                 "innerContent": [],
-                "id": "E6J4yL"
+                "id": "ImMSDv"
               },
               {
                 "blockName": "woocommerce/product-price",
@@ -89,7 +89,7 @@
                 "innerBlocks": [],
                 "innerHTML": "",
                 "innerContent": [],
-                "id": "Pv1LUl"
+                "id": "jXQz2f"
               },
               {
                 "blockName": "core/post-excerpt",
@@ -100,7 +100,7 @@
                 "innerBlocks": [],
                 "innerHTML": "",
                 "innerContent": [],
-                "id": "XYZX52"
+                "id": "LqTf3n"
               },
               {
                 "blockName": "woocommerce/add-to-cart-form",
@@ -108,7 +108,7 @@
                 "innerBlocks": [],
                 "innerHTML": "",
                 "innerContent": [],
-                "id": "4sT3QS"
+                "id": "q7ApLG"
               },
               {
                 "blockName": "woocommerce/product-meta",
@@ -124,7 +124,7 @@
                         "innerBlocks": [],
                         "innerHTML": "",
                         "innerContent": [],
-                        "id": "qKOsy9"
+                        "id": "dxI4Q4"
                       },
                       {
                         "blockName": "core/post-terms",
@@ -132,7 +132,7 @@
                         "innerBlocks": [],
                         "innerHTML": "",
                         "innerContent": [],
-                        "id": "kdph96"
+                        "id": "xdAt0f"
                       },
                       {
                         "blockName": "core/post-terms",
@@ -140,7 +140,7 @@
                         "innerBlocks": [],
                         "innerHTML": "",
                         "innerContent": [],
-                        "id": "UYhino"
+                        "id": "gkr4oW"
                       }
                     ],
                     "innerHTML": "\n<div class=\"wp-block-group\">\n\n\n\n</div>\n",
@@ -153,7 +153,7 @@
                       null,
                       "</div>\n"
                     ],
-                    "id": "cnwfY9"
+                    "id": "a8Hh45"
                   }
                 ],
                 "innerHTML": "\n<div class=\"wp-block-woocommerce-product-meta\"></div>\n",
@@ -162,7 +162,7 @@
                   null,
                   "</div>\n"
                 ],
-                "id": "MFrd7y"
+                "id": "sIe8jB"
               }
             ],
             "innerHTML": "\n<div class=\"wp-block-column\">\n\n\n\n\n\n\n\n\n\n</div>\n",
@@ -181,7 +181,7 @@
               null,
               "</div>\n"
             ],
-            "id": "zjobe4"
+            "id": "zP25vB"
           }
         ],
         "innerHTML": "\n<div class=\"wp-block-columns alignwide\">\n\n</div>\n",
@@ -192,7 +192,7 @@
           null,
           "</div>\n"
         ],
-        "id": "0bywbx"
+        "id": "jg4B8v"
       },
       {
         "blockName": "woocommerce/product-details",
@@ -200,7 +200,7 @@
         "innerBlocks": [],
         "innerHTML": "",
         "innerContent": [],
-        "id": "77ovv5"
+        "id": "Q6FvtM"
       },
       {
         "blockName": "woocommerce/related-products",
@@ -244,7 +244,7 @@
                 "innerContent": [
                   "\n<h2 class=\"wp-block-heading\" style=\"margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--30)\">\n\t\t\t\tRelated products\t\t\t</h2>\n"
                 ],
-                "id": "UZQCbY"
+                "id": "ahyMDr"
               },
               {
                 "blockName": "core/post-template",
@@ -260,7 +260,7 @@
                     "innerBlocks": [],
                     "innerHTML": "",
                     "innerContent": [],
-                    "id": "e0zowj"
+                    "id": "Cwnoc0"
                   },
                   {
                     "blockName": "core/post-title",
@@ -273,7 +273,7 @@
                     "innerBlocks": [],
                     "innerHTML": "",
                     "innerContent": [],
-                    "id": "omuHkq"
+                    "id": "XyKlLI"
                   },
                   {
                     "blockName": "woocommerce/product-price",
@@ -286,7 +286,7 @@
                     "innerBlocks": [],
                     "innerHTML": "",
                     "innerContent": [],
-                    "id": "LRLYb5"
+                    "id": "4BGQlb"
                   },
                   {
                     "blockName": "woocommerce/product-button",
@@ -299,17 +299,17 @@
                     "innerBlocks": [],
                     "innerHTML": "",
                     "innerContent": [],
-                    "id": "v1tqdP"
+                    "id": "l3nIGi"
                   }
                 ],
                 "innerHTML": "\n\n\n\n\n\n\n\n",
                 "innerContent": ["\n", null, "\n\n", null, "\n\n", null, "\n\n", null, "\n"],
-                "id": "rUC84m"
+                "id": "6FO5qP"
               }
             ],
             "innerHTML": "\n<div class=\"wp-block-query\">\n\n</div>\n",
             "innerContent": ["\n<div class=\"wp-block-query\">", null, "\n\n", null, "</div>\n"],
-            "id": "pqO7IR"
+            "id": "SMlPxW"
           }
         ],
         "innerHTML": "\n<div class=\"wp-block-woocommerce-related-products alignwide\"></div>\n",
@@ -318,7 +318,7 @@
           null,
           "</div>\n"
         ],
-        "id": "VNfsJq"
+        "id": "dCrSuY"
       }
     ],
     "innerHTML": "\n<main class=\"wp-block-group\">\n\n\n\n\n\n\n\n</main>\n",
@@ -335,7 +335,7 @@
       null,
       "</main>\n"
     ],
-    "id": "Dkyg4h"
+    "id": "7bKRvq"
   },
   {
     "blockName": null,
@@ -343,7 +343,7 @@
     "innerBlocks": [],
     "innerHTML": "\n\n",
     "innerContent": ["\n\n"],
-    "id": "7MDiza"
+    "id": "PNaGgz"
   },
   {
     "blockName": "core/template-part",
@@ -351,6 +351,6 @@
     "innerBlocks": [],
     "innerHTML": "",
     "innerContent": [],
-    "id": "lSRKkE"
+    "id": "W5HESk"
   }
 ]

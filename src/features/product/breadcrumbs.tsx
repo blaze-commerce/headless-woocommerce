@@ -24,6 +24,7 @@ const BCLink = ({ uri, name, className }: { uri: string; name: string; className
 };
 
 type Props = {
+  id?: string;
   className?: string;
   separator?: string;
   productName?: string;
@@ -34,7 +35,7 @@ const removeDash = (text: string) => {
   return text.replace('-', ' ');
 };
 
-export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName, crumbs }) => {
+export const BreadCrumbs: React.FC<Props> = ({ id, className, separator, productName, crumbs }) => {
   const { asPath } = useRouter();
   const { settings } = useSiteContext();
   const { store } = settings as Settings;
@@ -134,8 +135,9 @@ export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName
 
   return (
     <div
+      id={id}
       className={cn(
-        'breadcrumbs flex-wrap text-sm md:text-base font-normal text-brand-primary',
+        'breadcrumbs flex flex-wrap text-sm md:text-base font-normal text-brand-primary',
         className,
         {
           'hidden md:flex': !store?.breadcrumbMobile?.enabled,

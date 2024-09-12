@@ -2,14 +2,14 @@ import { BlockComponentProps } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
 import { cn } from '@src/lib/helpers/helper';
 
-export const Column = ({ block }: BlockComponentProps) => {
-  if ('core/column' !== block.blockName) {
-    return null;
-  }
-
+export const Group = ({ block, className }: BlockComponentProps) => {
+  const TagName = block.attrs.tagName as keyof JSX.IntrinsicElements;
   return (
-    <div className={cn(`_${block.id}`, 'flex-1 max-w-full')}>
+    <TagName
+      id={block?.id}
+      className={cn(className)}
+    >
       <Content content={block.innerBlocks} />
-    </div>
+    </TagName>
   );
 };
