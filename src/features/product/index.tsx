@@ -24,9 +24,7 @@ export const Product = () => {
         </Head>
       )}
 
-      <div className="single-product-container basis-full md:px-4">
-        <Content content={SINGLEPRODUCT_TEMPLATE} />
-      </div>
+      <Content content={SINGLEPRODUCT_TEMPLATE} />
     </>
   );
 };

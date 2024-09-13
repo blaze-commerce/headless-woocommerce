@@ -4,7 +4,7 @@ import type { GetStaticPropsContext } from 'next';
 import { GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 
-import { defaultLayout } from '@src/components/layouts/default';
+import { singleProductLayout } from '@src/components/layouts/single-product';
 import { NotFound } from '@src/components/not-found';
 import { Product } from '@src/features/product';
 import { ProductContextProvider } from '@src/context/product-context';
@@ -185,22 +185,18 @@ export const ProductPage = (props: Props) => {
   const product = ProductModel.buildFromResponse(props.product);
 
   return (
-    <MainContentWrapper>
-      <div className=" flex flex-row flex-wrap mb-40">
-        <ProductContextProvider
-          product={product}
-          additionalData={props.additionalData}
-          customer={props.customer}
-          linkedProducts={props.linkedProducts}
-          key={product.id}
-        >
-          <Product />
-        </ProductContextProvider>
-      </div>
-    </MainContentWrapper>
+    <ProductContextProvider
+      product={product}
+      additionalData={props.additionalData}
+      customer={props.customer}
+      linkedProducts={props.linkedProducts}
+      key={product.id}
+    >
+      <Product />
+    </ProductContextProvider>
   );
 };
 
-ProductPage.getLayout = defaultLayout;
+ProductPage.getLayout = singleProductLayout;
 
 export default ProductPage;

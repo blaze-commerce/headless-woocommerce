@@ -42,6 +42,7 @@ export const Breadcrumbs = ({ block }: BlockComponentProps) => {
       id={block?.id}
       separator={breadcrumb}
       crumbs={(taxonomyData as ProductTaxonomy)?.breadcrumbs}
+      productName={product?.name}
     />
   );
 };

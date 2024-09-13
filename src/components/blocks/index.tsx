@@ -24,12 +24,15 @@ import { Buttons } from '@src/components/blocks/core/buttons';
 import { Button } from '@src/components/blocks/core/button';
 import { GenerateBlocksButton } from '@src/components/blocks/generateblocks/button/block';
 
-const Group = dynamic(() => import('@src/components/blocks/group').then((mod) => mod.Group));
+const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
 const WooCommerceBreadcrumbs = dynamic(() =>
   import('@src/components/blocks/woocommerce/breadcrumbs').then((mod) => mod.Breadcrumbs)
 );
 const WooCommerceProductImageGallery = dynamic(() =>
   import('@src/components/blocks/woocommerce/product-image-gallery').then((mod) => mod.Gallery)
+);
+const PostTitle = dynamic(() =>
+  import('@src/components/blocks/core/post-title').then((mod) => mod.PostTitle)
 );
 
 export interface ParsedBlock extends GutenbergParsedBlock {
@@ -78,6 +81,7 @@ export const blocks = {
   'core/shortcode': Shortcode,
   'core/separator': Separator,
   'core/group': Group,
+  'core/post-title': PostTitle,
   'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
   'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
 };
