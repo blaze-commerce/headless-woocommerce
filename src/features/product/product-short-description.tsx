@@ -3,12 +3,11 @@ import { formatTextWithNewline } from '@src/lib/helpers/helper';
 import { cn } from '@src/lib/helpers/helper';
 import { useProductContext } from '@src/context/product-context';
 
-type TProps = {
+interface IProps {
   classNames?: string;
-};
+}
 
-export const ProductShortDescription: React.FC = (props: TProps) => {
-  const { classNames } = props;
+export const ProductShortDescription = ({ classNames }: IProps) => {
   const { product } = useProductContext();
 
   if (!product || !product.shortDescription) return null;

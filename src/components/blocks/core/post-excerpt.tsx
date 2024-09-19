@@ -12,7 +12,7 @@ export const PostExcerpt = ({ block }: BlockComponentProps) => {
 
   // if block is from WooCommerce then display product short description
   if (typeof block.attrs.__woocommerceNamespace !== 'undefined') {
-    return <ProductShortDescription className={className} />;
+    return <ProductShortDescription classNames={className} />;
   }
 
   return <>Excerpt</>;
