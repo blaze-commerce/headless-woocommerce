@@ -1084,12 +1084,12 @@ export default function Review({ product, sku }: ReviewProps) {
                       color="#ffb600"
                     />
                   </div>
-                  {/* <button
+                  <button
                     onClick={toggleShowReviewForm}
                     className="mx-auto mt-5 flex flex-row items-center justify-center border border-brand-primary bg-black p-2.5 text-white text-sm"
                   >
                     BE THE FIRST TO WRITE A REVIEW
-                  </button> */}
+                  </button>
                 </>
               )}
             </>

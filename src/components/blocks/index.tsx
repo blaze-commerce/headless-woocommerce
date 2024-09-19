@@ -64,6 +64,14 @@ const WooCommerceProductSKU = dynamic(() =>
   import('@src/components/blocks/woocommerce/product-sku').then((mod) => mod.ProductSKU)
 );
 
+const WooCommerceProductDetails = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-details').then((mod) => mod.ProductDetails)
+);
+
+const WooCommerceRelatedProducts = dynamic(() =>
+  import('@src/components/blocks/woocommerce/related-products').then((mod) => mod.RelatedProducts)
+);
+
 export interface ParsedBlock extends GutenbergParsedBlock {
   id?: string;
   innerBlocks: ParsedBlock[];
@@ -128,6 +136,8 @@ export const blocks = {
   'woocommerce/add-to-cart-form': WooCommerceAddToCartForm,
   'woocommerce/product-meta': WooCommerceProductMeta,
   'woocommerce/product-sku': WooCommerceProductSKU,
+  'woocommerce/product-details': WooCommerceProductDetails,
+  'woocommerce/related-products': WooCommerceRelatedProducts,
 };
 
 // Define type alias for block names
