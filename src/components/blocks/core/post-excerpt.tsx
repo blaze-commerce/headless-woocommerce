@@ -1,5 +1,4 @@
 import { BlockComponentProps } from '@src/components/blocks';
-import { cn } from '@src/lib/helpers/helper';
 import dynamic from 'next/dynamic';
 
 const ProductShortDescription = dynamic(() =>
@@ -13,7 +12,7 @@ export const PostExcerpt = ({ block }: BlockComponentProps) => {
 
   // if block is from WooCommerce then display product short description
   if (typeof block.attrs.__woocommerceNamespace !== 'undefined') {
-    return <ProductShortDescription classNames={className} />;
+    return <ProductShortDescription className={className} />;
   }
 
   return <>Excerpt</>;
