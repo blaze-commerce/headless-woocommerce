@@ -1,141 +1,133 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+/* eslint-disable no-console */
+import * as fs from 'fs';
+import path from 'path';
 
-import CATEGORY_PATHS from '@public/categorypaths.json';
-import siteData from '@public/site.json';
+import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parser';
+
+import { SiteInfo } from '@src/lib/typesense/site-info';
+import { SiteInfoSchema } from '@src/schemas/typesense-schema';
+import {
+  addIds,
+  cssContentParser,
+  generateJsonDataBySlug,
+  generatePostJsonDataBySlug,
+  maybeCreateDir,
+  parseJSON,
+} from '@src/scripts/utils';
+import { ParsedBlock as NewParsedBlock } from '@src/components/blocks';
+import { getPageSlugs } from '@src/lib/typesense/page';
+
 import postSlugs from '@public/post-slugs.json';
-import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
-import { getDefaultCountry } from '@src/lib/helpers/country';
-import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
-import { stripSlashes } from '@src/lib/helpers/helper';
-import { NextURL } from 'next/dist/server/web/next-url';
 
-// Limit middleware pathname config
-export const config = {
-  matcher: [
-    '/',
-    '/shop/:path*',
-    '/product/:path*',
-    '/products/:path*',
-    '/brand/:path*',
-    '/product-category/:path*',
-    '/brands',
-    '/((?!api|_next/static|_next/image|images|favicon.ico).*)',
-  ],
-  unstable_allowDynamic: ['/node_modules/lodash/lodash.js'],
+const processPostAndPageStyles = async () => {
+  const pageSlugs = await getPageSlugs();
+
+  const pageStyles = await Promise.all(
+    pageSlugs.map(async (slug: string) => {
+      const data = await generateJsonDataBySlug(slug);
+      if (data.blocks) {
+        return cssContentParser(data.blocks);
+      }
+
+      return ''; // If no blocks, return an empty string
+    })
+  );
+
+  const postStyles = await Promise.all(
+    postSlugs.map(async (slug: string) => {
+      const data = await generatePostJsonDataBySlug(slug);
+      if (data.blocks) {
+        return cssContentParser(data.blocks);
+      }
+
+      return ''; // If no blocks, return an empty string
+    })
+  );
+
+  return pageStyles.join('') + postStyles.join('');
 };
 
-const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCountry: string) => {
-  const response = NextResponse.rewrite(nextUrl);
-  response.cookies.set('currentCountry', currentCountry);
-  response.cookies.set('geoCountry', geoCountry);
-  return response;
-};
+export default async function execute() {
+  await maybeCreateDir('public/page');
+  await maybeCreateDir('public/post');
 
-const getCurrenCountry = (country: string) => {
-  const regionsMapping: { [key: string]: string[] } = siteData.regions;
+  const templateData = [
+    {
+      key: 'site-footer',
+      file: 'footer.json',
+    },
+    {
+      key: 'homepage_layout',
+      file: 'homepage.json',
+    },
+    {
+      key: 'site-single-product',
+      file: 'single-product.json',
+    },
+    {
+      key: 'site-header',
+      file: 'header.json',
+    },
+  ];
 
-  let currentCountry = '';
-  for (const region in regionsMapping) {
-    currentCountry = region;
-    if (regionsMapping && regionsMapping[region].includes(country)) {
-      break;
-    }
-  }
+  let parsedData,
+    cssStyles = '',
+    parsedContent: ParsedBlock[] = [];
 
-  if (currentCountry === '') {
-    currentCountry = getDefaultCountry();
-  }
+  templateData.forEach(async (data) => {
+    const { key, file } = data;
+    const contentBlocks = await SiteInfo.find(key);
 
-  return currentCountry;
-};
+    parsedData = SiteInfoSchema.safeParse(contentBlocks);
 
-export async function middleware(req: NextRequest) {
-  // Exclude image paths, xml, and wp-admin/content
-  if (
-    /\.(jpg|jpeg|png|gif|webp|svg|xml)$/i.test(req.nextUrl.pathname) ||
-    /\/wp-admin|\/wp-content/i.test(req.nextUrl.pathname) ||
-    req.nextUrl.search.includes('esc-nextjs=1')
-  ) {
-    return NextResponse.next();
-  }
+    if (parsedData.success) {
+      parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
 
-  // Extract country
-  let country = req.cookies.get('currentCountry')?.value;
-  const geoCountry = req.geo?.country || '';
-  if (!country) {
-    country = geoCountry;
-  }
+      const parsedValue = parseJSON(parsedData?.data?.value);
 
-  const currentCountry = getCurrenCountry(country);
+      if (parsedValue) {
+        let stringBlocks = '';
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        parsedValue?.forEach((block: any) => {
+          if (block.blockId === 'gutenbergBlocks') {
+            Object.keys(block.metaData).forEach((key) => {
+              stringBlocks += block.metaData[key].content;
+            });
+          }
+        });
 
-  if (req.nextUrl.pathname.startsWith('/products/new')) {
-    req.nextUrl.pathname = `/${currentCountry}/new`;
-    // Rewrite to URL
-    const response = NextResponse.rewrite(req.nextUrl);
-    return response;
-  }
-
-  if (req.nextUrl.pathname.startsWith('/products/on-sale')) {
-    req.nextUrl.pathname = `/${currentCountry}/on-sale`;
-    // Rewrite to URL
-    const response = NextResponse.rewrite(req.nextUrl);
-    return response;
-  }
-
-  if (
-    req.nextUrl.pathname.startsWith('/shop') ||
-    req.nextUrl.pathname.startsWith('/product') ||
-    req.nextUrl.pathname.startsWith('/brand') ||
-    req.nextUrl.pathname.startsWith('/brands')
-  ) {
-    const pathName = req.nextUrl.pathname;
-    req.nextUrl.pathname = `/${currentCountry}${pathName}`;
-
-    const isShopProductPage = /\/shop\/.+$/.test(pathName);
-    if (isShopProductPage) {
-      req.nextUrl.pathname = `/${currentCountry}${pathName.replace('/shop/', '/product/')}`;
+        parsedContent = addIds(parse(stringBlocks) as NewParsedBlock[]);
+      } else {
+        parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
+      }
     }
 
-    // Rewrite to URL
-    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
-  }
+    const fullFilePath = path.join(process.cwd(), 'public', file);
+    fs.writeFileSync(fullFilePath, JSON.stringify(parsedContent), {
+      encoding: 'utf-8',
+    });
 
-  const pathname = req.nextUrl.pathname;
+    cssStyles += cssContentParser(parsedContent as NewParsedBlock[]);
+  });
 
-  const isCatalogPage = CATEGORY_PATHS.includes(pathname.replace(PAGE_URL_PATTERN, ''));
+  const pageSlugs = await getPageSlugs();
+  pageSlugs.forEach(async (pageSlug: string) => {
+    const pageData = await generateJsonDataBySlug(pageSlug);
+    if (pageData.blocks) {
+      cssStyles += cssContentParser(pageData.blocks);
+    }
+  });
 
-  if (isCatalogPage) {
-    req.nextUrl.pathname = `/${currentCountry}/product-category${pathname}`;
+  cssStyles += await processPostAndPageStyles();
 
-    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
-  }
+  const stylesFolderPath = './public/styles';
+  await maybeCreateDir(stylesFolderPath);
 
-  const pageSlugs: string[] = await getPageSlugs();
-  let modifiedPathName = pathname;
-  if ('/' === modifiedPathName) {
-    modifiedPathName = getHomePageSlug();
-  }
-
-  // We remove the leading slash since slugs we save doesn't have it to make sure this goes to the right nextjs page path
-  modifiedPathName = stripSlashes(modifiedPathName);
-
-  // @TODO we will handle parent child post/page url structure later
-  if (pageSlugs.includes(modifiedPathName)) {
-    req.nextUrl.pathname = `/${currentCountry}/page/${modifiedPathName}`;
-    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
-  }
-
-  if (postSlugs.includes(modifiedPathName)) {
-    req.nextUrl.pathname = `/${currentCountry}/post/${modifiedPathName}`;
-    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
-  }
-
-  if (['/search-results', '/search-results/'].includes(pathname)) {
-    req.nextUrl.pathname = `/${currentCountry}${pathname}`;
-    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
-  }
-
-  // Let next.js handle the clients/browser request
-  return NextResponse.next();
+  fs.writeFile(`${stylesFolderPath}/styles.css`, cssStyles, (err) => {
+    if (err) {
+      console.error('Error writing CSS file:', err);
+    } else {
+      console.log('CSS file created successfully!');
+    }
+  });
 }

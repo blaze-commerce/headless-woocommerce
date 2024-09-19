@@ -60,6 +60,8 @@ public/page-slugs.json
 public/page/*.*
 public/post-slugs.json
 public/post/*.*
+public/single-product.json
+
 
 public/styles/styles.css
 build-storybook.log
