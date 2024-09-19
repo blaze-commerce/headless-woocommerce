@@ -61,7 +61,7 @@ public/page/*.*
 public/post-slugs.json
 public/post/*.*
 public/single-product.json
-
+public/single-post.json
 
 public/styles/styles.css
 build-storybook.log

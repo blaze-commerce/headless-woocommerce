@@ -19,6 +19,11 @@ import { getPageSlugs } from '@src/lib/typesense/page';
 
 import postSlugs from '@public/post-slugs.json';
 
+/**
+ * This process the post and pages styles blocks
+ *
+ * @returns String tailwind css class styles
+ */
 const processPostAndPageStyles = async () => {
   const pageSlugs = await getPageSlugs();
 
@@ -47,9 +52,12 @@ const processPostAndPageStyles = async () => {
   return pageStyles.join('') + postStyles.join('');
 };
 
-export default async function execute() {
-  await maybeCreateDir('public/page');
-  await maybeCreateDir('public/post');
+/**
+ * This Process the template styles that comes from gutenberg
+ * @returns string tailwind css styles
+ */
+const processTemplatesStyles = async () => {
+  let parsedContent: ParsedBlock[] = [];
 
   const templateData = [
     {
@@ -57,8 +65,8 @@ export default async function execute() {
       file: 'footer.json',
     },
     {
-      key: 'homepage_layout',
-      file: 'homepage.json',
+      key: 'site-single',
+      file: 'single-post.json',
     },
     {
       key: 'site-single-product',
@@ -70,54 +78,53 @@ export default async function execute() {
     },
   ];
 
-  let parsedData,
-    cssStyles = '',
-    parsedContent: ParsedBlock[] = [];
+  const templateStyles = await Promise.all(
+    templateData.map(async (data) => {
+      const { key, file } = data;
+      const contentBlocks = await SiteInfo.find(key);
 
-  templateData.forEach(async (data) => {
-    const { key, file } = data;
-    const contentBlocks = await SiteInfo.find(key);
+      const parsedData = SiteInfoSchema.safeParse(contentBlocks);
 
-    parsedData = SiteInfoSchema.safeParse(contentBlocks);
-
-    if (parsedData.success) {
-      parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
-
-      const parsedValue = parseJSON(parsedData?.data?.value);
-
-      if (parsedValue) {
-        let stringBlocks = '';
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        parsedValue?.forEach((block: any) => {
-          if (block.blockId === 'gutenbergBlocks') {
-            Object.keys(block.metaData).forEach((key) => {
-              stringBlocks += block.metaData[key].content;
-            });
-          }
-        });
-
-        parsedContent = addIds(parse(stringBlocks) as NewParsedBlock[]);
-      } else {
+      if (parsedData.success) {
         parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
+
+        const parsedValue = parseJSON(parsedData?.data?.value);
+
+        if (parsedValue) {
+          let stringBlocks = '';
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          parsedValue?.forEach((block: any) => {
+            if (block.blockId === 'gutenbergBlocks') {
+              Object.keys(block.metaData).forEach((key) => {
+                stringBlocks += block.metaData[key].content;
+              });
+            }
+          });
+
+          parsedContent = addIds(parse(stringBlocks) as NewParsedBlock[]);
+        } else {
+          parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
+        }
       }
-    }
 
-    const fullFilePath = path.join(process.cwd(), 'public', file);
-    fs.writeFileSync(fullFilePath, JSON.stringify(parsedContent), {
-      encoding: 'utf-8',
-    });
+      const fullFilePath = path.join(process.cwd(), 'public', file);
+      fs.writeFileSync(fullFilePath, JSON.stringify(parsedContent), {
+        encoding: 'utf-8',
+      });
 
-    cssStyles += cssContentParser(parsedContent as NewParsedBlock[]);
-  });
+      return cssContentParser(parsedContent as NewParsedBlock[]);
+    })
+  );
 
-  const pageSlugs = await getPageSlugs();
-  pageSlugs.forEach(async (pageSlug: string) => {
-    const pageData = await generateJsonDataBySlug(pageSlug);
-    if (pageData.blocks) {
-      cssStyles += cssContentParser(pageData.blocks);
-    }
-  });
+  return templateStyles.join('');
+};
 
+export default async function execute() {
+  await maybeCreateDir('public/page');
+  await maybeCreateDir('public/post');
+  let cssStyles = '';
+
+  cssStyles += await processTemplatesStyles();
   cssStyles += await processPostAndPageStyles();
 
   const stylesFolderPath = './public/styles';
