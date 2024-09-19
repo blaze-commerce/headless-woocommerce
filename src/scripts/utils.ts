@@ -15,6 +15,7 @@ import { generateRandomString } from '@src/lib/helpers';
 import { getPageBySlug } from '@src/lib/typesense/page';
 import path from 'path';
 import { parseImageClass } from '@src/lib/helpers/image';
+import { getPostBySlug } from '@src/lib/typesense/post';
 
 export const maybeDeleteFile = async (filePath: string) => {
   if (fs.existsSync(filePath)) {
@@ -156,6 +157,21 @@ export const generateJsonDataBySlug = async (slug: string) => {
   };
 
   const pagePath = path.join(process.cwd(), 'public/page/', `${slug}.json`);
+  fs.writeFileSync(pagePath, JSON.stringify(jsonData), {
+    encoding: 'utf-8',
+  });
+
+  return jsonData;
+};
+
+export const generatePostJsonDataBySlug = async (slug: string) => {
+  const pageData = await getPostBySlug(slug);
+  const jsonData = {
+    ...pageData,
+    blocks: addIds(parse(pageData?.rawContent || '') as ParsedBlock[]),
+  };
+
+  const pagePath = path.join(process.cwd(), 'public/post/', `${slug}.json`);
   fs.writeFileSync(pagePath, JSON.stringify(jsonData), {
     encoding: 'utf-8',
   });

@@ -10,14 +10,47 @@ import {
   addIds,
   cssContentParser,
   generateJsonDataBySlug,
+  generatePostJsonDataBySlug,
   maybeCreateDir,
   parseJSON,
 } from '@src/scripts/utils';
 import { ParsedBlock as NewParsedBlock } from '@src/components/blocks';
-import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
+import { getPageSlugs } from '@src/lib/typesense/page';
+
+import postSlugs from '@public/post-slugs.json';
+
+const processPostAndPageSlugs = async () => {
+  const pageSlugs = await getPageSlugs();
+
+  const pageStyles = await Promise.all(
+    pageSlugs.map(async (slug: string) => {
+      const data = await generateJsonDataBySlug(slug);
+      if (data.blocks) {
+        return cssContentParser(data.blocks);
+      }
+
+      return ''; // If no blocks, return an empty string
+    })
+  );
+
+  const postStyles = await Promise.all(
+    postSlugs.map(async (slug: string) => {
+      const data = await generatePostJsonDataBySlug(slug);
+      if (data.blocks) {
+        return cssContentParser(data.blocks);
+      }
+
+      return ''; // If no blocks, return an empty string
+    })
+  );
+
+  return pageStyles.join('') + postStyles.join('');
+  // return pageStyles.join('');
+};
 
 export default async function execute() {
   await maybeCreateDir('public/page');
+  await maybeCreateDir('public/post');
 
   let parsedData,
     parsedContent: ParsedBlock[] = [];
@@ -38,14 +71,7 @@ export default async function execute() {
   });
 
   cssStyles += cssContentParser(parsedContent as NewParsedBlock[]);
-
-  const pageSlugs = await getPageSlugs();
-  pageSlugs.forEach(async (pageSlug: string) => {
-    const pageData = await generateJsonDataBySlug(pageSlug);
-    if (pageData.blocks) {
-      cssStyles += cssContentParser(pageData.blocks);
-    }
-  });
+  cssStyles += await processPostAndPageSlugs();
 
   // for homepage
   const homepageContentBlocks = await SiteInfo.find('homepage_layout');

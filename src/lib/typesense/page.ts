@@ -121,6 +121,7 @@ export const getPageSlugs = async (result = 'static'): Promise<string[]> => {
       page: page,
       per_page: perPage,
       include_fields: 'slug',
+      filter_by: 'type:=[page]',
     };
 
     const results = await getTypesenseClient()
