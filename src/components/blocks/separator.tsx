@@ -1,6 +1,5 @@
-import parse from 'html-react-parser';
+import { BlockComponentProps } from '@src/components/blocks';
 import { cn } from '@src/lib/helpers/helper';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 
 type BlockAttrsType = {
   type: string;
@@ -10,11 +9,7 @@ type BlockAttrsType = {
   className: string;
 };
 
-type EmbedProps = {
-  block: ParsedBlock;
-};
-
-export const Separator = ({ block }: EmbedProps) => {
+export const Separator = ({ block }: BlockComponentProps) => {
   if ('core/separator' !== block.blockName) {
     return null;
   }
@@ -23,5 +18,5 @@ export const Separator = ({ block }: EmbedProps) => {
 
   const { className } = block.attrs as BlockAttrsType;
 
-  return <hr className={`${cn(className)}`} />;
+  return <hr className={`${cn(className, block?.id)}`} />;
 };

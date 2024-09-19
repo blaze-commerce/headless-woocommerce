@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './single-product.css';
+
 html {
   width: 100vw;
   max-width: 100vw;

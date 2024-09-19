@@ -25,14 +25,19 @@ import { Button } from '@src/components/blocks/core/button';
 import { GenerateBlocksButton } from '@src/components/blocks/generateblocks/button/block';
 
 const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
+const PostTitle = dynamic(() =>
+  import('@src/components/blocks/core/post-title').then((mod) => mod.PostTitle)
+);
+
+const PostTerms = dynamic(() =>
+  import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
+);
+
 const WooCommerceBreadcrumbs = dynamic(() =>
   import('@src/components/blocks/woocommerce/breadcrumbs').then((mod) => mod.Breadcrumbs)
 );
 const WooCommerceProductImageGallery = dynamic(() =>
   import('@src/components/blocks/woocommerce/product-image-gallery').then((mod) => mod.Gallery)
-);
-const PostTitle = dynamic(() =>
-  import('@src/components/blocks/core/post-title').then((mod) => mod.PostTitle)
 );
 
 const WooCommerceProductRating = dynamic(() =>
@@ -45,6 +50,18 @@ const WooCommerceProductPrice = dynamic(() =>
 
 const PostExcerpt = dynamic(() =>
   import('@src/components/blocks/core/post-excerpt').then((mod) => mod.PostExcerpt)
+);
+
+const WooCommerceAddToCartForm = dynamic(() =>
+  import('@src/components/blocks/woocommerce/add-to-cart-form').then((mod) => mod.AddToCartForm)
+);
+
+const WooCommerceProductMeta = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-meta').then((mod) => mod.ProductMeta)
+);
+
+const WooCommerceProductSKU = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-sku').then((mod) => mod.ProductSKU)
 );
 
 export interface ParsedBlock extends GutenbergParsedBlock {
@@ -103,10 +120,14 @@ export const blocks = {
   'core/group': Group,
   'core/post-title': PostTitle,
   'core/post-excerpt': PostExcerpt,
+  'core/post-terms': PostTerms,
   'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
   'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
   'woocommerce/product-rating': WooCommerceProductRating,
   'woocommerce/product-price': WooCommerceProductPrice,
+  'woocommerce/add-to-cart-form': WooCommerceAddToCartForm,
+  'woocommerce/product-meta': WooCommerceProductMeta,
+  'woocommerce/product-sku': WooCommerceProductSKU,
 };
 
 // Define type alias for block names

@@ -1,5 +1,5 @@
 import { Tab } from '@headlessui/react';
-import { default as cx } from 'classnames';
+import classNames, { default as cx } from 'classnames';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import GliderComponent from 'react-glider';
@@ -16,6 +16,8 @@ import { emptyImagePlaceholder } from '@src/lib/constants/image';
 import { isLightColor, isMp4 } from '@src/lib/helpers/helper';
 
 type Props = {
+  id?: string;
+  className?: string;
   images?: ImageType[];
   onSale?: boolean;
   isNew?: boolean;
@@ -27,6 +29,8 @@ type Props = {
 };
 
 export const Gallery: React.FC<Props> = ({
+  id,
+  className,
   images,
   isNew,
   onSale,
@@ -58,7 +62,7 @@ export const Gallery: React.FC<Props> = ({
     if (!isNew) return false;
     return (
       <div
-        className={cx('absolute top-0 flex w-full h-1/4 overflow-hidden z-0', {
+        className={cx(`absolute top-0 flex w-full h-1/4 overflow-hidden z-0 ${id} ${className}`, {
           'left-0 justify-end': badgeType === 1 || badgeType === 3,
           'float-right': badgeType === 2,
         })}

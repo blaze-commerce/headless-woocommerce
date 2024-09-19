@@ -1,8 +1,17 @@
+import dynamic from 'next/dynamic';
+
 import { BlockComponentProps } from '@src/components/blocks';
+import { cn } from '@src/lib/helpers/helper';
+
+const ProductTitle = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-title').then((mod) => mod.ProductTitle)
+);
 
 export const PostTitle = ({ block }: BlockComponentProps) => {
   const { level, className } = block.attrs;
   let TagName: keyof JSX.IntrinsicElements;
+  const title = 'Post Title'; // later should be replaced with actual post title
+
   switch (level) {
     case 1:
       TagName = 'h1';
@@ -25,5 +34,15 @@ export const PostTitle = ({ block }: BlockComponentProps) => {
     default:
       TagName = 'h1'; //
   }
-  return <TagName className={className}>Post Title</TagName>;
+
+  return (
+    <TagName className={cn(block?.id, 'post-title', className)}>
+      {block.attrs?.__woocommerceNamespace &&
+      block.attrs?.__woocommerceNamespace === 'woocommerce/product-query/product-title' ? (
+        <ProductTitle />
+      ) : (
+        title
+      )}
+    </TagName>
+  );
 };

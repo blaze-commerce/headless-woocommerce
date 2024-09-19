@@ -5,6 +5,7 @@ import { useProductContext } from '@src/context/product-context';
 import { cn } from '@src/lib/helpers/helper';
 
 type Props = {
+  id?: string;
   className?: string;
 };
 
@@ -20,7 +21,7 @@ const VariablePrice = dynamic(() =>
   import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
 );
 
-export const ProductPrice: React.FC<Props> = ({ className }) => {
+export const ProductPrice: React.FC<Props> = ({ id, className }) => {
   const { product } = useProductContext();
   const { settings, currentCurrency } = useSiteContext();
 
@@ -34,7 +35,7 @@ export const ProductPrice: React.FC<Props> = ({ className }) => {
 
   return (
     <>
-      <div className={cn('price-container', className)}>
+      <div className={cn('price-container', id, className)}>
         {product.hasVariations ? (
           <VariablePrice
             product={product}
