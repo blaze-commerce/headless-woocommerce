@@ -1,16 +1,15 @@
+import { BlockComponentProps } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
+import { cn } from '@src/lib/helpers/helper';
 
-type GroupProps = {
-  block: ParsedBlock;
-};
-
-export const Group = ({ block }: GroupProps) => {
-  if ('core/group' !== block.blockName && !block.innerBlocks[0]) {
-    return null;
-  }
-
-  console.log('core group', block);
-
-  return <div className="core-group">this is group</div>;
+export const Group = ({ block, className }: BlockComponentProps) => {
+  const TagName = block.attrs.tagName as keyof JSX.IntrinsicElements;
+  return (
+    <TagName
+      id={block?.id}
+      className={cn(className, 'core-group')}
+    >
+      <Content content={block.innerBlocks} />
+    </TagName>
+  );
 };

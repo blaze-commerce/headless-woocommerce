@@ -34,7 +34,7 @@ export const ProductPrice: React.FC<Props> = ({ className }) => {
 
   return (
     <>
-      <div className={cn('price ', className)}>
+      <div className={cn('price-container', className)}>
         {product.hasVariations ? (
           <VariablePrice
             product={product}
@@ -51,9 +51,7 @@ export const ProductPrice: React.FC<Props> = ({ className }) => {
             isTaxExclusive={settings?.isTaxExclusive as boolean}
           />
         )}
-        {priceDisplaySuffix && (
-          <span className="text-sm w-full md:w-auto font-thin"> {priceDisplaySuffix}</span>
-        )}
+        {priceDisplaySuffix && <span className="product-suffix"> {priceDisplaySuffix}</span>}
       </div>
     </>
   );

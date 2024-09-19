@@ -257,7 +257,9 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
     setHistory((previous) => [...previous, asPath]);
     const baseCountry = regionSettings?.[0]?.baseCountry;
     const selectedCountry = getCookie('currentCountry') || baseCountry || 'AU';
+
     const currency = country[selectedCountry].currency;
+
     setCurrentCountry(selectedCountry);
     setCurrentCurrency(currency);
     setCookie('aelia_cs_selected_currency', currency, 30);

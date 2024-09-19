@@ -26,17 +26,15 @@ export const ProductGallery = () => {
   const isTwoMonthsAgo = isWithInMonthsAgo(publishedDate, newBadgeThreshold);
 
   return (
-    <div className="w-full lg:basis-6/12 lg:px-4 lg:mb-20">
-      <Gallery
-        images={product.galleryImages}
-        onSale={product.onSale}
-        isNew={isTwoMonthsAgo}
-        isGrid={productGallery?.isGrid}
-        zoomType={productGallery?.zoomType}
-        badgeType={badgeType}
-        saleBadgeColor={saleBadgeColor}
-        newBadgeColor={newBadgeColor}
-      />
-    </div>
+    <Gallery
+      images={product.galleryImages}
+      onSale={product.onSale}
+      isNew={isTwoMonthsAgo}
+      isGrid={productGallery?.isGrid}
+      zoomType={productGallery?.zoomType}
+      badgeType={badgeType}
+      saleBadgeColor={saleBadgeColor}
+      newBadgeColor={newBadgeColor}
+    />
   );
 };
