@@ -58,6 +58,7 @@ public/images/product/
 public/categorypaths.json
 public/pageslugs.json
 public/page/*.*
+public/single-product.json
 
 public/styles/styles.css
 build-storybook.log
