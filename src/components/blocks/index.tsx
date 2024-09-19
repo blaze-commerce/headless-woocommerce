@@ -35,13 +35,28 @@ const PostTitle = dynamic(() =>
   import('@src/components/blocks/core/post-title').then((mod) => mod.PostTitle)
 );
 
+const WooCommerceProductRating = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-rating').then((mod) => mod.ProductRating)
+);
+
+const WooCommerceProductPrice = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-price').then((mod) => mod.ProductPrice)
+);
+
+const PostExcerpt = dynamic(() =>
+  import('@src/components/blocks/core/post-excerpt').then((mod) => mod.PostExcerpt)
+);
+
 export interface ParsedBlock extends GutenbergParsedBlock {
   id?: string;
   innerBlocks: ParsedBlock[];
   attrs: {
+    className?: string;
     uniqueId?: string;
     tagName?: string;
     width?: string;
+    level?: number;
+    [key: string]: unknown;
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentProps?: any;
@@ -82,8 +97,11 @@ export const blocks = {
   'core/separator': Separator,
   'core/group': Group,
   'core/post-title': PostTitle,
+  'core/post-excerpt': PostExcerpt,
   'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
   'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
+  'woocommerce/product-rating': WooCommerceProductRating,
+  'woocommerce/product-price': WooCommerceProductPrice,
 };
 
 // Define type alias for block names

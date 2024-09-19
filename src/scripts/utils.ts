@@ -13,6 +13,8 @@ import { parseImageClass } from '@src/components/blocks/wooless/image';
 import { map } from 'lodash';
 import { generateRandomString } from '@src/lib/helpers';
 import { getPageBySlug } from '@src/lib/typesense/page';
+import { DefaultBlockStyleRepresenter } from '@src/components/blocks/style-representer';
+import { WooCommerceStyleRepresenter } from '@src/components/blocks/woocommerce/style-representer';
 import path from 'path';
 
 export const maybeDeleteFile = async (filePath: string) => {
@@ -114,16 +116,30 @@ export const cssContentParser = (content: string | ParsedBlock[]) => {
         // We have to comment the css here so that tailwind will see the css and we just put the css in the image component because it doesn't have an id
         styles += `.${imageClassName}{@apply ${blockClases}}`;
       }
-    } else {
-      const blockRepresenter = getBlockStyleRepresenter(block);
+    } else if (typeof block.blockName === 'string') {
+      const [coreName, blockName] = block.blockName.split('/');
 
-      if (blockRepresenter) {
-        const blockRepresenterInstance = new blockRepresenter();
-        styles += blockRepresenterInstance.generateClassNames(block);
-      }
+      if (coreName === 'woocommerce') {
+        const style = WooCommerceStyleRepresenter(block);
 
-      if (block.innerBlocks) {
-        styles += cssContentParser(block.innerBlocks);
+        if (blockName === 'product-price') {
+          console.log({ block, style });
+        }
+      } else {
+        const blockRepresenter = getBlockStyleRepresenter(block);
+
+        if (blockRepresenter) {
+          const blockRepresenterInstance = new blockRepresenter();
+          styles += blockRepresenterInstance.generateClassNames(block);
+        } else {
+          const blockRepresenterInstance = new DefaultBlockStyleRepresenter();
+          const style = blockRepresenterInstance.generateClassNames(block);
+          styles += style;
+        }
+
+        if (block.innerBlocks) {
+          styles += cssContentParser(block.innerBlocks);
+        }
       }
     }
 

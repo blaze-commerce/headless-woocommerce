@@ -7,7 +7,7 @@ export const Group = ({ block, className }: BlockComponentProps) => {
   return (
     <TagName
       id={block?.id}
-      className={cn(className)}
+      className={cn(className, 'core-group')}
     >
       <Content content={block.innerBlocks} />
     </TagName>

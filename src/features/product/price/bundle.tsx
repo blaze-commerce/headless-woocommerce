@@ -21,15 +21,15 @@ export const BundlePrice = ({ product, isTaxExclusive }: TBundlePrice) => {
 
   if (isTaxExclusive) {
     renderedResult.push(
-      <span className="price !mb-0">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
+      <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
     );
   } else if (product.bundleHasSameMinMaxPrice(currency)) {
     renderedResult.push(
-      <span className="price !mb-0">{formatPrice(product.bundle?.minPrice, currency)}</span>
+      <span className="price">{formatPrice(product.bundle?.minPrice, currency)}</span>
     );
   } else {
     renderedResult.push(
-      <span className="price !mb-0">From {formatPrice(product.bundle?.minPrice, currency)}</span>
+      <span className="price">From {formatPrice(product.bundle?.minPrice, currency)}</span>
     );
   }
 

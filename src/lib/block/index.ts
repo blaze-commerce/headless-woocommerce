@@ -241,6 +241,14 @@ export const getSpacingClasses = (block: ParsedBlock) => {
   ];
 };
 
+const fontSizeClasses = {
+  small: 'text-sm',
+  medium: 'text-base',
+  large: 'text-lg',
+  'x-large': 'text-xl',
+  'xx-large': 'text-2xl',
+};
+
 export const getTypographyClasses = (block: ParsedBlock) => {
   const attribute = block.attrs as BlockAttributes;
   const {

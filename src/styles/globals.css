@@ -320,6 +320,10 @@ body {
   .product-gallery-arrows > button > span > svg {
     @apply w-11 h-7 text-[#6F6F6F];
   }
+
+  .core-columns .core-column {
+    @apply flex-grow flex-shrink-0;
+  }
 }
 
 .header-link-fill {

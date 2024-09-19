@@ -8,7 +8,7 @@ export const Column = ({ block }: BlockComponentProps) => {
   }
 
   return (
-    <div className={cn(`_${block.id}`, 'flex-1 max-w-full')}>
+    <div className={cn(`_${block.id} ${block.attrs?.className}`, 'core-column')}>
       <Content content={block.innerBlocks} />
     </div>
   );

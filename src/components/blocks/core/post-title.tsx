@@ -1,20 +1,6 @@
-import { ParsedBlock } from '@src/components/blocks';
+import { BlockComponentProps } from '@src/components/blocks';
 
-interface PostTitleProps {
-  block: {
-    id?: string;
-    innerBlocks: ParsedBlock[];
-    attrs: {
-      className?: string;
-      uniqueId?: string;
-      level: number;
-    };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    componentProps?: any;
-  };
-}
-
-export const PostTitle = ({ block }: PostTitleProps) => {
+export const PostTitle = ({ block }: BlockComponentProps) => {
   const { level, className } = block.attrs;
   let TagName: keyof JSX.IntrinsicElements;
   switch (level) {

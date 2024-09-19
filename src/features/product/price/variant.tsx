@@ -24,21 +24,17 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
 
       if (isTaxExclusive) {
         renderedResult.push(
-          <span className="price !mb-0">
-            {formatPrice(product.metaData?.priceWithTax, currency)}
-          </span>
+          <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
         );
       } else {
-        renderedResult.push(
-          <span className="price !mb-0">{formatPrice(salePrice, currency)}</span>
-        );
+        renderedResult.push(<span className="price">{formatPrice(salePrice, currency)}</span>);
       }
     } else {
       let price = product.variantMinPrice;
       if (isTaxExclusive) {
         price = product.variantMinPriceWithTax;
       }
-      renderedResult.push(<span className="price !mb-0">{formatPrice(price, currency)}</span>);
+      renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
     }
 
     // variable product with different min and max price
@@ -52,7 +48,7 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
     }
 
     renderedResult.push(
-      <span className="price !mb-0">
+      <span className="price">
         {formatPrice(minPrice, currency)} – {formatPrice(maxPrice, currency)}
       </span>
     );
