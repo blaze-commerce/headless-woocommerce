@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { Column } from '@src/components/blocks/core/column';
 import { Columns } from '@src/components/blocks/core/columns';
 import { Container } from '@src/components/blocks/generateblocks/container';
@@ -23,12 +24,36 @@ import { Buttons } from '@src/components/blocks/core/buttons';
 import { Button } from '@src/components/blocks/core/button';
 import { GenerateBlocksButton } from '@src/components/blocks/generateblocks/button/block';
 
+const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
+const WooCommerceBreadcrumbs = dynamic(() =>
+  import('@src/components/blocks/woocommerce/breadcrumbs').then((mod) => mod.Breadcrumbs)
+);
+const WooCommerceProductImageGallery = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-image-gallery').then((mod) => mod.Gallery)
+);
+const PostTitle = dynamic(() =>
+  import('@src/components/blocks/core/post-title').then((mod) => mod.PostTitle)
+);
+
+const WooCommerceProductRating = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-rating').then((mod) => mod.ProductRating)
+);
+
+const WooCommerceProductPrice = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-price').then((mod) => mod.ProductPrice)
+);
+
+const PostExcerpt = dynamic(() =>
+  import('@src/components/blocks/core/post-excerpt').then((mod) => mod.PostExcerpt)
+);
+
 export interface ParsedBlock extends GutenbergParsedBlock {
   id?: string;
   innerBlocks: ParsedBlock[];
   attrs: {
-    uniqueId?: string;
     className?: string;
+    uniqueId?: string;
+    [key: string]: unknown;
     metadata?: Partial<{
       name?: string;
     }>;
@@ -75,6 +100,13 @@ export const blocks = {
   'woocommerce/mini-cart': MiniCart,
   'core/shortcode': Shortcode,
   'core/separator': Separator,
+  'core/group': Group,
+  'core/post-title': PostTitle,
+  'core/post-excerpt': PostExcerpt,
+  'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
+  'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
+  'woocommerce/product-rating': WooCommerceProductRating,
+  'woocommerce/product-price': WooCommerceProductPrice,
 };
 
 // Define type alias for block names

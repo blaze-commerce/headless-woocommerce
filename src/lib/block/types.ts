@@ -246,8 +246,18 @@ export interface BackgroundAttributes {
   backgroundColorHover?: string;
 }
 
+export interface BasicBlockAttributes {
+  uniqueId?: string;
+  blockLabel?: string;
+  align?: string;
+  className?: string;
+  isDynamic?: boolean;
+  blockVersion?: number;
+}
+
 export interface BlockAttributes
-  extends GridBlockAttributes,
+  extends BasicBlockAttributes,
+    GridBlockAttributes,
     SizeAttributes,
     ObjectFitAttributes,
     DisplayAttributes,
@@ -263,13 +273,6 @@ export interface BlockAttributes
     RowGapAttributes,
     GradientAttributes,
     BackgroundAttributes {
-  uniqueId?: string;
-  blockLabel?: string;
-  align?: string;
-  className?: string;
-  isDynamic?: boolean;
-  blockVersion?: number;
-
   variantRole?: string;
 
   textColor?: string;
@@ -301,4 +304,10 @@ export interface BlockAttributes
   menuCentered?: boolean;
   menuFullWidth?: boolean;
   [key: string]: ClassValue | { target: string; device: string; state: string }[];
+}
+
+export interface WooCommerceBlockAttributes extends BasicBlockAttributes {
+  textColor?: string;
+  fontSize?: string;
+  style?: { [key: string]: string };
 }
