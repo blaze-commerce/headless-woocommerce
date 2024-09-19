@@ -1,9 +1,10 @@
-import { find, isEmpty } from 'lodash';
+import { find, isEmpty, uniq } from 'lodash';
+import { useEffect, useRef } from 'react';
+import { useEffectOnce } from 'usehooks-ts';
 
 import { useProductContext } from '@src/context/product-context';
 import { Attribute, Image } from '@src/models/product/types';
 import { useAttributeParams } from '@src/lib/hooks/product';
-import { useEffect, useRef } from 'react';
 
 type Props = {
   attribute: Attribute;
@@ -20,10 +21,20 @@ export const SelectVariant: React.FC<Props> = ({ attribute }) => {
     variation: {
       image: [, setImageThumbnailAttribute],
     },
+    fields: {
+      required: [, setRequiredFields],
+      value: [, setFieldValue],
+    },
   } = useProductContext();
+
   const { name, label, options } = attribute;
   const attributeImageSrc = product?.variantImageSrc;
   const selectedRef = useRef(!isEmpty(selectedAttributes[name]) ? selectedAttributes[name] : '');
+
+  useEffectOnce(() => {
+    setRequiredFields((prev) => uniq([...prev, name]));
+    setFieldValue((prev) => ({ ...prev, [name]: '' }));
+  });
 
   useEffect(() => {
     if (!isEmpty(attributeParams[name]) && !isEmpty(name)) {
@@ -34,6 +45,7 @@ export const SelectVariant: React.FC<Props> = ({ attribute }) => {
       onAttributeSelect(name, attributeParams[name]);
       selectedRef.current = attributeParams[name];
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attributeParams]);
 
   if (isEmpty(product?.variantImageSrc)) return null;
@@ -43,18 +55,19 @@ export const SelectVariant: React.FC<Props> = ({ attribute }) => {
     setImageThumbnailAttribute(currentImageSrc as Image);
     onAttributeSelect(name, e.target.value);
     selectedRef.current = e.target.value;
+    setFieldValue((prev) => ({ ...prev, [name]: e.target.value }));
   };
 
   return (
-    <div className="mb-4">
+    <div className="product-variant-select">
       <label
-        className="block text-sm font-bold mb-1 capitalize"
+        className="product-variant-select__label"
         htmlFor={name}
       >
         {label}:
       </label>
       <select
-        className="w-full border p-2"
+        className="product-variant-select__select"
         name={name}
         id={name}
         onChange={handleOnChange}

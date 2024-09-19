@@ -35,10 +35,10 @@ export const BundlePrice = ({ product, isTaxExclusive }: TBundlePrice) => {
   }
 
   return (
-    <>
+    <span className="bundle-product-price">
       {renderedResult.map((price, i) => {
         return <Fragment key={`bundle-product-price-${i}`}>{price}</Fragment>;
       })}
-    </>
+    </span>
   );
 };

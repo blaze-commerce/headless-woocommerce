@@ -29,10 +29,10 @@ export const SimplePrice = ({ product, isTaxExclusive }: TSimplePrice) => {
   }
 
   return (
-    <>
+    <span className="simple-product-price">
       {renderedResult.map((price, i) => {
         return <Fragment key={`simple-product-price-${i}`}>{price}</Fragment>;
       })}
-    </>
+    </span>
   );
 };

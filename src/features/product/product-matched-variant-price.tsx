@@ -29,9 +29,9 @@ export const ProductMatchedVariantPrice: React.FC<Props> = ({
   const { price, regularPrice, salePrice } = product;
   const isOnSale = product.onSale && (product.salePrice?.[currency] as number) > 0;
 
-  const renderSimpleProductPrice = () => {
-    if (product.isFree(currency)) return null;
+  if (product.isFree(currency)) return null;
 
+  const renderSimpleProductPrice = () => {
     const renderedResult = [];
 
     if (isOnSale && salePrice) {
@@ -54,11 +54,9 @@ export const ProductMatchedVariantPrice: React.FC<Props> = ({
   };
 
   return (
-    <div className={cn('price', className)}>
-      <span>{renderSimpleProductPrice()}</span>
-      {priceDisplaySuffix && (
-        <span className="text-sm w-full md:w-auto font-thin"> {priceDisplaySuffix}</span>
-      )}
+    <div className={cn(className)}>
+      {renderSimpleProductPrice()}
+      {priceDisplaySuffix && <span className="price-suffix"> {priceDisplaySuffix}</span>}
     </div>
   );
 };
