@@ -3,10 +3,7 @@ import { Client as TypesenseClient } from 'typesense';
 import TypesenseInstantSearchAdapter, { SearchClient } from 'typesense-instantsearch-adapter';
 import type { SearchParamsWithPreset } from 'typesense/lib/Typesense/Documents';
 
-import siteSettings from '@public/site.json';
-import { env } from '@src/lib/env';
 import TS_CONFIG from '@src/lib/typesense/config';
-import { PRODUCT_TYPES } from '@src/lib/constants/product';
 import { getProductTypesForDisplay } from '@src/lib/typesense/product';
 import { getDefaultSortBy } from '@src/lib/typesense/taxonomy';
 import { getTypesenseClient } from '@src/lib/typesense';
@@ -36,7 +33,7 @@ if (defaultSortBy.value) {
 specificSearchParameters[TS_CONFIG.collectionNames.product] = {
   query_by: productQueryByFields,
   highlight_fields: productQueryByFields,
-  filter_by: `productType:=[\`${productTypes.join('`,`')}\`]`,
+  filter_by: `productType:=[\`${productTypes.join('`,`')}\`] && status:=[\`publish\`]`,
   sort_by: sortBy,
 };
 

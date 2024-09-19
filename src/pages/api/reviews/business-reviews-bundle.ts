@@ -11,6 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     return res.status(200).json({ data: response.data });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return res.status(500).json({ error: error?.message });
   }

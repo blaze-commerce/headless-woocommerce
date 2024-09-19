@@ -22,11 +22,15 @@ const VariablePrice = dynamic(() =>
 
 export const ProductPrice: React.FC<Props> = ({ className }) => {
   const { product } = useProductContext();
-  const { settings } = useSiteContext();
+  const { settings, currentCurrency } = useSiteContext();
 
   if (!product) return null;
 
   const priceDisplaySuffix = settings?.priceDisplaySuffix || '';
+
+  if (product.isFree(currentCurrency as string)) {
+    return <div className={cn('price ', className)}>Free</div>;
+  }
 
   return (
     <>

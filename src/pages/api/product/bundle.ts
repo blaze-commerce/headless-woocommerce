@@ -1,59 +1,31 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import axios, { AxiosRequestConfig } from 'axios';
-import { isEmpty } from 'lodash';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { env } from '@src/lib/env';
-import { AUTHORIZATION_HEADER } from '@src/lib/wc-api';
 const { NEXT_PUBLIC_WORDPRESS_SITE_URL } = env();
-
-export interface ProductNotifierApiResponse {
-  // Define the structure of your API response data
-  // For example:
-  message: string;
-}
-
-export interface ProductNotifierProps {
-  // Define the structure of your request data
-  // For example:
-  subscriber_name: string;
-  email: string;
-  product_id: string;
-  status: string;
-}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    // const config: AxiosRequestConfig = {
-    //   method: 'post',
-    //   maxBodyLength: Infinity,
-    //   url: `${NEXT_PUBLIC_WORDPRESS_SITE_URL}/wp-json/wc-instocknotifier/v3/create_subscriber`,
-    //   headers: {
-    //     ...AUTHORIZATION_HEADER,
-    //     'Content-Type': 'application/json',
-    //   },
-    //   data: JSON.stringify(modifiedRequestData),
-    // };
-
     try {
       const { product_id } = req.query;
 
       if (!product_id) throw new Error('Product ID is required');
 
       const config: AxiosRequestConfig = {
+        method: 'GET',
         url: `${NEXT_PUBLIC_WORDPRESS_SITE_URL}/wp-json/wooless-wc/v1/check-bundle-data?product_id=${product_id}`,
         headers: {
-          ...AUTHORIZATION_HEADER,
           'Content-Type': 'application/json',
         },
       };
 
       const response = await axios.request(config);
 
-      return res.status(200).json({
+      return res.setHeader('Cache-Control', 's-maxage=86400').status(200).json({
         data: response.data,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         // AxiosError: An error from the request made with Axios
         if (error.response) {
@@ -83,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       } else {
         // Non-Axios error
-        return res.status(500).json({ message: 'Internal Server Error' });
+        return res.status(500).json({ message: 'An error occured' });
       }
     }
   }

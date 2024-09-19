@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
 import { WishListIcon } from '@src/features/wish-list/wish-list-icon';
-import { Price } from '@src/features/product/price';
-import { AddToCartBundle } from '@src/features/product/add-to-cart/bundle';
 import { Spinner } from '@src/components/svg/spinner';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
@@ -12,6 +11,21 @@ import { parseApolloError } from '@src/lib/helpers';
 import { Settings } from '@src/models/settings';
 import { ProductSettings } from '@src/models/settings/product';
 import { cn } from '@src/lib/helpers/helper';
+import { useEffectOnce } from 'usehooks-ts';
+
+const AddToCartBundle = dynamic(() =>
+  import('@src/features/product/add-to-cart/bundle').then((mod) => mod.AddToCartBundle)
+);
+
+const AddToCartAddons = dynamic(() =>
+  import('@src/features/product/add-to-cart/addons').then((mod) => mod.AddToCartAddons)
+);
+
+const ProductMatchedVariantPrice = dynamic(() =>
+  import('@src/features/product/product-matched-variant-price').then(
+    (mod) => mod.ProductMatchedVariantPrice
+  )
+);
 
 export const AddToCartForm = () => {
   const {
@@ -29,21 +43,20 @@ export const AddToCartForm = () => {
       validation: [isFormValid],
       emailValidation: [isEmailValid],
     },
+    addToCartStatus,
   } = useProductContext();
   const { currentCurrency, settings } = useSiteContext();
   const { store } = settings as Settings;
   const { layout } = settings?.product as ProductSettings;
-  const [unavailable, setUnavailable] = useState(false);
+  const [disableAddToCart, setDisableAddToCart] = addToCartStatus;
 
-  if (
-    !product ||
-    !product?.shouldShowAddToCart ||
-    (product.productType == 'simple' && product.isFree(currentCurrency))
-  ) {
+  useEffectOnce(() => {
+    setDisableAddToCart(!(product?.hasVariations && !matchedVariant));
+  });
+
+  if (!product || !product?.shouldShowAddToCart) {
     return null;
   }
-
-  const invalid = product?.hasVariations && !matchedVariant;
 
   const { loading, error } = addToCart;
 
@@ -64,26 +77,20 @@ export const AddToCartForm = () => {
       return null;
 
     return (
-      <div className="py-4">
-        <Price
-          product={matchedVariant}
-          currency={currentCurrency}
-          isTaxExclusive={settings?.isTaxExclusive}
-          className="!text-base !font-bold"
-        />
-      </div>
+      <ProductMatchedVariantPrice
+        product={matchedVariant}
+        currency={currentCurrency}
+        isTaxExclusive={settings?.isTaxExclusive}
+        className="!text-base !font-bold"
+      />
     );
   };
 
   return (
     <>
       {renderMatchedVariant()}
-      {product.hasBundle && (
-        <AddToCartBundle
-          unavailable={unavailable}
-          setUnavailable={setUnavailable}
-        />
-      )}
+      {product.hasBundle && <AddToCartBundle />}
+      {product.hasAddons() && <AddToCartAddons />}
       <div className="fixed bottom-0 right-0 p-4 bg-brand-secondary w-full lg:w-auto md:bg-[#ECEEEFE8] z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw]">
         <div className="flex items-stretch justify-start gap-2.5">
           <span className="items-center text-sm text-black font-bold flex">Qty:</span>
@@ -114,11 +121,11 @@ export const AddToCartForm = () => {
             </div>
           </div>
           <button
-            disabled={loading || invalid || unavailable}
+            disabled={loading || disableAddToCart}
             className={cn(
               'add-to-cart flex items-center justify-center bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text sm:px-4 p-0 flex-grow w-full text-sm font-medium',
               {
-                'opacity-50': loading || invalid || unavailable,
+                'opacity-50': loading || disableAddToCart,
                 'bg-brand-secondary': !settings?.buttonColor?.background,
                 'text-white': !settings?.buttonColor?.text,
               }

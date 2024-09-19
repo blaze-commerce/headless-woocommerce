@@ -1,6 +1,6 @@
 import { ReactElement, Fragment } from 'react';
 import { useSiteContext } from '@src/context/site-context';
-import { formatPrice } from '@src/lib/helpers/helper';
+import { cn, formatPrice } from '@src/lib/helpers/helper';
 import { Product } from '@src/models/product';
 
 type TVariablePrice = {

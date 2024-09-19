@@ -53,10 +53,14 @@ export interface ParsedBlock extends GutenbergParsedBlock {
   attrs: {
     className?: string;
     uniqueId?: string;
-    tagName?: string;
-    width?: string;
-    level?: number;
     [key: string]: unknown;
+    metadata?: Partial<{
+      name?: string;
+    }>;
+    htmlAttributes?: Partial<{
+      attribute: string;
+      value: string;
+    }>;
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentProps?: any;
@@ -85,6 +89,7 @@ export const blocks = {
   'core/paragraph': Paragraph,
   'core/site-logo': SiteLogo,
   'fibosearch/search': Search,
+  'core/search': Search,
   'generateblocks/container': Container,
   'generateblocks/grid': Grid,
   'generateblocks/image': Image,

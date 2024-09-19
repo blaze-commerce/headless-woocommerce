@@ -1,6 +1,8 @@
 import { Product } from '@src/models/product';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
 
+export type ObjectData = { [key: string]: string | number | boolean };
+
 export type ProductStocStatuses = 'instock' | 'outofstock';
 
 // We should append all supported currencies here
@@ -86,29 +88,50 @@ export type ProductRecommendations = Partial<Product>;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ProductMetaData = Record<string, any>;
 
-export type ProductBundle = {
-  products: {
-    product: {
-      id: number;
-      stockStatus: ProductStocStatuses;
-      bundleId: number;
-    };
-    settings: {
-      defaultQuantity: number;
+export type ProductVariationBundle = {
+  id: string;
+  prefix: string;
+  name: string;
+  label: string;
+  options: Record<
+    number,
+    {
+      price: ProductPrice;
       description: string;
-      discountPercent: number;
-      hideThumbnail: boolean;
-      maxQuantity: number;
-      minQuantity: number;
-      optional: boolean;
-      overrideTitle: boolean;
-      priceVisible: boolean;
-      pricedIndividually: boolean;
-      productVisible: boolean;
-      shippedIndividually: boolean;
-      title: string;
-    };
-  }[];
+      label: string;
+    }
+  >;
+};
+
+export type ProductBundleSettings = {
+  defaultQuantity: number;
+  description: string;
+  discountPercent: number;
+  hideThumbnail: boolean;
+  maxQuantity: number;
+  minQuantity: number;
+  optional: boolean;
+  overrideTitle: boolean;
+  priceVisible: boolean;
+  pricedIndividually: boolean;
+  productVisible: boolean;
+  shippedIndividually: boolean;
+  title: string;
+};
+
+export type ProductBundle = {
+  product: {
+    id: number;
+    stockStatus: ProductStocStatuses;
+    bundleId: number;
+    image?: string;
+  };
+  settings: ProductBundleSettings;
+  variations?: ProductVariationBundle[];
+};
+
+export type ProductBundleConfiguration = {
+  products: ProductBundle[];
   settings: {
     editInCart: boolean;
     formLocation: string;
@@ -120,4 +143,38 @@ export type ProductBundle = {
   maxPrice: { [key: string]: number };
 };
 
-export type ObjectData = { [key: string]: string | number | boolean };
+export type ProductAddonsPriceType = 'flat_fee' | 'quantity_based' | 'percentage_based';
+
+export type ProductAddons = {
+  name: string;
+  titleFormat: 'label' | 'heading' | 'hide';
+  description: string;
+  descriptionEnable: boolean;
+  type:
+    | 'multiple_choice'
+    | 'checkbox'
+    | 'custom_text'
+    | 'custom_textarea'
+    | 'file_upload'
+    | 'custom_price'
+    | 'input_multiplier'
+    | 'heading'
+    | 'datepicker';
+  display: 'select' | 'radiobutton' | 'images';
+  position: number;
+  required: boolean;
+  restrictions: number;
+  restrictionsType: 'any_text' | 'email' | 'only_letters' | 'only_numbers' | 'only_letters_numbers';
+  adjustPrice: boolean;
+  priceType: ProductAddonsPriceType;
+  price: number;
+  min: number;
+  max: number;
+  id: number;
+  options: {
+    label: string;
+    price: number;
+    image: string;
+    priceType: ProductAddonsPriceType;
+  }[];
+};

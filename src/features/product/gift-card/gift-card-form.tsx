@@ -2,7 +2,6 @@ import HTMLReactParser from 'html-react-parser';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import { Divider } from '@src/components/common/divider';
-import { AddToCartForm } from '@src/features/product/add-to-cart-form';
 import { GiftCardPreview } from '@src/features/product/gift-card/gift-card-preview';
 import { useProductContext } from '@src/context/product-context';
 import {
@@ -11,7 +10,10 @@ import {
   deductDays,
   formatDate,
 } from '@src/lib/helpers/date';
+import { getVariations } from '@src/lib/typesense/product';
 import { validateEmail } from '@src/lib/helpers/helper';
+import { useEffectOnce } from 'usehooks-ts';
+import { isObject } from 'lodash';
 
 export const GiftCardForm = () => {
   const {
@@ -19,11 +21,14 @@ export const GiftCardForm = () => {
     giftCards: {
       state: [giftCardInput, setGiftCardInput],
       validation: [, setIsFormValid],
-      emailValidation: [, setIsEmailValid],
+      emailValidation: [isEmailValid, setIsEmailValid],
+      productId: [, setGiftProductId],
     },
     actions: { onGiftCardQuantityChange },
+    addToCartStatus,
   } = useProductContext();
 
+  const [, setDisableAddToCart] = addToCartStatus;
   const [isShowPreview, setIsShowPreview] = useState(false);
 
   const dateRef = useRef<HTMLInputElement>(null);
@@ -40,6 +45,36 @@ export const GiftCardForm = () => {
   );
 
   const messageCharacterCount = 500 - giftCardInput?.['giftcard-message-field']?.length;
+
+  useEffectOnce(() => {
+    if (!product?.isGiftCard || !product?.id) return;
+
+    const defaultAttributes = product.defaultAttributes;
+
+    getVariations(parseInt(product?.id)).then((variations) => {
+      variations.forEach((variation) => {
+        if (!variation.id) return;
+
+        if (!isObject(defaultAttributes)) return;
+
+        const attributes = variation.attributes as { [key: string]: string };
+
+        if (!attributes) return;
+
+        const defaultAttributesKeys = Object.keys(defaultAttributes);
+
+        defaultAttributesKeys.forEach((key: string) => {
+          const attributeValue = attributes[`attribute_${key}`];
+          const defAttributeValue = defaultAttributes[key];
+
+          if (attributeValue === defAttributeValue) {
+            const variationId = variation.id as string; // Type guard to ensure variation.id is not undefined
+            setGiftProductId(parseInt(variationId));
+          }
+        });
+      });
+    });
+  });
 
   useEffect(() => {
     if (!giftCardInput?.['giftcard-to-field'] || !giftCardInput?.['giftcard-from-field']) {
@@ -74,6 +109,14 @@ export const GiftCardForm = () => {
       }));
     }
   }, [giftCardInput, setGiftCardInput]);
+
+  useEffect(() => {
+    if (isShowPreview && isEmailValid) {
+      setDisableAddToCart(false);
+    } else {
+      setDisableAddToCart(true);
+    }
+  }, [isShowPreview, isEmailValid, setDisableAddToCart]);
 
   if (!product?.isGiftCard) return null;
 
@@ -266,18 +309,12 @@ export const GiftCardForm = () => {
             </div>
           </div>
           <button
-            className="w-full my-2.5 font-semibold text-sm text-[#B4B4B4] px-10 py-2.5 border border-[#B4B4B4] rounded-sm"
+            className="w-full my-2.5 font-semibold text-sm text-black px-10 py-2.5 border border-[#E7D4BD] rounded-sm"
             onClick={onPreviewClick}
           >
             PREVIEW
           </button>
-          {isShowPreview && <GiftCardPreview />}
-          <Divider className="mb-4" />
-          <input
-            type="submit"
-            className="hidden"
-          />
-          {!product.isOutOfStock && <AddToCartForm />}
+          {isShowPreview && isEmailValid && <GiftCardPreview />}
         </form>
       </div>
     </>

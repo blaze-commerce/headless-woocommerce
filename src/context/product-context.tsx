@@ -2,7 +2,14 @@ import { ApolloError, useMutation, useQuery } from '@apollo/client';
 import { Dictionary } from '@reduxjs/toolkit';
 import { cloneDeep, difference, isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useEffectOnce } from 'usehooks-ts';
 import { v4 } from 'uuid';
 
@@ -41,6 +48,12 @@ type ProductContextType = Partial<{
   rating: ProductReviewsRating;
   bundle: ProductBundle;
   wooReviewImage: ProductWooReviewImages;
+  fields: {
+    required: [string[], Dispatch<SetStateAction<string[]>>];
+    value: [ObjectData, Dispatch<SetStateAction<ObjectData>>];
+  };
+  addToCartStatus: [boolean, Dispatch<SetStateAction<boolean>>];
+  outOfStockStatus: [boolean, Dispatch<SetStateAction<boolean>>];
 };
 
 type ProductWooReviewImages = {
@@ -100,6 +113,7 @@ type ProductGiftCards = {
   state: [GiftCardInput, Dispatch<SetStateAction<GiftCardInput>>];
   validation: [boolean, Dispatch<SetStateAction<boolean>>];
   emailValidation: [boolean, Dispatch<SetStateAction<boolean>>];
+  productId: [number, Dispatch<SetStateAction<number>>];
 };
 
 const initialState: ProductState = {
@@ -134,6 +148,7 @@ export const ProductContext = createContext<ProductContextType>({
     state: [{}, () => {}],
     validation: [false, () => {}],
     emailValidation: [false, () => {}],
+    productId: [0, () => {}],
   },
   variation: {
     image: [{ src: '' }, () => {}],
@@ -149,6 +164,12 @@ export const ProductContext = createContext<ProductContextType>({
   bundle: {
     selected: [{}, () => {}],
   },
+  fields: {
+    required: [[], () => {}],
+    value: [{}, () => {}],
+  },
+  addToCartStatus: [false, () => {}],
+  outOfStockStatus: [false, () => {}],
 });
 
 export const ProductContextProvider: React.FC<{
@@ -182,6 +203,11 @@ export const ProductContextProvider: React.FC<{
   const [selectedReviewsWithImage, setSelectedReviewsWithImage] = useState<boolean>(false);
   const [selectedVerifiedReviews, setSelectedVerifiedReviews] = useState<boolean>(false);
   const [selectedBundle, setSelectedBundle] = useState<ObjectData>({});
+  const [requiredFields, setRequiredFields] = useState<string[]>([]);
+  const [fieldsValue, setFieldsValue] = useState<ObjectData>({});
+  const [disableAddToCart, setDisableAddToCart] = useState(false);
+  const [outOfStockStatus, setOutOfStockStatus] = useState(false);
+  const [giftProductId, setGiftProductId] = useState<number>(0);
 
   const router = useRouter();
 
@@ -210,6 +236,33 @@ export const ProductContextProvider: React.FC<{
     );
     return variation;
   };
+
+  useEffect(() => {
+    if (requiredFields.length === 0) {
+      setDisableAddToCart(false);
+    } else {
+      // find key with empty value in fieldsValue
+      const missingFields = requiredFields.filter((field) => !fieldsValue[field]);
+
+      // check if missingFields is in requiredFields
+
+      if (missingFields.length > 0) {
+        setDisableAddToCart(true);
+
+        // make sure to disable add to cart if product is out of stock
+      } else if (!outOfStockStatus) {
+        setDisableAddToCart(false);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldsValue]);
+
+  // disable add to cart if product is out of stock ( inculudes bundle or addons )
+  useEffect(() => {
+    if (outOfStockStatus) {
+      setDisableAddToCart(true);
+    }
+  }, [outOfStockStatus]);
 
   const onAttributeSelect = (attribute: string, value: string) => {
     const newAttributes = {
@@ -267,7 +320,10 @@ export const ProductContextProvider: React.FC<{
       inputVariables.extraData = `{"woolessGraphqlRequest":${JSON.stringify(selectedBundle)}}`;
     }
 
+    // gift card product
     if (product.isGiftCard) {
+      inputVariables.variationId = giftProductId;
+
       if (!isEmpty(giftCardInput)) {
         const giftCardFormValues: GiftCardInput = {};
 
@@ -415,6 +471,7 @@ export const ProductContextProvider: React.FC<{
           state: [giftCardInput, setGiftCardInput],
           validation: [isFormValid, setIsFormValid],
           emailValidation: [isEmailValid, setIsEmailValid],
+          productId: [giftProductId, setGiftProductId],
         },
         variation: {
           image: [imageThumbnailAttribute, setImageThumbnailAttribute],
@@ -429,6 +486,12 @@ export const ProductContextProvider: React.FC<{
         bundle: {
           selected: [selectedBundle, setSelectedBundle],
         },
+        fields: {
+          required: [requiredFields, setRequiredFields],
+          value: [fieldsValue, setFieldsValue],
+        },
+        addToCartStatus: [disableAddToCart, setDisableAddToCart],
+        outOfStockStatus: [outOfStockStatus, setOutOfStockStatus],
       }}
     >
       {children}
