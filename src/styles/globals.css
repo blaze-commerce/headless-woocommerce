@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './single-product.css';
-
 html {
   width: 100vw;
   max-width: 100vw;
@@ -323,8 +321,46 @@ body {
     @apply w-11 h-7 text-[#6F6F6F];
   }
 
+  /** Default style for core blocks */
   .core-columns .core-column {
     @apply flex-grow flex-shrink-0;
+  }
+
+  /** Default style for single product page */
+  .single-product .product-meta .core-group {
+    @apply flex;
+  }
+
+  .single-product .add-to-cart-form {
+    @apply flex flex-col gap-4;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container {
+    @apply flex flex-col gap-4;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container .product-variant-select {
+    @apply flex items-center gap-4;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container .product-variant-select label {
+    @apply w-1/3;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container .product-variant-select select {
+    @apply w-full;
+  }
+
+  .single-product .product-meta {
+    @apply w-full;
+  }
+
+  .single-product .product-meta .product-sku .product-sku__label {
+    @apply font-bold;
+  }
+
+  .single-product .product-meta .post-term .post-term__label {
+    @apply font-bold;
   }
 }
 

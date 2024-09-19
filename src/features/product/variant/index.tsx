@@ -21,9 +21,8 @@ export const Variant = () => {
   const availableAttributes = product?.getAvailableAttributes();
 
   return (
-    <div>
+    <div className="product-variant-container">
       {availableAttributes?.map((attribute: Attribute, key: Number) => {
-        console.log({ attribute });
         switch (additionalData?.attributeDisplayType[attribute.name]) {
           case 'boxed':
             return (
