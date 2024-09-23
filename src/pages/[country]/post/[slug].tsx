@@ -1,18 +1,20 @@
-import { ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
 import { defaultLayout } from '@src/components/layouts/default';
 import { PageSeo } from '@src/components/page-seo';
 import { getAllBaseContries } from '@src/lib/helpers/country';
-import { getPostSlugs } from '@src/lib/typesense/post';
+import { getPostBySlug, getPostSlugs } from '@src/lib/typesense/post';
+import { ITSPage } from '@src/lib/typesense/types';
+
+import SINGLE_POST_TEMPLATE from '@public/single-post.json';
 
 import type { NextPageWithLayout } from '@src/pages/_app';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
+import { PostContextProvider } from '@src/context/post-context';
 
 interface Props {
   country: string;
-  fullHead: string;
-  blocks: ParsedBlock[];
+  post: ITSPage | null;
 }
 
 interface Params extends ParsedUrlQuery {
@@ -29,8 +31,6 @@ export const getStaticPaths = async () => {
       params: { country, slug },
     }))
   );
-
-  console.log('paths', paths);
 
   return {
     paths,
@@ -49,11 +49,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   }
 
   const { country, slug } = params;
+  const post = await getPostBySlug(slug);
 
   return {
     props: {
-      blocks: [],
-      fullHead: '',
+      post,
       country,
     },
     revalidate: 43200, // Refresh the generated page every 12 hours,
@@ -62,11 +62,12 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 
 const Page: NextPageWithLayout<Props> = (props) => {
   return (
-    <div className="post">
-      {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
-      POST TEMPLATE
-      {/* <Content content={props.blocks} /> */}
-    </div>
+    <PostContextProvider post={props.post}>
+      <div className="post">
+        {props.post?.seoFullHead && <PageSeo seoFullHead={props.post?.seoFullHead} />}
+        <Content content={SINGLE_POST_TEMPLATE} />
+      </div>
+    </PostContextProvider>
   );
 };
 

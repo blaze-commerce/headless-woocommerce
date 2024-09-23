@@ -17,12 +17,12 @@ export const getPostBySlug = async (slug: string): Promise<ITSPage | null> => {
     .documents()
     .search(searchParameters);
 
-  const found = null;
   if (typeof results.hits !== 'undefined' && results.hits[0]) {
     const tsPage: ITSPage = JSON.parse(JSON.stringify(results.hits[0].document));
     return tsPage;
   }
-  return found;
+
+  return null;
 };
 
 /**
