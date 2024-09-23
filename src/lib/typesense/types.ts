@@ -14,22 +14,30 @@ export interface ITSImage {
   title?: string;
 }
 
+export interface ITSAuthor {
+  id: string;
+  displayName: string;
+  firstName: string;
+  lastName: string;
+}
+
 export interface ITSPage {
-  id?: string;
-  name?: string;
-  permalink?: string;
+  id: string;
+  name: string;
+  permalink: string;
   thumbnail?: {
     altText: string;
     src: string;
     title: string;
   };
-  seoFullHead?: string;
-  slug?: string;
-  type?: string;
-  updatedAt?: number;
-  createdAt?: number;
-  content?: string;
-  rawContent?: string;
+  seoFullHead: string;
+  slug: string;
+  type: string;
+  updatedAt: number;
+  createdAt: number;
+  content: string;
+  rawContent: string;
+  author: ITSAuthor;
 }
 
 // To parse this data:
