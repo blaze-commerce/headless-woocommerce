@@ -818,3 +818,34 @@ export const getBorderClasses = (block: ParsedBlock): string[] => {
 
   return classes;
 };
+
+export const formatDate = (unixTimestamp: number, format: string): string => {
+  const date: Date = new Date(unixTimestamp * 1000);
+
+  // Extract parts of the date
+  const day = date.getDate(); // Day of the month
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const month = monthNames[date.getMonth()]; // Short month name
+  const year = date.getFullYear(); // Full year
+
+  // Replace format string with actual date values
+  const formattedDate = format
+    .replace('M', month)
+    .replace('j', day.toString())
+    .replace('Y', year.toString());
+
+  return formattedDate;
+};
