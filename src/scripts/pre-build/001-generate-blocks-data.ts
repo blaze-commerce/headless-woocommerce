@@ -57,8 +57,6 @@ const processPostAndPageStyles = async () => {
  * @returns string tailwind css styles
  */
 const processTemplatesStyles = async () => {
-  let parsedContent: ParsedBlock[] = [];
-
   const templateData = [
     {
       key: 'site-footer',
@@ -80,6 +78,7 @@ const processTemplatesStyles = async () => {
 
   const templateStyles = await Promise.all(
     templateData.map(async (data) => {
+      let parsedContent: ParsedBlock[] = [];
       const { key, file } = data;
       const contentBlocks = await SiteInfo.find(key);
 
@@ -87,9 +86,7 @@ const processTemplatesStyles = async () => {
 
       if (parsedData.success) {
         parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
-
         const parsedValue = parseJSON(parsedData?.data?.value);
-
         if (parsedValue) {
           let stringBlocks = '';
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
