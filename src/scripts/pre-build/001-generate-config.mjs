@@ -351,7 +351,6 @@ export default async function execute(params) {
   const fullFilePath = path.join(process.cwd(), 'public', 'site.json');
   console.log('Creating Site config file');
   settingsWithDefaults = _.omit(settingsWithDefaults, omitValues);
-  console.log({ settingsWithDefaults });
   try {
     await deleteFile(fullFilePath);
     await fs.promises.writeFile(fullFilePath, JSON.stringify(settingsWithDefaults));

@@ -255,6 +255,10 @@ export interface BasicBlockAttributes {
   blockVersion?: number;
 }
 
+export interface PostDateAttributes {
+  format?: string;
+}
+
 export interface BlockAttributes
   extends BasicBlockAttributes,
     GridBlockAttributes,
@@ -272,7 +276,8 @@ export interface BlockAttributes
     JustifyContentAttributes,
     RowGapAttributes,
     GradientAttributes,
-    BackgroundAttributes {
+    BackgroundAttributes,
+    PostDateAttributes {
   variantRole?: string;
 
   textColor?: string;

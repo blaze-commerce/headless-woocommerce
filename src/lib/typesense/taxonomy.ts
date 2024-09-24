@@ -388,9 +388,8 @@ export const getDefaultSortBy = () => {
   let defaultSortOption = 0;
   let splitSortValue;
 
-  if (!isEmpty(defaultSortValue)) {
+  if (!isEmpty(defaultSortValue?.sort_option)) {
     splitSortValue = defaultSortValue?.sort_option?.split('_');
-
     if (splitSortValue[1]) {
       defaultSortOption = +splitSortValue[1];
     }

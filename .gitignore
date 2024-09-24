@@ -56,8 +56,12 @@ public/images/blog/
 public/images/homepage/
 public/images/product/
 public/categorypaths.json
-public/pageslugs.json
+public/page-slugs.json
 public/page/*.*
+public/post-slugs.json
+public/post/*.*
+public/single-product.json
+public/single-post.json
 
 public/styles/styles.css
 build-storybook.log
