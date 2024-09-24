@@ -32,7 +32,7 @@ const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCount
   return response;
 };
 
-const getCurrenCountry = (country: string) => {
+const getCurrentCountry = (country: string) => {
   const regionsMapping: { [key: string]: string[] } = siteData.regions;
 
   let currentCountry = '';
@@ -67,7 +67,7 @@ export async function middleware(req: NextRequest) {
     country = geoCountry;
   }
 
-  const currentCountry = getCurrenCountry(country);
+  const currentCountry = getCurrentCountry(country);
 
   if (req.nextUrl.pathname.startsWith('/products/new')) {
     req.nextUrl.pathname = `/${currentCountry}/new`;
