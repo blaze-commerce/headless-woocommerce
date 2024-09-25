@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dev": "next dev",
-    "prebuild": "ts-node --esm ./src/scripts/runner.mjs && yarn generate:blocks-data",
-    "generate:blocks-data": "yarn tsx ./src/scripts/prebuild.ts",
+    "prebuild": "ts-node --esm ./src/scripts/runner.mjs && yarn ts-prebuild",
+    "ts-prebuild": "yarn tsx ./src/scripts/prebuild.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
