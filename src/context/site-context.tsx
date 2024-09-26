@@ -376,7 +376,7 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --price-regurlar-color: ${settings?.product?.font?.regularPrice?.color};
           --price-sale-color: ${settings?.product?.font?.salePrice?.color ?? 'rgb(75 85 99)'};
 
-          --container-width: ${theme.layout.contentSize}px;
+          --container-width: ${theme.layout.contentSize};
         }
 
         @media screen and (min-width: ${tailwindBreakpoints.lg}) {
