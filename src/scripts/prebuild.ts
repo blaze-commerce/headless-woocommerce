@@ -27,7 +27,7 @@ export const runAsync = async () => {
     .sort();
 
   if (processArgs.includes('blocks')) {
-    const blocksScript = files.find((file) => file.includes('001-generate-blocks-data.ts'));
+    const blocksScript = files.find((file) => file.includes('generate-blocks-data.ts'));
     if (blocksScript) {
       const { default: defaultFunc } = await import(`./pre-build/${blocksScript}`);
       try {
