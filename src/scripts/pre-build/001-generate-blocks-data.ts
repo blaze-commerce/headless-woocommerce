@@ -33,6 +33,10 @@ export default async function execute() {
       file: 'single-product.json',
     },
     {
+      key: 'site-archive-product',
+      file: 'archive-product.json',
+    },
+    {
       key: 'site-header',
       file: 'header.json',
     },
@@ -79,6 +83,7 @@ export default async function execute() {
   });
 
   const pageSlugs = await getPageSlugs();
+
   pageSlugs.forEach(async (pageSlug: string) => {
     const pageData = await generateJsonDataBySlug(pageSlug);
     if (pageData.blocks) {
