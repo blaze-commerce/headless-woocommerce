@@ -5,7 +5,7 @@ import { PageSeo } from '@src/components/page-seo';
 import { getAttributeValue, isBlockA } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { getAllBaseContries } from '@src/lib/helpers/country';
-import { getPageSlugs, PageTypesenseResponse } from '@src/lib/typesense/page';
+import { PageTypesenseResponse } from '@src/lib/typesense/page';
 import { getTaxonomyItemPageProps } from '@src/pages/[country]/[taxonomyFrontendSlug]/[...taxonomyItemSlug]';
 
 import type { NextPageWithLayout } from '@src/pages/_app';
@@ -13,13 +13,17 @@ import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Page as TypesensePage } from '@src/lib/typesense/page';
 import { find, isEmpty } from 'lodash';
-import { HomeContextProvider } from '@src/context/home-context';
+import { PageContextProvider } from '@src/context/page-context';
+
+import PAGE_TEMPLATE from '@public/page.json';
+import pageSlugs from '@public/page-slugs.json';
+import { ITSPage } from '@src/lib/typesense/types';
 
 interface Props {
   country: string;
-  fullHead: string;
   blocks: ParsedBlock[];
   blogs: PageTypesenseResponse[];
+  page: ITSPage | null;
 }
 
 interface Params extends ParsedUrlQuery {
@@ -29,7 +33,6 @@ interface Params extends ParsedUrlQuery {
 
 export const getStaticPaths = async () => {
   const countries = getAllBaseContries();
-  const pageSlugs: string[] = await getPageSlugs();
 
   const paths = countries.flatMap((country) =>
     pageSlugs.map((pageSlug) => ({
@@ -94,7 +97,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   return {
     props: {
       blocks: await Promise.all(blocks),
-      fullHead: jsonData.seoFullHead || '',
+      page: JSON.parse(JSON.stringify(jsonData)) as ITSPage,
       country,
       blogs,
     },
@@ -103,12 +106,22 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 };
 
 const Page: NextPageWithLayout<Props> = (props) => {
+  if (!props.page) {
+    return null;
+  }
+
   return (
     <div className="page">
-      {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
-      <HomeContextProvider blogPosts={props.blogs}>
-        <Content content={props.blocks} />
-      </HomeContextProvider>
+      {props.page.seoFullHead && <PageSeo seoFullHead={props.page.seoFullHead} />}
+      <PageContextProvider
+        blogPosts={props.blogs}
+        page={props.page}
+      >
+        <Content
+          type="page"
+          content={props.page.template ? PAGE_TEMPLATE : props.blocks}
+        />
+      </PageContextProvider>
     </div>
   );
 };

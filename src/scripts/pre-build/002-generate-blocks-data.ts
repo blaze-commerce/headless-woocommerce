@@ -71,6 +71,10 @@ const processTemplatesStyles = async () => {
       file: 'single-product.json',
     },
     {
+      key: 'site-page',
+      file: 'page.json',
+    },
+    {
       key: 'site-header',
       file: 'header.json',
     },

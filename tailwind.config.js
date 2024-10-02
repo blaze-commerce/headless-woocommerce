@@ -11,6 +11,7 @@ module.exports = {
     './public/menu.json',
     './public/single-product.json',
     './public/single-post.json',
+    './public/page.json',
     './public/footer.json',
     './public/header.json',
     './public/styles/styles.css',

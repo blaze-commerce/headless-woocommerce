@@ -10,6 +10,8 @@ import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
 import { stripSlashes } from '@src/lib/helpers/helper';
 import { NextURL } from 'next/dist/server/web/next-url';
 
+import pageSlugs from '@public/page-slugs.json';
+
 // Limit middleware pathname config
 export const config = {
   matcher: [
@@ -111,7 +113,6 @@ export async function middleware(req: NextRequest) {
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
-  const pageSlugs: string[] = await getPageSlugs();
   let modifiedPathName = pathname;
   if ('/' === modifiedPathName) {
     modifiedPathName = getHomePageSlug();

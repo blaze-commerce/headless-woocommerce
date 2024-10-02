@@ -62,6 +62,7 @@ public/post-slugs.json
 public/post/*.*
 public/single-product.json
 public/single-post.json
+public/page.json
 public/theme.json
 
 public/styles/styles.css
