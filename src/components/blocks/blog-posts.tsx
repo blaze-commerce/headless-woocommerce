@@ -9,7 +9,7 @@ import { v4 } from 'uuid';
 import { PrefetchLink } from '@src/components/common/prefetch-link';
 import { ArrowRoundLeft } from '@components/svg/arrow-round-left';
 import { ArrowRoundRight } from '@components/svg/arrow-round-right';
-import { useHomeContext } from '@src/context/home-context';
+import { usePageContext } from '@src/context/page-context';
 import { useSiteContext } from '@src/context/site-context';
 import { unixToDate } from '@src/lib/helpers/date';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
@@ -38,7 +38,7 @@ export const BlogPosts = ({
   cardContentClasses,
 }: Props) => {
   const { settings } = useSiteContext();
-  const { blogPosts } = useHomeContext();
+  const { blogPosts } = usePageContext();
   const blogsSettings = settings?.homepage?.layout?.blogs;
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);

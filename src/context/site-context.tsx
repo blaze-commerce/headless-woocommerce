@@ -16,6 +16,8 @@ import { useLocalStorage, useUpdateEffect } from 'usehooks-ts';
 
 import regionSettings from '@public/region.json';
 import siteSettings from '@public/site.json';
+import theme from '@public/theme.json';
+
 import { GET_CART, UPDATE_CUSTOMER, UPDATE_SHIPPING_METHOD } from '@src/lib/graphql/queries';
 import { useCalculateShipping } from '@src/lib/hooks';
 import { FormattedCart, getFormattedCart } from '@src/lib/hooks/cart';
@@ -374,7 +376,7 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --price-regurlar-color: ${settings?.product?.font?.regularPrice?.color};
           --price-sale-color: ${settings?.product?.font?.salePrice?.color ?? 'rgb(75 85 99)'};
 
-          --container-width: ${settings?.store?.containerWidth?.desktop}px;
+          --container-width: ${theme.layout.contentSize};
         }
 
         @media screen and (min-width: ${tailwindBreakpoints.lg}) {

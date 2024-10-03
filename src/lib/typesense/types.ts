@@ -38,6 +38,7 @@ export interface ITSPage {
   content: string;
   rawContent: string;
   author: ITSAuthor;
+  template: string;
 }
 
 // To parse this data:

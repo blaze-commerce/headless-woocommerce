@@ -5,17 +5,13 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import GliderComponent from 'react-glider';
-import { v4 } from 'uuid';
 
 import { Rating } from '@src/features/product/rating';
 import { ArrowRoundLeft } from '@components/svg/arrow-round-left';
 import { ArrowRoundRight } from '@components/svg/arrow-round-right';
-import { PrefetchLink } from '@src/components/common/prefetch-link';
-import { useHomeContext } from '@src/context/home-context';
 import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { Store } from '@src/models/settings/store';
-import { YotpoReviews } from '@src/lib/types/reviews';
 import { cn } from '@src/lib/helpers/helper';
 
 type TestimonialItems = {

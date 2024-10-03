@@ -11,7 +11,7 @@ import { Rating } from '@src/features/product/rating';
 import { ArrowRoundLeft } from '@components/svg/arrow-round-left';
 import { ArrowRoundRight } from '@components/svg/arrow-round-right';
 import { PrefetchLink } from '@src/components/common/prefetch-link';
-import { useHomeContext } from '@src/context/home-context';
+import { usePageContext } from '@src/context/page-context';
 import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { Store } from '@src/models/settings/store';
@@ -94,7 +94,7 @@ const ReviewItem = (review: YotpoReviews) => {
 };
 
 export const CustomerReviews = ({ classes, title }: Props) => {
-  const { homepageReviews } = useHomeContext();
+  const { homepageReviews } = usePageContext();
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
   const [isMouseDown, setIsMouseDown] = useState(false);

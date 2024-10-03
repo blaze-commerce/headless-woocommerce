@@ -21,21 +21,32 @@ loadEnvFile();
 
 export const runAsync = async () => {
   const processArgs = process.argv.slice(2);
-  const args: { scaffold?: boolean } = {};
-  if (processArgs.includes('--scaffold')) {
-    args.scaffold = true;
-  }
-
   const files = fs
     .readdirSync(path.join(__dirname, 'pre-build'))
     .filter((file) => file.endsWith('.ts'))
     .sort();
 
+  if (processArgs.includes('blocks')) {
+    const blocksScript = files.find((file) => file.includes('generate-blocks-data.ts'));
+    if (blocksScript) {
+      const { default: defaultFunc } = await import(`./pre-build/${blocksScript}`);
+      try {
+        console.log(`Running pre-build script '${blocksScript}'`);
+        await defaultFunc({ env: process.env });
+      } catch (e) {
+        console.error(`SCRIPT RUNNER: failed to execute pre-build script '${blocksScript}'`);
+        console.error(e);
+      }
+      // return early so that other scripts will not be
+      return;
+    }
+  }
+
   for (const file of files) {
     const { default: defaultFunc } = await import(`./pre-build/${file}`);
     try {
       console.log(`Running pre-build script '${file}'`);
-      await defaultFunc({ env: process.env, args });
+      await defaultFunc({ env: process.env });
     } catch (e) {
       console.error(`SCRIPT RUNNER: failed to execute pre-build script '${file}'`);
       console.error(e);
