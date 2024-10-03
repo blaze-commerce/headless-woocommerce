@@ -31,8 +31,10 @@ export const Image = ({ block }: ImageProps) => {
 
   const { width, height, className } = attribute || {};
 
-  const finalWidth = width ? parseInt(width.replace('px', '')) : 1;
-  const finalHeight = height ? parseInt(height.replace('px', '')) : 1;
+  const finalWidth = width ? parseInt(width.replace('px', '')) : 0;
+  const finalHeight = height ? parseInt(height.replace('px', '')) : 0;
+
+  const fill = 0 === finalHeight && 0 === finalWidth ? true : false;
 
   const imageClasses = cn(attribute.className, parseImageClass(block.innerHTML));
   const imageLink = parseImageLink(block.innerHTML);
@@ -44,11 +46,10 @@ export const Image = ({ block }: ImageProps) => {
         className={className ?? ''}
       >
         <NextImage
-          width={finalWidth}
-          height={finalHeight}
           alt={altText}
           src={imageSource}
           className={cn(imageClasses, '')}
+          {...(fill ? { fill: true } : { width: finalWidth, height: finalHeight })}
         />
       </Link>
     );
@@ -56,11 +57,11 @@ export const Image = ({ block }: ImageProps) => {
 
   return (
     <NextImage
-      width={finalWidth}
-      height={finalHeight}
       alt={altText}
       src={imageSource}
+      priority
       className={cn(imageClasses, '')}
+      {...(fill ? { fill: true } : { width: finalWidth, height: finalHeight })}
     />
   );
 };

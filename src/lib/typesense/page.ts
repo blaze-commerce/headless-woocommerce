@@ -22,6 +22,7 @@ export type PageTypesenseResponse = {
   updatedAt?: number;
   publishedAt?: number;
   content?: string;
+  template: string;
 };
 
 export class Page {
@@ -107,11 +108,11 @@ export const getPageBySlug = async (slug: string): Promise<ITSPage | null> => {
 export const getPageSlugs = async (result = 'static'): Promise<string[]> => {
   const slugs: string[] = [];
 
-  if ('static' === result) {
-    // We push the home page slug to the slugs as the only page for now is home page
-    slugs.push(getHomePageSlug());
-    return slugs;
-  }
+  // if ('static' === result) {
+  //   // We push the home page slug to the slugs as the only page for now is home page
+  //   slugs.push(getHomePageSlug());
+  //   return slugs;
+  // }
 
   const perPage = 250;
   const fetchPageSlugs = async (page: number) => {
@@ -121,6 +122,7 @@ export const getPageSlugs = async (result = 'static'): Promise<string[]> => {
       page: page,
       per_page: perPage,
       include_fields: 'slug',
+      filter_by: 'type:=[page]',
     };
 
     const results = await getTypesenseClient()

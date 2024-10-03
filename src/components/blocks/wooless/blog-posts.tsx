@@ -18,7 +18,7 @@ import { ParsedBlock } from '@src/components/blocks';
 import { unixToDate } from '@src/lib/helpers/date';
 import HTMLReactParser from 'html-react-parser';
 import { PageTypesenseResponse } from '@src/lib/typesense/page';
-import { useHomeContext } from '@src/context/home-context';
+import { usePageContext } from '@src/context/page-context';
 import { ArrowRight3 } from '@src/components/svg/arrow-right-3';
 
 type Props = {
@@ -28,7 +28,7 @@ type Props = {
 export const BlogPosts = ({ block }: Props) => {
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
-  const { blogPosts } = useHomeContext();
+  const { blogPosts } = usePageContext();
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [gliderPage, setGliderPage] = useState(1);
   const blockAttribute = block.attrs as BlockAttributes;

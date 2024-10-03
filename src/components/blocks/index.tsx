@@ -23,6 +23,12 @@ import { Separator } from '@src/components/blocks/separator';
 import { Buttons } from '@src/components/blocks/core/buttons';
 import { Button } from '@src/components/blocks/core/button';
 import { GenerateBlocksButton } from '@src/components/blocks/generateblocks/button/block';
+import { ITSPage } from '@src/lib/typesense/types';
+import { PostFeaturedImage } from '@src/components/blocks/templates/core/post/featured-image';
+import { PostContent } from '@src/components/blocks/templates/core/post/content';
+import { PostTitle } from '@src/components/blocks/templates/core/post/title';
+import { PostDate } from '@src/components/blocks/templates/core/post/date';
+import { PostAuthorName } from '@src/components/blocks/templates/core/post/author-name';
 
 const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
 const PostTitle = dynamic(() =>
@@ -93,6 +99,7 @@ export interface ParsedBlock extends GutenbergParsedBlock {
 
 export type BlockComponentProps = {
   className?: string;
+  data?: ITSPage | null;
   block: ParsedBlock;
 };
 
@@ -126,9 +133,6 @@ export const blocks = {
   'core/shortcode': Shortcode,
   'core/separator': Separator,
   'core/group': Group,
-  'core/post-title': PostTitle,
-  'core/post-excerpt': PostExcerpt,
-  'core/post-terms': PostTerms,
   'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
   'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
   'woocommerce/product-rating': WooCommerceProductRating,
@@ -138,6 +142,12 @@ export const blocks = {
   'woocommerce/product-sku': WooCommerceProductSKU,
   'woocommerce/product-details': WooCommerceProductDetails,
   'woocommerce/related-products': WooCommerceRelatedProducts,
+  'core/post-featured-image': PostFeaturedImage,
+  'core/post-excerpt': PostExcerpt,
+  'core/post-content': PostContent,
+  'core/post-title': PostTitle,
+  'core/post-date': PostDate,
+  'core/post-author-name': PostAuthorName,
 };
 
 // Define type alias for block names

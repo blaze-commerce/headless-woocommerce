@@ -3,10 +3,14 @@ import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
+import postSlugs from '@public/post-slugs.json';
 import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
 import { getDefaultCountry } from '@src/lib/helpers/country';
 import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
-import { stripLeadingSlash } from '@src/lib/helpers/helper';
+import { stripSlashes } from '@src/lib/helpers/helper';
+import { NextURL } from 'next/dist/server/web/next-url';
+
+import pageSlugs from '@public/page-slugs.json';
 
 // Limit middleware pathname config
 export const config = {
@@ -23,24 +27,15 @@ export const config = {
   unstable_allowDynamic: ['/node_modules/lodash/lodash.js'],
 };
 
-export async function middleware(req: NextRequest) {
-  // Exclude image paths, xml, and wp-admin/content
-  if (
-    /\.(jpg|jpeg|png|gif|webp|svg|xml)$/i.test(req.nextUrl.pathname) ||
-    /\/wp-admin|\/wp-content/i.test(req.nextUrl.pathname) ||
-    req.nextUrl.search.includes('esc-nextjs=1')
-  ) {
-    return NextResponse.next();
-  }
+const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCountry: string) => {
+  const response = NextResponse.rewrite(nextUrl);
+  response.cookies.set('currentCountry', currentCountry);
+  response.cookies.set('geoCountry', geoCountry);
+  return response;
+};
 
-  // Extract country
-  let country = req.cookies.get('currentCountry')?.value;
-
+const getCurrentCountry = (country: string) => {
   const regionsMapping: { [key: string]: string[] } = siteData.regions;
-
-  if (!country) {
-    country = req.geo?.country || '';
-  }
 
   let currentCountry = '';
   for (const region in regionsMapping) {
@@ -53,6 +48,28 @@ export async function middleware(req: NextRequest) {
   if (currentCountry === '') {
     currentCountry = getDefaultCountry();
   }
+
+  return currentCountry;
+};
+
+export async function middleware(req: NextRequest) {
+  // Exclude image paths, xml, and wp-admin/content
+  if (
+    /\.(jpg|jpeg|png|gif|webp|svg|xml)$/i.test(req.nextUrl.pathname) ||
+    /\/wp-admin|\/wp-content/i.test(req.nextUrl.pathname) ||
+    req.nextUrl.search.includes('esc-nextjs=1')
+  ) {
+    return NextResponse.next();
+  }
+
+  // Extract country
+  let country = req.cookies.get('currentCountry')?.value;
+  const geoCountry = req.geo?.country || '';
+  if (!country) {
+    country = geoCountry;
+  }
+
+  const currentCountry = getCurrentCountry(country);
 
   if (req.nextUrl.pathname.startsWith('/products/new')) {
     req.nextUrl.pathname = `/${currentCountry}/new`;
@@ -83,10 +100,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // Rewrite to URL
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   const pathname = req.nextUrl.pathname;
@@ -96,38 +110,31 @@ export async function middleware(req: NextRequest) {
   if (isCatalogPage) {
     req.nextUrl.pathname = `/${currentCountry}/product-category${pathname}`;
 
-    // Rewrite to URL
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
-  const pageSlugs: string[] = await getPageSlugs();
   let modifiedPathName = pathname;
   if ('/' === modifiedPathName) {
     modifiedPathName = getHomePageSlug();
   }
 
   // We remove the leading slash since slugs we save doesn't have it to make sure this goes to the right nextjs page path
-  modifiedPathName = stripLeadingSlash(modifiedPathName);
+  modifiedPathName = stripSlashes(modifiedPathName);
 
   // @TODO we will handle parent child post/page url structure later
-
   if (pageSlugs.includes(modifiedPathName)) {
     req.nextUrl.pathname = `/${currentCountry}/page/${modifiedPathName}`;
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
+
+  if (postSlugs.includes(modifiedPathName)) {
+    req.nextUrl.pathname = `/${currentCountry}/post/${modifiedPathName}`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   if (['/search-results', '/search-results/'].includes(pathname)) {
     req.nextUrl.pathname = `/${currentCountry}${pathname}`;
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   // Let next.js handle the clients/browser request

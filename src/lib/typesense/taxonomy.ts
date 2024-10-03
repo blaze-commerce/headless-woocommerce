@@ -46,7 +46,6 @@ export const getCategoryPermalinks = async (): Promise<string[]> => {
       const parse = TaxonomyPermalink.safeParse(hit.document);
       if (parse.success && parse.data.permalink) {
         const permalink = parse.data.permalink;
-        permalinks.push(permalink);
         permalinks.push(stripTrailingSlash(permalink));
       }
     });
@@ -388,9 +387,8 @@ export const getDefaultSortBy = () => {
   let defaultSortOption = 0;
   let splitSortValue;
 
-  if (!isEmpty(defaultSortValue)) {
+  if (!isEmpty(defaultSortValue?.sort_option)) {
     splitSortValue = defaultSortValue?.sort_option?.split('_');
-
     if (splitSortValue[1]) {
       defaultSortOption = +splitSortValue[1];
     }
