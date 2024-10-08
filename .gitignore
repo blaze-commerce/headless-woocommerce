@@ -68,3 +68,5 @@ public/theme.json
 public/styles/styles.css
 build-storybook.log
 .env
+public/archive-product.json
+public/pageslugs.json
