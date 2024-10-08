@@ -1,5 +1,8 @@
 import dynamic from 'next/dynamic';
 
+import { ProductDialogs } from '@src/features/product/product-dialogs';
+import { ProductInfoPopup } from '@src/features/product/info-popup';
+
 const DynamicProductReview = dynamic(
   () => import('@src/components/shortcodes/product-review').then((mod) => mod.ProductReview),
   { ssr: false }
@@ -50,6 +53,8 @@ export const shortcodes = {
   you_may_also_like: YouMayAlsoLike,
   frequently_bought_together: FrequentlyBoughtTogether,
   recently_viewed_products: RecentlyViewed,
+  blz_dialog: ProductDialogs,
+  blz_popup: ProductInfoPopup,
 };
 
 // Define type alias for block names

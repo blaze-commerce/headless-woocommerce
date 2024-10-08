@@ -1,11 +1,6 @@
-import dynamic from 'next/dynamic';
-
 import { BlockComponentProps } from '@src/components/blocks';
 import { cn } from '@src/lib/helpers/helper';
-
-const ProductTitle = dynamic(() =>
-  import('@src/components/blocks/woocommerce/product-title').then((mod) => mod.ProductTitle)
-);
+import { ProductTitle } from '@src/components/blocks/woocommerce/product-title';
 
 export const PostTitle = ({ block }: BlockComponentProps) => {
   const { level, className } = block.attrs;

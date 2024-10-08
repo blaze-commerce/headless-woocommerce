@@ -31,9 +31,6 @@ import { PostDate } from '@src/components/blocks/templates/core/post/date';
 import { PostAuthorName } from '@src/components/blocks/templates/core/post/author-name';
 
 const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
-const PostTitle = dynamic(() =>
-  import('@src/components/blocks/core/post-title').then((mod) => mod.PostTitle)
-);
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -148,6 +145,7 @@ export const blocks = {
   'core/post-title': PostTitle,
   'core/post-date': PostDate,
   'core/post-author-name': PostAuthorName,
+  'core/post-terms': PostTerms,
 };
 
 // Define type alias for block names

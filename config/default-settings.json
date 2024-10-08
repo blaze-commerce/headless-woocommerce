@@ -64,7 +64,7 @@
         "enabled": false
       },
       "calculateShipping": {
-        "enabled": false
+        "enabled": true
       },
       "averageRatingText": {
         "enabled": true
