@@ -35,12 +35,12 @@ export const Breadcrumbs = ({ block }: BlockComponentProps) => {
     ) as ProductTaxonomy;
   }
 
-  const { breadcrumb = '/' } = store as Store;
+  const { breadcrumb = '&gt;' } = store as Store;
 
   return (
     <DefaultBreadcrumbs
       id={block?.id}
-      separator={breadcrumb}
+      separator={'>'}
       crumbs={(taxonomyData as ProductTaxonomy)?.breadcrumbs}
       productName={product?.name}
     />
