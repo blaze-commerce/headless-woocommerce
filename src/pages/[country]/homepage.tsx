@@ -10,7 +10,6 @@ import siteSettings from '@public/site.json';
 import { ContentBlocks } from '@src/components/content-blocks';
 import { PageSeo } from '@src/components/page-seo';
 import { defaultLayout } from '@src/components/layouts/default';
-import { HomeContextProvider } from '@src/context/home-context';
 import { getLatestReviews } from '@src/lib/reviews/yotpo';
 import { Page, PageTypesenseResponse } from '@src/lib/typesense/page';
 import { SiteInfo } from '@src/lib/typesense/site-info';
@@ -176,17 +175,13 @@ const Home: NextPageWithLayout<Props> = ({
   return (
     <>
       {renderSeo()}
-      <HomeContextProvider
-        homepageReviews={homepageReviews}
-        blogPosts={blogPosts}
-      >
-        <ContentBlocks
-          blocks={contents}
-          baseCountry={baseCountry}
-          featuredProducts={featuredProducts}
-          otherProducts={otherProducts}
-        />
-      </HomeContextProvider>
+
+      <ContentBlocks
+        blocks={contents}
+        baseCountry={baseCountry}
+        featuredProducts={featuredProducts}
+        otherProducts={otherProducts}
+      />
     </>
   );
 };
