@@ -64,7 +64,7 @@
         "enabled": false
       },
       "calculateShipping": {
-        "enabled": false
+        "enabled": true
       },
       "averageRatingText": {
         "enabled": true
@@ -141,7 +141,7 @@
     "breadcrumbMobile": {
       "enabled": true
     },
-    "reviewService": "judge.me",
+    "reviewService": "woocommerce_native_reviews",
     "containerWidth": {
       "desktop": "1200"
     },
@@ -299,9 +299,7 @@
   "showFreeShippingBanner": false,
   "showFreeShippingMinicartComponent": false,
   "regions": {
-    "AU": [
-      "AU"
-    ]
+    "AU": ["AU"]
   },
   "homepageSlug": "home",
   "categoryPageDefaultSort": "{\"sort_option\":\"sort_0\"}",

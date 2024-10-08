@@ -123,10 +123,7 @@ export const cssContentParser = (content: string | ParsedBlock[]) => {
 
       if (coreName === 'woocommerce') {
         const style = WooCommerceStyleRepresenter(block);
-
-        if (blockName === 'product-price') {
-          console.log({ block, style });
-        }
+        // we will come back to this later
       } else {
         const blockRepresenter = getBlockStyleRepresenter(block);
 

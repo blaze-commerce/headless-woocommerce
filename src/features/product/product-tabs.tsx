@@ -1,17 +1,24 @@
 import parse from 'html-react-parser';
-import { isMobile } from 'react-device-detect';
+import dynamic from 'next/dynamic';
+import { isArray } from 'lodash';
 
-import { Tabs } from '@src/components/tabs';
-import { Accordion } from '@src/components/accordion';
-import Review from '@src/features/product/reviews';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { ACCORDION_TYPE } from '@src/lib/helpers/constants';
 import { ProductSettings } from '@src/models/settings/product';
 import { useReviewsCount } from '@src/lib/hooks';
-import { isArray } from 'lodash';
 
-export const ProductTabs = () => {
+const Accordion = dynamic(() => import('@src/components/accordion').then((mod) => mod.Accordion));
+
+const Tabs = dynamic(() => import('@src/components/tabs').then((mod) => mod.Tabs));
+
+const Review = dynamic(() => import('@src/features/product/reviews'));
+
+type TProductTabs = {
+  style?: 'accordion' | 'tabs';
+};
+
+export const ProductTabs = ({ style }: TProductTabs) => {
   const { product, additionalData } = useProductContext();
   const { settings } = useSiteContext();
   const { layout } = settings?.product as ProductSettings;
@@ -76,7 +83,7 @@ export const ProductTabs = () => {
     }
   }
 
-  switch (settings?.product?.layout.productTabs) {
+  switch (style) {
     case ACCORDION_TYPE:
       return (
         <Accordion
@@ -94,4 +101,8 @@ export const ProductTabs = () => {
     default:
       return <Tabs data={tabData} />;
   }
+};
+
+ProductTabs.defaultProps = {
+  style: 'accordion',
 };

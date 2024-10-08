@@ -1,5 +1,5 @@
 import { ParsedBlock } from '@src/components/blocks';
-import { MAXMEGAMENU_BLOCK_NAME } from '@src/components/blocks/maxmegamenu/block';
+
 import {
   StaticBlockStyleRepresenter,
   StaticImplements,
@@ -10,7 +10,7 @@ import { get, pick } from 'lodash';
 
 @StaticImplements<StaticBlockStyleRepresenter>()
 export class MaxMegaMenuStyleRepresenter {
-  static blockName = MAXMEGAMENU_BLOCK_NAME;
+  static blockName = 'maxmegamenu/location';
 
   generateClassNames(block: ParsedBlock) {
     const classes = [];

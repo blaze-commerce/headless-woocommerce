@@ -55,10 +55,10 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
   }
 
   return (
-    <>
+    <span className="variable-product-price-container">
       {renderedResult.map((price, i) => {
         return <Fragment key={`variable-product-price-${i}`}>{price}</Fragment>;
       })}
-    </>
+    </span>
   );
 };

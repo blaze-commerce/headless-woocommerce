@@ -28,7 +28,7 @@ export const ProductRating = ({ stats }: ProductReviews) => {
       (!stats?.average_rating || !stats?.count_reviews))
   ) {
     return (
-      <div className="my-2 flex gap-2 items-center flex-col lg:flex-row">
+      <div className="flex gap-2 items-center flex-col lg:flex-row">
         <div className="flex justify-center items-center lg:justify-start">
           {[...new Array(5)].map((_rate, index) => {
             return (

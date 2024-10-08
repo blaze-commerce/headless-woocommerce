@@ -81,7 +81,7 @@ export const AddToCartForm = () => {
         product={matchedVariant}
         currency={currentCurrency}
         isTaxExclusive={settings?.isTaxExclusive}
-        className="!text-base !font-bold"
+        className="variable-product-price-matched"
       />
     );
   };

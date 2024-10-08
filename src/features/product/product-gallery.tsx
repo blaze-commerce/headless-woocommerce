@@ -6,7 +6,12 @@ import { ProductSettings } from '@src/models/settings/product';
 import { Shop, ProductCards } from '@src/models/settings/shop';
 import { toDateTime, isWithInMonthsAgo } from '@src/lib/helpers/date';
 
-export const ProductGallery = () => {
+type TProps = {
+  className?: string;
+  id?: string;
+};
+
+export const ProductGallery = ({ className, id }: TProps) => {
   const { product } = useProductContext();
   const { settings } = useSiteContext();
 
@@ -27,6 +32,8 @@ export const ProductGallery = () => {
 
   return (
     <Gallery
+      id={id}
+      className={className}
       images={product.galleryImages}
       onSale={product.onSale}
       isNew={isTwoMonthsAgo}

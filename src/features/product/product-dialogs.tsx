@@ -17,7 +17,6 @@ const CalculateShipping = dynamic(() =>
   import('@src/features/product/calculate-shipping').then((mod) => mod.CalculateShipping)
 );
 
-import { cn } from '@src/lib/helpers/helper';
 import { ProductDialog } from '@src/models/product/types';
 
 export type DialogItem = {
@@ -30,9 +29,13 @@ export type DialogItem = {
   link?: string;
 };
 
+type TProp = {
+  type?: 'horizontal' | 'vertical';
+};
+
 type Data = DialogItem[];
 
-export const ProductDialogs = () => {
+export const ProductDialogs = ({ type }: TProp) => {
   const { settings, calculateShipping } = useSiteContext();
   const {
     additionalData,
@@ -62,7 +65,7 @@ export const ProductDialogs = () => {
     const calculateList = {
       enabled: true,
       key: 'calculateShipping',
-      title: 'Calculate Shipping',
+      title: 'Shipping',
       content: (
         <CalculateShipping
           products={[currentProduct]}
@@ -127,8 +130,8 @@ export const ProductDialogs = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center justify-start gap-4 lg:gap-16 py-2">
-        {listData.map((item, index) => (
+      <div className={`product-dialogs ${type}`}>
+        {listData.map((item) => (
           <a
             href={item.link ? item.link : '#'}
             key={item.key}
@@ -139,16 +142,6 @@ export const ProductDialogs = () => {
                 e.preventDefault();
               }
             }}
-            className={cn(
-              'cursor-pointer font-normal leading-none text-brand-font flex gap-2 border-[#e5e7eb]',
-              {
-                'pl-1.5':
-                  product?.metaData?.productLabel && settings?.isAdditionalWarningMessageEnabled,
-                'pb-2 md:pb-0 border-b md:border-none': index === 0,
-                'border-b pb-2 md:pb-0 md:border-b-0 md:border-l md:pl-4': index !== 0,
-                'border-b-0 md:border-l pb-0 md:pl-4': index === listData.length - 1,
-              }
-            )}
             style={dialogLinkIconStyle}
           >
             {!!item.icon && item.icon}
@@ -237,4 +230,8 @@ export const ProductDialogs = () => {
       )}
     </>
   );
+};
+
+ProductDialogs.defaultProps = {
+  type: 'horizontal',
 };

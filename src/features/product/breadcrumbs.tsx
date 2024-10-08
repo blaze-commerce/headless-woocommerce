@@ -8,7 +8,6 @@ import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { cn } from '@src/lib/helpers/helper';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
-import Link from 'next/link';
 import { HomeIcon } from '@src/components/svg/home';
 
 export const Separator = ({ separator = '/', className = '' }) => {
@@ -35,7 +34,8 @@ const removeDash = (text: string) => {
   return text.replace('-', ' ');
 };
 
-export const BreadCrumbs: React.FC<Props> = ({ id, className, separator, productName, crumbs }) => {
+export const BreadCrumbs: React.FC<Props> = (props) => {
+  const { id, className, separator, productName, crumbs } = props;
   const { asPath } = useRouter();
   const { settings } = useSiteContext();
   const { store } = settings as Settings;
@@ -148,4 +148,8 @@ export const BreadCrumbs: React.FC<Props> = ({ id, className, separator, product
       {renderSecondaryPagesBreadcrumbs()}
     </nav>
   );
+};
+
+BreadCrumbs.defaultProps = {
+  separator: '&gt;',
 };

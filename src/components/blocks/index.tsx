@@ -31,6 +31,11 @@ import { PostDate } from '@src/components/blocks/templates/core/post/date';
 import { PostAuthorName } from '@src/components/blocks/templates/core/post/author-name';
 
 const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
+
+const PostTerms = dynamic(() =>
+  import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
+);
+
 const WooCommerceBreadcrumbs = dynamic(() =>
   import('@src/components/blocks/woocommerce/breadcrumbs').then((mod) => mod.Breadcrumbs)
 );
@@ -48,6 +53,26 @@ const WooCommerceProductPrice = dynamic(() =>
 
 const PostExcerpt = dynamic(() =>
   import('@src/components/blocks/core/post-excerpt').then((mod) => mod.PostExcerpt)
+);
+
+const WooCommerceAddToCartForm = dynamic(() =>
+  import('@src/components/blocks/woocommerce/add-to-cart-form').then((mod) => mod.AddToCartForm)
+);
+
+const WooCommerceProductMeta = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-meta').then((mod) => mod.ProductMeta)
+);
+
+const WooCommerceProductSKU = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-sku').then((mod) => mod.ProductSKU)
+);
+
+const WooCommerceProductDetails = dynamic(() =>
+  import('@src/components/blocks/woocommerce/product-details').then((mod) => mod.ProductDetails)
+);
+
+const WooCommerceRelatedProducts = dynamic(() =>
+  import('@src/components/blocks/woocommerce/related-products').then((mod) => mod.RelatedProducts)
 );
 
 export interface ParsedBlock extends GutenbergParsedBlock {
@@ -105,18 +130,22 @@ export const blocks = {
   'core/shortcode': Shortcode,
   'core/separator': Separator,
   'core/group': Group,
-
-  // Template blocks that needs data source
   'woocommerce/breadcrumbs': WooCommerceBreadcrumbs,
   'woocommerce/product-image-gallery': WooCommerceProductImageGallery,
   'woocommerce/product-rating': WooCommerceProductRating,
   'woocommerce/product-price': WooCommerceProductPrice,
+  'woocommerce/add-to-cart-form': WooCommerceAddToCartForm,
+  'woocommerce/product-meta': WooCommerceProductMeta,
+  'woocommerce/product-sku': WooCommerceProductSKU,
+  'woocommerce/product-details': WooCommerceProductDetails,
+  'woocommerce/related-products': WooCommerceRelatedProducts,
   'core/post-featured-image': PostFeaturedImage,
   'core/post-excerpt': PostExcerpt,
   'core/post-content': PostContent,
   'core/post-title': PostTitle,
   'core/post-date': PostDate,
   'core/post-author-name': PostAuthorName,
+  'core/post-terms': PostTerms,
 };
 
 // Define type alias for block names

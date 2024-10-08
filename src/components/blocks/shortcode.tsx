@@ -32,7 +32,7 @@ export const Shortcode = ({ block }: EmbedProps) => {
 
   return (
     <>
-      {theShortcodes.map((shortcode: ShortcodeData, index: number) => {
+      {theShortcodes.map((shortcode: any | ShortcodeData, index: number) => {
         const ShortcodeComponent = shortcodes[shortcode.code as ShortcodeName];
         if (!ShortcodeComponent || typeof ShortcodeComponent === 'undefined') {
           return null;

@@ -321,9 +321,148 @@ body {
     @apply w-11 h-7 text-[#6F6F6F];
   }
 
+  /** Default style for core blocks */
   .core-columns .core-column {
-    @apply flex-grow flex-shrink-0;
+    /* @apply flex-grow flex-shrink-0; */
   }
+
+  /** Default style for single product page */
+  .single-product .product-rating {
+    @apply mt-2;
+  }
+
+  .single-product .price-container {
+    @apply mt-2;
+  }
+
+  .single-product .product-meta .core-group {
+    @apply flex;
+  }
+
+  .single-product .add-to-cart-form {
+    @apply flex flex-col gap-4;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container {
+    @apply flex flex-col gap-4 border-b border-solid border-[#ddd] pb-4;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container .product-variant-select {
+    @apply flex items-center gap-4;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container .product-variant-select label {
+    @apply w-1/3;
+  }
+
+  .single-product .add-to-cart-form .product-variant-container .product-variant-select select {
+    @apply w-full;
+  }
+
+  .single-product .product-meta {
+    @apply w-full;
+  }
+
+  .single-product .product-meta .product-sku .product-sku__label {
+    @apply font-bold;
+  }
+
+  .single-product .product-meta .post-term .post-term__label {
+    @apply font-bold;
+  }
+
+  .single-product .product-dialogs {
+    @apply flex  md:items-center justify-between border border-[#1d1da5] rounded p-4 h-auto;
+  }
+
+  .single-product .product-dialogs.horizontal {
+    @apply flex-col md:flex-row;
+  }
+
+  .single-product .product-dialogs.vertical {
+    @apply flex-row;
+  }
+
+  .single-product .product-dialogs a {
+    @apply cursor-pointer font-normal leading-none text-brand-font flex gap-2 text-xs align-middle;
+  }
+
+  .single-product .product-dialogs a:first-of-type {
+    @apply pb-2 md:pb-0;
+  }
+
+  .single-product .product-dialogs a:not(:first-of-type) {
+    @apply pb-2 md:pb-0 md:pl-4;
+  }
+
+  .single-product .product-dialogs a:not(:last-child) {
+    @apply pb-0;
+  }
+
+  .single-product .product-dialogs svg {
+    @apply stroke-[#1d1da5];
+  }
+
+  .single-product .product-popup-info {
+    @apply p-3 h-auto;
+  }
+
+  .single-product .product-popup-info .button-open {
+    @apply text-[#ed0000] text-xs;
+  }
+
+  .single-product .product-installment {
+    @apply flex flex-row gap-2 items-center mb-4;
+  }
+
+  .single-product .product-installment .text {
+    @apply font-normal text-xs text-[#6F6F6F];
+  }
+
+  .single-product .product-installment .text a {
+    @apply underline text-blue-500;
+  }
+}
+
+.product-popup-holder {
+  @apply fixed inset-0 z-10 overflow-y-auto;
+}
+
+.product-popup-holder .product-popup-container {
+  @apply fixed inset-0 z-10 flex items-center justify-center;
+}
+
+.product-popup-holder .product-popup-container .product-popup {
+  @apply bg-white w-full max-w-[500px] p-4 pt-10 rounded-lg relative;
+}
+
+.product-popup-holder .product-popup-container .product-popup .button-close {
+  @apply absolute top-0 right-0 p-4 cursor-pointer;
+}
+
+.product-popup-holder .product-popup-container .product-popup .popup-title {
+  @apply font-bold text-2xl pb-2 mb-2 border-b border-[#ddd];
+}
+
+.product-popup-holder .product-popup-container .product-popup .popup-content-container {
+  @apply flex flex-row gap-4 flex-nowrap py-8;
+}
+
+.product-popup-holder
+  .product-popup-container
+  .product-popup
+  .popup-content-container
+  .popup-content {
+  @apply text-[#777] leading-6 text-base;
+}
+
+.product-popup-holder
+  .product-popup-container
+  .product-popup
+  .popup-content-container
+  .popup-content
+  a {
+  @apply text-[#000180];
 }
 
 .header-link-fill {
@@ -551,15 +690,15 @@ input::placeholder {
 }
 
 .breadcrumbs {
-  @apply flex flex-wrap text-sm md:text-base font-normal text-brand-primary mb-4;
+  @apply flex flex-row flex-wrap gap-x-4 !text-sm md:text-base font-normal text-[#777777] mb-4;
 }
 
 .breadcrumbs .home-link {
   @apply flex gap-1.5 items-center;
 }
 
-.breadcrumbs .separator {
-  @apply mx-1.5;
+.breadcrumbs .home-link svg {
+  @apply hidden;
 }
 
 .category-card {
