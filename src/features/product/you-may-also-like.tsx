@@ -11,8 +11,6 @@ export const YouMayAlsoLike = () => {
 
   const recommendedProducts = [...upsellProducts, ...relatedProducts].slice(0, 12);
 
-  console.log({ linkedProducts });
-
   return (
     <>
       {!isEmpty(recommendedProducts) && (
