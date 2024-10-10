@@ -68,9 +68,45 @@ export const CardGroupSlider = ({ cards, config, blockId }: Props) => {
       layout?.productCards?.hasBorders && blockId === 'cardGroupSliderBorder',
   });
 
-  const renderCards = () => {
-    return (
-      <>
+  return (
+    <div className={containerClass}>
+      {cardCount > 4 && (
+        <div
+          ref={leftArrow}
+          className={cn(
+            'absolute z-10 lg:z-[2] top-1/2 -translate-y-4 cursor-pointer ml-2 md:ml-4 opacity-70 hover:opacity-100',
+            {
+              'opacity-100': isMouseDown,
+              hidden: isLeftArrowMobileHidden && isMobile,
+              'md:hidden': isLeftArrowHidden && !isMobile,
+            }
+          )}
+          onClick={onLeftArrowClick}
+        >
+          <ArrowRoundLeft />
+        </div>
+      )}
+
+      <Glider
+        draggable
+        hasDots={settings?.homepage?.layout?.featuredProducts?.hasDots}
+        hasArrows
+        slidesToShow={2}
+        slidesToScroll={2}
+        responsive={[
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: cardCount > 4 ? 5 : 4,
+              slidesToScroll: cardCount > 4 ? 5 : 4,
+            },
+          },
+        ]}
+        arrows={{
+          prev: leftArrow.current,
+          next: rightArrow.current,
+        }}
+      >
         {cards.map((card) => {
           const { title, imageUrl, redirectUrl } = card;
           const cardContent = (
@@ -118,50 +154,6 @@ export const CardGroupSlider = ({ cards, config, blockId }: Props) => {
 
           return cardContent;
         })}
-      </>
-    );
-  };
-
-  return (
-    <div className={containerClass}>
-      {cardCount > 4 && (
-        <div
-          ref={leftArrow}
-          className={cn(
-            'absolute z-10 lg:z-[2] top-1/2 -translate-y-4 cursor-pointer ml-2 md:ml-4 opacity-70 hover:opacity-100',
-            {
-              'opacity-100': isMouseDown,
-              hidden: isLeftArrowMobileHidden && isMobile,
-              'md:hidden': isLeftArrowHidden && !isMobile,
-            }
-          )}
-          onClick={onLeftArrowClick}
-        >
-          <ArrowRoundLeft />
-        </div>
-      )}
-
-      <Glider
-        draggable
-        hasDots={settings?.homepage?.layout?.featuredProducts?.hasDots}
-        hasArrows
-        slidesToShow={2}
-        slidesToScroll={2}
-        responsive={[
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: cardCount > 4 ? 5 : 4,
-              slidesToScroll: cardCount > 4 ? 5 : 4,
-            },
-          },
-        ]}
-        arrows={{
-          prev: leftArrow.current,
-          next: rightArrow.current,
-        }}
-      >
-        {renderCards()}
       </Glider>
 
       {cardCount > 4 && (
