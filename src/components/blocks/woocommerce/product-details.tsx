@@ -8,5 +8,10 @@ export const ProductDetails = ({ block }: BlockComponentProps) => {
 
   const style = includes(className, 'is-style-classic') ? TABS : ACCORDION_TYPE;
 
-  return <ProductTabs style={style} />;
+  return (
+    <ProductTabs
+      className={className}
+      style={style}
+    />
+  );
 };

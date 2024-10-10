@@ -2,6 +2,7 @@ import parse from 'html-react-parser';
 import dynamic from 'next/dynamic';
 import { isArray } from 'lodash';
 
+import { cn } from '@src/lib/helpers/helper';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { ACCORDION_TYPE } from '@src/lib/helpers/constants';
@@ -16,9 +17,10 @@ const Review = dynamic(() => import('@src/features/product/reviews'));
 
 type TProductTabs = {
   style?: 'accordion' | 'tabs';
+  className?: string;
 };
 
-export const ProductTabs = ({ style }: TProductTabs) => {
+export const ProductTabs = ({ style, className }: TProductTabs) => {
   const { product, additionalData } = useProductContext();
   const { settings } = useSiteContext();
   const { layout } = settings?.product as ProductSettings;
@@ -86,20 +88,26 @@ export const ProductTabs = ({ style }: TProductTabs) => {
   switch (style) {
     case ACCORDION_TYPE:
       return (
-        <Accordion
-          data={tabData}
-          tabTitleStyle={{
-            fontWeight: settings?.product?.font?.tabs?.weight,
-            fontSize: settings?.product?.font?.tabs?.size,
-          }}
-          titleClassname="text-base md:text-2xl"
-          contentClassname="text-sm md:text-lg"
-          tabsCase={settings?.product?.layout?.tabsCase}
-        />
+        <div className={cn(className, 'product-accordion-information')}>
+          <Accordion
+            data={tabData}
+            tabTitleStyle={{
+              fontWeight: settings?.product?.font?.tabs?.weight,
+              fontSize: settings?.product?.font?.tabs?.size,
+            }}
+            titleClassname="text-base md:text-2xl"
+            contentClassname="text-sm md:text-lg"
+            tabsCase={settings?.product?.layout?.tabsCase}
+          />
+        </div>
       );
 
     default:
-      return <Tabs data={tabData} />;
+      return (
+        <div className={cn(className, 'product-tab-accordion')}>
+          <Tabs data={tabData} />
+        </div>
+      );
   }
 };
 
