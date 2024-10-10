@@ -3,10 +3,13 @@ import { isEmpty, keyBy } from 'lodash';
 import type { GetStaticPropsContext } from 'next';
 import { GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
+import SINGLEPRODUCT_TEMPLATE from '@public/single-product.json';
+import Head from 'next/head';
 
 import { singleProductLayout } from '@src/components/layouts/single-product';
 import { NotFound } from '@src/components/not-found';
-import { Product } from '@src/features/product';
+import { PageSeo } from '@src/components/page-seo';
+import { Content } from '@src/components/blocks/content';
 import { ProductContextProvider } from '@src/context/product-context';
 import { getProductReviews, getProductStats } from '@src/lib/reviews/yotpo';
 import { SiteInfo } from '@src/lib/typesense/site-info';
@@ -14,7 +17,7 @@ import { Country, getDefaultRegion } from '@src/lib/helpers/country';
 import { Product as ProductModel, ProductTypesenseResponse } from '@src/models/product';
 import { ProductReviews } from '@src/models/product/reviews';
 import { ProductDialogs } from '@src/models/product/types';
-import { ProductPaths, ProductPathsParams, RegionalData } from '@src/types';
+import { ProductPaths, ProductPathsParams } from '@src/types';
 import { getProductsByIds } from '@src/lib/typesense/product';
 import { SkeletonProductPage } from '@src/components/skeletons/product-page';
 import { parseJsonValue } from '@src/lib/helpers/helper';
@@ -192,7 +195,19 @@ export const ProductPage = (props: Props) => {
       linkedProducts={props.linkedProducts}
       key={product.id}
     >
-      <Product />
+      {product.seoFullHead ? (
+        <PageSeo seoFullHead={product.seoFullHead} />
+      ) : (
+        <Head>
+          <title>{product.name}</title>
+          <meta
+            name="description"
+            content={product.description}
+          />
+        </Head>
+      )}
+
+      <Content content={SINGLEPRODUCT_TEMPLATE} />
     </ProductContextProvider>
   );
 };

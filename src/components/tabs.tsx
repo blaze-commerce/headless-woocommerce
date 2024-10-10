@@ -19,7 +19,7 @@ type Props = {
 export const Tabs: React.FC<Props> = ({ data }) => {
   const activeTabIndex = findIndex(data, 'isOpen');
   return (
-    <div>
+    <>
       <Tab.Group defaultIndex={activeTabIndex}>
         <Tab.List className="flex p-1">
           {data.map((tab) => (
@@ -52,6 +52,6 @@ export const Tabs: React.FC<Props> = ({ data }) => {
           ))}
         </Tab.Panels>
       </Tab.Group>
-    </div>
+    </>
   );
 };

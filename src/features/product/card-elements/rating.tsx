@@ -1,9 +1,11 @@
-import { env } from '@src/lib/env';
-
+import { useSiteContext } from '@src/context/site-context';
 import { Product } from '@src/models/product';
 import { ProductMetaData } from '@src/models/product/types';
 import { ProductRating } from '@src/features/product/product-rating';
+import { Settings } from '@src/models/settings';
+import { Store } from '@src/models/settings/store';
 import { Stats } from '@src/models/product/reviews';
+import { cn } from '@src/lib/helpers/helper';
 
 type ICardRating = {
   product: Product;
@@ -12,19 +14,20 @@ type ICardRating = {
 };
 
 export const CardRating = ({ product, detailsAlignment, showRating }: ICardRating) => {
-  if (!showRating) return null;
+  const { settings } = useSiteContext();
+  const { store } = settings as Settings;
 
-  const { NEXT_PUBLIC_REVIEW_SERVICE } = env();
+  if (!product || !showRating) return null;
+
   const { judgemeReviews, yotpoReviews, metaData } = product;
+  const { reviewService } = store as Store;
   const { wooProductReviews } = metaData as ProductMetaData;
 
   return (
-    <div className={`flex items-center justify-${detailsAlignment} space-x-2 z-[7]`}>
-      {NEXT_PUBLIC_REVIEW_SERVICE === 'judge.me' && (
-        <ProductRating stats={judgemeReviews as Stats} />
-      )}
-      {NEXT_PUBLIC_REVIEW_SERVICE === 'yotpo' && <ProductRating stats={yotpoReviews as Stats} />}
-      {NEXT_PUBLIC_REVIEW_SERVICE === 'woocommerce_native_reviews' && (
+    <div className={cn('product-rating', `justify-${detailsAlignment}`)}>
+      {reviewService === 'judge.me' && <ProductRating stats={judgemeReviews as Stats} />}
+      {reviewService === 'yotpo' && <ProductRating stats={yotpoReviews as Stats} />}
+      {reviewService === 'woocommerce_native_reviews' && metaData?.wooProductReviews?.stats && (
         <ProductRating stats={wooProductReviews?.stats} />
       )}
     </div>
