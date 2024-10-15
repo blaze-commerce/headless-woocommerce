@@ -2,15 +2,18 @@ import { PushCart } from '@src/features/mini-cart/cart-icon/push-cart';
 import { ShoppingBag } from '@src/features/mini-cart/cart-icon/shopping-bag';
 import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
+import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
+import { Html } from '@src/components/blocks/core/html';
 
 type Props = {
   showText: boolean;
   showIcon: boolean;
   label?: string;
   color?: string;
+  iconBlock?: ParsedBlock | null;
 };
 
-export const CartBasketIcon: React.FC<Props> = ({ showText, label, color }) => {
+export const CartBasketIcon: React.FC<Props> = ({ showText, label, color, iconBlock }) => {
   const {
     miniCartState: [, setMiniCartIsOpen],
     cart,
@@ -51,7 +54,12 @@ export const CartBasketIcon: React.FC<Props> = ({ showText, label, color }) => {
       className="button-cart"
       onClick={handleMinicartOpen}
     >
-      {renderCartIcon()}
+      {iconBlock && iconBlock.blockName === 'core/html' ? (
+        <Html block={iconBlock} />
+      ) : (
+        renderCartIcon()
+      )}
+
       <span className="hidden lg:inline-block">{showText && label}</span>
     </button>
   );
