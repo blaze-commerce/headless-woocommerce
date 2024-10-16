@@ -22,6 +22,7 @@ import { BlogPosts } from '@src/components/blocks/wooless/blog-posts';
 import { PopoverSearchBlock } from '@src/components/blocks/popover-search';
 import { Search } from '@src/components/blocks/fibosearch/search';
 import { useContentContext } from '@src/context/content-context';
+import { SearchInput } from '@src/components/blocks/search/SearchInput';
 
 export const Container = ({ block }: BlockComponentProps) => {
   const { type } = useContentContext();
@@ -120,6 +121,10 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'Search')) {
     return <Search block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchInput')) {
+    return <SearchInput block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

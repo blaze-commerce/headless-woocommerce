@@ -15,9 +15,13 @@ import { Search as SearchProps } from '@src/models/settings/search';
 import { cn } from '@src/lib/helpers/helper';
 import TS_CONFIG from '@src/lib/typesense/config';
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import { useSearchContext } from '@src/context/search-context';
+import { ParsedBlock } from '@src/components/blocks';
+import { Content } from '@src/components/blocks/content';
 
 type Props = SearchProps & {
   className?: string;
+  block: ParsedBlock;
 };
 
 export const Search: React.FC<Props> = (props) => {
@@ -25,10 +29,15 @@ export const Search: React.FC<Props> = (props) => {
 
   const { searchClient } = useTypesenseContext();
   const { asPath } = useRouter();
-  const searchResultRef = useRef(null);
-  const [showResult, setShowResult] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const searchResultsLink = `/search-results?s=${searchTerm}`;
+  const {
+    searchResultRef,
+    showResultState,
+    searchTermState,
+    searchResultsLink,
+    shouldRenderSearchResult,
+  } = useSearchContext();
+  const [, setShowResult] = showResultState;
+  const [searchTerm, setSearchTerm] = searchTermState;
 
   useOnClickOutside(searchResultRef, () => {
     setShowResult(false);
@@ -38,30 +47,6 @@ export const Search: React.FC<Props> = (props) => {
   useEffect(() => {
     setShowResult(false);
   }, [asPath]);
-
-  const renderSearchInput = () => {
-    const { transparent = false } = input;
-    const { enabled = false, backgroundColor, borderColor, color } = input.customColors || {};
-
-    const inputStyles = {
-      backgroundColor,
-      borderColor,
-      color,
-    };
-
-    return (
-      <CustomSearchBox
-        onFocus={() => setShowResult(true)}
-        setSearchTerm={setSearchTerm}
-        searchTerm={searchTerm}
-        className={cn(className, {
-          'bg-transparent': transparent && !enabled,
-          'bg-white': !transparent && !enabled,
-        })}
-        style={enabled ? inputStyles : undefined}
-      />
-    );
-  };
 
   const renderBlog = () => {
     const { enabled = false } = results.customColors || {};
@@ -220,16 +205,16 @@ export const Search: React.FC<Props> = (props) => {
 
   return (
     <div
-      className="relative w-full text-black"
+      className=""
       ref={searchResultRef}
     >
       <InstantSearch
         indexName={TS_CONFIG.collectionNames.product}
         searchClient={searchClient}
       >
-        {renderSearchInput()}
+        <Content content={props.block.innerBlocks} />
 
-        {searchTerm.length > 0 && showResult === true && renderSearchResults()}
+        {shouldRenderSearchResult && renderSearchResults()}
       </InstantSearch>
     </div>
   );
