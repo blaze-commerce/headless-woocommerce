@@ -18,6 +18,7 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useSearchContext } from '@src/context/search-context';
 import { ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
+import { BlockAttributes } from '@src/lib/block/types';
 
 type Props = SearchProps & {
   className?: string;
@@ -38,6 +39,7 @@ export const Search: React.FC<Props> = (props) => {
   } = useSearchContext();
   const [, setShowResult] = showResultState;
   const [searchTerm, setSearchTerm] = searchTermState;
+  const attribute = props.block.attrs as BlockAttributes;
 
   useOnClickOutside(searchResultRef, () => {
     setShowResult(false);
@@ -205,7 +207,7 @@ export const Search: React.FC<Props> = (props) => {
 
   return (
     <div
-      className=""
+      className={attribute?.className}
       ref={searchResultRef}
     >
       <InstantSearch

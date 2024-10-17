@@ -545,6 +545,15 @@ export const isBlockA = (block: ParsedBlock, blockLabel: string) => {
   return false;
 };
 
+export const isBlockNameA = (block: ParsedBlock, blockLabel: string) => {
+  const attribute = block.attrs as BlockAttributes;
+  if (blockLabel === attribute?.metadata?.name) {
+    return true;
+  }
+
+  return false;
+};
+
 export const isMobileAccordion = (block: ParsedBlock) => {
   return isBlockA(block, 'MobileAccordion');
 };
