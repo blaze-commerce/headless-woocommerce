@@ -103,14 +103,14 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
             'w-full': attributes.submenuFullWidth,
           })}
         >
-          {Object.values(mainMenuItems).map((item) => {
+          {Object.values(mainMenuItems).map((item, index) => {
             const childMenus = item.children || [];
             const hasChildMenus = childMenus.length > 0 || false;
             const isMegaMenu = !!childMenus.find((menu) => menu.type === 'megamenu');
 
             return (
               <MenuListItem
-                key={item?.url}
+                key={`${item?.url}-${index}`}
                 $attrs={attributes}
                 className="nav-item flex items-center"
                 onMouseEnter={() => setLinkHovered(true)}
