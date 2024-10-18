@@ -7,9 +7,7 @@ import {
 } from '@src/components/blocks/maxmegamenu/styled-components';
 import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import type { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/block';
-
-import { cn } from '@src/lib/helpers/helper';
-import { NormalMenu } from '@src/components/blocks/maxmegamenu/normal-menu';
+import { v4 } from 'uuid';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
@@ -25,24 +23,26 @@ export const NormalSubMenu: React.FC<Props> = ({ items, attributes }) => {
       $padding={attributes.submenuContainerPadding}
       className="mega-menu flex-col"
     >
-      {items?.map((menuItem, menuItemIndex) => (
-        <MenuListItem key={`item-normal-${menuItemIndex}`}>
-          <MenuLink
-            $padding={attributes.submenuLinkPadding}
-            $color={attributes.submenuLinkColor}
-            $colorSm={attributes.mobileSubmenuLinkColor}
-            $hoverColor={attributes.submenuLinkHoverColor}
-            $backgroundColor={attributes.submenuLinkBackgroundColor}
-            $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
-            $fontWeight={attributes.fontWeight}
-            $letterCase={attributes.letterCase}
-            className="flex cursor-pointer items-center"
-            href={menuItem.url}
-          >
-            <ReactHTMLParser html={menuItem.title || ''} />
-          </MenuLink>
-        </MenuListItem>
-      ))}
+      <ul>
+        {items?.map((menuItem, menuItemIndex) => (
+          <MenuListItem key={`item-normal-${menuItemIndex}-${v4()}`}>
+            <MenuLink
+              $padding={attributes.submenuLinkPadding}
+              $color={attributes.submenuLinkColor}
+              $colorSm={attributes.mobileSubmenuLinkColor}
+              $hoverColor={attributes.submenuLinkHoverColor}
+              $backgroundColor={attributes.submenuLinkBackgroundColor}
+              $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
+              $fontWeight={attributes.fontWeight}
+              $letterCase={attributes.letterCase}
+              className="flex cursor-pointer items-center"
+              href={menuItem.url}
+            >
+              <ReactHTMLParser html={menuItem.title || ''} />
+            </MenuLink>
+          </MenuListItem>
+        ))}
+      </ul>
     </MegaMenuSubMenuWrapper>
   );
 };
