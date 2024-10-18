@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import Image from 'next/image';
 import React from 'react';
 
@@ -6,6 +5,7 @@ import { MenuItem } from '@src/components/header/menu/menu-item';
 import { MegaMenu as MegaMenuType } from '@src/lib/helpers/menu';
 import { cn, getColumnWidth } from '@src/lib/helpers/helper';
 import { MegaMenuSubMenuWrapper } from '@src/components/blocks/maxmegamenu/styled-components';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   megaMenuItems: MegaMenuType[];
@@ -68,7 +68,7 @@ export const MegaMenu: React.FC<Props> = ({ megaMenuItems }) => {
                           key={`item-${rowIndex}-${columnIndex}`}
                           className="mega-menu-widget-content"
                         >
-                          {HTMLReactParser(columnItem.content || '')}
+                          <ReactHTMLParser html={columnItem.content || ''} />
                         </div>
                       );
                     }

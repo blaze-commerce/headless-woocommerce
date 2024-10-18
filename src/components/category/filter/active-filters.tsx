@@ -1,10 +1,10 @@
-import parse from 'html-react-parser';
 import { isEmpty, remove } from 'lodash';
 import React from 'react';
 
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { cn } from '@src/lib/helpers/helper';
 import { IFilterOptionData } from '@src/lib/types/taxonomy';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type ActiveFilterProps = {
   backgroundColor?: string;
@@ -35,7 +35,7 @@ const ActiveFilter: React.FC<Props> = ({
       )}
       style={{ backgroundColor, color, borderColor }}
     >
-      {parse(label)}
+      <ReactHTMLParser html={label} />
       <button
         type="button"
         className="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-white  hover:text-brand-primary focus:bg-brand-primary focus:text-white focus:outline-none"

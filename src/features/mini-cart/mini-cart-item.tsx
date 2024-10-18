@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client';
-import parse from 'html-react-parser';
 import { find } from 'lodash';
 import { useEffect, useState } from 'react';
 import { CgClose } from 'react-icons/cg';
@@ -12,6 +11,7 @@ import { ProductCartItem } from '@src/lib/hooks/cart';
 import { track } from '@src/lib/track';
 import { parseApolloError } from '@src/lib/helpers';
 import { cn, getCurrencySymbol, removeCurrencySymbol } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   cartItem: ProductCartItem;
@@ -127,7 +127,11 @@ export const MiniCartItem = ({ cartItem }: Props) => {
     const components = JSON.parse(find(cartItem.extraData, ['key', 'composite_data'])?.value || '');
     const componentName = components[componentId]?.title || '';
 
-    return <div className="w-full text-sm font-bold uppercase mb-2">{parse(componentName)}</div>;
+    return (
+      <div className="w-full text-sm font-bold uppercase mb-2">
+        <ReactHTMLParser html={componentName} />
+      </div>
+    );
   };
   return (
     <>

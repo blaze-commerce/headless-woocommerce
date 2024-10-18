@@ -1,10 +1,10 @@
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
-import parse from 'html-react-parser';
 
 import { AccordionItem } from '@src/components/blocks/generateblocks/accordion/accordion-item';
 import { isAccordion } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type AccordionProps = {
   block: ParsedBlock;
@@ -12,7 +12,7 @@ type AccordionProps = {
 
 export const Accordion = ({ block }: AccordionProps) => {
   if (!isAccordion(block) || block.innerBlocks.length <= 0) {
-    return <>{parse(block.innerHTML)}</>;
+    return <ReactHTMLParser html={block.innerHTML} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

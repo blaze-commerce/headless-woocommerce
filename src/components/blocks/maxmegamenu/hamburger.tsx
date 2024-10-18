@@ -4,8 +4,9 @@ import { BlockComponentProps } from '@src/components/blocks';
 import { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/block';
 import { find } from 'lodash';
 import { BlockAttributes } from '@src/lib/block/types';
-import HTMLReactParser from 'html-react-parser';
 import { cn } from '@src/lib/helpers/helper';
+import React from 'react';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const Hamburger = ({ block }: BlockComponentProps) => {
   const { setShowMenu } = useSiteContext();
@@ -22,7 +23,7 @@ export const Hamburger = ({ block }: BlockComponentProps) => {
       onClick={() => setShowMenu(true)}
     >
       {'core/html' === block.blockName ? (
-        <>{HTMLReactParser(block.innerHTML)}</>
+        <ReactHTMLParser html={block.innerHTML} />
       ) : (
         <HamburgerIcon fillColor={color?.value || '#000'} />
       )}

@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import React from 'react';
 import { filter } from 'lodash';
 
@@ -13,6 +12,7 @@ import type { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/b
 
 import { cn } from '@src/lib/helpers/helper';
 import { NormalMenu } from '@src/components/blocks/maxmegamenu/normal-menu';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   attributes: MaxMegaMenuAttributes;
@@ -71,7 +71,7 @@ export const MegaMenuSubMenu: React.FC<Props> = ({ items, attributes, originalIt
                             className="flex cursor-pointer items-center"
                             href={columnItem.url}
                           >
-                            {HTMLReactParser(columnItem.title || '')}
+                            <ReactHTMLParser html={columnItem.title || ''} />
                           </MenuLink>
 
                           {otherChildMenus.length > 0 && (
@@ -89,7 +89,7 @@ export const MegaMenuSubMenu: React.FC<Props> = ({ items, attributes, originalIt
                           className="mega-menu-widget-content"
                           $padding={attributes.submenuLinkPadding}
                         >
-                          {HTMLReactParser(columnItem.content || '')}
+                          <ReactHTMLParser html={columnItem.content || ''} />
                         </MenuListItem>
                       );
                     }

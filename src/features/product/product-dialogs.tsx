@@ -1,6 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { decode } from 'html-entities';
-import HTMLReactParser from 'html-react-parser';
 import { Fragment, ReactNode, useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
@@ -18,6 +17,7 @@ const CalculateShipping = dynamic(() =>
 );
 
 import { ProductDialog } from '@src/models/product/types';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export type DialogItem = {
   content?: string | ReactNode;
@@ -157,7 +157,7 @@ export const ProductDialogs = ({ type }: TProp) => {
       {product?.metaData?.productLabel && settings?.isAdditionalWarningMessageEnabled && (
         <div className="additional-warning-message flex flex-row items-center space-x-3 border border-red-500 pl-1.5">
           <FaInfoCircle className="fill-red-500" />
-          {HTMLReactParser(decode(product?.metaData?.productLabel as string))}
+          <ReactHTMLParser html={decode(product?.metaData?.productLabel as string)} />
         </div>
       )}
 

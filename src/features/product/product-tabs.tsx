@@ -1,4 +1,3 @@
-import parse from 'html-react-parser';
 import dynamic from 'next/dynamic';
 import { isArray } from 'lodash';
 
@@ -7,6 +6,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { ACCORDION_TYPE } from '@src/lib/helpers/constants';
 import { ProductSettings } from '@src/models/settings/product';
 import { useReviewsCount } from '@src/lib/hooks';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 const Accordion = dynamic(() => import('@src/components/accordion').then((mod) => mod.Accordion));
 
@@ -51,7 +51,7 @@ export const ProductTabs = ({ style }: TProductTabs) => {
       <>
         {description.content}
         <p className="block h-10"></p>
-        {parse(settings?.product?.descriptionAfterContent as string)}
+        <ReactHTMLParser html={settings?.product?.descriptionAfterContent as string} />
       </>
     );
   }
@@ -68,7 +68,7 @@ export const ProductTabs = ({ style }: TProductTabs) => {
       ...product.additionalTabs.map((tab) => {
         return {
           title: tab.title,
-          content: parse(tab.content as string),
+          content: <ReactHTMLParser html={tab.content as string} />,
           isOpen: false,
         };
       })

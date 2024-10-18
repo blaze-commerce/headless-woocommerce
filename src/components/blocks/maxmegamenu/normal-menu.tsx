@@ -1,8 +1,9 @@
 import { Menu, MenuListItem } from '@src/components/blocks/maxmegamenu/styled-components';
 import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import { TypesenseMenuItem } from '@src/lib/helpers/menu';
-import HTMLReactParser from 'html-react-parser';
 import { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/block';
+import React from 'react';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   mainMenuItems: TypesenseMenuItem[];
@@ -29,7 +30,7 @@ export const NormalMenu: React.FC<Props> = ({ attributes, mainMenuItems }) => {
               className="flex cursor-pointer items-center gap-2.5"
               href={child.url}
             >
-              {HTMLReactParser(child.title || '')}
+              <ReactHTMLParser html={child.title || ''} />
             </MenuLink>
           </MenuListItem>
         ));

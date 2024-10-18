@@ -1,13 +1,12 @@
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
-import parse from 'html-react-parser';
 
 import { Content } from '@src/components/blocks/content';
 import { isAccordionItem } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
-import { useRouter } from 'next/router';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type AccordionItemProps = {
   block: ParsedBlock;
@@ -23,9 +22,8 @@ const getButtonText = (htmlString: string): string => {
 };
 
 export const AccordionItem = ({ block }: AccordionItemProps) => {
-  const { asPath } = useRouter();
   if (!isAccordionItem(block)) {
-    return <>{parse(block.innerHTML)}</>;
+    return <ReactHTMLParser html={block.innerHTML} />;
   }
 
   //Accordion Item must have to innerblocks for the accrodion button and accordion content

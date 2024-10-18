@@ -1,8 +1,6 @@
 import getCurrencySymbol from 'currency-symbol-map';
-import HTMLReactParser from 'html-react-parser';
 import Image from 'next/image';
 
-import { PrefetchLink } from '@src/components/common/prefetch-link';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { env } from '@src/lib/env';
@@ -10,6 +8,7 @@ import { Product } from '@src/models/product';
 import { Settings } from '@src/models/settings';
 import { addYears, currentDate as currentDateFn, formatDate } from '@src/lib/helpers/date';
 import { Divider } from '@mui/material';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 const { NEXT_PUBLIC_SHOP_NAME } = env();
 
@@ -51,9 +50,9 @@ export const GiftCardPreview = () => {
         )}
         {giftCardInput?.['giftcard-message-field'] && (
           <span className="break-all">
-            {HTMLReactParser(
-              giftCardInput?.['giftcard-message-field']?.replace(/(?:\r\n|\r|\n)/g, '<br>')
-            )}
+            <ReactHTMLParser
+              html={giftCardInput?.['giftcard-message-field']?.replace(/(?:\r\n|\r|\n)/g, '<br>')}
+            />
           </span>
         )}
       </div>
@@ -84,7 +83,7 @@ export const GiftCardPreview = () => {
       </div>
       {store?.giftCardFooterText && (
         <div className="space-y-3 my-6 text-sm text-[#505050] text-left">
-          {HTMLReactParser(store?.giftCardFooterText as string)}
+          <ReactHTMLParser html={store?.giftCardFooterText as string} />
         </div>
       )}
       <Divider className="mb-4" />

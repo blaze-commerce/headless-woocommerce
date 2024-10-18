@@ -1,5 +1,6 @@
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
-import ReactHTMLParser from 'react-html-parser';
+import React from 'react';
 
 type ParagraphProps = {
   block: ParsedBlock;
@@ -15,5 +16,5 @@ export const Paragraph = ({ block }: ParagraphProps) => {
   //change shortcodes variables
   const content = theContent.replace('{{current_year}}', String(new Date().getFullYear()));
 
-  return <>{ReactHTMLParser(content)}</>;
+  return <ReactHTMLParser html={content} />;
 };

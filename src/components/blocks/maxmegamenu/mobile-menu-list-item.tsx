@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { useState } from 'react';
 
 import { ChevronDown } from '@src/components/svg/chevron-down';
@@ -8,10 +7,9 @@ import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import { MenuListItem } from '@src/components/blocks/maxmegamenu/styled-components';
 import { TypesenseMenuItem } from '@src/lib/helpers/menu';
 
-import { cn, makeLinkRelative } from '@src/lib/helpers/helper';
-import { useRouter } from 'next/router';
-import { useSiteContext } from '@src/context/site-context';
+import { cn } from '@src/lib/helpers/helper';
 import { NormalSubMenu } from '@src/components/blocks/maxmegamenu/normal-sub-menu';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   attributes: MaxMegaMenuAttributes;
@@ -44,7 +42,7 @@ export const MobileMenuListItem: React.FC<Props> = ({ attributes, menuItem, orig
         href={menuItem.url}
         onClick={menuItem.url === '#' ? toggleChildMenuOnClick : undefined}
       >
-        {HTMLReactParser(menuItem.title || '')}
+        <ReactHTMLParser html={menuItem.title || ''} />
         {hasChildMenus && (
           <div onClick={toggleChildMenuOnClick}>
             <ChevronDown />

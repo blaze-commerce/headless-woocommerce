@@ -1,7 +1,7 @@
 import { isBlockNameA } from '@src/lib/block';
-import parse from 'html-react-parser';
 import { Hamburger } from '@src/components/blocks/maxmegamenu/hamburger';
 import { ParsedBlock } from '@src/components/blocks';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 type Props = {
   block: ParsedBlock;
 };
@@ -15,5 +15,5 @@ export const Html = ({ block }: Props) => {
     return <Hamburger block={block} />;
   }
 
-  return <>{parse(block.innerHTML)}</>;
+  return <ReactHTMLParser html={block.innerHTML} />;
 };

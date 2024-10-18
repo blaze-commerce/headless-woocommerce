@@ -1,9 +1,9 @@
 import { Tab } from '@headlessui/react';
 import cx from 'classnames';
-import HTMLReactParser from 'html-react-parser';
 import { findIndex } from 'lodash';
 
 import { DialogItem } from '@src/features/product/product-dialogs';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export type AccordionItem = {
   title: string;
@@ -45,9 +45,11 @@ export const Tabs: React.FC<Props> = ({ data }) => {
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 space-y-5'
               )}
             >
-              {typeof tab.content === 'string'
-                ? HTMLReactParser(tab.content as string)
-                : tab.content}
+              {typeof tab.content === 'string' ? (
+                <ReactHTMLParser html={tab.content as string} />
+              ) : (
+                tab.content
+              )}
             </Tab.Panel>
           ))}
         </Tab.Panels>

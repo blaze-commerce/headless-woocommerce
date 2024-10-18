@@ -1,10 +1,8 @@
-import HTMLReactParser from 'html-react-parser';
-import { LegacyRef } from 'react';
-
 import { cn } from '@src/lib/helpers/helper';
 
 import { RawLink } from '@src/components/common/raw-link';
 import { Product } from '@src/models/product';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 interface ICardTitle {
   product: Product;
@@ -29,7 +27,7 @@ export const CardTitle = (props: ICardTitle) => {
           aria-hidden="true"
           className=" absolute inset-0 z-[8] cursor-pointer"
         />
-        {HTMLReactParser(product.name as string)}
+        <ReactHTMLParser html={product.name as string} />
       </RawLink>
     </div>
   );
