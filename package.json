@@ -58,7 +58,6 @@
     "dotenv": "^16.4.5",
     "graphql": "^16.6.0",
     "html-entities": "^2.4.0",
-    "html-react-parser": "^3.0.12",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
