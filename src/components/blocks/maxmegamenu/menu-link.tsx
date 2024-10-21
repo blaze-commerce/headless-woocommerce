@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { MegaMenuSubMenuWrapper } from '@src/components/blocks/maxmegamenu/styled-components';
 import { useEffect, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { makeLinkRelative } from '@src/lib/helpers/helper';
@@ -14,6 +13,7 @@ type StyledMenuProps = {
   $colorSm?: string;
   $backgroundColor?: string;
   $fontWeight?: string;
+  $fontSize?: string;
   $letterCase?: string;
   $hoverColor?: string;
   $hoverBackgroundColor?: string;
@@ -35,6 +35,7 @@ export const StyledMenuLink = styled(Link)<StyledMenuProps>`
 
   color: ${(props) => props.$colorSm || props.$color || '#000'};
   font-weight: ${(props) => props.$fontWeight || '400'};
+  font-size: ${(props) => (props.$fontSize ? `${props.$fontSize}px` : '14px')};
   text-transform: ${(props) => props.$letterCase || 'none'};
 
   svg.chevron-down {
