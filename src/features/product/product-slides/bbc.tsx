@@ -49,47 +49,41 @@ export const ProductSlides = (props: IProductGridProps) => {
   return (
     <>
       {!isEmpty(products) && (
-        <section className="mt-7">
-          <div className="flex justify-between items-center gap-2 mb-4">
+        <section className="related-products product-slider">
+          <div className="title-holder">
             <h2
               id={id}
-              className={cn(
-                'text-[#746A5F] text-xl sm:text-2xl shrink-0',
-                settings?.productGroupHeaderClasses
-              )}
-              style={
-                !isEmpty(settings?.recentlyViewedAndCrossSellsHeaderStyle)
-                  ? settings?.recentlyViewedAndCrossSellsHeaderStyle
-                  : {}
-              }
+              className={cn('title')}
             >
               {title}
             </h2>
-            <hr className="w-full  border-top border-[#E4E5E7] border-t-[1px]" />
-            <div className="flex gap-2">
-              <div
+            <hr />
+            <div className="button-holder">
+              <button
+                type="button"
                 ref={leftArrow}
-                className={cn('cursor-pointer p-2 rounded-lg border-[1px] border-[#e7e7e7]', {
+                className={cn('', {
                   hidden: isLeftArrowMobileHidden && isMobile,
                   'md:hidden': isLeftArrowHidden && !isMobile,
                 })}
                 onClick={onLeftArrowClick}
               >
                 <ArrowLeft2 />
-              </div>
-              <div
+              </button>
+              <button
+                type="button"
                 ref={rightArrow}
-                className={cn('cursor-pointer p-2 rounded-lg border-[1px] border-[#e7e7e7]', {
+                className={cn('', {
                   hidden: isRightArrowMobileHidden && isMobile,
                   'md:hidden': isRightArrowHidden && !isMobile,
                 })}
                 onClick={onRightArrowClick}
               >
                 <ArrowRight2 />
-              </div>
+              </button>
             </div>
           </div>
-          <div className={cn('w-full h-auto block relative', settings?.productCardShapeClasses)}>
+          <div className={cn('slide-holder', settings?.productCardShapeClasses)}>
             <Glider
               draggable
               hasArrows

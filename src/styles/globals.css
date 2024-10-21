@@ -331,6 +331,10 @@ body {
     @apply mt-2;
   }
 
+  .single-product .product-short-description {
+    @apply mt-2;
+  }
+
   .single-product .price-container {
     @apply mt-2;
   }
@@ -422,6 +426,26 @@ body {
   .single-product .product-installment .text a {
     @apply underline text-blue-500;
   }
+
+  /** Product Accordion */
+  .single-product .product-accordion-information .accordion-holder {
+    @apply w-full;
+  }
+
+  .single-product .product-accordion-information .accordion-holder:first-of-type {
+    @apply border-t;
+  }
+
+  .single-product .product-accordion-information .accordion-holder:last-of-type {
+    @apply border-b;
+  }
+
+  .single-product .product-accordion-information .accordion-title {
+    @apply relative w-full py-4 flex justify-between items-center text-left text-black font-medium cursor-pointer;
+  }
+
+  .single-product .product-accordion-information .accordion-title .accordion-button {
+  }
 }
 
 .product-popup-holder {
@@ -465,8 +489,49 @@ body {
   @apply text-[#000180];
 }
 
-.header-link-fill {
-  fill: var(--header-link-color);
+/** Product Slider */
+.product-slider {
+  @apply mt-8;
+}
+
+.product-slider .title-holder {
+  @apply flex justify-between items-center gap-2 mb-4;
+}
+
+.product-slider .title-holder h2 {
+  @apply text-[#333333] text-xl sm:text-3xl shrink-0 font-bold;
+}
+
+.product-slider .title-holder hr {
+  /** @apply w-full  border-t border-[#E4E5E7] */
+  @apply hidden;
+}
+
+.product-slider .title-holder .button-holder {
+  @apply flex gap-2;
+}
+
+.product-slider .title-holder .button-holder button {
+  @apply cursor-pointer p-2 rounded-lg border-[1px] border-[#e7e7e7];
+}
+
+.product-slider .slide-holder {
+  @apply w-full h-auto block relative;
+}
+
+/** END | Product Slider */
+
+/** Product Card */
+.product-card {
+  @apply bg-transparent !justify-start relative content-between transition-all ease-linear duration-300 h-full flex flex-col;
+}
+
+.product-card.has-border {
+  @apply border border-solid border-[#ECEEEF] max-w-xs;
+}
+
+.product-card.has-shadow:hover {
+  @apply hover:shadow-xl;
 }
 
 .product-card .wapl-label {
@@ -478,7 +543,61 @@ body {
 }
 
 .product-card .product-card-label {
-  @apply flex flex-col justify-center font-medium;
+  @apply flex flex-col justify-center font-medium gap-2 mt-2;
+}
+
+.product-card .product-card-label .product-title {
+  @apply font-bold leading-6 text-[20px] text-[#000180];
+}
+
+.product-card .product-card-label .product-category {
+  @apply text-[#777] text-sm font-normal;
+}
+
+.product-card .product-rating {
+  @apply flex mt-0 items-center space-x-2;
+}
+
+.product-card .product-image-holder {
+  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center w-full h-[257.848px] lg:w-full lg:h-[209px] rounded-lg bg-white object-cover;
+}
+
+.product-card .product-variant-image-holder .glider-track {
+  @apply gap-0;
+}
+
+.product-card .product-variant-image-holder figure {
+  @apply lg:w-full lg:!h-[300px] border rounded-md overflow-hidden;
+}
+
+.product-card .product-variant-image-holder figure img {
+  @apply w-full h-full object-cover;
+}
+
+.product-cart .product-image-holder .product-image {
+  @apply absolute opacity-100;
+}
+
+.product-card .product-variants {
+  @apply flex flex-row gap-2 flex-wrap items-center;
+}
+
+.product-card .product-variants button {
+  @apply w-9 h-9 rounded border border-solid border-[#e7e7e7];
+}
+
+.product-card .product-variants button img {
+  @apply w-full h-full object-cover;
+}
+
+.product-card .product-variants .product-variants-more {
+  @apply cursor-pointer text-sm text-[#777777];
+}
+
+/** END | Product Card */
+
+.header-link-fill {
+  fill: var(--header-link-color);
 }
 
 .woocommerce-advanced-product-label {

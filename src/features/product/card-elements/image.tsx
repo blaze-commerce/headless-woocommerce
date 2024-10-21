@@ -106,7 +106,7 @@ export const CardImage = (props: ICardImage) => {
   return (
     <div
       className={cn(
-        'aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center w-full h-[257.848px] lg:w-full lg:h-[209px] rounded-lg',
+        'product-image-holder',
         settings?.productCardAspectRatioClasses,
         {
           'bg-gray-200': imgError,
@@ -139,7 +139,7 @@ export const CardImage = (props: ICardImage) => {
           alt={mainImage.altText as string}
           width={398}
           height={616}
-          className={cn('absolute opacity-100', {
+          className={cn('product-image', {
             'group-hover:opacity-0 group-hover:transition group-hover:ease-linear group-hover:duration-300 ease-linear duration-300':
               mainImage?.src &&
               typeof mainImage?.src !== undefined &&
