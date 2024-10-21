@@ -124,7 +124,7 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
                   $letterCase={attributes.letterCase}
                   $hoverColor={attributes.menuLinkHoverColor}
                   $hoverBackgroundColor={attributes.menuLinkHoverBackgroundColor}
-                  $fontSize={attributes.fontSize}
+                  $fontSize={attributes.fontSize ? attributes.fontSize : 14}
                   className="flex cursor-pointer items-center gap-2.5"
                   href={item.url}
                 >

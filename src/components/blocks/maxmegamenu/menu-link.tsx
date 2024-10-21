@@ -13,7 +13,7 @@ type StyledMenuProps = {
   $colorSm?: string;
   $backgroundColor?: string;
   $fontWeight?: string;
-  $fontSize?: string;
+  $fontSize?: number;
   $letterCase?: string;
   $hoverColor?: string;
   $hoverBackgroundColor?: string;
