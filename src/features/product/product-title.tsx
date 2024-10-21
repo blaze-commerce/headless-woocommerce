@@ -1,8 +1,7 @@
-import HTMLReactParser from 'html-react-parser';
-
 import { useSiteContext } from '@src/context/site-context';
 import { useProductContext } from '@src/context/product-context';
 import { cn } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const ProductTitle: React.FC = () => {
   const { settings } = useSiteContext();
@@ -16,7 +15,7 @@ export const ProductTitle: React.FC = () => {
         uppercase: settings?.product?.layout?.titleCase === '2',
       })}
     >
-      {HTMLReactParser(product?.name as string)}
+      <ReactHTMLParser html={product?.name as string} />
     </h1>
   );
 };

@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import parse from 'html-react-parser';
+import parse from 'react-html-parser';
 import { camelCase, chain, set } from 'lodash';
 import regionSettings from '@public/region.json';
 

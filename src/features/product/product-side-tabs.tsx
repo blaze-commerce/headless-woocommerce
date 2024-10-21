@@ -1,9 +1,8 @@
-import parse from 'html-react-parser';
-
 import { Accordion } from '@src/components/accordion';
 import { ProductSettings } from '@src/models/settings/product';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const ProductSideTabs = () => {
   const { product } = useProductContext();
@@ -23,7 +22,7 @@ export const ProductSideTabs = () => {
       <>
         {description.content}
         <p className="block h-10"></p>
-        {parse(settings?.product?.descriptionAfterContent as string)}
+        <ReactHTMLParser html={settings?.product?.descriptionAfterContent as string} />
       </>
     );
   }

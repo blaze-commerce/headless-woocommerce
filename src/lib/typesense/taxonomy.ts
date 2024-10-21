@@ -25,7 +25,7 @@ import { getAllCurrencies, getDefaultCurrency } from '@src/lib/helpers/country';
 
 export const getCategoryPermalinks = async (): Promise<string[]> => {
   const permalinks: string[] = [];
-  const perPage = 250;
+  const perPage = 100;
 
   const fetchPermalinks = async (page: number) => {
     const searchParameters = {

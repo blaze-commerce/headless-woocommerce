@@ -14,12 +14,15 @@ import { FormattedCart } from '@src/lib/hooks/cart';
 import { setCookie } from '@src/lib/helpers/cookie';
 import { DisplayType, getDisplayTypeValues } from '@src/lib/helpers/menu';
 import { useAuth } from '@src/lib/hooks';
+import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parser';
+import { Html } from '@src/components/blocks/core/html';
 
 type Props = {
   displayType?: DisplayType | string | null;
   label?: string;
   hasChevronDownIcon?: boolean | null;
   color?: string;
+  iconBlock?: ParsedBlock | null;
 };
 
 export const LoginMenuPopup: React.FC<Props> = ({
@@ -27,6 +30,7 @@ export const LoginMenuPopup: React.FC<Props> = ({
   label,
   hasChevronDownIcon,
   color,
+  iconBlock,
 }) => {
   const { logout, refetchViewer } = useAuth();
   const { push, query } = useRouter();
@@ -92,7 +96,12 @@ export const LoginMenuPopup: React.FC<Props> = ({
 
   const renderAccountIcon = (): JSX.Element => (
     <>
-      <AccountIcon fillColor={color || ''} />
+      {iconBlock && iconBlock.blockName === 'core/html' ? (
+        <Html block={iconBlock} />
+      ) : (
+        <AccountIcon fillColor={color || ''} />
+      )}
+
       {showText && <span className="hidden lg:inline-block"> {label}</span>}
       {hasChevronDownIcon && (
         <ChevronDown

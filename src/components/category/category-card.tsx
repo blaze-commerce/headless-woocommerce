@@ -1,16 +1,15 @@
 import cx from 'classnames';
-import HTMLReactParser from 'html-react-parser';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 import { Image } from '@src/components/common/image';
 import { useSiteContext } from '@src/context/site-context';
-import { Settings } from '@src/models/settings';
 import { ProductCards } from '@src/models/settings/shop';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
 import { TaxonomyPageParams } from '@src/lib/types/taxonomy';
 import Link from 'next/link';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 interface Props extends ProductCards {
   taxonomies: TaxonomyPageParams;
@@ -51,7 +50,7 @@ export const CategoryCard = (props: Props) => {
             aria-hidden="true"
             className="absolute inset-0 z-[8] cursor-pointer"
           />
-          {HTMLReactParser(name as string)}
+          <ReactHTMLParser html={name as string} />
         </Link>
       </div>
     );

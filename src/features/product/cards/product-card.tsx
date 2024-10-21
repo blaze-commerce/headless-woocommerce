@@ -1,5 +1,4 @@
 import { decode } from 'html-entities';
-import HTMLReactParser from 'html-react-parser';
 import { find, isEmpty, max, min } from 'lodash';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -25,6 +24,7 @@ import { cn, isImage, isLightColor } from '@src/lib/helpers/helper';
 import { useWishListStorage } from '@src/lib/hooks';
 import TSThumbnail from '@src/lib/typesense/image';
 import type { ProductCards } from '@src/models/settings/shop';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 interface Props extends ProductCards {
   product: Product;
@@ -196,7 +196,7 @@ export const ProductCard = (props: Props) => {
   };
 
   const renderProductLabel = () => {
-    return HTMLReactParser(decode(product?.metaData?.productLabel as string));
+    return <ReactHTMLParser html={decode(product?.metaData?.productLabel as string)} />;
   };
 
   const renderProductCardTitle = () => {
@@ -215,7 +215,7 @@ export const ProductCard = (props: Props) => {
             aria-hidden="true"
             className=" absolute inset-0 z-[8] cursor-pointer"
           />
-          {HTMLReactParser(product.name as string)}
+          <ReactHTMLParser html={product.name as string} />
         </RawLink>
       </div>
     );

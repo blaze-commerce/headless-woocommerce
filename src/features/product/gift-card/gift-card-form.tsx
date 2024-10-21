@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import { Divider } from '@src/components/common/divider';
@@ -14,6 +13,7 @@ import { getVariations } from '@src/lib/typesense/product';
 import { validateEmail } from '@src/lib/helpers/helper';
 import { useEffectOnce } from 'usehooks-ts';
 import { isObject } from 'lodash';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const GiftCardForm = () => {
   const {
@@ -191,7 +191,7 @@ export const GiftCardForm = () => {
     return (
       <>
         <div className="my-3 font-normal text-sm text-[#6F6F6F] space-y-5">
-          {HTMLReactParser(shortDescription as string)}
+          <ReactHTMLParser html={shortDescription as string} />
         </div>
         <Divider className="mb-4" />
       </>

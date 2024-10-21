@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -12,6 +11,7 @@ import { useSiteContext } from '@src/context/site-context';
 import type { DisplayType, MegaMenuItem } from '@src/lib/helpers/menu';
 import { getDisplayTypeValues } from '@src/lib/helpers/menu';
 import { cn, makeLinkRelative } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export type MenuItemType = {
   href?: string;
@@ -170,7 +170,7 @@ export const MenuItem: React.FC<MenuItemType> = ({
       >
         {/* Menu item links */}
         <RawLink href={href}>
-          {showIcon && icon} {showText && HTMLReactParser(label || '')}
+          {showIcon && icon} {showText && <ReactHTMLParser html={label || ''} />}
         </RawLink>
       </div>
     );

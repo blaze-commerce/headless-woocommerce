@@ -1,7 +1,5 @@
-import HTMLReactParser from 'html-react-parser';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { useIntersectionObserver, useUpdateEffect } from 'usehooks-ts';
 
 import Menu from '@components/header/menu';
@@ -11,6 +9,7 @@ import { useSiteContext } from '@src/context/site-context';
 import type { MegaMenuItem } from '@src/lib/helpers/menu';
 import { cn, makeLinkRelative } from '@src/lib/helpers/helper';
 import Link from 'next/link';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export type MenuItemType = {
   href?: string;
@@ -133,7 +132,7 @@ export const MenuItem: React.FC<MenuItemType> = ({
           onMouseLeave={handleMouseLeave}
           className={linkClasses}
         >
-          {HTMLReactParser(label || '')}
+          <ReactHTMLParser html={label || ''} />
 
           {shouldShowSubmenuItems() && (
             <ChevronDown

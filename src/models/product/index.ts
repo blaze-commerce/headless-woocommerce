@@ -1,4 +1,4 @@
-import parse from 'html-react-parser';
+import parse from 'react-html-parser';
 import { find, isArray, isEmpty, map } from 'lodash';
 import sanitizeHtml from 'sanitize-html';
 

@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
@@ -9,6 +8,7 @@ import { Settings } from '@src/models/settings';
 import { cn } from '@src/lib/helpers/helper';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
 import { HomeIcon } from '@src/components/svg/home';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const Separator = ({ separator = '/', className = '' }) => {
   return <span className={`separator ${className}`}>{separator}</span>;
@@ -17,7 +17,9 @@ export const Separator = ({ separator = '/', className = '' }) => {
 const BCLink = ({ uri, name, className }: { uri: string; name: string; className?: string }) => {
   return (
     <RawLink href={uri}>
-      <span className={className}>{HTMLReactParser(name)}</span>
+      <span className={className}>
+        <ReactHTMLParser html={name} />
+      </span>
     </RawLink>
   );
 };
@@ -62,7 +64,9 @@ export const BreadCrumbs: React.FC<Props> = (props) => {
         {secondPath && (
           <>
             <Separator separator={separator} />
-            <span className="text-[#585858]">{HTMLReactParser(secondPath as string)}</span>
+            <span className="text-[#585858]">
+              <ReactHTMLParser html={secondPath as string} />
+            </span>
           </>
         )}
       </>
@@ -78,7 +82,7 @@ export const BreadCrumbs: React.FC<Props> = (props) => {
           <>
             <Separator separator={separator} />{' '}
             <span className="text-[#585858]">
-              {HTMLReactParser((isCategoryBrand ? 'brands' : firstPath) as string)}
+              <ReactHTMLParser html={(isCategoryBrand ? 'brands' : firstPath) as string} />
             </span>
           </>
         )}
@@ -101,7 +105,9 @@ export const BreadCrumbs: React.FC<Props> = (props) => {
           </Fragment>
         ))}
         <Separator separator={separator} />
-        <span>{HTMLReactParser(productName as string)}</span>
+        <span>
+          <ReactHTMLParser html={productName as string} />
+        </span>
       </>
     );
   };
@@ -120,7 +126,9 @@ export const BreadCrumbs: React.FC<Props> = (props) => {
                 name={crumb?.name as string}
               />
             ) : (
-              <span>{HTMLReactParser(crumb?.name as string)}</span>
+              <span>
+                <ReactHTMLParser html={crumb?.name as string} />
+              </span>
             )}
           </Fragment>
         ))}

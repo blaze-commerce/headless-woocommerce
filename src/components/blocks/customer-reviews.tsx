@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -16,6 +15,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { Store } from '@src/models/settings/store';
 import { YotpoReviews } from '@src/lib/types/reviews';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   classes: string;
@@ -80,7 +80,9 @@ const ReviewItem = (review: YotpoReviews) => {
               {title && <p className="text-sm font-semibold text-[#4D4D4D]">{title}</p>}
             </div>
             {content ? (
-              <p className="text-sm text-[#6B6D79] font-normal">{HTMLReactParser(content)}</p>
+              <p className="text-sm text-[#6B6D79] font-normal">
+                <ReactHTMLParser html={content} />
+              </p>
             ) : (
               <p className="text-sm text-[#6B6D79] font-normal">
                 Reviewer didn&apos;t leave any comments

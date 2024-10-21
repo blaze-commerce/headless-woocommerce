@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty, uniqueId } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -13,6 +12,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { Store } from '@src/models/settings/store';
 import { cn } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type TestimonialItems = {
   author: string;
@@ -73,7 +73,9 @@ const ReviewItem = (review: TestimonialItems) => {
           </div>
           {content && (
             <div className="w-full">
-              <p className={contentClassNames}>{HTMLReactParser(content)}</p>
+              <p className={contentClassNames}>
+                <ReactHTMLParser html={content} />
+              </p>
             </div>
           )}
         </div>

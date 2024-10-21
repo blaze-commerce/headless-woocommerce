@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
-import HTMLReactParser from 'html-react-parser';
 
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { Rating } from '@src/features/product/rating';
 import { ShareIcon } from '@heroicons/react/24/outline';
 import { ThumbsDownIcon, ThumbsUpIcon } from '@src/components/svg/vote';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 const openFacebook = (title: string, id: string, content: string) => {
   window.open(
@@ -108,7 +108,7 @@ export const YotpoReviewItem = ({
               </div>
               <p className="mt-3 text-sm text-[#6B6D79]">
                 {!isEmpty(reviews) ? (
-                  HTMLReactParser(reviews as string)
+                  <ReactHTMLParser html={reviews as string} />
                 ) : (
                   <>Reviewer didn&apos;t leave any comments</>
                 )}

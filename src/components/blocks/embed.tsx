@@ -1,6 +1,6 @@
-import parse from 'html-react-parser';
 import { cn } from '@src/lib/helpers/helper';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type BlockAttrsType = {
   type: string;
@@ -46,5 +46,5 @@ export const Embed = ({ block }: EmbedProps) => {
       </div>
     );
   }
-  return <>{parse(block.innerHTML)}</>;
+  return <ReactHTMLParser html={block.innerHTML} />;
 };

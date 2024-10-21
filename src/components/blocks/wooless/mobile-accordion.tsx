@@ -1,13 +1,13 @@
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
-import parse from 'html-react-parser';
 import { isEmpty } from 'lodash';
 
 import { Content } from '@src/components/blocks/content';
 import { isMobileAccordion } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type MobileAccordionProps = {
   block: ParsedBlock;
@@ -20,9 +20,9 @@ export const MobileAccordion = ({ block }: MobileAccordionProps) => {
   }
 
   const [accordionButton, accordionPanel] = block.innerBlocks;
-  const buttonLabel = !isEmpty(accordionButton.innerBlocks[0])
-    ? parse(accordionButton.innerBlocks[0].innerHTML)
-    : null;
+  const buttonLabel = !isEmpty(accordionButton.innerBlocks[0]) ? (
+    <ReactHTMLParser html={accordionButton.innerBlocks[0].innerHTML} />
+  ) : null;
   const attribute = block.attrs as BlockAttributes;
 
   return (

@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty, reduce } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -17,6 +16,7 @@ import { RawLink } from '@src/components/common/raw-link';
 import { PageTypesenseResponse } from '@src/lib/typesense/page';
 import { cn } from '@src/lib/helpers/helper';
 import { Day, Month, Year } from '@src/lib/types/date';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   blogCount?: number;
@@ -183,7 +183,7 @@ export const BlogPosts = ({
                     </span>
                     {settings?.homepage?.layout?.blogs?.description?.enabled && (
                       <span className={cn(descriptionClasses, 'mt-2 line-clamp-4')}>
-                        {blog?.content && HTMLReactParser(blog?.content as string)}
+                        {blog?.content && <ReactHTMLParser html={blog?.content as string} />}
                       </span>
                     )}
                     {

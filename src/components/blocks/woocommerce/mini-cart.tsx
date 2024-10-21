@@ -15,6 +15,8 @@ export const MiniCart = ({ block, force = false }: Props) => {
   const attributes = block.attrs as any;
   const color = find(attributes?.htmlAttributes, ['attribute', 'data-color']);
   const iconColor = color?.value || attributes.iconColor?.color;
+  // Get the first innerblocks if not empty
+  const iconSvg = block.innerBlocks.length > 0 ? block.innerBlocks[0] : null;
 
   return (
     <div>
@@ -22,6 +24,7 @@ export const MiniCart = ({ block, force = false }: Props) => {
         showText={false}
         showIcon={true}
         color={iconColor ?? '#F7F7F7'}
+        iconBlock={iconSvg}
       />
     </div>
   );

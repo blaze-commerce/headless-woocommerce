@@ -1,9 +1,9 @@
 import { Dialog } from '@headlessui/react';
 import { XCircleIcon } from '@heroicons/react/20/solid';
-import { useState } from 'react';
-import HTMLReactParser from 'html-react-parser';
+import React, { useState } from 'react';
 import WarningIcon from 'public/images/warning';
 import { ShortcodeAttribute } from '@src/components/blocks/shortcode';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const ProductInfoPopup = ({ attributes }: { attributes: ShortcodeAttribute[] }) => {
   const defaultAttributes: { [key: string]: string } = {
@@ -57,7 +57,9 @@ export const ProductInfoPopup = ({ attributes }: { attributes: ShortcodeAttribut
                     <WarningIcon />
                   </div>
                 )}
-                <div className="popup-content">{HTMLReactParser(content)}</div>
+                <div className="popup-content">
+                  <ReactHTMLParser html={content} />
+                </div>
               </Dialog.Description>
             </div>
           </div>

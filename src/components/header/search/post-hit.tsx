@@ -1,6 +1,6 @@
 import { useSiteContext } from '@src/context/site-context';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { cn } from '@src/lib/helpers/helper';
-import parse from 'html-react-parser';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PostHit = ({ hit }: any) => {
@@ -21,7 +21,7 @@ export const PostHit = ({ hit }: any) => {
             fontWeight: settings?.search?.results?.texts?.font?.weight ?? '',
           }}
         >
-          {parse(hit.name)}
+          <ReactHTMLParser html={hit.name} />
         </p>
       </div>
     </a>

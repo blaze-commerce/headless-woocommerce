@@ -16,10 +16,10 @@ import { RawLink } from '@src/components/common/raw-link';
 import { Day, Month, Year } from '@src/lib/types/date';
 import { ParsedBlock } from '@src/components/blocks';
 import { unixToDate } from '@src/lib/helpers/date';
-import HTMLReactParser from 'html-react-parser';
 import { PageTypesenseResponse } from '@src/lib/typesense/page';
 import { usePageContext } from '@src/context/page-context';
 import { ArrowRight3 } from '@src/components/svg/arrow-right-3';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   block: ParsedBlock;
@@ -167,7 +167,7 @@ export const BlogPosts = ({ block }: Props) => {
                 </span>
                 {hasDescriptionEnabled && (
                   <span className={cn(descriptionClasses, 'mt-2 line-clamp-4')}>
-                    {blog?.content && HTMLReactParser(blog?.content as string)}
+                    {blog?.content && <ReactHTMLParser html={blog?.content} />}
                   </span>
                 )}
                 {hasReadMoreEnabled && (
