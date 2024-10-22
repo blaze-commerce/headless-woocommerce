@@ -125,7 +125,7 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
                   $hoverColor={attributes.menuLinkHoverColor}
                   $hoverBackgroundColor={attributes.menuLinkHoverBackgroundColor}
                   $fontSize={attributes.fontSize ? attributes.fontSize : 14}
-                  className="flex cursor-pointer items-center gap-2.5"
+                  className="flex cursor-pointer items-center gap-2.5 rounded"
                   href={item.url}
                 >
                   <ReactHTMLParser html={item.title || ''} />
