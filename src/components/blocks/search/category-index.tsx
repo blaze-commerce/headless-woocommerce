@@ -15,6 +15,16 @@ type SearchCategoryIndexProps = {
 export const SearchCategoryIndex = ({ block }: SearchCategoryIndexProps) => {
   return (
     <Index indexName={TS_CONFIG.collectionNames.taxonomy}>
+      <HitsPerPage
+        className="hidden"
+        items={[
+          {
+            label: 'hits per page',
+            value: 5,
+            default: true,
+          },
+        ]}
+      />
       <Content content={block.innerBlocks} />
     </Index>
   );

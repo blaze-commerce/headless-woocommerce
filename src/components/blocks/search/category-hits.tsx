@@ -27,7 +27,7 @@ export const SearchCategoryHits = ({ block }: SearchCategoryHitsProps) => {
             href={hit.permalink}
           >
             <div className="group flex justify-start items-center py-1 cursor-pointer mb-2.5 hover:bg-[#F2F2F2]">
-              <p className={cn('text-[#585858] text-sm font-normal')}>
+              <p className={cn('text-[#585858] text-sm font-normal uppercase')}>
                 <ReactHTMLParser html={hit.name} />
               </p>
             </div>
