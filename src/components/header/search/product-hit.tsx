@@ -12,6 +12,7 @@ import { ITSImage } from '@src/lib/typesense/types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ProductHit = ({ hit }: any) => {
+  console.log('ProductHit hit', hit);
   const { push, prefetch } = useRouter();
   const { currentCurrency, currentCountry, settings } = useSiteContext();
   const ref = useRef<HTMLDivElement>(null);

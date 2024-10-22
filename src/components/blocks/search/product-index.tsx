@@ -4,19 +4,19 @@ import { Content } from '@src/components/blocks/content';
 import { HitsPerPage, Index } from 'react-instantsearch-hooks-web';
 import TS_CONFIG from '@src/lib/typesense/config';
 
-type SearchBlogIndexProps = {
+type SearchProductIndexProps = {
   block: ParsedBlock;
 };
 
-export const SearchBlogIndex = ({ block }: SearchBlogIndexProps) => {
+export const SearchProductIndex = ({ block }: SearchProductIndexProps) => {
   return (
-    <Index indexName={TS_CONFIG.collectionNames.page}>
+    <Index indexName={TS_CONFIG.collectionNames.product}>
       <HitsPerPage
-        className="hidden "
+        className="hidden"
         items={[
           {
             label: 'hits per page',
-            value: 5,
+            value: 10,
             default: true,
           },
         ]}

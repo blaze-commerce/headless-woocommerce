@@ -29,6 +29,8 @@ import { SearchCategoryIndex } from '@src/components/blocks/search/category-inde
 import { SearchCategoryHits } from '@src/components/blocks/search/category-hits';
 import { SearchBlogIndex } from '@src/components/blocks/search/blog-index';
 import { SearchBlogHits } from '@src/components/blocks/search/blog-hits';
+import { SearchProductHits } from '@src/components/blocks/search/product-hits';
+import { SearchProductIndex } from '@src/components/blocks/search/product-index';
 
 export const Container = ({ block }: BlockComponentProps) => {
   const { type } = useContentContext();
@@ -155,6 +157,14 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'SearchBlogHits')) {
     return <SearchBlogHits block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchProductIndex')) {
+    return <SearchProductIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchProductHits')) {
+    return <SearchProductHits block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;
