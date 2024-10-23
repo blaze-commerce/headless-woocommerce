@@ -16,7 +16,7 @@ export const SearchProductHits = ({ block }: SearchProductHitsProps) => {
   const { searchResultsLink } = useSearchContext();
   const attribute = block.attrs as BlockAttributes;
   return (
-    <div className={cn('product-hits', attribute.className)}>
+    <div className={cn('product-hits gap-3.5', attribute.className)}>
       {hits.length > 0 &&
         hits.map((hit: any) => (
           <ProductHit

@@ -12,7 +12,6 @@ import { ITSImage } from '@src/lib/typesense/types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ProductHit = ({ hit }: any) => {
-  console.log('ProductHit hit', hit);
   const { push, prefetch } = useRouter();
   const { currentCurrency, currentCountry, settings } = useSiteContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -45,15 +44,15 @@ export const ProductHit = ({ hit }: any) => {
       ref={ref}
       onMouseEnter={handleMouseEnter}
       onClick={handleMouseClick}
-      className="flex gap-4 justify-start group cursor-pointer mb-2.5 hover:bg-[#F2F2F2]"
+      className="flex gap-4 lg:flex-col justify-start group cursor-pointer mb-2.5 hover:bg-[#F2F2F2]"
     >
       <div>
-        <div className="w-[63px] h-[55px] overflow-hidden bg-gray-200 group-hover:opacity-75 ml-1">
+        <div className="w-[63px] h-[55px] lg:w-[173px] lg:h-[173px]  overflow-hidden  group-hover:opacity-75 ml-1">
           {thumbnail?.src ? (
             <Image
               src={thumbnail.src}
               alt={decode(thumbnail.altText)}
-              className="w-full h-full object-center object-cover rounded-lg"
+              className="w-full h-full object-center object-cover border rounded-lg"
               width={253}
               height={280}
             />
@@ -63,18 +62,14 @@ export const ProductHit = ({ hit }: any) => {
               alt="Thumbnail"
               width={253}
               height={280}
-              className="h-full w-full p-2.5 bg-gray-200 object-contain object-center rounded-lg"
+              className="h-full w-full p-2.5 bg-gray-200 object-contain object-center border rounded-lg"
             />
           )}
         </div>
       </div>
 
       <div className="space-y-2">
-        <p
-          className={cn('mb-1 text-xs xl:text-sm mt-0.5', {
-            'text-[#303030]': !settings?.search?.results?.customColors?.enabled,
-          })}
-        >
+        <p className={cn('mb-1 mt-0.5 text-[#000180] text-sm font-bold leading-[21px]')}>
           {decode(hit.name)}
         </p>
         {!isFree && (
@@ -101,11 +96,6 @@ export const ProductHit = ({ hit }: any) => {
                     'font-bold': !settings?.search?.results?.price?.font?.weight,
                     'text-xs': !settings?.search?.results?.price?.font?.size,
                   })}
-                  style={{
-                    color: settings?.search?.results?.price?.font?.color,
-                    fontWeight: settings?.search?.results?.price?.font?.weight ?? '',
-                    fontSize: settings?.search?.results?.price?.font?.size ?? '',
-                  }}
                 >
                   {formatPrice(hit.salePrice, currentCurrency)}
                 </span>
@@ -113,21 +103,11 @@ export const ProductHit = ({ hit }: any) => {
             ) : (
               <>
                 {settings?.isTaxExclusive ? (
-                  <span
-                    className={cn({
-                      'text-[#585858]': !settings?.search?.results?.customColors?.enabled,
-                    })}
-                    style={{ color: settings?.search?.results?.customColors?.color ?? '' }}
-                  >
+                  <span className="text-[#333333] text-sm font-bold  leading-none">
                     {formatPrice(hit.metaData?.priceWithTax, currentCurrency)}
                   </span>
                 ) : (
-                  <span
-                    className={cn({
-                      'text-[#585858]': !settings?.search?.results?.customColors?.enabled,
-                    })}
-                    style={{ color: settings?.search?.results?.customColors?.color ?? '' }}
-                  >
+                  <span className="text-[#333333] text-sm font-bold  leading-none">
                     {formatPrice(hit.price, currentCurrency)}
                   </span>
                 )}

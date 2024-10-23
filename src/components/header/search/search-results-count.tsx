@@ -15,18 +15,11 @@ export const SearchResultsCount = ({ searchResultsLink }: { searchResultsLink: s
       href={searchResultsLink}
     >
       <span
-        className={cn('flex flex-row items-center gap-2.5', {
-          'text-sm': !settings?.search?.results?.seeAll?.font?.size,
-          'font-semibold': !settings?.search?.results?.seeAll?.font?.weight,
-          'text-[#928A76]': !settings?.search?.results?.seeAll?.font?.color,
-        })}
-        style={{
-          color: settings?.search?.results?.seeAll?.font?.color ?? '',
-          fontSize: settings?.search?.results?.seeAll?.font?.size ?? '',
-          fontWeight: settings?.search?.results?.seeAll?.font?.weight ?? '',
-        }}
+        className={cn(
+          'flex flex-row items-center gap-2.5 text-center text-[#777777] text-base font-bold underline leading-normal'
+        )}
       >
-        See All Products ({results?.nbHits}) <ArrowRightIcon className="w-3.5 h-3.5" />
+        See All Products ({results?.nbHits})
       </span>
     </PrefetchLink>
   );

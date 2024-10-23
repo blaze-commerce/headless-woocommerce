@@ -17,7 +17,7 @@ export const SearchHitsContainer = ({ block }: SearchHitsContainerProps) => {
   return (
     <div
       className={cn(
-        'flex flex-col overflow-auto h-[calc(100vh-500px)] xl:h-[calc(100vh-200px)] px-6',
+        'flex flex-col overflow-auto h-[calc(100vh-100px)] xl:h-[calc(100vh-200px)] px-6',
         attribute.className
       )}
     >
