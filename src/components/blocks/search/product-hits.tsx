@@ -2,13 +2,7 @@ import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
-import { Content } from '@src/components/blocks/content';
-import { NoResultsBoundary } from '@src/components/header/search/no-results-boundary';
-import { NoResults } from '@src/components/header/search/no-results';
-import { Hits, HitsPerPage, Index, InstantSearch, useHits } from 'react-instantsearch-hooks-web';
-import TS_CONFIG from '@src/lib/typesense/config';
-import { PrefetchLink } from '@src/components/common/prefetch-link';
-import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { useHits } from 'react-instantsearch-hooks-web';
 import { ProductHit } from '@src/components/header/search/product-hit';
 import { SearchResultsCount } from '@src/components/header/search/search-results-count';
 import { useSearchContext } from '@src/context/search-context';
@@ -20,9 +14,9 @@ type SearchProductHitsProps = {
 export const SearchProductHits = ({ block }: SearchProductHitsProps) => {
   const { hits } = useHits();
   const { searchResultsLink } = useSearchContext();
-
+  const attribute = block.attrs as BlockAttributes;
   return (
-    <div className="product-hits">
+    <div className={cn('product-hits', attribute.className)}>
       {hits.length > 0 &&
         hits.map((hit: any) => (
           <ProductHit
