@@ -31,6 +31,7 @@ import { SearchBlogIndex } from '@src/components/blocks/search/blog-index';
 import { SearchBlogHits } from '@src/components/blocks/search/blog-hits';
 import { SearchProductHits } from '@src/components/blocks/search/product-hits';
 import { SearchProductIndex } from '@src/components/blocks/search/product-index';
+import { MaxMegaMenuOverlay } from '@src/components/blocks/maxmegamenu/overlay';
 
 export const Container = ({ block }: BlockComponentProps) => {
   const { type } = useContentContext();
@@ -165,6 +166,10 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'SearchProductHits')) {
     return <SearchProductHits block={block} />;
+  }
+
+  if (isBlockA(block, 'MaxMegaMenuOverlay')) {
+    return <MaxMegaMenuOverlay block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

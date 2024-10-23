@@ -14,13 +14,13 @@ import {
 } from '@src/components/blocks/maxmegamenu/styled-components';
 import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import { MobileMenuListItem } from '@src/components/blocks/maxmegamenu/mobile-menu-list-item';
-import { Overlay } from '@src/components/overlay';
 
 import { getMenuById } from '@src/lib/helpers/menu';
 import { useSiteContext } from '@src/context/site-context';
 import { cn } from '@src/lib/helpers/helper';
 import { NormalSubMenu } from '@src/components/blocks/maxmegamenu/normal-sub-menu';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { isBlockNameA } from '@src/lib/block';
 
 export const MAXMEGAMENU_BLOCK_NAME = 'maxmegamenu/location';
 
@@ -63,12 +63,10 @@ export type MaxMegaMenuAttributes = Partial<{
 
 export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
   const { asPath } = useRouter();
-  const { setShowMenu, showMenu } = useSiteContext();
   const [linkHovered, setLinkHovered] = useState(false);
 
   useEffect(() => {
     setLinkHovered(false);
-    setShowMenu(false);
   }, [asPath]);
 
   if (MAXMEGAMENU_BLOCK_NAME !== block.blockName) {
@@ -85,6 +83,21 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
   }
 
   const mainMenuItems = filter(mainMenu.items, (item) => !!item.title);
+
+  if (isBlockNameA(block, 'MobileMaxMegaMenu')) {
+    return (
+      <Menu className="relative overlaywats">
+        {Object.values(mainMenuItems).map((menuItem, index) => (
+          <MobileMenuListItem
+            key={`${menuItem.url}-${index}`}
+            menuItem={menuItem}
+            attributes={attributes}
+            originalItems={mainMenu.items}
+          />
+        ))}
+      </Menu>
+    );
+  }
 
   return (
     <>
@@ -151,26 +164,6 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
           })}
         </Menu>
       </MenuWrapper>
-
-      <Overlay
-        isShowing={showMenu}
-        setIsShowing={setShowMenu}
-        style={{
-          backgroundColor: attributes.mainNavigationBackgroundColor || '#fff',
-        }}
-        baseTextColor={attributes.mobileMenuLinkColor}
-      >
-        <Menu className="relative overlaywats">
-          {Object.values(mainMenuItems).map((menuItem) => (
-            <MobileMenuListItem
-              key={menuItem.url}
-              menuItem={menuItem}
-              attributes={attributes}
-              originalItems={mainMenu.items}
-            />
-          ))}
-        </Menu>
-      </Overlay>
     </>
   );
 };
