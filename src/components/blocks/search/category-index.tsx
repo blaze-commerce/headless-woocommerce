@@ -13,19 +13,22 @@ type SearchCategoryIndexProps = {
 };
 
 export const SearchCategoryIndex = ({ block }: SearchCategoryIndexProps) => {
+  const attribute = block.attrs as BlockAttributes;
   return (
-    <Index indexName={TS_CONFIG.collectionNames.taxonomy}>
-      <HitsPerPage
-        className="hidden"
-        items={[
-          {
-            label: 'hits per page',
-            value: 5,
-            default: true,
-          },
-        ]}
-      />
-      <Content content={block.innerBlocks} />
-    </Index>
+    <div className={attribute.className}>
+      <Index indexName={TS_CONFIG.collectionNames.taxonomy}>
+        <HitsPerPage
+          className="hidden"
+          items={[
+            {
+              label: 'hits per page',
+              value: 5,
+              default: true,
+            },
+          ]}
+        />
+        <Content content={block.innerBlocks} />
+      </Index>
+    </div>
   );
 };

@@ -10,6 +10,8 @@ import TS_CONFIG from '@src/lib/typesense/config';
 import { PrefetchLink } from '@src/components/common/prefetch-link';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { ProductHit } from '@src/components/header/search/product-hit';
+import { SearchResultsCount } from '@src/components/header/search/search-results-count';
+import { useSearchContext } from '@src/context/search-context';
 
 type SearchProductHitsProps = {
   block: ParsedBlock;
@@ -17,6 +19,7 @@ type SearchProductHitsProps = {
 
 export const SearchProductHits = ({ block }: SearchProductHitsProps) => {
   const { hits } = useHits();
+  const { searchResultsLink } = useSearchContext();
 
   return (
     <div className="product-hits">
@@ -27,6 +30,7 @@ export const SearchProductHits = ({ block }: SearchProductHitsProps) => {
             key={hit.id}
           />
         ))}
+      <SearchResultsCount searchResultsLink={searchResultsLink} />
     </div>
   );
 };
