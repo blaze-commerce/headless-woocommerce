@@ -4,9 +4,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import { useSearchBox } from 'react-instantsearch-hooks-web';
 
-import { useSiteContext } from '@src/context/site-context';
 import { track } from '@src/lib/track';
-import { Settings } from '@src/models/settings';
 import { cn } from '@src/lib/helpers/helper';
 import { useSearchContext } from '@src/context/search-context';
 import { BlockAttributes } from '@src/lib/block/types';

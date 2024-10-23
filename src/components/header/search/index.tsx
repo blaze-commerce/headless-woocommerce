@@ -26,7 +26,7 @@ type Props = SearchProps & {
 };
 
 export const Search: React.FC<Props> = (props) => {
-  const { className, input, results } = props;
+  const { results } = props;
 
   const { searchClient } = useTypesenseContext();
   const { asPath } = useRouter();
@@ -37,8 +37,9 @@ export const Search: React.FC<Props> = (props) => {
     searchResultsLink,
     shouldRenderSearchResult,
   } = useSearchContext();
+
   const [, setShowResult] = showResultState;
-  const [searchTerm, setSearchTerm] = searchTermState;
+  const [searchTerm] = searchTermState;
   const attribute = props.block.attrs as BlockAttributes;
 
   useOnClickOutside(searchResultRef, () => {
@@ -164,26 +165,11 @@ export const Search: React.FC<Props> = (props) => {
   };
 
   const renderSearchResults = () => {
-    const {
-      enabled = false,
-      backgroundColor = '#FFFFFF',
-      borderColor,
-      color,
-    } = results.customColors || {};
-    const resultStyles = {
-      backgroundColor,
-      borderColor,
-      color,
-    };
     return (
       <div
         className={cn(
-          ' rounded-xl mt-2 w-full  md:max-w-[810px] xl:max-w-[1465px] absolute md:-right-1 z-20 shadow-lg border left-0  bg-white',
-          {
-            'bg-white': !enabled,
-          }
+          ' rounded-xl mt-2 w-screen max-w-[1465px] absolute md:-right-1 z-20 shadow-lg border left-0  bg-white'
         )}
-        style={enabled ? resultStyles : undefined}
       >
         <div className="py-2.5 px-6 flex justify-between items-center  border-b border-b-[#E1E3E5]">
           <p className="text-[#888888] text-[10px] md:text-xs lg:text-sm leading-3">
@@ -216,7 +202,7 @@ export const Search: React.FC<Props> = (props) => {
       >
         <Content content={props.block.innerBlocks} />
 
-        {shouldRenderSearchResult && renderSearchResults()}
+        {/* {shouldRenderSearchResult && renderSearchResults()} */}
       </InstantSearch>
     </div>
   );

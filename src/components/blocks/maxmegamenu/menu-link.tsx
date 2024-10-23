@@ -13,7 +13,7 @@ type StyledMenuProps = {
   $colorSm?: string;
   $backgroundColor?: string;
   $fontWeight?: string;
-  $fontSize?: string;
+  $fontSize?: number;
   $letterCase?: string;
   $hoverColor?: string;
   $hoverBackgroundColor?: string;
@@ -36,7 +36,7 @@ export const StyledMenuLink = styled(Link)<StyledMenuProps>`
   color: ${(props) => props.$colorSm || props.$color || '#000'};
   font-weight: ${(props) => props.$fontWeight || '400'};
   font-size: ${(props) => (props.$fontSize ? `${props.$fontSize}px` : '14px')};
-  text-transform: ${(props) => props.$letterCase || 'none'};
+  ${(props) => props.$letterCase && `text-transform:${props.$letterCase}`};
 
   svg.chevron-down {
     fill: ${(props) => props.$color || '#000'};

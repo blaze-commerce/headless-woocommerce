@@ -22,7 +22,16 @@ import { BlogPosts } from '@src/components/blocks/wooless/blog-posts';
 import { PopoverSearchBlock } from '@src/components/blocks/popover-search';
 import { Search } from '@src/components/blocks/fibosearch/search';
 import { useContentContext } from '@src/context/content-context';
-import { SearchInput } from '@src/components/blocks/search/SearchInput';
+import { SearchInput } from '@src/components/blocks/search/input';
+import { SearchResultContainer } from '@src/components/blocks/search/search-result-container';
+import { SearchHitsContainer } from '@src/components/blocks/search/hits-container';
+import { SearchCategoryIndex } from '@src/components/blocks/search/category-index';
+import { SearchCategoryHits } from '@src/components/blocks/search/category-hits';
+import { SearchBlogIndex } from '@src/components/blocks/search/blog-index';
+import { SearchBlogHits } from '@src/components/blocks/search/blog-hits';
+import { SearchProductHits } from '@src/components/blocks/search/product-hits';
+import { SearchProductIndex } from '@src/components/blocks/search/product-index';
+import { MaxMegaMenuOverlay } from '@src/components/blocks/maxmegamenu/overlay';
 
 export const Container = ({ block }: BlockComponentProps) => {
   const { type } = useContentContext();
@@ -125,6 +134,42 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'SearchInput')) {
     return <SearchInput block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchResultContainer')) {
+    return <SearchResultContainer block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchHitsContainer')) {
+    return <SearchHitsContainer block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchCategoryIndex')) {
+    return <SearchCategoryIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchCategoryHits')) {
+    return <SearchCategoryHits block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchBlogIndex')) {
+    return <SearchBlogIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchBlogHits')) {
+    return <SearchBlogHits block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchProductIndex')) {
+    return <SearchProductIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchProductHits')) {
+    return <SearchProductHits block={block} />;
+  }
+
+  if (isBlockA(block, 'MaxMegaMenuOverlay')) {
+    return <MaxMegaMenuOverlay block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

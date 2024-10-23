@@ -168,6 +168,10 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
   const [selectedState, setSelectedState] = useLocalStorage('wooless-selected-state', '');
   const [ageVerified, setAgeVerified] = useLocalStorage<boolean>('age-verified', false);
 
+  useEffect(() => {
+    setShowMenu(false);
+  }, [asPath]);
+
   useMutation(UPDATE_CUSTOMER, {
     variables: {
       input: {
