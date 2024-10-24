@@ -45,7 +45,7 @@ export const NewsLetter = ({ block }: { block: ParsedBlock }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-y-3">
+    <div className={attribute.className}>
       {showSuccessMessage && <p className="text-sm text-green-700">Thank you for subscribing!</p>}
       {errors.email?.message && <p className="text-sm text-red-400">{errors.email.message}</p>}
       {showErrorMessage && apiResponse.validation_messages && emailId && (
@@ -53,7 +53,7 @@ export const NewsLetter = ({ block }: { block: ParsedBlock }) => {
       )}
       <form
         onSubmit={handleSubmit(processForm)}
-        className={cn('border border-[#56575A] max-w-sm', loading && 'animate-pulse')}
+        className={cn('flex flex-col gap-5 justify-start', loading && 'animate-pulse')}
       >
         <input
           type="hidden"
@@ -66,18 +66,25 @@ export const NewsLetter = ({ block }: { block: ParsedBlock }) => {
           {...register('emailId')}
           value={emailId}
         />
-
-        <input
-          {...register('email')}
-          className="py-2.5 px-3 w-56"
-          placeholder="Email address"
-          disabled={loading}
-        />
+        <div className="flex flex-col">
+          <label
+            htmlFor="email"
+            className="text-[#ac97ff] text-base font-normal leading-normal"
+          >
+            Email<span className="text-[#ff0000] text-base font-normal leading-normal">* </span>
+          </label>
+          <input
+            {...register('email')}
+            className="h-10 px-3.5 py-2.5 bg-[#000180] rounded-md border border-[#4041a6] justify-start items-center gap-1 inline-flex text-[#ac97ff] placeholder-[#ac97ff]"
+            placeholder="Email address"
+            disabled={loading}
+          />
+        </div>
         {!hideSubmit && (
           <button
             disabled={loading}
             className={cn(
-              'uppercase  py-2.5 px-[30px]',
+              'py-2.5 px-[30px]',
               submitClassnames ? submitClassnames : 'bg-[#DC3334] text-white'
             )}
           >
