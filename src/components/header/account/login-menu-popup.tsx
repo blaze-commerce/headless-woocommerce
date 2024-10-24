@@ -124,7 +124,7 @@ export const LoginMenuPopup: React.FC<Props> = ({
       </button>
       <div ref={loginPopOverRef}>
         {shouldShow && (
-          <div className="login-popup">
+          <div className="login-popup rounded">
             <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-5">
                 {isLoggedIn ? (
