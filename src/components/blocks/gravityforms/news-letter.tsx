@@ -66,13 +66,20 @@ export const NewsLetter = ({ block }: { block: ParsedBlock }) => {
           {...register('emailId')}
           value={emailId}
         />
-
-        <input
-          {...register('email')}
-          className="h-10 px-3.5 py-2.5 bg-[#000180] rounded-md border border-[#4041a6] justify-start items-center gap-1 inline-flex text-white"
-          placeholder="Email address"
-          disabled={loading}
-        />
+        <div className="flex flex-col">
+          <label
+            htmlFor="email"
+            className="text-[#ac97ff] text-base font-normal leading-normal"
+          >
+            Email<span className="text-[#ff0000] text-base font-normal leading-normal">* </span>
+          </label>
+          <input
+            {...register('email')}
+            className="h-10 px-3.5 py-2.5 bg-[#000180] rounded-md border border-[#4041a6] justify-start items-center gap-1 inline-flex text-[#ac97ff] placeholder-[#ac97ff]"
+            placeholder="Email address"
+            disabled={loading}
+          />
+        </div>
         {!hideSubmit && (
           <button
             disabled={loading}
