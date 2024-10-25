@@ -1,11 +1,11 @@
 import { find } from 'lodash';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 
 import { useSiteContext } from '@src/context/site-context';
 
 import { HeartIcon } from '@src/components/svg/heart';
 import { BlockAttributes } from '@src/lib/block/types';
 import { Html } from '@src/components/blocks/core/html';
+import { ParsedBlock } from '@src/components/blocks';
 
 type Props = {
   block: ParsedBlock;
