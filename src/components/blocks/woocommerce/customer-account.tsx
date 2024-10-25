@@ -1,5 +1,5 @@
+import { ParsedBlock } from '@src/components/blocks';
 import { LoginMenuPopup } from '@src/components/header/account/login-menu-popup';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { find } from 'lodash';
 
 type Props = {
