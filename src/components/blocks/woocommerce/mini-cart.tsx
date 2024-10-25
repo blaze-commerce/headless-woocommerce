@@ -1,5 +1,5 @@
+import { ParsedBlock } from '@src/components/blocks';
 import { CartBasketIcon } from '@src/features/mini-cart/cart-icon';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { find } from 'lodash';
 
 type Props = {
