@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server';
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
 import postSlugs from '@public/post-slugs.json';
-
-const typedPostSlugs: string[] = postSlugs;
 import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
 import { getDefaultCountry } from '@src/lib/helpers/country';
 import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
@@ -13,6 +11,9 @@ import { stripSlashes } from '@src/lib/helpers/helper';
 import { NextURL } from 'next/dist/server/web/next-url';
 
 import pageSlugs from '@public/page-slugs.json';
+
+const typedPostSlugs: string[] = postSlugs;
+const typedPageSlugs: string[] = pageSlugs;
 
 // Limit middleware pathname config
 export const config = {
@@ -124,12 +125,12 @@ export async function middleware(req: NextRequest) {
   modifiedPathName = stripSlashes(modifiedPathName);
 
   // @TODO we will handle parent child post/page url structure later
-  if (pageSlugs.includes(modifiedPathName)) {
+  if (typedPageSlugs.includes(modifiedPathName)) {
     req.nextUrl.pathname = `/${currentCountry}/page/${modifiedPathName}`;
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
-  if (typedPostSlugs.includes(modifiedPathName)) {
+  }
 
-  if (postSlugs.includes(modifiedPathName)) {
+  if (typedPostSlugs.includes(modifiedPathName)) {
     req.nextUrl.pathname = `/${currentCountry}/post/${modifiedPathName}`;
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
