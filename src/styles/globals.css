@@ -322,6 +322,10 @@ body {
   }
 
   /** Default style for core blocks */
+  .core-columns {
+    @apply flex flex-col md:flex-row gap-4;
+  }
+
   .core-columns .core-column {
     /* @apply flex-grow flex-shrink-0; */
   }

@@ -7,7 +7,7 @@ export const Columns = ({ block }: BlockComponentProps) => {
     return null;
   }
   return (
-    <div className={cn(`_${block.id}`, 'flex flex-row gap-4 core-columns')}>
+    <div className={cn(`_${block.id}`, 'core-columns')}>
       <Content content={block.innerBlocks} />
     </div>
   );

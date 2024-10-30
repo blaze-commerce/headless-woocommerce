@@ -338,88 +338,84 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   };
 
   const bannerStyle = {
-    marginTop: `${shop?.layout?.bannerMarginTop}px` ?? '0px',
+    marginTop: shop?.layout?.bannerMarginTop ? `${shop?.layout?.bannerMarginTop}px` : '0px',
   };
 
   const shoulShowLoadMore = !isEmpty(tsPaginationInfo) && tsPaginationInfo.nextPage > 0;
   return (
     <>
       {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
-      <main className="max-w-[1478px] mx-auto block">
-        <LoadingModal isOpen={loading} />
-
-        {props.showBreadCrumbs && showBreadCrumbs && (
-          <BreadCrumbs
-            className="flex mt-5"
-            separator={breadcrumb}
-            crumbs={props?.taxonomyData?.breadcrumbs}
-          />
+      <LoadingModal isOpen={loading} />
+      {props.showBreadCrumbs && showBreadCrumbs && (
+        <BreadCrumbs
+          className="flex mt-5"
+          separator={breadcrumb}
+          crumbs={props?.taxonomyData?.breadcrumbs}
+        />
+      )}
+      {props.showBanner && (
+        <Banner
+          {...props.hero}
+          style={bannerStyle}
+        />
+      )}
+      ads
+      <div className="container">
+        {isCategoryListEnabled && props.subCategories && (
+          <CategoryList subCategories={props.subCategories as SubCategory[]} />
         )}
 
-        {props.showBanner && (
-          <Banner
-            {...props.hero}
-            style={bannerStyle}
-          />
-        )}
+        <Filter
+          pageNo={tsPaginationInfo.page}
+          productCount={tsPaginationInfo.totalFound}
+          applyFilter={applyFilter}
+          onSortChange={onSortChange}
+        >
+          {productsData.length > 0 ? (
+            <Fragment>
+              <div className="mx-0">
+                <ProductGrid productColumns={productColumns}>
+                  {transformProductsForDisplay(productsData).map((product, index: number) => (
+                    <ProductCard
+                      key={index}
+                      product={product}
+                      productFilters={productFilters}
+                      productColumns={productColumns}
+                      showWishlistButton={wishlist?.enabled}
+                      {...productCards}
+                      hasAddToCart={productCards?.hasAddToCart}
+                    />
+                  ))}
+                </ProductGrid>
+              </div>
+              {loading && (
+                <div className="mx-0">
+                  <SkeletonCategory
+                    productColumns={productColumns}
+                    productCount={layout?.productCount}
+                  />
+                </div>
+              )}
 
-        <div className="container">
-          {isCategoryListEnabled && props.subCategories && (
-            <CategoryList subCategories={props.subCategories as SubCategory[]} />
+              {shoulShowLoadMore && <LoadMoreButton loadMoreItems={loadMoreItems} />}
+            </Fragment>
+          ) : (
+            <p>No products found</p>
           )}
 
-          <Filter
-            pageNo={tsPaginationInfo.page}
-            productCount={tsPaginationInfo.totalFound}
-            applyFilter={applyFilter}
-            onSortChange={onSortChange}
-          >
-            {productsData.length > 0 ? (
-              <Fragment>
-                <div className="mx-0">
-                  <ProductGrid productColumns={productColumns}>
-                    {transformProductsForDisplay(productsData).map((product, index: number) => (
-                      <ProductCard
-                        key={index}
-                        product={product}
-                        productFilters={productFilters}
-                        productColumns={productColumns}
-                        showWishlistButton={wishlist?.enabled}
-                        {...productCards}
-                        hasAddToCart={productCards?.hasAddToCart}
-                      />
-                    ))}
-                  </ProductGrid>
-                </div>
-                {loading && (
-                  <div className="mx-0">
-                    <SkeletonCategory
-                      productColumns={productColumns}
-                      productCount={layout?.productCount}
-                    />
-                  </div>
-                )}
-
-                {shoulShowLoadMore && <LoadMoreButton loadMoreItems={loadMoreItems} />}
-              </Fragment>
-            ) : (
-              <p>No products found</p>
-            )}
-
-            {layout?.productFilters === '2' && (
-              <div className="mt-4 flex items-center justify-center">
-                <ResultCount
-                  pageNo={tsPaginationInfo.page}
-                  productCount={tsPaginationInfo.totalFound}
-                />
-              </div>
-            )}
-          </Filter>
-          <div className="py-10 category-description">
-            <Description description={props.taxonomyDescription} />
-          </div>
+          {layout?.productFilters === '2' && (
+            <div className="mt-4 flex items-center justify-center">
+              <ResultCount
+                pageNo={tsPaginationInfo.page}
+                productCount={tsPaginationInfo.totalFound}
+              />
+            </div>
+          )}
+        </Filter>
+        <div className="py-10 category-description">
+          <Description description={props.taxonomyDescription} />
         </div>
-      </main>
+      </div>
     </>
   );
 };

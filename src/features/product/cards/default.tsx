@@ -7,7 +7,6 @@ import { useEffectOnce, useIntersectionObserver } from 'usehooks-ts';
 import { CardRating } from '@src/features/product/card-elements/rating';
 import { CardTitle } from '@src/features/product/card-elements/title';
 import { CardLabel } from '@src/features/product/card-elements/label';
-import { CardVariants } from '@src/features/product/card-elements/variants';
 import { seoUrlParser } from '@src/components/page-seo';
 import { CardAddToCart } from '@src/features/product/card-elements/add-to-cart';
 import { CardPrice } from '@src/features/product/card-elements/price';
@@ -19,12 +18,18 @@ import { cn } from '@src/lib/helpers/helper';
 import type { ProductCards } from '@src/models/settings/shop';
 import { GliderMethods } from 'react-glider/dist/types';
 
-const CardImage = dynamic(() =>
-  import('@src/features/product/card-elements/image').then((mod) => mod.CardImage)
+const CardSlideshow = dynamic(() =>
+  import('@src/features/product/card-elements/slideshow').then((mod) => mod.CardSlideshow)
 );
 
-const CardVariantImages = dynamic(() =>
-  import('@src/features/product/card-elements/variant-images').then((mod) => mod.CardVariantImages)
+const CardGalleryThumbnail = dynamic(() =>
+  import('@src/features/product/card-elements/slideshow-thumbnail').then(
+    (mod) => mod.CardGalleryThumbnail
+  )
+);
+
+const CardImage = dynamic(() =>
+  import('@src/features/product/card-elements/image').then((mod) => mod.CardImage)
 );
 
 const CardDiscountLabel = dynamic(() =>
@@ -90,13 +95,6 @@ export const DefaultProductCard = (props: Props) => {
   const { prefetch } = useRouter();
   const parsedProduct = Product.buildFromResponse(product as ProductTypesenseResponse);
 
-  const variants = useMemo(() => {
-    if (showVariants && product?.variations) {
-      return product.variations.filter((variant) => variant.thumbnail);
-    }
-    return [];
-  }, [showVariants, product]);
-
   useEffectOnce(() => {
     track.viewItemList(parsedProduct);
   });
@@ -137,21 +135,22 @@ export const DefaultProductCard = (props: Props) => {
       }}
     >
       <div>
-        {variants.length > 0 && (
-          <CardVariantImages
-            variants={variants}
+        {product?.galleryImages && product?.galleryImages.length > 1 && (
+          <CardSlideshow
+            product={parsedProduct}
             gliderRef={gliderRef}
           />
         )}
-        {variants.length === 0 && (
-          <CardImage
-            product={parsedProduct}
-            imageClassNames={props.imageClassNames}
-            productFilters={props.productFilters}
-            productColumns={props.productFilters}
-            showWishlistButton={showWishlistButton}
-          />
-        )}
+        {!product?.galleryImages ||
+          (product?.galleryImages.length === 0 && (
+            <CardImage
+              product={parsedProduct}
+              imageClassNames={props.imageClassNames}
+              productFilters={props.productFilters}
+              productColumns={props.productColumns}
+              showWishlistButton={showWishlistButton}
+            />
+          ))}
         {isOnSale && (
           <CardSaleBadge
             badgeType={saleBadgeType}
@@ -189,11 +188,13 @@ export const DefaultProductCard = (props: Props) => {
           detailsAlignment={detailsAlignment}
           showRating={showRating}
         />
-        <CardVariants
-          variants={variants}
-          detailsAlignment={detailsAlignment}
-          gliderRef={gliderRef}
-        />
+        {product?.galleryImages && product?.galleryImages.length > 1 && (
+          <CardGalleryThumbnail
+            product={product}
+            detailsAlignment={detailsAlignment}
+            gliderRef={gliderRef}
+          />
+        )}
         <div className={`text-${detailsAlignment} w-full lg:w-auto mt-2`}>
           <CardPrice
             product={parsedProduct}
