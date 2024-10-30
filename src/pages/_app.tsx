@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import '@public/styles/styles.css';
 import '@styles/globals.css';
+import '@styles/form.css';
 import 'glider-js/glider.min.css';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
