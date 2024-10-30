@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
 import postSlugs from '@public/post-slugs.json';
+
 import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
 import { getDefaultCountry } from '@src/lib/helpers/country';
 import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
@@ -61,6 +62,8 @@ export async function middleware(req: NextRequest) {
   ) {
     return NextResponse.next();
   }
+
+  const typedPostSlugs: string[] = postSlugs;
 
   // Extract country
   let country = req.cookies.get('currentCountry')?.value;
@@ -127,7 +130,7 @@ export async function middleware(req: NextRequest) {
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
-  if (postSlugs.includes(modifiedPathName)) {
+  if (typedPostSlugs.includes(String(modifiedPathName))) {
     req.nextUrl.pathname = `/${currentCountry}/post/${modifiedPathName}`;
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
