@@ -125,20 +125,17 @@ export const WishListIcon: React.FC<Props> = (props) => {
         onMouseLeave={() => setIsWishlistHovering(false)}
         style={!isEmpty(wishlistButtonStyle) && isSingleProduct ? wishlistButtonStyle : {}}
       >
+        <span className="button-label">Add to Wishlist</span>
         {isWishlistHovering ? (
           <HeartFilledIcon
             strokeColor={isSingleProduct ? iconColor : ''}
-            fillColor={
-              isSingleProduct ? (isWishlistHovering ? buttonHoverIconColor : buttonIconColor) : ''
-            }
+            fillColor={'#fff'}
             className={cn({ 'fill-brand-wishlist-hover-icon-fill': !isSingleProduct })}
           />
         ) : (
           <HeartFilledIcon
             strokeColor={isSingleProduct ? iconColor : ''}
-            className={cn('border-white fill-blue-50 group-hover/wishlist:fill-white', {
-              'fill-brand-wishlist-icon-fill': !isSingleProduct,
-            })}
+            className={cn('border-white group-hover/wishlist:fill-brand-primary fill-white')}
           />
         )}
       </p>
