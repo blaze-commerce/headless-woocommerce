@@ -14,8 +14,6 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
 
   if (!product) return null;
 
-  console.log({ gallery: product?.galleryImages });
-
   return (
     <div className="product-variant-image-holder">
       <Glider
