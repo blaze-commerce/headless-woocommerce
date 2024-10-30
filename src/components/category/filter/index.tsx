@@ -364,11 +364,8 @@ export const Filter: React.FC<Props> = (props) => {
           onSortChange={onSortChange}
         />
       </Modal>
-
       {renderMobileFilterButtons()}
-
       {renderMobileActiveFilters()}
-
       <div className="hidden lg:flex items-center justify-between gap-x-3.5 gap-y-10 border-y border-[#C0C0C0] py-3">
         {renderFilterBy()}
         {renderActiveFilters()}

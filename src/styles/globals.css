@@ -322,6 +322,10 @@ body {
   }
 
   /** Default style for core blocks */
+  .core-columns {
+    @apply flex flex-col md:flex-row gap-4;
+  }
+
   .core-columns .core-column {
     /* @apply flex-grow flex-shrink-0; */
   }
@@ -337,6 +341,18 @@ body {
 
   .single-product .price-container {
     @apply mt-2;
+  }
+
+  .single-product .stock-status {
+    @apply text-sm mt-2;
+  }
+
+  .single-product .stock-status .instock {
+    @apply text-[#009E10];
+  }
+
+  .single-product .stock-status .outofstock {
+    @apply text-red-600;
   }
 
   .single-product .product-meta .core-group {
