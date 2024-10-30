@@ -91,12 +91,12 @@ export const AddToCartForm = () => {
       {renderMatchedVariant()}
       {product.hasBundle && <AddToCartBundle />}
       {product.hasAddons() && <AddToCartAddons />}
-      <div className="fixed bottom-0 right-0 p-4 bg-brand-secondary w-full lg:w-auto md:bg-[#ECEEEFE8] z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw]">
-        <div className="flex items-stretch justify-start gap-2.5">
-          <span className="items-center text-sm text-black font-bold flex">Qty:</span>
+      <div className="button-container">
+        <div className="button-wrapper">
+          <span className="quantity-label">Qty:</span>
           <div className="quantity">
             <div
-              className={cn('quantity-control text-black', {
+              className={cn('quantity-control', {
                 hidden: product?.isGiftCard,
               })}
               onClick={decrementQuantity}
@@ -104,7 +104,7 @@ export const AddToCartForm = () => {
               -
             </div>
             <input
-              className="quantity-input text-black"
+              className="quantity-input"
               type="text"
               value={quantity || ''}
               onChange={onQuantityChange}
@@ -112,7 +112,7 @@ export const AddToCartForm = () => {
               disabled={product?.isGiftCard}
             />
             <div
-              className={cn('quantity-control text-black', {
+              className={cn('quantity-control', {
                 hidden: product?.isGiftCard,
               })}
               onClick={incrementQuantity}
@@ -122,14 +122,11 @@ export const AddToCartForm = () => {
           </div>
           <button
             disabled={loading || disableAddToCart}
-            className={cn(
-              'add-to-cart flex items-center justify-center bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text sm:px-4 p-0 flex-grow w-full text-sm font-medium',
-              {
-                'opacity-50': loading || disableAddToCart,
-                'bg-brand-secondary': !settings?.buttonColor?.background,
-                'text-white': !settings?.buttonColor?.text,
-              }
-            )}
+            className={cn('button-add-to-cart', {
+              disabled: loading || disableAddToCart,
+              'bg-brand-secondary': !settings?.buttonColor?.background,
+              'text-white': !settings?.buttonColor?.text,
+            })}
             // style={{
             //   color: settings?.buttonColor?.text ?? '',
             //   backgroundColor: settings?.buttonColor?.background ?? '',
@@ -154,14 +151,11 @@ export const AddToCartForm = () => {
               action="add"
               showIcon={true}
               product={product}
-              classNames={cn(
-                'cursor-pointer group/wishlist flex justify-center items-center p-2.5 w-14',
-                {
-                  'rounded-sm border': layout?.wishlist?.buttonType === '1',
-                  'rounded-full border': layout?.wishlist?.buttonType === '2',
-                  'shadow-[0_4px_8px_rgba(0,0,0,0.1)]': layout?.wishlist?.buttonType === '2',
-                }
-              )}
+              classNames={cn('wishlist-button', {
+                'rounded-sm border': layout?.wishlist?.buttonType === '1',
+                'rounded-full border': layout?.wishlist?.buttonType === '2',
+                'shadow-[0_4px_8px_rgba(0,0,0,0.1)]': layout?.wishlist?.buttonType === '2',
+              })}
               buttonBgColor={'#fff'}
               buttonHoverBackgroundColor={settings?.wishlistColor.hoverBackground}
               buttonStrokeColor={settings?.wishlistColor.iconStroke}
