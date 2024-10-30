@@ -20,7 +20,7 @@ export const useNewsLetter = (): useNewsLetterResult => {
     const config: AxiosRequestConfig = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/api/newsletter',
+      url: '/api/newsletter/',
       headers: {
         'Content-Type': 'application/json',
       },

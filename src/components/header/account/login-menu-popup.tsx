@@ -14,8 +14,8 @@ import { FormattedCart } from '@src/lib/hooks/cart';
 import { setCookie } from '@src/lib/helpers/cookie';
 import { DisplayType, getDisplayTypeValues } from '@src/lib/helpers/menu';
 import { useAuth } from '@src/lib/hooks';
-import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parser';
 import { Html } from '@src/components/blocks/core/html';
+import { ParsedBlock } from '@src/components/blocks';
 
 type Props = {
   displayType?: DisplayType | string | null;
@@ -34,7 +34,7 @@ export const LoginMenuPopup: React.FC<Props> = ({
 }) => {
   const { logout, refetchViewer } = useAuth();
   const { push, query } = useRouter();
-  const { settings, setCart, loginPopupState } = useSiteContext();
+  const { setCart, loginPopupState } = useSiteContext();
   const [openLoginPopUp, setOpenLoginPopUp] = loginPopupState;
   const [isOpenLogin, setIsOpenLogin] = useState(openLoginPopUp);
   const { isLoggedIn, loginSessionId } = useUserContext();
@@ -124,7 +124,7 @@ export const LoginMenuPopup: React.FC<Props> = ({
       </button>
       <div ref={loginPopOverRef}>
         {shouldShow && (
-          <div className="login-popup">
+          <div className="login-popup rounded">
             <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-5">
                 {isLoggedIn ? (

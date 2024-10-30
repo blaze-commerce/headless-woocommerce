@@ -16,6 +16,7 @@ export const Header = () => {
       >
         <Content content={HEADER_DATA} />
       </header>
+
       <WishList />
     </>
   );

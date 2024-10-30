@@ -1,7 +1,6 @@
 import { useSiteContext } from '@src/context/site-context';
 import { HamburgerIcon } from '@src/components/svg/hamburger';
 import { BlockComponentProps } from '@src/components/blocks';
-import { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/block';
 import { find } from 'lodash';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';

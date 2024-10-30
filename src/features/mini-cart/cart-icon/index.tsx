@@ -2,8 +2,8 @@ import { PushCart } from '@src/features/mini-cart/cart-icon/push-cart';
 import { ShoppingBag } from '@src/features/mini-cart/cart-icon/shopping-bag';
 import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { Html } from '@src/components/blocks/core/html';
+import { ParsedBlock } from '@src/components/blocks';
 
 type Props = {
   showText: boolean;

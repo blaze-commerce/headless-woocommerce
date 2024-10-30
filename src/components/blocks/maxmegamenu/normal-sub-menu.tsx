@@ -35,7 +35,7 @@ export const NormalSubMenu: React.FC<Props> = ({ items, attributes }) => {
               $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
               $fontWeight={attributes.fontWeight}
               $letterCase={attributes.letterCase}
-              className="flex cursor-pointer items-center"
+              className="flex cursor-pointer items-center rounded"
               href={menuItem.url}
             >
               <ReactHTMLParser html={menuItem.title || ''} />

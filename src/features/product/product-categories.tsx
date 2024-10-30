@@ -22,7 +22,15 @@ export const ProductCategories = () => {
   }
   return (
     <p className="mb-4 text-xs font-normal leading-none">
-      Categories: {categories.map((tax) => <ReactHTMLParser html={tax.name} />).join(', ')}
+      Categories:{' '}
+      {categories
+        .map((tax, key) => (
+          <ReactHTMLParser
+            key={key}
+            html={tax.name}
+          />
+        ))
+        .join(', ')}
     </p>
   );
 };

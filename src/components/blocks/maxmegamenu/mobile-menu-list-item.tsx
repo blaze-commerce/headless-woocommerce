@@ -37,8 +37,13 @@ export const MobileMenuListItem: React.FC<Props> = ({ attributes, menuItem, orig
       <MenuLink
         className="flex cursor-pointer items-center justify-between gap-2.5"
         $padding={attributes.menuLinkPadding}
-        $backgroundColor={attributes.mainNavigationBackgroundColor}
-        $color={attributes.mobileMenuLinkColor}
+        $color={attributes.menuLinkColor}
+        $backgroundColor={attributes.menuLinkBackgroundColor}
+        $fontWeight={attributes.fontWeight}
+        $letterCase={attributes.letterCase}
+        $hoverColor={attributes.menuLinkHoverColor}
+        $hoverBackgroundColor={attributes.menuLinkHoverBackgroundColor}
+        $fontSize={attributes.fontSize ? attributes.fontSize : 14}
         href={menuItem.url}
         onClick={menuItem.url === '#' ? toggleChildMenuOnClick : undefined}
       >
