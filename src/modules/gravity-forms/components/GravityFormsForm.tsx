@@ -7,11 +7,18 @@ import {
 } from '../generated/graphql';
 import useGravityForm from '../hooks/useGravityForm';
 import GravityFormsField from './GravityFormsField';
+import { Spinner } from '@src/components/svg/spinner';
 const SUBMIT_FORM = gql`
   mutation submitForm($formId: ID!, $fieldValues: [FormFieldValuesInput]!) {
     submitGravityFormsForm: submitGfForm(input: { id: $formId, fieldValues: $fieldValues }) {
       errors {
         id
+        message
+      }
+      entry {
+        id
+      }
+      confirmation {
         message
       }
     }
@@ -24,7 +31,7 @@ interface Props {
 
 export default function GravityFormsForm({ form }: Props) {
   const [submitForm, { data, loading, error }] = useMutation(SUBMIT_FORM);
-  const haveEntryId = Boolean(data?.submitGravityFormsForm?.entryId);
+  const haveEntryId = Boolean(data?.submitGravityFormsForm?.entry?.id);
   const haveFieldErrors = Boolean(data?.submitGravityFormsForm?.errors?.length);
   const wasSuccessfullySubmitted = haveEntryId && !haveFieldErrors;
   const defaultConfirmation = form.confirmations?.find((confirmation) => confirmation?.isDefault);
@@ -72,7 +79,7 @@ export default function GravityFormsForm({ form }: Props) {
         type="submit"
         disabled={loading}
       >
-        {form?.button?.text || 'Submit'}
+        {loading ? <Spinner className="text-white" /> : form?.button?.text || 'Submit'}
       </button>
     </form>
   );
