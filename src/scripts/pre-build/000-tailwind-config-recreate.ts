@@ -21,9 +21,7 @@ const tailwindConfig = `module.exports = {
     './public/site.json',
     './src/styles/styles.css',
     './public/menu.json',
-    './public/single-product.json',
-    './public/single-post.json',
-    './public/page.json',
+    './public/product.json',
     './public/footer.json',
     './public/header.json',
     './public/styles/styles.css',
@@ -31,6 +29,17 @@ const tailwindConfig = `module.exports = {
     './public/page/*.json',
   ],
   theme: {
+    container: {
+      screens: {
+        sm: '540px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+        '3xl': '1600px',
+        '4xl': '1750px',
+      },
+    },
     extend: {
       animation: {
         fade: 'fadeIn 1s ease-in-out',
