@@ -48,6 +48,7 @@ export default function GravityFormsForm({ form }: Props) {
         fieldValues: state,
       },
     }).catch((error) => {
+      // eslint-disable-next-line no-console
       console.error(error);
     });
   }

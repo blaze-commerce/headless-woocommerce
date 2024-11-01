@@ -9,7 +9,7 @@ export default async function execute() {
     const theme = await SiteInfo.find('theme_json');
 
     if (theme?.value) {
-      const pageFilePath = path.join(process.cwd(), 'public', 'theme.json');
+      const pageFilePath = path.join(process.cwd(), 'public', 'wp-theme.json');
       fs.writeFileSync(pageFilePath, parseJSON(JSON.stringify(theme?.value)), {
         encoding: 'utf-8',
       });

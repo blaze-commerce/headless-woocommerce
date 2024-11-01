@@ -15,5 +15,5 @@
 }
 
 .gf-form button[type="submit"] {
-  @apply bg-brand-primary text-white rounded-sm px-4 py-3;
+  @apply bg-primary text-primary rounded-sm px-4 py-3;
 }
