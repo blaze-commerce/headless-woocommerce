@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-import { SiteInfo } from '@src/lib/typesense/site-info';
-import { parseJSON } from '@src/scripts/utils';
 import * as fs from 'fs';
 import path from 'path';
 import wpTheme from '@public/wp-theme.json';
