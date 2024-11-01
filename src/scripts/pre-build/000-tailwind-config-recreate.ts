@@ -4,8 +4,18 @@ import path from 'path';
 import theme from '@public/theme.json';
 
 const gridItemWidths = ['25', '33', '50', '66', '75', '100']; // this is what is provider by generate press block settins GRID ITEM WIDTH (%)
+const gridItemWidthsClasses = gridItemWidths
+  .flatMap((i) => [`w-[${i}%]`, `md:w-[${i}%]`, `lg:w-[${i}%]`])
+  .map((item) => `'${item}'`)
+  .join(',');
 
-const tailwindConfig = {
+const safeListPattern = /(mb|mt|ml|mr)-\d*/;
+
+const themeColors = Object.entries(theme.colorClasses)
+  .map(([key, value]) => `'${key}': '${value}'`)
+  .join(',\n');
+
+const tailwindConfig = `module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     './public/site.json',
@@ -54,7 +64,7 @@ const tailwindConfig = {
         'brand-wishlist-hover-icon-fill': 'var(--colors-brandWishlistHoverIconFill)',
         'brand-wishlist-hover-icon-stroke': 'var(--colors-brandWishlistHoverIconStroke)',
         'contrast-3': '#655B51',
-        ...theme.colorClasses,
+        ${themeColors}
       },
       fontFamily: {
         sans: ['var(--font-site-font)'],
@@ -63,27 +73,23 @@ const tailwindConfig = {
   },
   safelist: [
     {
-      pattern: /(mb|mt|ml|mr)-\d*/,
+      pattern: ${safeListPattern},
     },
-    ...gridItemWidths.flatMap((i) => [`w-[${i}%]`, `md:w-[${i}%]`, `lg:w-[${i}%]`]),
+    ${gridItemWidthsClasses}
   ],
   corePlugins: {
     aspectRatio: false,
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')],
-};
+};`;
 
 export default async function execute() {
   try {
     console.log('recreating/update tailwind config');
     const tailwindPath = path.join(process.cwd(), 'tailwind.config.js');
-    fs.writeFileSync(
-      tailwindPath,
-      `/* eslint-disable quotes */\nmodule.exports = ${JSON.stringify(tailwindConfig, null, 2)};`,
-      {
-        encoding: 'utf-8',
-      }
-    );
+    fs.writeFileSync(tailwindPath, `${tailwindConfig}`, {
+      encoding: 'utf-8',
+    });
   } catch (error) {
     console.error('Error recreating/update tailwind config:', error);
   }
