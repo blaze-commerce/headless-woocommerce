@@ -15,6 +15,21 @@ const themeColors = Object.entries(theme.colorClasses)
   .map(([key, value]) => `'${key}': '${value}'`)
   .join(',\n');
 
+const fontFamilies = Object.entries(theme.fontFamilies);
+const modifiedFontFamilies: [string, string][] = [...fontFamilies];
+
+if (fontFamilies.length >= 1) {
+  modifiedFontFamilies.push(['primary', fontFamilies[0][1]]);
+}
+
+if (fontFamilies.length >= 2) {
+  modifiedFontFamilies.push(['secondary', fontFamilies[1][1]]);
+}
+
+const fontFamilyConfig = modifiedFontFamilies
+  .map(([key, value]) => `'${key}': '${value}'`)
+  .join(',\n');
+
 const tailwindConfig = `module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
@@ -76,7 +91,7 @@ const tailwindConfig = `module.exports = {
         ${themeColors}
       },
       fontFamily: {
-        sans: ['var(--font-site-font)'],
+        ${fontFamilyConfig}
       },
     },
   },

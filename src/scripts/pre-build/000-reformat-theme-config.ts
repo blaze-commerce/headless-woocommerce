@@ -14,6 +14,10 @@ export default async function execute() {
         acc[`${name}`] = `var(--${name})`;
         return acc;
       }, {} as Record<string, string>),
+      fontFamilies: wpTheme.typography?.fontFamilies?.custom.reduce((acc, { slug }) => {
+        acc[`${slug}`] = `var(--font-${slug})`;
+        return acc;
+      }, {} as Record<string, string>),
     };
 
     const pageFilePath = path.join(process.cwd(), 'public', 'theme.json');

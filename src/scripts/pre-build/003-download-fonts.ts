@@ -5,6 +5,7 @@ import googleFonts from '@config/fonts-list.json';
 import * as fs from 'fs';
 import path from 'path';
 import https from 'https';
+import wpTheme from '@public/wp-theme.json';
 import { endsWith, get } from 'lodash';
 
 const isItalic = (str: string) => {
@@ -23,59 +24,63 @@ const generateFontContent = (fontPaths: string) => {
 };
 
 export default async function execute() {
-  const fontConfigJSON: (unknown[] & { family: string; format: string })[] = [];
-  const fontConfigJSONForImport = [];
-  let fontPaths = '';
-
   try {
     const fontPath = path.resolve(process.cwd(), 'public', 'fonts');
+    const newFontPath = path.join(process.cwd(), 'public', 'fonts.ts');
 
     maybeDeleteDir(fontPath);
+    // Ensure the directory exists
+    maybeCreateDir(fontPath);
     maybeDeleteFile(path.resolve(process.cwd(), 'public', 'fonts.ts'));
+    const fontFamilies = wpTheme.typography?.fontFamilies?.custom;
 
-    const fontFamily = siteData.store.fontFamily;
-    if (fontFamily) {
-      const matchFont = googleFonts.find((font) => font.family === fontFamily);
+    if (fontFamilies) {
+      let output = '// Generated fonts.ts file\n\n';
+      output += `import localFont from '${'@next/font/local'}';\n\n`;
+      // output += `export const ${'fonts'} = {\n`;
 
-      maybeCreateDir(fontPath);
-      if (matchFont) {
-        for (const fontWeight in matchFont.files) {
-          const fontUrl = get(matchFont.files, fontWeight);
-          if (fontUrl) {
-            const extension = path.extname(new URL(fontUrl).pathname);
-            const fontFileName = `${fontFamily}-${fontWeight}${extension}`;
-            const fontFile = path.resolve(fontPath, fontFileName);
-            const fontConfigObj = {
-              path: `/fonts/${fontFileName}`,
-              weight: fontWeight.replace(/[a-zA-Z]/g, '').trim() || '400',
-              style: isItalic(fontWeight) ? 'italic' : 'normal',
-            };
-            fontPaths += `{ path: '/fonts/${fontFileName}', weight: '${
-              fontWeight.replace(/[a-zA-Z]/g, '').trim() || '400'
-            }', style: '${isItalic(fontWeight) ? 'italic' : 'normal'}' },\n`;
-            fontConfigJSONForImport.push(fontConfigObj);
-            fontConfigJSON.push(
-              Object.assign({}, fontConfigJSON, {
-                family: fontFamily,
-                format: extension.replace(/\./g, '').trim(),
-              })
-            );
-            https.get(fontUrl, (res) => {
-              const fileStream = fs.createWriteStream(fontFile);
-              res.pipe(fileStream);
-              fileStream.on('finish', () => {});
+      fontFamilies.forEach((font) => {
+        output += `export const ${font.slug} = localFont({\n`;
+        output += '    src: [\n';
+        font.fontFace.forEach((face) => {
+          const fontUrl = face.src;
+          const fileName = path.basename(fontUrl);
+          const filePath = path.join(process.cwd(), 'public', 'fonts', fileName);
+
+          console.log('filePath', filePath);
+
+          // Download the font
+          https
+            .get(fontUrl, (res) => {
+              if (res.statusCode === 200) {
+                const fileStream = fs.createWriteStream(filePath);
+                res.pipe(fileStream);
+
+                fileStream.on('finish', () => {
+                  fileStream.close();
+                  console.log(`Downloaded: ${fileName}`);
+                });
+              } else {
+                console.error(`Failed to download ${fileName}. Status code: ${res.statusCode}`);
+              }
+            })
+            .on('error', (err) => {
+              console.error(`Error downloading ${fileName}: ${err.message}`);
             });
-          }
-        }
 
-        const fullFilePath = path.join(process.cwd(), 'public', 'fonts.json');
-        await fs.promises.writeFile(fullFilePath, JSON.stringify(fontConfigJSONForImport));
+          output += `\t\t\t{ path: '/fonts/${fileName}', weight: '${
+            face.fontWeight.replace(/[a-zA-Z]/g, '').trim() || '400'
+          }', style: '${face.fontStyle}' },\n`;
+        });
+        output += '\t\t],\n';
+        output += `\t\tvariable: '--font-${font.slug}'\n`;
+        output += '});\n\n';
+      });
 
-        const fullLibHelperPath = path.join(process.cwd(), 'public', 'fonts.ts');
-
-        const libHelperContent = generateFontContent(fontPaths);
-        await fs.promises.writeFile(fullLibHelperPath, libHelperContent);
-      }
+      // output += '};\n';
+      fs.writeFileSync(newFontPath, output, {
+        encoding: 'utf-8',
+      });
     }
   } catch (error) {
     console.error('Error downloading fonts:', error);
