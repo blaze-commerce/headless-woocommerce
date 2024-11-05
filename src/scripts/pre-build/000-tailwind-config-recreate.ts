@@ -27,7 +27,7 @@ if (fontFamilies.length >= 2) {
 }
 
 const fontFamilyConfig = modifiedFontFamilies
-  .map(([key, value]) => `'${key}': '${value}'`)
+  .map(([key, value]) => `'${key}': ['${value}']`)
   .join(',\n');
 
 const tailwindConfig = `module.exports = {
@@ -39,7 +39,7 @@ const tailwindConfig = `module.exports = {
     './public/product.json',
     './public/footer.json',
     './public/header.json',
-    './public/styles/styles.css',
+    './public/styles/*.css',
     './public/homepage.json',
     './public/page/*.json',
   ],

@@ -10,11 +10,13 @@ export const Header = () => {
     <>
       <div id="top"></div>
       <header
-        className={cn('w-full bg-white shadow-lg', {
+        className={cn('w-full bg-white shadow-lg font-secondary', {
           'sticky top-0 z-10 !max-w-[100%]': settings?.isHeaderSticky,
         })}
       >
         <Content content={HEADER_DATA} />
+        <p className="font-secondary">testing</p>
+        <p className="font-primary">testing</p>
       </header>
 
       <WishList />

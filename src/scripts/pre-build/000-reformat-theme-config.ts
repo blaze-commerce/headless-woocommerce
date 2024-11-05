@@ -24,7 +24,6 @@ export default async function execute() {
     fs.writeFileSync(pageFilePath, JSON.stringify(themeObject), {
       encoding: 'utf-8',
     });
-    console.log('theme config reformatted', themeObject);
   } catch (error) {
     console.error('Error formatting theme config:', error);
   }
