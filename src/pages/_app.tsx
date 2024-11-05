@@ -20,6 +20,13 @@ import { ErrorBoundary } from '@src/components/error-boundary';
 import { useMetaPageView } from '@src/lib/hooks';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
+import * as fonts from '@public/fonts';
+
+const fontClasses = Object.keys(fonts)
+  .map((key) => fonts[key as keyof typeof fonts].variable)
+  .filter(Boolean) // Ensure only defined variables are included
+  .join(' ');
+
 const { NEXT_PUBLIC_GTM_ID } = env();
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -54,7 +61,8 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             href="/favicon.ico"
           />
         </Head>
-        <div className="h-screen overflow-y-auto overflow-x-hidden">
+
+        <div className={`h-screen overflow-y-auto overflow-x-hidden ${fontClasses}`}>
           <TypesenseContextProvider>
             <SiteContextProvider>
               <UserContextProvider>

@@ -36,7 +36,7 @@ export default async function execute() {
 
     if (fontFamilies) {
       let output = '// Generated fonts.ts file\n\n';
-      output += `import localFont from '${'@next/font/local'}';\n\n`;
+      output += `import localFont from '${'next/font/local'}';\n\n`;
       // output += `export const ${'fonts'} = {\n`;
 
       fontFamilies.forEach((font) => {
