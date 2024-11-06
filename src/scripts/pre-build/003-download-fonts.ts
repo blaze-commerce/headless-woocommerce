@@ -68,7 +68,7 @@ export default async function execute() {
               console.error(`Error downloading ${fileName}: ${err.message}`);
             });
 
-          output += `\t\t\t{ path: '/fonts/${fileName}', weight: '${
+          output += `\t\t\t{ path: 'fonts/${fileName}', weight: '${
             face.fontWeight.replace(/[a-zA-Z]/g, '').trim() || '400'
           }', style: '${face.fontStyle}' },\n`;
         });
