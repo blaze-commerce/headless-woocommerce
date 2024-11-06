@@ -92,7 +92,7 @@ export default function NameField({ field, fieldErrors }: Props) {
               </option>
             ))}
           </select>
-          <label htmlFor={`input_${formId}_${id}_${prefixInput.key}`}>{prefixInput.label}</label>
+          <label htmlFor={`input_${id}_${prefixInput.key}`}>{prefixInput.label}</label>
         </>
       ) : null}
       {otherInputs.map((input) => {
@@ -104,13 +104,13 @@ export default function NameField({ field, fieldErrors }: Props) {
             <input
               type="text"
               name={String(key)}
-              id={`input_${formId}_${id}_${key}`}
+              id={`input_${id}_${key}`}
               placeholder={placeholder}
               autoComplete={AUTOCOMPLETE_ATTRIBUTES[key]}
               value={nameValues?.[key] || ''}
               onChange={handleChange}
             />
-            <label htmlFor={`input_${formId}_${id}_${key}`}>{inputLabel}</label>
+            <label htmlFor={`input_${id}_${key}`}>{inputLabel}</label>
           </div>
         );
       })}
