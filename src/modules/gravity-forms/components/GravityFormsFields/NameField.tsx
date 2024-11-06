@@ -77,7 +77,7 @@ export default function NameField({ field, fieldErrors }: Props) {
         <>
           <select
             name={String(prefixInput.key)}
-            id={`input_${formId}_${id}_${prefixInput.key}`}
+            id={`input_${id}_${prefixInput.key}`}
             autoComplete={AUTOCOMPLETE_ATTRIBUTES.prefix}
             value={nameValues.prefix || ''}
             onChange={handleChange}
