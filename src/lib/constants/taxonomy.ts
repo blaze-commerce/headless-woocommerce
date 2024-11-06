@@ -104,5 +104,3 @@ export const generateTaxonomyQuery = (slug: string) => {
 
   return query;
 };
-
-export const PAGE_URL_PATTERN = /\/page\/\d+\//;

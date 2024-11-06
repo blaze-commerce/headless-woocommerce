@@ -5,13 +5,23 @@ import { NextResponse } from 'next/server';
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
 import postSlugs from '@public/post-slugs.json';
-import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
 import { getDefaultCountry } from '@src/lib/helpers/country';
-import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
-import { stripSlashes } from '@src/lib/helpers/helper';
+import pageSlugs from '@public/page-slugs.json';
 import { NextURL } from 'next/dist/server/web/next-url';
 
-import pageSlugs from '@public/page-slugs.json';
+export const PAGE_URL_PATTERN = /\/page\/\d+\//;
+
+function stripSlashes(str: string): string {
+  return str.replace(/^\/|\/$/g, '');
+}
+
+/**
+ *
+ * @returns string The homepage slug base on the wordpress settings
+ */
+export const getHomePageSlug = () => {
+  return siteData.homepageSlug;
+};
 
 const typedPostSlugs: string[] = postSlugs;
 const typedPageSlugs: string[] = pageSlugs;
@@ -28,7 +38,7 @@ export const config = {
     '/brands',
     '/((?!api|_next/static|_next/image|images|favicon.ico).*)',
   ],
-  unstable_allowDynamic: ['/node_modules/lodash/lodash.js'],
+  unstable_allowDynamic: ['/node_modules/lodash/lodash.js', '/node_modules/lodash/_root.js'],
 };
 
 const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCountry: string) => {
