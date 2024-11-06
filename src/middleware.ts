@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
@@ -65,9 +66,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  const { country: gCountry } = geolocation(req);
+
   // Extract country
   let country = req.cookies.get('currentCountry')?.value;
-  const geoCountry = req.geo?.country || '';
+  const geoCountry = gCountry || '';
   if (!country) {
     country = geoCountry;
   }
