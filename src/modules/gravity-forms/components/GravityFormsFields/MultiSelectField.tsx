@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
-import Select, { ValueType, ActionMeta, OptionTypeBase } from 'react-select';
+import Select, { ActionMeta, OnChangeValue } from 'react-select';
+
+type OptionType = {
+  label: string;
+  value: string;
+};
 
 import { MultiSelectField as MultiSelectFieldType, FieldError } from '../../generated/graphql';
 import useGravityForm, {
@@ -28,7 +33,7 @@ interface Props {
   fieldErrors: FieldError[];
 }
 
-interface Option extends OptionTypeBase {
+interface Option extends OptionType {
   value: string;
   label: string;
 }
@@ -47,7 +52,7 @@ export default function MultiSelectField({ field, fieldErrors }: Props) {
   const options = choices?.map((choice) => ({ value: choice?.value, label: choice?.text })) || [];
   const selectedOptions = options.filter((option) => values.includes(String(option?.value)));
 
-  function handleChange(value: ValueType<any, boolean>, actionMeta: ActionMeta<any>) {
+  function handleChange(value: OnChangeValue<any, boolean>, actionMeta: ActionMeta<any>) {
     const values = value.map((option: Option) => option.value);
     dispatch({
       type: ACTION_TYPES.updateMultiSelectFieldValue,

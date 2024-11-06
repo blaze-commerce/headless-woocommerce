@@ -16,7 +16,7 @@ export class SiteInfo {
       .search({
         q: name as string,
         query_by: 'name',
-        sort_by: 'updated_at:desc',
+        sort_by: '_text_match:desc',
       });
     return response.hits?.[0]?.document ?? undefined;
   }
