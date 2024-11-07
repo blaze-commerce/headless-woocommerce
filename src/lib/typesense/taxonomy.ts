@@ -441,6 +441,7 @@ const getPriceFilterOptions = (facetData: SearchResponseFacetCountSchema<{}>[] |
   if (typeof facetData !== 'undefined' && typeof facetData[3] !== 'undefined') {
     const priceOptions: IFilterOptionData[] = [];
     const defaultCurrency = getDefaultCurrency();
+
     facetData[3].counts.map((item) => {
       const priceOption: IFilterOptionData = {
         label: priceFilterOptions[item.value].label,
@@ -703,7 +704,7 @@ const getMulticurrencyPriceMinMaxValue = (
   const currencies = getAllCurrencies();
 
   const minValue = initializeCurrencyObject(currencies);
-  const maxValue = minValue;
+  const maxValue = { ...minValue };
 
   if (typeof facetData === 'undefined') {
     return { minValue, maxValue };
@@ -711,8 +712,10 @@ const getMulticurrencyPriceMinMaxValue = (
 
   currencies.forEach((currency) => {
     const currencyData = filterFacetDataByCurrency(facetData, currency);
+
     if (currencyData.length > 0 && currencyData[0]) {
       const { min, max } = currencyData[0].stats;
+
       if (min) {
         minValue[currency] = min;
       }
@@ -775,6 +778,8 @@ const generateProductQueryResponse = async (
 
   const priceRangeAmount = getMulticurrencyPriceMinMaxValue(results.facet_counts);
 
+  console.log({ priceRangeAmount });
+
   return {
     products: found,
     queryVars,
@@ -808,6 +813,7 @@ export const getProducts = async (
   queryVars: ITSTaxonomyProductQueryVars
 ): Promise<ITSProductQueryResponse> => {
   const searchParameters = generateSearchParams(queryVars);
+
   const results = await getProductDocument().search(searchParameters);
   return await generateProductQueryResponse(queryVars, results);
 };
