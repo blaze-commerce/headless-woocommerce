@@ -125,7 +125,6 @@ export async function middleware(req: NextRequest) {
 
   if (isCatalogPage) {
     req.nextUrl.pathname = `/${currentCountry}/product-category${pathname}`;
-
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
@@ -136,6 +135,10 @@ export async function middleware(req: NextRequest) {
 
   // We remove the leading slash since slugs we save doesn't have it to make sure this goes to the right nextjs page path
   modifiedPathName = stripSlashes(modifiedPathName);
+
+  if (modifiedPathName === siteData.shopPageSlug) {
+    return NextResponse.redirect(new URL('/shop/', req.url));
+  }
 
   // @TODO we will handle parent child post/page url structure later
   if (typedPageSlugs.includes(modifiedPathName)) {
