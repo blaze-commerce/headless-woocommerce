@@ -47,8 +47,6 @@ export default async function execute() {
           const fileName = path.basename(fontUrl);
           const filePath = path.join(process.cwd(), 'public', 'fonts', fileName);
 
-          console.log('filePath', filePath);
-
           // Download the font
           https
             .get(fontUrl, (res) => {
@@ -58,7 +56,7 @@ export default async function execute() {
 
                 fileStream.on('finish', () => {
                   fileStream.close();
-                  console.log(`Downloaded: ${fileName}`);
+                  console.log(`Downloaded: ${filePath}`);
                 });
               } else {
                 console.error(`Failed to download ${fileName}. Status code: ${res.statusCode}`);
