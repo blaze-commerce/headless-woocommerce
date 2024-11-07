@@ -77,7 +77,7 @@ export async function middleware(req: NextRequest) {
   }
 
   const { country: gCountry } = geolocation(req);
-
+  const typedPostSlugs: string[] = postSlugs;
   // Extract country
   let country = req.cookies.get('currentCountry')?.value;
   const geoCountry = gCountry || '';
@@ -146,7 +146,7 @@ export async function middleware(req: NextRequest) {
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
-  if (typedPostSlugs.includes(modifiedPathName)) {
+  if (typedPostSlugs.includes(String(modifiedPathName))) {
     req.nextUrl.pathname = `/${currentCountry}/post/${modifiedPathName}`;
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }

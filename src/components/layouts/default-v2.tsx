@@ -11,7 +11,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const SingleProductLayout: React.FC<Props> = ({ children }) => {
+const DefaultLayout: React.FC<Props> = ({ children }) => {
   const { settings } = useSiteContext();
   return (
     <>
@@ -23,13 +23,13 @@ const SingleProductLayout: React.FC<Props> = ({ children }) => {
           blocks={settings.siteMessage}
         />
       )}
-      <main className="single-product container mx-auto p-4">{children}</main>
+      <main className="container mx-auto px-3 lg:p-0">{children}</main>
       <Footer />
       {settings?.store?.ageGate?.enabled && <AgeGate />}
     </>
   );
 };
 
-export const singleProductLayout = (page: ReactElement) => {
-  return <SingleProductLayout>{page}</SingleProductLayout>;
+export const defaultLayout = (page: ReactElement) => {
+  return <DefaultLayout>{page}</DefaultLayout>;
 };

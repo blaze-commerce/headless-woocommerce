@@ -322,6 +322,10 @@ body {
   }
 
   /** Default style for core blocks */
+  .core-columns {
+    @apply flex flex-col md:flex-row gap-4;
+  }
+
   .core-columns .core-column {
     /* @apply flex-grow flex-shrink-0; */
   }
@@ -337,6 +341,18 @@ body {
 
   .single-product .price-container {
     @apply mt-2;
+  }
+
+  .single-product .stock-status {
+    @apply text-sm mt-2;
+  }
+
+  .single-product .stock-status .instock {
+    @apply text-[#009E10];
+  }
+
+  .single-product .stock-status .outofstock {
+    @apply text-red-600;
   }
 
   .single-product .product-meta .core-group {
@@ -362,6 +378,47 @@ body {
   .single-product .add-to-cart-form .product-variant-container .product-variant-select select {
     @apply w-full;
   }
+
+  /** Add to Cart Button */
+  .single-product .add-to-cart-form .button-container {
+    @fixed bottom-0 right-0 p-4 bg-brand-secondary w-full lg:w-auto md:bg-[#ECEEEFE8] z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw];
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper {
+    @apply flex items-stretch justify-start gap-2.5;
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .quantity-label {
+    @apply items-center text-sm text-black font-bold flex hidden;
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .quantity {
+    @apply text-black bg-white rounded-md;
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .quantity * {
+    @apply border-none;
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .quantity .quantity-control {
+    @apply leading-9;
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
+    @apply flex items-center justify-center bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text sm:px-8 flex-grow sm:flex-grow-0 p-4 text-sm font-medium rounded-md;
+  }
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /** Add to Cart - Wishlist Button */
+
+  .single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
+    @apply cursor-pointer flex justify-center items-center p-2.5 px-4 gap-4 rounded-md;
+  }
+
+  /** Product Meta */
 
   .single-product .product-meta {
     @apply w-full;
