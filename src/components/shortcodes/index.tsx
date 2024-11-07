@@ -8,6 +8,7 @@ import { FrequentlyBoughtTogether } from '@src/features/product/frequently-bougt
 import { YouMayAlsoLike } from '@src/features/product/you-may-also-like';
 import { RecentlyViewed } from '@src/features/product/recently-viewed';
 import { ShortcodeProductInstallment } from '@src/components/shortcodes/product-installment';
+import { Wishlist } from '@src/components/shortcodes/wishlist';
 
 /**
  * Below are the blocks we currently support that is parseable by our codebase
@@ -23,6 +24,7 @@ export const shortcodes = {
   blz_installment_info: ShortcodeProductInstallment,
   blz_dialog: ProductDialogs,
   blz_popup: ProductInfoPopup,
+  ti_wishlistsview: Wishlist,
 };
 
 // Define type alias for block names
