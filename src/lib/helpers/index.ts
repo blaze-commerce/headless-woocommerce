@@ -1,9 +1,9 @@
 import { ApolloError } from '@apollo/client';
-import parse from 'react-html-parser';
 import { camelCase, chain, set } from 'lodash';
 import regionSettings from '@public/region.json';
 
 import { CountryPaths } from '@src/types';
+import { htmlParser } from '@src/lib/block/react-html-parser';
 
 export const isJsonString = (str: string) => {
   try {
@@ -33,7 +33,7 @@ export const parseApolloError = (error: ApolloError) => {
   if (!error.message) return '';
   const removePattern = /<a(.*)<\/a>/g;
 
-  return parse(error.message.replace(removePattern, '').trim());
+  return htmlParser(error.message.replace(removePattern, '').trim());
 };
 
 export function generatePathsByCountry<T extends CountryPaths>(

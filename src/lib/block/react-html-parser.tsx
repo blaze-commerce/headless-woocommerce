@@ -7,3 +7,7 @@ type Props = {
 export const ReactHTMLParser = (props: Props) => {
   return <>{parse(props.html)}</>;
 };
+
+export const htmlParser = (html: string) => {
+  return parse(html);
+};
