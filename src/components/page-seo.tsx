@@ -1,6 +1,6 @@
 import { decode } from 'html-entities';
 import Head from 'next/head';
-import parse from 'html-react-parser';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 // TODO:
 // move this to a dedictated helper file
@@ -18,6 +18,9 @@ type Props = {
 };
 
 export const PageSeo = ({ seoFullHead }: Props) => {
-  const html = seoUrlParser(decode(seoFullHead));
-  return <Head>{parse(html)}</Head>;
+  return (
+    <Head>
+      <ReactHTMLParser html={seoUrlParser(decode(seoFullHead))} />
+    </Head>
+  );
 };
