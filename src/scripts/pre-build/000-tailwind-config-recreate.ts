@@ -1,24 +1,60 @@
-/** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { fontFamily } = require('tailwindcss/defaultTheme');
-const gridItemWidths = ['25', '33', '50', '66', '75', '100']; // this is what is provider by generate press block settins GRID ITEM WIDTH (%)
+/* eslint-disable no-console */
+import * as fs from 'fs';
+import path from 'path';
+import theme from '@public/theme.json';
 
-module.exports = {
+const gridItemWidths = ['25', '33', '50', '66', '75', '100']; // this is what is provider by generate press block settins GRID ITEM WIDTH (%)
+const gridItemWidthsClasses = gridItemWidths
+  .flatMap((i) => [`w-[${i}%]`, `md:w-[${i}%]`, `lg:w-[${i}%]`])
+  .map((item) => `'${item}'`)
+  .join(',');
+
+const safeListPattern = /(mb|mt|ml|mr)-\d*/;
+
+const themeColors = Object.entries(theme.colorClasses)
+  .map(([key, value]) => `'${key}': '${value}'`)
+  .join(',\n');
+
+const fontFamilies = Object.entries(theme.fontFamilies);
+const modifiedFontFamilies: [string, string][] = [...fontFamilies];
+
+if (fontFamilies.length >= 1) {
+  modifiedFontFamilies.push(['primary', fontFamilies[0][1]]);
+}
+
+if (fontFamilies.length >= 2) {
+  modifiedFontFamilies.push(['secondary', fontFamilies[1][1]]);
+}
+
+const fontFamilyConfig = modifiedFontFamilies
+  .map(([key, value]) => `'${key}': ['${value}']`)
+  .join(',\n');
+
+const tailwindConfig = `module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     './public/site.json',
     './src/styles/styles.css',
     './public/menu.json',
-    './public/single-product.json',
-    './public/single-post.json',
-    './public/page.json',
+    './public/product.json',
     './public/footer.json',
     './public/header.json',
-    './public/styles/styles.css',
+    './public/styles/*.css',
     './public/homepage.json',
     './public/page/*.json',
   ],
   theme: {
+    container: {
+      screens: {
+        sm: '540px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+        '3xl': '1600px',
+        '4xl': '1750px',
+      },
+    },
     extend: {
       animation: {
         fade: 'fadeIn 1s ease-in-out',
@@ -52,20 +88,33 @@ module.exports = {
         'brand-wishlist-hover-icon-fill': 'var(--colors-brandWishlistHoverIconFill)',
         'brand-wishlist-hover-icon-stroke': 'var(--colors-brandWishlistHoverIconStroke)',
         'contrast-3': '#655B51',
+        ${themeColors}
       },
       fontFamily: {
-        sans: ['var(--font-site-font)', ...fontFamily.sans],
+        ${fontFamilyConfig}
       },
     },
   },
   safelist: [
     {
-      pattern: /(mb|mt|ml|mr)-\d*/,
+      pattern: ${safeListPattern},
     },
-    ...gridItemWidths.flatMap((i) => [`w-[${i}%]`, `md:w-[${i}%]`, `lg:w-[${i}%]`]),
+    ${gridItemWidthsClasses}
   ],
   corePlugins: {
     aspectRatio: false,
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')],
-};
+};`;
+
+export default async function execute() {
+  try {
+    console.log('recreating/update tailwind config');
+    const tailwindPath = path.join(process.cwd(), 'tailwind.config.js');
+    fs.writeFileSync(tailwindPath, `${tailwindConfig}`, {
+      encoding: 'utf-8',
+    });
+  } catch (error) {
+    console.error('Error recreating/update tailwind config:', error);
+  }
+}

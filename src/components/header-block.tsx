@@ -10,7 +10,7 @@ export const Header = () => {
     <>
       <div id="top"></div>
       <header
-        className={cn('w-full bg-white shadow-lg', {
+        className={cn('w-full bg-white shadow-lg font-primary', {
           'sticky top-0 z-10 !max-w-[100%]': settings?.isHeaderSticky,
         })}
       >

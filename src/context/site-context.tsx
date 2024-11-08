@@ -16,6 +16,7 @@ import { useLocalStorage, useUpdateEffect } from 'usehooks-ts';
 
 import regionSettings from '@public/region.json';
 import siteSettings from '@public/site.json';
+import wptheme from '@public/wp-theme.json';
 import theme from '@public/theme.json';
 
 import { GET_CART, UPDATE_CUSTOMER, UPDATE_SHIPPING_METHOD } from '@src/lib/graphql/queries';
@@ -303,6 +304,12 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
 
   const currencies = keyBy(regionSettings, 'currency');
 
+  const generateColorVars = (data: Record<string, string>) => {
+    return Object.entries(data)
+      .map(([key, value]) => `${key}: ${value};`)
+      .join('\n');
+  };
+
   return (
     <SiteContext.Provider
       value={{
@@ -380,7 +387,8 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --price-regurlar-color: ${settings?.product?.font?.regularPrice?.color};
           --price-sale-color: ${settings?.product?.font?.salePrice?.color ?? 'rgb(75 85 99)'};
 
-          --container-width: ${theme.layout.contentSize};
+          --container-width: ${wptheme.layout.contentSize};
+          ${generateColorVars(theme.colorVars)}
         }
 
         @media screen and (min-width: ${tailwindBreakpoints.lg}) {

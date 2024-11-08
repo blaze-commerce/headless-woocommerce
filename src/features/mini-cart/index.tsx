@@ -6,7 +6,6 @@ import { useIsClient } from 'usehooks-ts';
 
 import { AppliedCoupon } from '@src/features/mini-cart/applied-coupon';
 import { CouponCode } from '@src/features/mini-cart/coupon-code';
-import { font } from '@public/fonts';
 import { FreeShippingProgress } from '@src/components/free-shipping-progress';
 import { MiniCartItem } from '@src/features/mini-cart/mini-cart-item';
 import { MiniCartItemSkeleton } from '@src/features/mini-cart/mini-cart-item-skeleton';
@@ -78,7 +77,7 @@ export const MiniCart = () => {
     >
       <Dialog
         as="div"
-        className={`${font.variable} font-sans relative z-20`}
+        className="font-sans relative z-20"
         onClose={setOpen}
       >
         <Transition.Child

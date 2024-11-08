@@ -1,12 +1,11 @@
 import axios from 'axios';
 import clsx, { ClassValue } from 'clsx';
-import { find, isEmpty, sortBy } from 'lodash';
+import { find } from 'lodash';
 import { parse } from 'node-html-parser';
 import { twMerge } from 'tailwind-merge';
 
 import { Image, ProductPrice } from '@src/models/product/types';
 import { imageExtensions } from '@src/lib/constants/image';
-import { ProductTypesenseResponse } from '@src/models/product';
 import regionSettings from '@public/region.json';
 import { numberFormat } from '@src/lib/helpers/product';
 
@@ -190,7 +189,7 @@ export const isDollar = (currency: string) => {
 };
 
 export const getCurrencySymbol = (currency: string) => {
-  const matchedCurrency = find(regionSettings, ['currency', currency]);
+  const matchedCurrency = regionSettings.find((item) => item.currency === currency);
   return matchedCurrency?.symbol || '$';
 };
 
@@ -202,7 +201,7 @@ export const removeCurrencySymbol = (currency: string, price: string) => {
 const priceOrder = ['symbol', 'price'];
 
 export const formatPrice = (price: ProductPrice = {}, currency: string) => {
-  const matchedCurrency = find(regionSettings, ['currency', currency]);
+  const matchedCurrency = regionSettings.find((item) => item.currency === currency);
   const percision =
     (typeof matchedCurrency?.precision === 'string'
       ? parseInt(matchedCurrency?.precision)
@@ -267,7 +266,7 @@ export const parseJsonValue = (value: string) => {
 
 export const splitStringToArray = (baseValue: string, otherValue: string) => {
   try {
-    if (isEmpty(otherValue)) return baseValue.split(',').map((item) => parseInt(item));
+    if (!otherValue) return baseValue.split(',').map((item) => parseInt(item));
     return otherValue.split(',').map((item) => parseInt(item));
   } catch (error) {
     return [];

@@ -1,11 +1,12 @@
 import { ParsedUrlQuery } from 'querystring';
+import siteData from '@public/site.json';
 
 import { GetStaticProps } from 'next';
 
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
 import { defaultLayout } from '@src/components/layouts/default';
 import { SiteInfo } from '@src/lib/typesense/site-info';
-import { Country } from '@src/lib/helpers/country';
+import { Country, getAllBaseContries } from '@src/lib/helpers/country';
 import { RegionalData } from '@src/types';
 import { meta } from '@src/lib/constants/meta';
 import TSTaxonomy, { getProducts } from '@src/lib/typesense/taxonomy';
@@ -34,15 +35,8 @@ export const getStaticPaths = async () => {
       fallback: true,
     };
   }
-  const regionsRequest = await SiteInfo.find('currencies');
-  let currencies: RegionalData[];
-  try {
-    currencies = JSON.parse(regionsRequest?.value as string);
-  } catch (error) {
-    currencies = [];
-  }
-  const countries = currencies.map((currency) => currency.baseCountry) || [Country.Australia.code];
 
+  const countries = getAllBaseContries();
   const paths = countries.map((country) => ({
     params: {
       country,
@@ -59,7 +53,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const params = context.params!;
   const { country } = params;
-  const pageData = await getPageBySlug('shop');
+  const pageData = await getPageBySlug(siteData.shopPageSlug);
   const defaultQueryVars: ITSTaxonomyProductQueryVars = TSTaxonomy.getDefaultTsQueryVars();
 
   const tsFetchedData = await getProducts(defaultQueryVars);

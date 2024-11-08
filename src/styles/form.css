@@ -1,0 +1,27 @@
+.gf-form {
+  @apply flex flex-col gap-4;
+}
+
+.gfield {
+  @apply w-full flex flex-col gap-2 justify-between;
+}
+
+.gfield label {
+  @apply text-base font-semibold;
+}
+
+.gfield input {
+  @apply rounded-sm
+}
+
+.gf-form button[type="submit"] {
+  @apply bg-primary text-primary-foreground rounded-sm px-4 py-3;
+}
+
+.gf-form button[type="submit"]:hover {
+  @apply bg-secondary text-secondary-foreground;
+}
+
+.gf-form button[type="submit"]:disabled {
+  @apply bg-muted text-muted-foreground;
+}

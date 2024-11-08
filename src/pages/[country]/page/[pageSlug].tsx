@@ -9,7 +9,7 @@ import { PageTypesenseResponse } from '@src/lib/typesense/page';
 import { getTaxonomyItemPageProps } from '@src/pages/[country]/[taxonomyFrontendSlug]/[...taxonomyItemSlug]';
 
 import type { NextPageWithLayout } from '@src/pages/_app';
-import { GetStaticProps, GetStaticPropsContext } from 'next';
+
 import { ParsedUrlQuery } from 'querystring';
 import { Page as TypesensePage } from '@src/lib/typesense/page';
 import { find, isEmpty } from 'lodash';
@@ -18,6 +18,7 @@ import { PageContextProvider } from '@src/context/page-context';
 import PAGE_TEMPLATE from '@public/page.json';
 import pageSlugs from '@public/page-slugs.json';
 import { ITSPage } from '@src/lib/typesense/types';
+import { GetStaticProps, GetStaticPropsContext } from 'next/dist/types';
 
 interface Props {
   country: string;
@@ -105,7 +106,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   };
 };
 
-const Page: NextPageWithLayout<Props> = (props) => {
+const Page: NextPageWithLayout<Props> = (props: {
+  page: ITSPage | null | undefined;
+  blogs: PageTypesenseResponse[] | undefined;
+  blocks: string | ParsedBlock[];
+}) => {
   if (!props.page) {
     return null;
   }

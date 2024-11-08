@@ -1,4 +1,3 @@
-import parse from 'react-html-parser';
 import { find, isArray, isEmpty, map } from 'lodash';
 import sanitizeHtml from 'sanitize-html';
 
@@ -23,6 +22,7 @@ import { ProductElement, Settings, Store } from '@src/lib/typesense/types';
 import { getVariations, transformToProduct, transformToProducts } from '@src/lib/typesense/product';
 import { PRODUCT_TYPES } from '@src/lib/constants/product';
 import { Store as TStoreSetting } from '@src/models/settings/store';
+import { htmlParser } from '@src/lib/block/react-html-parser';
 
 export type ProductBackorderStatus = 'yes' | 'no' | 'notify';
 
@@ -397,7 +397,9 @@ export class Product {
     const returnedTabs = [
       {
         title: 'Description',
-        content: parse(formatTextWithNewline(this.description || this?.shortDescription || '')),
+        content: htmlParser(
+          formatTextWithNewline(this.description || this?.shortDescription || '')
+        ),
         isOpen: true,
         location: '',
       },
@@ -406,7 +408,7 @@ export class Product {
     this.additionalTabs?.forEach((tab) => {
       returnedTabs.push({
         title: tab.title,
-        content: parse(sanitizeHtml(tab.content)),
+        content: htmlParser(sanitizeHtml(tab.content)),
         isOpen: Boolean(tab.isOpen),
         location: tab.location,
       });

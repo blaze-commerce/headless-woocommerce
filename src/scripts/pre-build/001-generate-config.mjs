@@ -12,6 +12,7 @@ const configNames = [
   'currencies',
   'homepage_layout',
   'homepage_slug',
+  'shop_page_slug',
   'site_message_top_header',
   'site_message',
   'footer_content_before',
@@ -83,39 +84,7 @@ export const isJsonString = (str) => {
   return true;
 };
 
-const transformedData = (data) => {
-  return data?.reduce((previousValue, currentValue) => {
-    const arr = currentValue.meta_key.split('.');
-    const chainedProperty = _.chain(arr).map(_.camelCase).value().join('.');
-    let value = currentValue.meta_value;
-    if (isJsonString(value)) {
-      value = transformJson(JSON.parse(value));
-    }
 
-    value = maybeConvertToBool(value);
-
-    _.set(previousValue, chainedProperty, value);
-
-    return previousValue;
-  }, {});
-};
-
-const transformJson = (obj) => {
-  return _.mapKeys(
-    _.mapValues(obj, (value) => {
-      if (value !== null && isJsonString(value)) {
-        return transformJson(JSON.parse(value));
-      }
-
-      if (value !== null && typeof value === 'object') {
-        return transformJson(value);
-      }
-
-      return maybeConvertToBool(value);
-    }),
-    (v, k) => _.camelCase(k)
-  );
-};
 
 const parseJSON = (value, fallback = '') => {
   if (typeof value === 'string' && value === '""') {
@@ -233,6 +202,7 @@ export default async function execute(params) {
 
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
+    settingsWithDefaults.shopPageSlug = typesenseConfigs?.shopPageSlug?.value;
     settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(typesenseConfigs?.isBundleProductEnabled?.value);
     settingsWithDefaults.categoryPageDefaultSort = typesenseConfigs?.categoryPageDefaultSort?.value;
     const favIcon = typesenseConfigs?.siteIconUrl?.value;

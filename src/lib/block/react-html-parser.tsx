@@ -1,9 +1,13 @@
-import RHtmlParser from 'react-html-parser';
+import parse from 'html-react-parser';
 
 type Props = {
   html: string;
 };
 
 export const ReactHTMLParser = (props: Props) => {
-  return <>{RHtmlParser(props.html)}</>;
+  return <>{parse(props.html)}</>;
+};
+
+export const htmlParser = (html: string) => {
+  return parse(html);
 };

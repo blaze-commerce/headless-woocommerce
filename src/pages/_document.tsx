@@ -10,7 +10,6 @@ import Script from 'next/script';
 
 import { env } from '@src/lib/env';
 import { isDevelopmentEnvironment } from '@src/lib/helpers/helper';
-import { font } from 'public/fonts';
 
 class BlazeCommerceDocument extends Document {
   static async getInitialProps(
@@ -39,7 +38,7 @@ class BlazeCommerceDocument extends Document {
             />
           )}
         </Head>
-        <body className={`${font.variable} font-sans`}>
+        <body className={' font-sans'}>
           <Main />
           <NextScript />
           {KLAVIYO_PUBLIC_KEY && (
