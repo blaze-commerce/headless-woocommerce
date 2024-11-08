@@ -37,6 +37,10 @@ export default async function execute() {
       file: 'archive-product.json',
     },
     {
+      key: 'site-taxonomy-product_cat',
+      file: 'taxonomy-product-cat.json',
+    },
+    {
       key: 'site-header',
       file: 'header.json',
     },

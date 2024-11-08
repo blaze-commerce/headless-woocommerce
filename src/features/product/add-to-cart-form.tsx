@@ -146,7 +146,7 @@ export const AddToCartForm = () => {
             )}
           </button>
 
-          {store?.wishlist?.enabled && (
+          {true && (
             <WishListIcon
               action="add"
               showIcon={true}

@@ -778,8 +778,6 @@ const generateProductQueryResponse = async (
 
   const priceRangeAmount = getMulticurrencyPriceMinMaxValue(results.facet_counts);
 
-  console.log({ priceRangeAmount });
-
   return {
     products: found,
     queryVars,

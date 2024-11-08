@@ -141,16 +141,15 @@ export const DefaultProductCard = (props: Props) => {
             gliderRef={gliderRef}
           />
         )}
-        {!product?.galleryImages ||
-          (product?.galleryImages.length === 0 && (
-            <CardImage
-              product={parsedProduct}
-              imageClassNames={props.imageClassNames}
-              productFilters={props.productFilters}
-              productColumns={props.productColumns}
-              showWishlistButton={showWishlistButton}
-            />
-          ))}
+        {(!product?.galleryImages || product?.galleryImages.length === 1) && (
+          <CardImage
+            product={parsedProduct}
+            imageClassNames={props.imageClassNames}
+            productFilters={props.productFilters}
+            productColumns={props.productColumns}
+            showWishlistButton={showWishlistButton}
+          />
+        )}
         {isOnSale && (
           <CardSaleBadge
             badgeType={saleBadgeType}

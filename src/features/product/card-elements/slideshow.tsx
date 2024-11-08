@@ -14,6 +14,11 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
 
   if (!product) return null;
 
+  if (!product.galleryImages) return null;
+
+  //remove the first image from the gallery images
+  const galleryImages = product.galleryImages.slice(1);
+
   return (
     <div className="product-variant-image-holder">
       <Glider
@@ -22,8 +27,8 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
         slidesToScroll={1}
         ref={gliderRef}
       >
-        {product?.galleryImages &&
-          product?.galleryImages.map((image: ImageType, key) => (
+        {galleryImages &&
+          galleryImages.map((image: ImageType, key) => (
             <figure key={`gallery-image-${key}`}>
               <Image
                 src={image.src}

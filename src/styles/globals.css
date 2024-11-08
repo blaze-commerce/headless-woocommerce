@@ -503,6 +503,88 @@ body {
 
   .single-product .product-accordion-information .accordion-title .accordion-button {
   }
+
+  /**
+  * Product Archive
+  */
+  .product-archive-container {
+    @apply grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-[268px_1fr];
+  }
+
+  .product-archive-container .filter-widget {
+  }
+
+  .product-archive-container .filter-widget .filter-widget-header {
+    @apply flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 py-5;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-header .filter-widget-title {
+    @apply uppercase text-black text-base font-normal;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-header .open-filter {
+    @apply h-5 w-5 text-[#3F3F46];
+  }
+
+  .product-archive-container .filter-widget .filter-widget-header .open-filter.open {
+    @apply transform rotate-180;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-content {
+    @apply text-sm text-gray-500 pb-5;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-content .fieldset {
+    @apply border-t py-5 flex flex-col gap-4;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-content .fieldset .option {
+    @apply relative flex gap-2 items-center;
+  }
+
+  .product-archive-container
+    .filter-widget
+    .filter-widget-content
+    .fieldset
+    .option
+    .checkbox-container {
+    @apply flex items-center;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-content .fieldset .option input {
+    @apply h-4 w-4 border-gray-300 focus:ring-brand-primary rounded;
+  }
+
+  .product-archive-container
+    .filter-widget
+    .filter-widget-content
+    .fieldset
+    .option
+    input.hasProduct {
+    @apply cursor-pointer;
+  }
+
+  .product-archive-container
+    .filter-widget
+    .filter-widget-content
+    .fieldset
+    .option
+    input.hasNoProduct {
+    @apply opacity-50 brightness-90;
+  }
+
+  .product-archive-container
+    .filter-widget
+    .filter-widget-content
+    .fieldset
+    .option
+    label.hasProduct {
+    @apply cursor-pointer;
+  }
+
+  .product-archive-container .filter-widget .filter-widget-contentß .more-options {
+    @apply mt-2.5 text-xs font-normal text-[#0A0A0A];
+  }
 }
 
 .product-popup-holder {

@@ -1,11 +1,11 @@
+import { TWidgetFilterProps } from './widget';
+
 export type CategoryFilterItems = {
   classes?: string;
   title: string;
   filterSlug?: string;
-  enableDisclosure?: boolean;
-};
+} & TWidgetFilterProps;
 
 export type CategoryFilterProps = {
   filters: CategoryFilterItems[];
-  enableDisclosure?: boolean;
-};
+} & TWidgetFilterProps;

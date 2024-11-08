@@ -3,7 +3,7 @@ import { isArray, isEmpty, map } from 'lodash';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'usehooks-ts';
-
+import SHOP_TEMPLATE from '@public/archive-product.json';
 import { PageSeo } from '@src/components/page-seo';
 import { Banner } from '@src/components/category/banner';
 import { Description } from '@src/components/category/description';
@@ -16,6 +16,7 @@ import { SkeletonCategory } from '@src/components/skeletons/skeleton-category';
 import { CategoryList } from '@src/components/blocks/category-list';
 import { LoadMoreButton } from '@src/components/category/load-more-button';
 import { ProductGrid } from '@src/features/product/grids/product-grid';
+import { Content } from '@src/components/blocks/content';
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Product } from '@src/models/product';
@@ -31,7 +32,7 @@ import { stripSlashes } from '@src/lib/helpers/helper';
 import { getPageParams } from '@src/lib/helpers';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
 
-export const TaxonomyContent = (props: ITaxonomyContentProps) => {
+export const ShopContent = (props: ITaxonomyContentProps) => {
   const { settings } = useSiteContext();
   const { shop, header, store } = settings as Settings;
 
@@ -321,98 +322,11 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   useUpdateEffect(applyFilter, [selectedAvailabilityFilter]);
   useUpdateEffect(applyFilter, [selectedRefinedSelection]);
 
-  const loadMoreItems = () => {
-    setTsQueryVars((prevProps: ITSTaxonomyProductQueryVars) => {
-      if (tsPaginationInfo.nextPage) {
-        const newProps: ITSTaxonomyProductQueryVars = {
-          ...prevProps,
-          page: tsPaginationInfo.nextPage,
-          appendProducts: true,
-        };
-
-        return newProps;
-      }
-
-      return prevProps;
-    });
-  };
-
-  const bannerStyle = {
-    marginTop: shop?.layout?.bannerMarginTop ? `${shop?.layout?.bannerMarginTop}px` : '0px',
-  };
-
-  const shoulShowLoadMore = !isEmpty(tsPaginationInfo) && tsPaginationInfo.nextPage > 0;
   return (
     <>
       {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
       <LoadingModal isOpen={loading} />
-      {props.showBreadCrumbs && showBreadCrumbs && (
-        <BreadCrumbs
-          className="flex mt-5"
-          separator={breadcrumb}
-          crumbs={props?.taxonomyData?.breadcrumbs}
-        />
-      )}
-      {props.showBanner && (
-        <Banner
-          {...props.hero}
-          style={bannerStyle}
-        />
-      )}
-
-      <div className="container">
-        <CategoryList subCategories={props.subCategories as SubCategory[]} />
-
-        <Filter
-          pageNo={tsPaginationInfo.page}
-          productCount={tsPaginationInfo.totalFound}
-          applyFilter={applyFilter}
-          onSortChange={onSortChange}
-        >
-          {productsData.length > 0 ? (
-            <Fragment>
-              <div className="mx-0">
-                <ProductGrid productColumns={productColumns}>
-                  {transformProductsForDisplay(productsData).map((product, index: number) => (
-                    <ProductCard
-                      key={index}
-                      product={product}
-                      productFilters={productFilters}
-                      productColumns={productColumns}
-                      showWishlistButton={wishlist?.enabled}
-                      {...productCards}
-                      hasAddToCart={productCards?.hasAddToCart}
-                    />
-                  ))}
-                </ProductGrid>
-              </div>
-              {loading && (
-                <div className="mx-0">
-                  <SkeletonCategory
-                    productColumns={productColumns}
-                    productCount={layout?.productCount}
-                  />
-                </div>
-              )}
-
-              {shoulShowLoadMore && <LoadMoreButton loadMoreItems={loadMoreItems} />}
-            </Fragment>
-          ) : (
-            <p>No products found</p>
-          )}
-          {layout?.productFilters === '2' && (
-            <div className="mt-4 flex items-center justify-center">
-              <ResultCount
-                pageNo={tsPaginationInfo.page}
-                productCount={tsPaginationInfo.totalFound}
-              />
-            </div>
-          )}
-        </Filter>
-        <div className="py-10 category-description">
-          <Description description={props.taxonomyDescription} />
-        </div>
-      </div>
+      <Content content={SHOP_TEMPLATE} />
     </>
   );
 };

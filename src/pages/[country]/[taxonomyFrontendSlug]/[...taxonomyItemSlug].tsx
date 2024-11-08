@@ -7,7 +7,7 @@ import { defaultLayout } from '@src/components/layouts/default-v2';
 import { SiteInfo } from '@src/lib/typesense/site-info';
 import { generatePathsByCountry, getPageParams } from '@src/lib/helpers';
 import { Country, getDefaultRegion } from '@src/lib/helpers/country';
-import { RegionalData, TaxonomyPaths } from '@src/types';
+import { TaxonomyPaths } from '@src/types';
 import { getCanonicalHref, parseJsonValue, updateCanonicalLink } from '@src/lib/helpers/helper';
 import { TaxonomyPathsParams } from '@src/lib/types/taxonomy';
 import TSTaxonomy, {

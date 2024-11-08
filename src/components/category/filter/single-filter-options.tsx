@@ -49,73 +49,65 @@ export const SingleFilterOptions = (props: Props) => {
     return (
       <div
         key={v4()}
-        className="relative flex items-start"
+        className="option"
       >
-        <div
-          className="flex h-5 items-center"
-          id={option.value}
+        <input
+          id={uId}
+          name={name}
+          type="checkbox"
+          value={option.value}
+          checked={
+            filterValue !== null &&
+            typeof (filterValue as IFilterOptionData)?.value !== 'undefined' &&
+            option.value === (filterValue as IFilterOptionData).value
+          }
+          defaultChecked={
+            filterValue !== null &&
+            typeof (filterValue as IFilterOptionData)?.value !== 'undefined' &&
+            option.value === (filterValue as IFilterOptionData).value &&
+            checked
+          }
+          onChange={onChange}
+          className={classNames('', {
+            hasProduct: (option?.count as number) > 0,
+            hasNoProduct: (option?.count as number) === 0,
+          })}
+          disabled={option?.count === 0 ? true : false}
+        />
+        <label
+          htmlFor={uId}
+          className={classNames('', { hasProduct: (option?.count as number) > 0 })}
         >
-          <input
-            id={uId}
-            name={name}
-            type="checkbox"
-            value={option.value}
-            checked={
-              filterValue !== null &&
-              typeof (filterValue as IFilterOptionData)?.value !== 'undefined' &&
-              option.value === (filterValue as IFilterOptionData).value
-            }
-            defaultChecked={
-              filterValue !== null &&
-              typeof (filterValue as IFilterOptionData)?.value !== 'undefined' &&
-              option.value === (filterValue as IFilterOptionData).value &&
-              checked
-            }
-            onChange={onChange}
-            className={classNames('h-4 w-4 border-gray-300 focus:ring-brand-primary rounded', {
-              'cursor-pointer': (option?.count as number) > 0,
-              'opacity-50 brightness-90': (option?.count as number) === 0,
-            })}
-            disabled={option?.count === 0 ? true : false}
-          />
-        </div>
-        <div className="w-full ml-3 text-sm">
-          <label
-            htmlFor={uId}
-            className={classNames(
-              'flex items-start justify-between font-normal text-sm text-gray-700',
-              { 'cursor-pointer': (option?.count as number) > 0 }
-            )}
-          >
-            <span>{decode(label)}</span>
-            <span>{`(${option.count})`}</span>
-          </label>
-        </div>
+          <span>{decode(label)}</span>
+        </label>
+        <span>{`(${option.count})`}</span>
       </div>
     );
   };
 
   return (
-    <div className="py-3">
-      {options
-        ?.sort((a, b) => sortAscending(a.order, b.order))
-        ?.slice(0, 5)
-        .map((option) => renderOptions(option))}
-      {isMoreOptionsOpen &&
-        options
+    <>
+      <fieldset className="fieldset">
+        {options
           ?.sort((a, b) => sortAscending(a.order, b.order))
-          ?.slice(5)
+          ?.slice(0, 5)
           .map((option) => renderOptions(option))}
+        {isMoreOptionsOpen &&
+          options
+            ?.sort((a, b) => sortAscending(a.order, b.order))
+            ?.slice(5)
+            .map((option) => renderOptions(option))}
+      </fieldset>
       {((options as IFilterOptionData[] | undefined)?.length as number) > 5 &&
         !isMoreOptionsOpen && (
           <button
             type="button"
-            className="mt-2.5 text-xs font-normal text-[#0A0A0A]"
+            className="more-options"
             onClick={() => setIsMoreOptionsOpen(true)}
           >
             + {((options as IFilterOptionData[] | undefined)?.length as number) - 5} more
           </button>
         )}
-    </div>
+    </>
   );
 };
