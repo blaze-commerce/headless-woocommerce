@@ -87,6 +87,8 @@ const tailwindConfig = `module.exports = {
         'brand-wishlist-hover-background': 'var(--colors-brandWishlistHoverBackground)',
         'brand-wishlist-hover-icon-fill': 'var(--colors-brandWishlistHoverIconFill)',
         'brand-wishlist-hover-icon-stroke': 'var(--colors-brandWishlistHoverIconStroke)',
+        'brand-primary-light': 'var(--colors-brandPrimary)',
+        'brand-second-grey': 'var(--colors-brandPrimary)',
         'contrast-3': '#655B51',
         ${themeColors}
       },

@@ -7,39 +7,58 @@ import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { CategoryFilterItems } from '@src/lib/types/filters';
 import { IFilterOptionData } from '@src/lib/types/taxonomy';
 import { cn } from '@src/lib/helpers/helper';
+import { useEffect } from 'react';
 
-export const AvailabilityFilter = ({ classes, title }: CategoryFilterItems) => {
+export const AvailabilityFilter = (props: CategoryFilterItems) => {
+  const { classes, title, enableDisclosure = true, defaultShow = true } = props;
   const taxonomyCtx = useTaxonomyContext();
   const [disclosureOpen, setDisclosureOpen] = taxonomyCtx.saleFilter;
   const [availabilityQueryState] = taxonomyCtx.queryVarsAvailabilityData;
+
+  useEffect(() => {
+    if (!enableDisclosure) setDisclosureOpen(true);
+
+    if (enableDisclosure) {
+      setDisclosureOpen(defaultShow);
+    }
+  }, [enableDisclosure, setDisclosureOpen, defaultShow]);
 
   if (isEmpty(availabilityQueryState)) return null;
 
   const name = title ?? 'Availability';
 
   return (
-    <Disclosure defaultOpen={disclosureOpen}>
+    <Disclosure
+      defaultOpen={disclosureOpen}
+      as={'div'}
+      className={'filter-widget'}
+    >
       {({ open }) => (
-        <div className="border-t border-brand-second-gray">
+        <>
           <Disclosure.Button
             onClick={() => setDisclosureOpen((prev) => !prev)}
-            className="flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 py-5"
+            className={cn('filter-widget-header', {
+              'cursor-pointer': enableDisclosure,
+            })}
+            disabled={!enableDisclosure}
+            as="h3"
           >
-            <span className={cn('uppercase text-base font-normal', classes)}>{name}</span>
+            <span className={cn('filter-widget-title', classes)}>{name}</span>
             <ChevronUpIcon
-              className={cn('h-5 w-5 text-[#3F3F46]', {
-                'rotate-180 transform': !open,
+              className={cn('open-filter', {
+                open: !open,
+                hidden: !enableDisclosure,
               })}
             />
           </Disclosure.Button>
-          <Disclosure.Panel className="text-sm text-gray-500 pb-5">
+          <Disclosure.Panel className="filter-widget-content">
             <SingleFilterOptions
               name={name}
               options={availabilityQueryState as IFilterOptionData[]}
               disclosureProp={taxonomyCtx?.availabilityFilter}
             />
           </Disclosure.Panel>
-        </div>
+        </>
       )}
     </Disclosure>
   );

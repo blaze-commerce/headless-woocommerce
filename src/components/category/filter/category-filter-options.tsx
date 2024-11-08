@@ -66,53 +66,41 @@ export const CategoryFilterOptions = (props: Props) => {
   };
 
   return (
-    <div className="py-3 relative flex items-start">
-      <div
-        className="flex h-5 items-center"
-        id={option.value}
+    <div className="option">
+      <input
+        id={uId}
+        name={name}
+        type="checkbox"
+        value={option.value}
+        checked={
+          !isEmpty(filterValue) &&
+          (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !== null &&
+          typeof (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !== 'undefined' &&
+          (option.value === (filterValue as IFilterOptionData)?.value || isSameOptionValue)
+        }
+        defaultChecked={
+          !isEmpty(filterValue) &&
+          (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !== null &&
+          typeof (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !== 'undefined' &&
+          (option.value === (filterValue as IFilterOptionData)?.value || isSameOptionValue) &&
+          checked
+        }
+        onChange={onChange}
+        className={classNames('', {
+          hasProduct: (option?.count as number) > 0,
+          hasNoProduct: (option?.count as number) === 0,
+        })}
+        disabled={option?.count === 0 ? true : false}
+      />
+      <label
+        htmlFor={uId}
+        className={classNames('', {
+          hasProduct: (option?.count as number) > 0,
+        })}
       >
-        <input
-          id={uId}
-          name={name}
-          type="checkbox"
-          value={option.value}
-          checked={
-            !isEmpty(filterValue) &&
-            (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !== null &&
-            typeof (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !==
-              'undefined' &&
-            (option.value === (filterValue as IFilterOptionData)?.value || isSameOptionValue)
-          }
-          defaultChecked={
-            !isEmpty(filterValue) &&
-            (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !== null &&
-            typeof (filterValue as IFilterOptionData[])?.[filterValueIndex]?.value !==
-              'undefined' &&
-            (option.value === (filterValue as IFilterOptionData)?.value || isSameOptionValue) &&
-            checked
-          }
-          onChange={onChange}
-          className={classNames('h-4 w-4 border-gray-300 focus:ring-brand-primary rounded', {
-            'cursor-pointer': (option?.count as number) > 0,
-            'opacity-50 brightness-90': (option?.count as number) === 0,
-          })}
-          disabled={option?.count === 0 ? true : false}
-        />
-      </div>
-      <div className="w-full ml-3 text-sm">
-        <label
-          htmlFor={uId}
-          className={classNames(
-            'flex items-start justify-between font-normal text-sm text-gray-700',
-            {
-              'cursor-pointer': (option?.count as number) > 0,
-            }
-          )}
-        >
-          <span>{decode(label)}</span>
-          <span>{`(${option.count})`}</span>
-        </label>
-      </div>
+        {decode(label)}
+      </label>
+      <span>{`(${option.count})`}</span>
     </div>
   );
 };

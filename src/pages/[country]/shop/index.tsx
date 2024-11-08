@@ -4,7 +4,7 @@ import siteData from '@public/site.json';
 import { GetStaticProps } from 'next';
 
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
-import { defaultLayout } from '@src/components/layouts/default';
+import { defaultLayout } from '@src/components/layouts/default-v2';
 import { SiteInfo } from '@src/lib/typesense/site-info';
 import { Country, getAllBaseContries } from '@src/lib/helpers/country';
 import { RegionalData } from '@src/types';

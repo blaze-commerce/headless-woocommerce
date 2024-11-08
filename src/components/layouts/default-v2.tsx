@@ -23,7 +23,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
           blocks={settings.siteMessage}
         />
       )}
-      <main className="container mx-auto px-3 lg:p-0">{children}</main>
+      <main className="container mx-auto px-4">{children}</main>
       <Footer />
       {settings?.store?.ageGate?.enabled && <AgeGate />}
     </>

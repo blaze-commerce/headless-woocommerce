@@ -1,22 +1,22 @@
-import { Disclosure } from '@headlessui/react';
-import { ChevronUpIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ResultCount } from '@src/components/category/filter/result-count';
 import { FilterOptionBlocks } from '@components/filter-option-blocks';
 import { ActiveFilters } from '@src/components/category/filter/active-filters';
 import { Modal } from '@src/components/category/filter/modal';
 import { SortByOptions } from '@src/components/category/filter/sort-by-options';
+
 import { PriceRangeSlider } from '@src/features/product/range/price-range-slider';
+import { PriceRangeFilter } from '@src/components/category/filter/price-range';
+
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Settings } from '@src/models/settings';
 import { Shop } from '@src/models/settings/shop';
 import TSTaxonomy from '@src/lib/typesense/taxonomy';
 import { cn } from '@src/lib/helpers/helper';
-import { FunnelIcon } from '@src/components/svg/icons/funnel';
 import { useRouter } from 'next/router';
 import { FilterIcon } from '@src/components/svg/filter';
 
@@ -37,11 +37,8 @@ export const Filter: React.FC<Props> = (props) => {
 
   const [filterOpen, setFilterOpen] = taxonomyCtx.slideOverFilter;
   const [sortByOpen, setSortByOpen] = taxonomyCtx.slideOverSort;
-  const [disclosureOpen, setDisclosureOpen] = useState(true);
 
   const [selectedSortOption] = taxonomyCtx.sortByState;
-
-  const [productsData] = taxonomyCtx.productsResults;
 
   const handleFilterByClicked = () => {
     setFilterOpen(!filterOpen);
@@ -126,7 +123,10 @@ export const Filter: React.FC<Props> = (props) => {
         {layout?.productFilters == '1' ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             <form className="hidden lg:block">
-              {renderFilterOptions()}
+              <FilterOptionBlocks
+                blocks={taxonomyCtx.filterOptionContent}
+                baseCountry={currentCountry}
+              />
 
               <div className="w-full border-b border-brand-second-gray mb-4 pb-4">
                 <PriceRangeSlider
@@ -233,54 +233,6 @@ export const Filter: React.FC<Props> = (props) => {
     );
   };
 
-  const renderPriceRangeSlider = () => {
-    const { colors, shop } = settings as Settings;
-    return (
-      <div className="border-t border-brand-second-gray">
-        <Disclosure defaultOpen={disclosureOpen}>
-          {({ open }) => (
-            <>
-              <Disclosure.Button
-                onClick={() => setDisclosureOpen((prev) => !prev)}
-                className="flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 py-5"
-              >
-                <span className={'uppercase text-base font-semibold text-[#191E34]'}>Price</span>
-                <ChevronUpIcon
-                  className={`${!open && 'rotate-180 transform'} h-5 w-5 text-[#3F3F46]`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="text-sm text-gray-500 pb-5">
-                <PriceRangeSlider
-                  disclosureProp={taxonomyCtx.priceFilter}
-                  color={shop?.layout?.priceRangeSlider?.color ?? colors?.background?.primary}
-                  min={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                  max={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                />
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      </div>
-    );
-  };
-
-  const renderFilterOptions = () => {
-    return (
-      <FilterOptionBlocks
-        blocks={taxonomyCtx.filterOptionContent}
-        baseCountry={currentCountry}
-      />
-    );
-  };
-
   const renderMobileFilterButtons = () => {
     return (
       <div
@@ -330,29 +282,6 @@ export const Filter: React.FC<Props> = (props) => {
   return (
     <>
       <Modal
-        open={filterOpen}
-        setOpen={setFilterOpen}
-        position="left"
-        name="FILTER BY"
-      >
-        {renderFilterOptions()}
-
-        {renderPriceRangeSlider()}
-
-        <button
-          className="hidden mt-3 w-full border border-black mb-2 p-2.5"
-          onClick={applyFilterClicked}
-        >
-          APPLY
-        </button>
-        <button
-          onClick={resetFilterAction}
-          className="hidden w-full border border-black mb-2 p-2.5"
-        >
-          RESET
-        </button>
-      </Modal>
-      <Modal
         open={sortByOpen}
         setOpen={setSortByOpen}
         name="SORT BY"
@@ -366,13 +295,40 @@ export const Filter: React.FC<Props> = (props) => {
       </Modal>
       {renderMobileFilterButtons()}
       {renderMobileActiveFilters()}
-      <div className="hidden lg:flex items-center justify-between gap-x-3.5 gap-y-10 border-y border-[#C0C0C0] py-3">
-        {renderFilterBy()}
-        {renderActiveFilters()}
-        {shop?.layout?.productFilters != '1' && renderSortByButton()}
+      <div className="product-archive-container container">
+        <aside className="product-archive-filter">
+          <FilterOptionBlocks
+            blocks={taxonomyCtx.filterOptionContent}
+            baseCountry={currentCountry}
+          />
+
+          <PriceRangeFilter
+            enableDisclosure={true}
+            defaultShow={true}
+          />
+
+          <button
+            className="hidden mt-3 w-full border border-black mb-2 p-2.5"
+            onClick={applyFilterClicked}
+          >
+            APPLY
+          </button>
+          <button
+            onClick={resetFilterAction}
+            className="hidden w-full border border-black mb-2 p-2.5"
+          >
+            RESET
+          </button>
+        </aside>
+        <div>
+          <div className="flex flex-row">
+            {renderResultCount()}
+            {renderActiveFilters()}
+            {shop?.layout?.productFilters != '1' && renderSortByButton()}
+          </div>
+          {renderProductGrid()}
+        </div>
       </div>
-      {renderResultCount()}
-      {renderProductGrid()}
     </>
   );
 };
