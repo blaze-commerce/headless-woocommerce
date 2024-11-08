@@ -1,6 +1,6 @@
-import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { decode } from 'html-entities';
 import Head from 'next/head';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 // TODO:
 // move this to a dedictated helper file

@@ -2,6 +2,7 @@ import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 
 import { Content } from '@src/components/blocks/content';
 import { BlockAttributes } from '@src/lib/block/types';
+import { cn } from '@src/lib/helpers/helper';
 
 type ListProps = {
   block: ParsedBlock;
@@ -14,7 +15,7 @@ export const List = ({ block }: ListProps) => {
 
   const attribute = block.attrs as BlockAttributes;
   return (
-    <ul className={`_${attribute.uniqueId}`}>
+    <ul className={cn(`_${attribute.uniqueId}`, attribute.className)}>
       <Content content={block.innerBlocks} />
     </ul>
   );

@@ -125,6 +125,7 @@ export const blocks = {
   'generateblocks/button': GenerateBlocksButton,
   'maxmegamenu/location': MaxMegaMenu,
   'uagb/gf-styler': Form,
+  'gravityforms/form': Form,
   'woocommerce/customer-account': CustomerAccount,
   'woocommerce/mini-cart': MiniCart,
   'core/shortcode': Shortcode,

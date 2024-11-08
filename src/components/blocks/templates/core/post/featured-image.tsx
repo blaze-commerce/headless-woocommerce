@@ -17,6 +17,9 @@ export const PostFeaturedImage = ({ block }: BlockComponentProps) => {
   const finalHeight = height ? parseInt(height.replace('px', '')) : 1;
 
   const altText = post.thumbnail.altText ? post.thumbnail.altText : post.thumbnail.title;
+  if (!post.thumbnail.src) {
+    return null;
+  }
   return (
     <Image
       width={finalWidth}

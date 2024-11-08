@@ -64,6 +64,10 @@ public/single-product.json
 public/single-post.json
 public/page.json
 public/theme.json
+public/wp-theme.json
+public/taxonomy-product_cat.json
+
+tailwind.config.js
 
 public/styles/styles.css
 build-storybook.log

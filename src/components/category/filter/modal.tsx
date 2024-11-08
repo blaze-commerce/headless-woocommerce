@@ -3,8 +3,6 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { Fragment } from 'react';
 
-import { font } from 'public/fonts';
-
 type Props = {
   open: boolean;
   setOpen: (_arg0: boolean) => void;
@@ -53,7 +51,7 @@ export const Modal: React.FC<Props> = ({ open, setOpen, name, children, position
                   'translate-x-full': position === 'right',
                 })}
               >
-                <Dialog.Panel className={`pointer-events-auto w-96 ${font.variable} font-sans`}>
+                <Dialog.Panel className="pointer-events-auto w-96">
                   <div className="flex h-full flex-col overflow-y-auto bg-white py-2.5 shadow-xl">
                     <div className="px-3.5">
                       <div className="flex items-end justify-end pb-1.5">

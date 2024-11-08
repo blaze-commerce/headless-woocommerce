@@ -8,6 +8,7 @@ import { FrequentlyBoughtTogether } from '@src/features/product/frequently-bougt
 import { YouMayAlsoLike } from '@src/features/product/you-may-also-like';
 import { RecentlyViewed } from '@src/features/product/recently-viewed';
 import { ShortcodeProductInstallment } from '@src/components/shortcodes/product-installment';
+import { Wishlist } from '@src/components/shortcodes/wishlist';
 import { ProductStockStatus as StockStatus } from '@src/features/product/product-stock-status';
 
 /**
@@ -24,6 +25,7 @@ export const shortcodes = {
   blz_installment_info: ShortcodeProductInstallment,
   blz_dialog: ProductDialogs,
   blz_popup: ProductInfoPopup,
+  ti_wishlistsview: Wishlist,
   blz_product_stock: StockStatus,
 };
 

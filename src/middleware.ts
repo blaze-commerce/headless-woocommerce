@@ -1,17 +1,30 @@
 import type { NextRequest } from 'next/server';
+import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
 import postSlugs from '@public/post-slugs.json';
-
-import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
 import { getDefaultCountry } from '@src/lib/helpers/country';
-import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
-import { stripSlashes } from '@src/lib/helpers/helper';
+import pageSlugs from '@public/page-slugs.json';
 import { NextURL } from 'next/dist/server/web/next-url';
 
-import pageSlugs from '@public/page-slugs.json';
+export const PAGE_URL_PATTERN = /\/page\/\d+\//;
+
+function stripSlashes(str: string): string {
+  return str.replace(/^\/|\/$/g, '');
+}
+
+/**
+ *
+ * @returns string The homepage slug base on the wordpress settings
+ */
+export const getHomePageSlug = () => {
+  return siteData.homepageSlug;
+};
+
+const typedPostSlugs: string[] = postSlugs;
+const typedPageSlugs: string[] = pageSlugs;
 
 // Limit middleware pathname config
 export const config = {
@@ -25,7 +38,7 @@ export const config = {
     '/brands',
     '/((?!api|_next/static|_next/image|images|favicon.ico).*)',
   ],
-  unstable_allowDynamic: ['/node_modules/lodash/lodash.js'],
+  unstable_allowDynamic: ['/node_modules/lodash/lodash.js', '/node_modules/lodash/_root.js'],
 };
 
 const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCountry: string) => {
@@ -63,11 +76,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  const { country: gCountry } = geolocation(req);
   const typedPostSlugs: string[] = postSlugs;
-
   // Extract country
   let country = req.cookies.get('currentCountry')?.value;
-  const geoCountry = req.geo?.country || '';
+  const geoCountry = gCountry || '';
   if (!country) {
     country = geoCountry;
   }
@@ -112,7 +125,6 @@ export async function middleware(req: NextRequest) {
 
   if (isCatalogPage) {
     req.nextUrl.pathname = `/${currentCountry}/product-category${pathname}`;
-
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
@@ -124,8 +136,12 @@ export async function middleware(req: NextRequest) {
   // We remove the leading slash since slugs we save doesn't have it to make sure this goes to the right nextjs page path
   modifiedPathName = stripSlashes(modifiedPathName);
 
+  if (modifiedPathName === siteData.shopPageSlug) {
+    return NextResponse.redirect(new URL('/shop/', req.url));
+  }
+
   // @TODO we will handle parent child post/page url structure later
-  if (pageSlugs.includes(modifiedPathName)) {
+  if (typedPageSlugs.includes(modifiedPathName)) {
     req.nextUrl.pathname = `/${currentCountry}/page/${modifiedPathName}`;
     return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }

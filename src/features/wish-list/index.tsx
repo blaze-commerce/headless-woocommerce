@@ -5,7 +5,6 @@ import { HiX } from 'react-icons/hi';
 
 import { WishListItems } from '@src/features/wish-list/wish-list-items';
 import { WishListRecentlyViewed } from '@src/features/wish-list/wish-list-recently-viewed';
-import { font } from '@public/fonts';
 import { useSiteContext } from '@src/context/site-context';
 
 // @TODO Check if the wishilist feature is turned on
@@ -35,7 +34,7 @@ export const WishList = () => {
     >
       <Dialog
         as="div"
-        className={`${font.variable} font-sans relative z-20`}
+        className="relative z-20"
         onClose={setOpen}
       >
         <Transition.Child

@@ -62,12 +62,14 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 
 const Page: NextPageWithLayout<Props> = (props) => {
   return (
-    <PostContextProvider post={props.post}>
-      <div className="post">
-        {props.post?.seoFullHead && <PageSeo seoFullHead={props.post?.seoFullHead} />}
-        <Content content={SINGLE_POST_TEMPLATE} />
-      </div>
-    </PostContextProvider>
+    <>
+      {props.post && <PageSeo seoFullHead={props.post.seoFullHead} />}
+      <PostContextProvider post={props.post}>
+        <div className="post">
+          <Content content={SINGLE_POST_TEMPLATE} />
+        </div>
+      </PostContextProvider>
+    </>
   );
 };
 
