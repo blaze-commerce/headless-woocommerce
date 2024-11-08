@@ -65,6 +65,7 @@ public/single-post.json
 public/page.json
 public/theme.json
 public/wp-theme.json
+public/taxonomy-product_cat.json
 
 tailwind.config.js
 
