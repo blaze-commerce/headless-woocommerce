@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUpdateEffect } from 'usehooks-ts';
 
 import TSTaxonomy from '../typesense/taxonomy';
 import { ITSProductQueryResponse, ITSTaxonomyProductQueryVars } from '../typesense/types';
 
-export const useFetchTsTaxonomyProducts = (queryVars: ITSTaxonomyProductQueryVars) => {
+export const useFetchTsTaxonomyProducts = (
+  queryVars: ITSTaxonomyProductQueryVars,
+  fetchOnload = false
+) => {
   const [data, setData] = useState<ITSProductQueryResponse>();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
 
-  useUpdateEffect(() => {
+  const effect = fetchOnload ? useEffect : useUpdateEffect;
+  effect(() => {
     const controller = new AbortController();
     setLoading(true);
     setIsFetched(false);

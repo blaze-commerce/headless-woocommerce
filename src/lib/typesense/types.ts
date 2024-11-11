@@ -272,8 +272,11 @@ export interface ITSPaginationInfo {
   totalFound: number;
   totalPages: number;
   nextPage: number;
+  previousPage: number;
   page: number;
   perPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }
 
 export interface ITSFilterOption {
