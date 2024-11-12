@@ -13,6 +13,7 @@ export const PrevPage = ({ block }: Props) => {
   const attribute = block.attrs as BlockAttributes;
   const {
     data,
+    loading,
     queryVars: [, setQueryVars],
   } = useProductsWidgetContext();
 
@@ -35,6 +36,7 @@ export const PrevPage = ({ block }: Props) => {
     <button
       className={attribute.className}
       onClick={handlePrevPage}
+      disabled={!loading && !hasPreviousPage}
     >
       <ReactHTMLParser html={svgContent} />
     </button>

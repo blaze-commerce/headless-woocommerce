@@ -15,6 +15,7 @@ export const NextPage = ({ block }: Props) => {
   const attribute = block.attrs as BlockAttributes;
   const {
     data,
+    loading,
     queryVars: [, setQueryVars],
   } = useProductsWidgetContext();
 
@@ -38,7 +39,7 @@ export const NextPage = ({ block }: Props) => {
     <button
       className={cn(attribute.className, 'next-page')}
       onClick={handleNextPage}
-      // disabled={hasNextpage}
+      disabled={!loading && !hasNextpage}
     >
       <ReactHTMLParser html={svgContent} />
     </button>

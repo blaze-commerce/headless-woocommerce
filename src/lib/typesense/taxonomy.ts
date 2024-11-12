@@ -778,6 +778,7 @@ const generateProductQueryResponse = async (
 
   const priceRangeAmount = getMulticurrencyPriceMinMaxValue(results.facet_counts);
 
+  const previousPage = nextPage - 2;
   return {
     products: found,
     queryVars,
@@ -785,11 +786,11 @@ const generateProductQueryResponse = async (
       totalFound: results.found,
       totalPages,
       nextPage,
-      previousPage: nextPage - 1,
+      previousPage: previousPage,
       page: queryVars.page as number,
       perPage: queryVars.perPage as number,
       hasNextPage: nextPage > 0 ? true : false,
-      hasPreviousPage: nextPage - 1 <= 0 ? false : true,
+      hasPreviousPage: previousPage <= 0 ? false : true,
     },
     taxonomyFilterOptions,
     priceFilter,
