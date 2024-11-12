@@ -202,6 +202,10 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     filterByArr.push(`onSale:=[${queryVars.onSale}]`);
   }
 
+  if (typeof queryVars.isFeatured !== 'undefined') {
+    filterByArr.push(`isFeatured:=[${queryVars.isFeatured}]`);
+  }
+
   if (typeof queryVars.newThreshold !== 'undefined') {
     filterByArr.push(`daysPassed:=[0..${queryVars.newThreshold}]`);
   }

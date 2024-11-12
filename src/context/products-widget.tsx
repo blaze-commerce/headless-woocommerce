@@ -40,11 +40,15 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
   const attributeOnSale = getAttributeValue(htmlAttributes, 'data-on-sale');
   const onSale = attributeOnSale ? attributeOnSale : undefined;
 
+  const attribbuteFeaturedProducts = getAttributeValue(htmlAttributes, 'data-featured');
+  const isFeatured = attribbuteFeaturedProducts ? attribbuteFeaturedProducts : undefined;
+
   const defaultQueryVars: ITSTaxonomyProductQueryVars = TSTaxonomy.getDefaultTsQueryVars();
   const productQueryVars: ITSTaxonomyProductQueryVars = {
     ...defaultQueryVars,
     sortBy: defaultSortBy?.value as string,
     onSale: onSale,
+    isFeatured: isFeatured,
     perPage: perPage,
   };
 

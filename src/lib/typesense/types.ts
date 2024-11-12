@@ -258,6 +258,7 @@ export interface ITSTaxonomyProductQueryVars {
   priceFilter?: string;
   appendProducts?: boolean;
   onSale?: string | null;
+  isFeatured?: string | null;
   searchQuery?: string | null;
   childAndParentTerm?: string[];
   newThreshold?: string;
