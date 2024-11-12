@@ -113,8 +113,10 @@ export default async function execute() {
   try {
     console.log('recreating/update tailwind config');
     const tailwindPath = path.join(process.cwd(), 'tailwind.config.js');
+
     fs.writeFileSync(tailwindPath, `${tailwindConfig}`, {
       encoding: 'utf-8',
+      flag: 'w',
     });
   } catch (error) {
     console.error('Error recreating/update tailwind config:', error);

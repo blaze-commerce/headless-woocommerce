@@ -144,6 +144,18 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   }, [router.query.onsale]);
 
   useEffect(() => {
+    if (router.query.featured === 'true') {
+      setTsQueryVars((prevProps: ITSTaxonomyProductQueryVars) => {
+        const newProps: ITSTaxonomyProductQueryVars = {
+          ...prevProps,
+          isFeatured: 'true',
+        };
+        return newProps;
+      });
+    }
+  }, [router.query.featured]);
+
+  useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
       if (event.state && event.state.scrollY && event.state.page) {
         const page = event.state.page;
