@@ -153,7 +153,7 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
         return newProps;
       });
     }
-  }, [router.query.onsale]);
+  }, [router.query.featured]);
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
