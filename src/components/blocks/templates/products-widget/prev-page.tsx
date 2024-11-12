@@ -2,7 +2,8 @@ import { ParsedBlock } from '@src/components/blocks';
 import { useProductsWidgetContext } from '@src/context/products-widget';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
-import React from 'react';
+import { Spinner } from '@components/svg/spinner';
+import { useEffect, useState } from 'react';
 
 type Props = {
   block: ParsedBlock;
@@ -17,6 +18,8 @@ export const PrevPage = ({ block }: Props) => {
     queryVars: [, setQueryVars],
   } = useProductsWidgetContext();
 
+  const [isLoading, setIsloading] = useState(false);
+
   const hasPreviousPage = data?.pageInfo.hasPreviousPage;
   const previusPage = data?.pageInfo.previousPage;
 
@@ -24,7 +27,7 @@ export const PrevPage = ({ block }: Props) => {
     if (!hasPreviousPage) {
       return;
     }
-
+    setIsloading(true);
     setQueryVars((prev) => {
       return {
         ...prev,
@@ -32,13 +35,18 @@ export const PrevPage = ({ block }: Props) => {
       };
     });
   };
+  useEffect(() => {
+    if (!loading) {
+      setIsloading(false);
+    }
+  }, [loading]);
   return (
     <button
       className={attribute.className}
       onClick={handlePrevPage}
       disabled={!loading && !hasPreviousPage}
     >
-      <ReactHTMLParser html={svgContent} />
+      {isLoading ? <Spinner className="w-4 m-0" /> : <ReactHTMLParser html={svgContent} />}
     </button>
   );
 };
