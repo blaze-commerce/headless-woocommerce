@@ -361,6 +361,7 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --colors-brandIcons: ${settings?.colors?.background?.icons};
           --colors-brandFont: ${settings.fonts?.siteFont?.fontColor};
           --colors-brandLinks: ${settings.fonts?.link?.fontColor};
+          --colors-subTitle: #333;
           --colors-brandHoverLinks: ${settings.fonts?.link?.hoverFontColor};
           --colors-brandButtonBackground: ${settings.buttonColor?.background};
           --colors-brandButtonText: ${settings.buttonColor?.text};

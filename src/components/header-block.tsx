@@ -8,8 +8,8 @@ export const Header = () => {
   const { settings } = useSiteContext();
   return (
     <>
-      <div id="top"></div>
       <header
+        id="top"
         className={cn('w-full bg-white shadow-lg font-primary', {
           'sticky top-0 z-10 !max-w-[100%]': settings?.isHeaderSticky,
         })}

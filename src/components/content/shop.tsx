@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import uniqid from 'uniqid';
 
-import { ShopContent } from '@src/components/content/shop-content';
+import { TaxonomyContent } from '@src/components/content/taxonomy-content';
 import { SkeletonCategory } from '@src/components/skeletons/skeleton-category';
 import { useSiteContext } from '@src/context/site-context';
 import { TaxonomyContext } from '@src/context/taxonomy-context';
@@ -17,7 +17,7 @@ type Props = {
   country: string;
 };
 
-export const ShopPage: NextPageWithLayout<ITaxonomyContentProps, Props> = (props) => {
+export const TaxonomyItemPage: NextPageWithLayout<ITaxonomyContentProps, Props> = (props) => {
   const { settings } = useSiteContext();
   const { shop } = settings as Settings;
   const router = useRouter();
@@ -54,7 +54,7 @@ export const ShopPage: NextPageWithLayout<ITaxonomyContentProps, Props> = (props
           categorySlugs={getCarCategorySlugsFromBreadCrumbs(props.taxonomyData.breadcrumbs)}
         />
       )}
-      <ShopContent
+      <TaxonomyContent
         key={uniqid()}
         fullHead={props.fullHead}
         hero={props.hero}

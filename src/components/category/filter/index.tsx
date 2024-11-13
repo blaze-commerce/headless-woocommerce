@@ -19,6 +19,9 @@ import TSTaxonomy from '@src/lib/typesense/taxonomy';
 import { cn } from '@src/lib/helpers/helper';
 import { useRouter } from 'next/router';
 import { FilterIcon } from '@src/components/svg/filter';
+import { FilterV2Icon } from '@src/components/svg/filter-v2';
+import { ChevronDown } from '@src/components/svg/chevron-down';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   pageNo: number;
@@ -33,6 +36,7 @@ export const Filter: React.FC<Props> = (props) => {
   const taxonomyCtx = useTaxonomyContext();
   const { settings, currentCountry, currentCurrency } = useSiteContext();
   const { shop, store } = settings as Settings;
+  const { layout } = shop as Shop;
   const router = useRouter();
 
   const [filterOpen, setFilterOpen] = taxonomyCtx.slideOverFilter;
@@ -108,9 +112,10 @@ export const Filter: React.FC<Props> = (props) => {
           onClick={() => {
             setSortByOpen((prev) => !prev);
           }}
-          className="button-sort-by hidden lg:flex bg-[#FAF6F2] group-hover/sortby:bg-[#2563EB] text-[#111111] group-hover/sortby:text-white border border-[#111111] group-hover/sortby:border-[#2563EB] rounded-[4px] py-3.5 px-4 text-xs font-normal leading-6 justify-center items-center gap-2.5 h-10 uppercase "
+          className="button-sort-by "
         >
-          {selectedSortOption?.label || 'Sort by'}
+          <ReactHTMLParser html={selectedSortOption?.label || 'Sort by'} />
+          <ChevronDown />
         </button>
       </div>
     );
@@ -128,21 +133,19 @@ export const Filter: React.FC<Props> = (props) => {
                 baseCountry={currentCountry}
               />
 
-              <div className="w-full border-b border-brand-second-gray mb-4 pb-4">
-                <PriceRangeSlider
-                  disclosureProp={taxonomyCtx.priceFilter}
-                  min={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                  max={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                />
-              </div>
+              <PriceRangeSlider
+                disclosureProp={taxonomyCtx.priceFilter}
+                min={Math.trunc(
+                  taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
+                    currentCurrency
+                  ] as number
+                )}
+                max={Math.trunc(
+                  taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
+                    currentCurrency
+                  ] as number
+                )}
+              />
 
               <button
                 className="hidden mt-3 w-full border border-black mb-2 p-2.5"
@@ -169,23 +172,7 @@ export const Filter: React.FC<Props> = (props) => {
             </div>
           </div>
         ) : (
-          <div className="mt-4 lg:col-span-3">{props.children}</div>
-        )}
-      </>
-    );
-  };
-
-  const renderResultCount = () => {
-    const { layout } = shop as Shop;
-    return (
-      <>
-        {layout?.productFilters === '2' && (
-          <div className="mt-4 flex items-center">
-            <ResultCount
-              pageNo={pageNo}
-              productCount={productCount}
-            />
-          </div>
+          <div className="product-grid">{props.children}</div>
         )}
       </>
     );
@@ -194,15 +181,14 @@ export const Filter: React.FC<Props> = (props) => {
   const renderActiveFilters = () => {
     const { layout } = shop as Shop;
     return (
-      <div className="flex-1 flex gap-x-6 items-center">
+      <div className="active-filters">
         <ActiveFilters {...layout?.activeFilters} />
         {isFilterSet && (
           <button
             onClick={resetFilterAction}
-            className="flex items-center gap-1.5"
+            className="clear-button-holder"
           >
-            <span className="text-sm">CLEAR ALL</span>
-            <XMarkIcon className="w-5 h-5" />
+            <span className="text-sm">Clear all</span>
           </button>
         )}
       </div>
@@ -210,7 +196,6 @@ export const Filter: React.FC<Props> = (props) => {
   };
 
   const renderFilterBy = () => {
-    const { layout } = shop as Shop;
     return (
       <div className="group/filter">
         {layout.productFilters == '1' ? (
@@ -297,6 +282,9 @@ export const Filter: React.FC<Props> = (props) => {
       {renderMobileActiveFilters()}
       <div className="product-archive-container container">
         <aside className="product-archive-filter">
+          <h2 className="filter-main-title">
+            Filters <FilterV2Icon />
+          </h2>
           <FilterOptionBlocks
             blocks={taxonomyCtx.filterOptionContent}
             baseCountry={currentCountry}
@@ -320,9 +308,14 @@ export const Filter: React.FC<Props> = (props) => {
             RESET
           </button>
         </aside>
-        <div>
-          <div className="flex flex-row">
-            {renderResultCount()}
+        <div className="product-archive-display">
+          <div className="product-filter-and-sort">
+            {layout?.productFilters === '2' && (
+              <ResultCount
+                pageNo={pageNo}
+                productCount={productCount}
+              />
+            )}
             {renderActiveFilters()}
             {shop?.layout?.productFilters != '1' && renderSortByButton()}
           </div>

@@ -3,8 +3,8 @@ import siteData from '@public/site.json';
 
 import { GetStaticProps } from 'next';
 
-import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
-import { defaultLayout } from '@src/components/layouts/default-v2';
+import { TaxonomyItemPage } from '@src/components/content/shop';
+import { shopLayout } from '@src/components/layouts/shop';
 import { SiteInfo } from '@src/lib/typesense/site-info';
 import { getAllBaseContries } from '@src/lib/helpers/country';
 import TSTaxonomy, { getProducts } from '@src/lib/typesense/taxonomy';
@@ -19,7 +19,7 @@ interface Params extends ParsedUrlQuery {
   country: string;
 }
 
-TaxonomyItemPage.getLayout = defaultLayout;
+TaxonomyItemPage.getLayout = shopLayout;
 
 export default TaxonomyItemPage;
 

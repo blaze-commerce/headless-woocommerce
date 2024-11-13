@@ -99,8 +99,9 @@ export const CategoryFilterOptions = (props: Props) => {
         })}
       >
         {decode(label)}
+
+        {` (${option.count})`}
       </label>
-      <span>{`(${option.count})`}</span>
     </div>
   );
 };

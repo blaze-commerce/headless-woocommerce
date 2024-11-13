@@ -1,6 +1,6 @@
 import { find } from 'lodash';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { useEffectOnce, useIntersectionObserver } from 'usehooks-ts';
 
