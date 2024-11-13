@@ -32,6 +32,9 @@ import { SearchBlogHits } from '@src/components/blocks/search/blog-hits';
 import { SearchProductHits } from '@src/components/blocks/search/product-hits';
 import { SearchProductIndex } from '@src/components/blocks/search/product-index';
 import { MaxMegaMenuOverlay } from '@src/components/blocks/maxmegamenu/overlay';
+import { Products } from '@src/components/blocks/woocommerce/products';
+import { ProductsWidget } from '@src/components/blocks/woocommerce/products-widgets';
+import { Postlist, RecentPost } from '@src/components/blocks/wooless/post';
 
 export const Container = ({ block }: BlockComponentProps) => {
   const { type } = useContentContext();
@@ -170,6 +173,22 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'MaxMegaMenuOverlay')) {
     return <MaxMegaMenuOverlay block={block} />;
+  }
+
+  if (isBlockA(block, 'Products')) {
+    return <Products block={block} />;
+  }
+
+  if (isBlockA(block, 'ProductsWidget')) {
+    return <ProductsWidget block={block} />;
+  }
+
+  if (isBlockA(block, 'PostList')) {
+    return <Postlist block={block} />;
+  }
+
+  if (isBlockA(block, 'RecentPost')) {
+    return <RecentPost block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

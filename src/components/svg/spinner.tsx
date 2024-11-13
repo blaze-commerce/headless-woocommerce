@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import { cn } from '@src/lib/helpers/helper';
 
 type Props = {
   className?: string;
@@ -9,7 +9,7 @@ const defaultProps = {
 };
 
 export const Spinner: React.FC<Props> = ({ className }) => {
-  const classes = cx('animate-spin -mt-1 -ml-1 mr-3 h-5 w-5 inline-block', className);
+  const classes = cn('animate-spin -mt-1 -ml-1 mr-3 h-5 w-5 inline-block', className);
   return (
     <svg
       className={classes}

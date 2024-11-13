@@ -85,3 +85,10 @@ export function getPageParams(urlArgs: string[]): number | undefined {
 export const getCurrencies = () => {
   return regionSettings.map((item) => item.currency);
 };
+
+export const capitalizeString = (stringVal: string) => {
+  if (!stringVal) {
+    return stringVal;
+  }
+  return stringVal.charAt(0).toUpperCase() + stringVal.slice(1);
+};

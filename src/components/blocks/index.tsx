@@ -29,6 +29,8 @@ import { PostContent } from '@src/components/blocks/templates/core/post/content'
 import { PostTitle } from '@src/components/blocks/templates/core/post/title';
 import { PostDate } from '@src/components/blocks/templates/core/post/date';
 import { PostAuthorName } from '@src/components/blocks/templates/core/post/author-name';
+import { IconBlock } from '@src/components/blocks/outermost/IconBlock';
+import { ProductQuery } from '@src/components/blocks/woocommerce/product-query';
 
 const Group = dynamic(() => import('@src/components/blocks/core/group').then((mod) => mod.Group));
 
@@ -147,6 +149,7 @@ export const blocks = {
   'core/post-date': PostDate,
   'core/post-author-name': PostAuthorName,
   'core/post-terms': PostTerms,
+  'outermost/icon-block': IconBlock,
 };
 
 // Define type alias for block names

@@ -202,6 +202,10 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     filterByArr.push(`onSale:=[${queryVars.onSale}]`);
   }
 
+  if (typeof queryVars.isFeatured !== 'undefined') {
+    filterByArr.push(`isFeatured:=[${queryVars.isFeatured}]`);
+  }
+
   if (typeof queryVars.newThreshold !== 'undefined') {
     filterByArr.push(`daysPassed:=[0..${queryVars.newThreshold}]`);
   }
@@ -778,6 +782,7 @@ const generateProductQueryResponse = async (
 
   const priceRangeAmount = getMulticurrencyPriceMinMaxValue(results.facet_counts);
 
+  const previousPage = nextPage - 2;
   return {
     products: found,
     queryVars,
@@ -785,8 +790,11 @@ const generateProductQueryResponse = async (
       totalFound: results.found,
       totalPages,
       nextPage,
+      previousPage: previousPage,
       page: queryVars.page as number,
       perPage: queryVars.perPage as number,
+      hasNextPage: nextPage > 0 ? true : false,
+      hasPreviousPage: previousPage <= 0 ? false : true,
     },
     taxonomyFilterOptions,
     priceFilter,
