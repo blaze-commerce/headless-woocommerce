@@ -66,6 +66,11 @@ const getCurrentCountry = (country: string) => {
   return currentCountry;
 };
 
+const isBlogPageUrl = (url: string): boolean => {
+  const pattern = /^blog\/page\/\d+$/;
+  return pattern.test(url);
+};
+
 export async function middleware(req: NextRequest) {
   // Exclude image paths, xml, and wp-admin/content
   if (
@@ -138,6 +143,16 @@ export async function middleware(req: NextRequest) {
 
   if (modifiedPathName === siteData.shopPageSlug) {
     return NextResponse.redirect(new URL('/shop/', req.url));
+  }
+
+  if (modifiedPathName === siteData.blogPageSlug) {
+    req.nextUrl.pathname = `/${currentCountry}/blog`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
+
+  if (isBlogPageUrl(modifiedPathName)) {
+    req.nextUrl.pathname = `/${currentCountry}/${modifiedPathName}/`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   // @TODO we will handle parent child post/page url structure later

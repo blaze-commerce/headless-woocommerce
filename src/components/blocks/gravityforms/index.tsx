@@ -17,7 +17,6 @@ export const Form = ({ block }: FormProps) => {
     return <NewsLetter block={block} />;
   }
 
-  console.log('block', block);
   // @TODO: Think of a way to get the form data from api and show it properly
   return <FormPicker block={block} />;
 };

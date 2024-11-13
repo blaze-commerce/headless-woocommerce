@@ -6,9 +6,7 @@ import { GetStaticProps } from 'next';
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
 import { defaultLayout } from '@src/components/layouts/default-v2';
 import { SiteInfo } from '@src/lib/typesense/site-info';
-import { Country, getAllBaseContries } from '@src/lib/helpers/country';
-import { RegionalData } from '@src/types';
-import { meta } from '@src/lib/constants/meta';
+import { getAllBaseContries } from '@src/lib/helpers/country';
 import TSTaxonomy, { getProducts } from '@src/lib/typesense/taxonomy';
 import { ITSTaxonomyProductQueryVars } from '@src/lib/typesense/types';
 import { getPageBySlug } from '@src/lib/typesense/page';
@@ -68,7 +66,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
   return {
     props: {
       country,
-      fullHead: pageData?.seoFullHead || meta('Shop'),
+      fullHead: pageData?.seoFullHead,
       categoryName: pageData?.name || null,
       popular: [],
       hero: {
