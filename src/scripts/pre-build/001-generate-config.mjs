@@ -13,6 +13,7 @@ const configNames = [
   'homepage_layout',
   'homepage_slug',
   'shop_page_slug',
+  'blog_page_slug',
   'site_message_top_header',
   'site_message',
   'footer_content_before',
@@ -203,6 +204,7 @@ export default async function execute(params) {
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
     settingsWithDefaults.shopPageSlug = typesenseConfigs?.shopPageSlug?.value;
+    settingsWithDefaults.blogPageSlug = typesenseConfigs?.blogPageSlug?.value;
     settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(typesenseConfigs?.isBundleProductEnabled?.value);
     settingsWithDefaults.categoryPageDefaultSort = typesenseConfigs?.categoryPageDefaultSort?.value;
     const favIcon = typesenseConfigs?.siteIconUrl?.value;

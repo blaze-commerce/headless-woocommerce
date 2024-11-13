@@ -61,7 +61,7 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
-      setProductsData((prevProducts) => {
+      setProductsData(() => {
         // Return new data
         return Product.buildFromResponseArray(data?.products);
       });

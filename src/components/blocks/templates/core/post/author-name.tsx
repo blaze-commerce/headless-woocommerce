@@ -1,12 +1,6 @@
 import { BlockComponentProps } from '@src/components/blocks';
 import { usePostContext } from '@src/context/post-context';
-
-const capitalizeString = (stringVal: string) => {
-  if (!stringVal) {
-    return stringVal;
-  }
-  return stringVal.charAt(0).toUpperCase() + stringVal.slice(1);
-};
+import { capitalizeString } from '@src/lib/helpers';
 
 export const PostAuthorName = ({ block }: BlockComponentProps) => {
   const { post } = usePostContext();
