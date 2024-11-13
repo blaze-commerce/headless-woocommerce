@@ -37,16 +37,7 @@ next-env.d.ts
 storybook-static
 
 public/fonts.css
-public/footer.json
-public/header.json
-public/fonts.json
 public/fonts.ts
-public/menu.json
-public/site.json
-public/region.json
-public/product.json
-public/homepage.json
-public/single-product.json
 public/fonts/
 public/favicon.*
 public/logo.*
@@ -55,17 +46,9 @@ public/images/banner/
 public/images/blog/
 public/images/homepage/
 public/images/product/
-public/categorypaths.json
-public/page-slugs.json
 public/page/*.*
-public/post-slugs.json
 public/post/*.*
-public/single-product.json
-public/single-post.json
-public/page.json
-public/theme.json
-public/wp-theme.json
-public/taxonomy-product_cat.json
+public/*.json
 
 tailwind.config.js
 
