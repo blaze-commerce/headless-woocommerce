@@ -3,7 +3,7 @@ import { isArray, isEmpty, reduce } from 'lodash';
 import { GetStaticProps } from 'next';
 
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
-import { defaultLayout } from '@src/components/layouts/default-v2';
+import { defaultLayout } from '@src/components/layouts/taxonomy';
 import { SiteInfo } from '@src/lib/typesense/site-info';
 import { generatePathsByCountry, getPageParams } from '@src/lib/helpers';
 import { Country, getDefaultRegion } from '@src/lib/helpers/country';

@@ -38,7 +38,7 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { layout } = shop as Shop;
   const { productCards, productFilters, productColumns = '3' } = layout;
 
-  const { breadcrumb = '/' } = store as Store;
+  const { breadcrumb = '&gt;' } = store as Store;
 
   const { wishlist } = (header as Header).options;
 
@@ -358,23 +358,25 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
     <>
       {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
       <LoadingModal isOpen={loading} />
-      {props.showBreadCrumbs && showBreadCrumbs && (
-        <BreadCrumbs
-          className="flex mt-5"
-          separator={breadcrumb}
-          crumbs={props?.taxonomyData?.breadcrumbs}
-        />
-      )}
-      {props.showBanner && (
-        <Banner
-          {...props.hero}
-          style={bannerStyle}
-        />
-      )}
+      <header>
+        <div className="container">
+          {props.showBreadCrumbs && showBreadCrumbs && (
+            <BreadCrumbs
+              className=""
+              separator="&gt;"
+              crumbs={props?.taxonomyData?.breadcrumbs}
+            />
+          )}
+          {props.showBanner && (
+            <Banner
+              {...props.hero}
+              style={bannerStyle}
+            />
+          )}
+        </div>
+      </header>
 
       <div className="container">
-        <CategoryList subCategories={props.subCategories as SubCategory[]} />
-
         <Filter
           pageNo={tsPaginationInfo.page}
           productCount={tsPaginationInfo.totalFound}
@@ -386,15 +388,21 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
               <div className="mx-0">
                 <ProductGrid productColumns={productColumns}>
                   {transformProductsForDisplay(productsData).map((product, index: number) => (
-                    <ProductCard
-                      key={index}
-                      product={product}
-                      productFilters={productFilters}
-                      productColumns={productColumns}
-                      showWishlistButton={wishlist?.enabled}
-                      {...productCards}
-                      hasAddToCart={productCards?.hasAddToCart}
-                    />
+                    <>
+                      <ProductCard
+                        key={index}
+                        product={product}
+                        productFilters={productFilters}
+                        productColumns={productColumns}
+                        showRating={true}
+                        {...layout?.productCards}
+                        showWishlistButton={settings?.store?.wishlist?.enabled}
+                        saleBadgeColor="#393939"
+                        saleBadgeType={4}
+                        showCategory={true}
+                        hasAddToCart={productCards?.hasAddToCart}
+                      />
+                    </>
                   ))}
                 </ProductGrid>
               </div>

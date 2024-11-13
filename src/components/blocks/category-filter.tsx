@@ -109,7 +109,7 @@ export const CategoryFilter = (props: CategoryFilterProps) => {
                         className="more-options"
                         onClick={() => setIsMoreOptionsOpen(true)}
                       >
-                        + {restructureFilterOptions.length - 5} more
+                        show more + {restructureFilterOptions.length - 5}
                       </button>
                     )}
                   </Disclosure.Panel>

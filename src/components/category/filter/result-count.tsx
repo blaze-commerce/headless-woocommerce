@@ -50,10 +50,10 @@ export const ResultCount = (props: Props) => {
     <>
       {(pathIndex[1] !== 'brand' || isFilterSet || isSortByChanged) && (
         <p
-          className="text-base font-normal text-center leading-6"
+          className="result-count"
           style={resultCountStyle ? resultCountStyle : {}}
         >
-          {loadedResult !== 0 && `1 - ${loadedResult} out of ${productCount}`}
+          Items {loadedResult !== 0 && `1 - ${loadedResult} of ${productCount}`}
         </p>
       )}
     </>

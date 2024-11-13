@@ -85,32 +85,32 @@ interface IPriceFilterOptions {
   };
 }
 const sortOptions = (currency = regionalSettings?.[0]?.currency || 'AUD') => [
+  // {
+  //   label: '<label>Sort by:</label> None',
+  //   value: 'menuOrder:asc',
+  // },
   {
-    label: 'Sort By None',
-    value: 'menuOrder:asc',
-  },
-  {
-    label: 'Sort by popularity',
+    label: '<label>Sort by:</label> Popularity',
     value: 'totalSales:desc',
   },
   {
-    label: 'Sort by latest',
+    label: '<label>Sort by:</label> Latest',
     value: 'publishedAt:desc',
   },
   {
-    label: 'Sort by price: low to high',
+    label: '<label>Sort by price:</label> low to high',
     value: `price.${currency}:asc`,
   },
   {
-    label: 'Sort by price: high to low',
+    label: '<label>Sort by price:</label> high to low',
     value: `price.${currency}:desc`,
   },
   {
-    label: 'Sort by alphabetical A-Z',
+    label: '<label>Sort by</label> Alphabetical A-Z',
     value: 'name:asc',
   },
   {
-    label: 'Sort by alphabetical Z-A',
+    label: '<label>Sort by</label> Alphabetical Z-A',
     value: 'name:desc',
   },
 ];
