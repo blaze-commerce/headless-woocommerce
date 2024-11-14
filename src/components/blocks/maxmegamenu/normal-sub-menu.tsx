@@ -21,7 +21,7 @@ export const NormalSubMenu: React.FC<Props> = ({ items, attributes }) => {
     <MegaMenuSubMenuWrapper
       $mainNavigationBackgroundColor={attributes.submenuContainerBackgroundColor}
       $padding={attributes.submenuContainerPadding}
-      className="mega-menu flex-col"
+      className="mega-menu normal-sub-menu-wrapper flex-col"
     >
       <ul>
         {items?.map((menuItem, menuItemIndex) => (
