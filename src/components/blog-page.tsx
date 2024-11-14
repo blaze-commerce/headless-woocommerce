@@ -19,7 +19,7 @@ interface Props {
   totalPages: number;
   currentPage: number;
   perPage: number;
-  recentPosts: GetPostsResponse;
+  recentPosts: ITSPage[];
 }
 
 interface Params extends ParsedUrlQuery {
@@ -46,26 +46,32 @@ export const getBlogStaticProps = async (context: GetStaticPropsContext<Params>)
       country,
       postList: getPostsResponse?.posts,
       found: getPostsResponse?.found,
-      currentPage: page ? parseInt(page) : null,
+      currentPage: page ? parseInt(page) : 1,
       perPage: getPostsResponse?.perPage,
       totalPages: getPostsResponse?.totalPages,
-      recentPosts: recentPosts ? recentPosts : null,
+      recentPosts: recentPosts?.posts,
     },
     revalidate: 43200, // Refresh the generated page every 12 hours,
   };
 };
 
 const Blog: NextPageWithLayout<Props> = (props) => {
+  console.log('props.postList', props.postList);
+  console.log('props.found', props.found);
+  console.log('props.currentPage', props.currentPage);
+  console.log('props.totalPages', props.totalPages);
+  console.log('props.perPage', props.perPage);
+  console.log('props.recentPosts', props.recentPosts);
   return (
     <>
       {props.pageData && <PageSeo seoFullHead={props.pageData.seoFullHead} />}
       <BlogContextProvider
-        postList={props.postList}
-        found={props.found}
-        currentPage={props.currentPage}
-        totalPages={props.totalPages}
-        perPage={props.perPage}
-        recentPost={props.recentPosts}
+        postList={[]}
+        found={0}
+        currentPage={1}
+        totalPages={1}
+        perPage={10}
+        recentPosts={[]}
       >
         <div className="blog font-primary">
           {props.pageData?.rawContent && <Content content={props.pageData?.rawContent} />}

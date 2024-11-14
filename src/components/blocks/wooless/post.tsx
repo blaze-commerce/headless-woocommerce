@@ -101,12 +101,12 @@ export const Postlist = ({ block }: PostlistProps) => {
 
 export const RecentPost = ({ block }: PostlistProps) => {
   const attribute = block.attrs as BlockAttributes;
-  const { recentPost } = useBlogContext();
+  const { recentPosts } = useBlogContext();
 
   return (
     <div className={cn('flex flex-col gap-3', attribute.className)}>
-      {recentPost?.posts.length &&
-        recentPost.posts.map((post) => (
+      {recentPosts.length &&
+        recentPosts.map((post) => (
           <Link
             href={post.permalink}
             key={post.id}
