@@ -99,6 +99,7 @@ export const getPageBySlug = async (slug: string): Promise<ITSPage | null> => {
   return found;
 };
 
+const EXCLUDED_PAGE_SLUGS = [siteData.blogPageSlug];
 /**
  * We will use this function to get all the page/post slugs so that we can rebuild those pages in the frontend later
  *
@@ -134,7 +135,9 @@ export const getPageSlugs = async (result = 'static'): Promise<string[]> => {
       const parse = PageSlugs.safeParse(hit.document);
       if (parse.success && parse.data.slug) {
         const slug = parse.data.slug;
-        slugs.push(slug);
+        if (!EXCLUDED_PAGE_SLUGS.includes(slug)) {
+          slugs.push(slug);
+        }
       }
     });
 

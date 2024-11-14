@@ -19,7 +19,7 @@ interface Props {
   totalPages: number;
   currentPage: number;
   perPage: number;
-  recentPosts: GetPostsResponse;
+  recentPosts: ITSPage[];
 }
 
 interface Params extends ParsedUrlQuery {
@@ -46,10 +46,10 @@ export const getBlogStaticProps = async (context: GetStaticPropsContext<Params>)
       country,
       postList: getPostsResponse?.posts,
       found: getPostsResponse?.found,
-      currentPage: page ? parseInt(page) : null,
+      currentPage: page ? parseInt(page) : 1,
       perPage: getPostsResponse?.perPage,
       totalPages: getPostsResponse?.totalPages,
-      recentPosts: recentPosts ? recentPosts : null,
+      recentPosts: recentPosts?.posts,
     },
     revalidate: 43200, // Refresh the generated page every 12 hours,
   };
@@ -65,7 +65,7 @@ const Blog: NextPageWithLayout<Props> = (props) => {
         currentPage={props.currentPage}
         totalPages={props.totalPages}
         perPage={props.perPage}
-        recentPost={props.recentPosts}
+        recentPosts={props.recentPosts}
       >
         <div className="blog font-primary">
           {props.pageData?.rawContent && <Content content={props.pageData?.rawContent} />}
