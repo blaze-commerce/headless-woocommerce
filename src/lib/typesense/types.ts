@@ -21,6 +21,11 @@ export interface ITSAuthor {
   lastName: string;
 }
 
+export interface ITSBreadcrumb {
+  title: string;
+  url?: string; // The `url` property is optional as not all items may have it
+}
+
 export interface ITSPage {
   id: string;
   name: string;
@@ -39,6 +44,7 @@ export interface ITSPage {
   rawContent: string;
   author: ITSAuthor;
   template: string;
+  breadcrumbs: ITSBreadcrumb[];
 }
 
 // To parse this data:
