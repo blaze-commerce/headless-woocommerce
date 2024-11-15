@@ -8,8 +8,9 @@ import type { NextPageWithLayout } from '@src/pages/_app';
 import { GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { getPageBySlug } from '@src/lib/typesense/page';
-import { getPosts, GetPostsResponse } from '@src/lib/typesense/post';
+import { getPosts } from '@src/lib/typesense/post';
 import { BlogContextProvider } from '@src/context/blog-context';
+import { PageContextProvider } from '@src/context/page-context';
 
 interface Props {
   country: string;
@@ -67,9 +68,16 @@ const Blog: NextPageWithLayout<Props> = (props) => {
         perPage={props.perPage}
         recentPosts={props.recentPosts}
       >
-        <div className="blog font-primary">
-          {props.pageData?.rawContent && <Content content={props.pageData?.rawContent} />}
-        </div>
+        <PageContextProvider page={props.pageData}>
+          <div className="blog font-primary">
+            {props.pageData?.rawContent && (
+              <Content
+                type="page"
+                content={props.pageData?.rawContent}
+              />
+            )}
+          </div>
+        </PageContextProvider>
       </BlogContextProvider>
     </>
   );
