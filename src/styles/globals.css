@@ -747,6 +747,34 @@ body {
   @apply bg-transparent !justify-start relative content-between transition-all ease-linear duration-300 h-full flex flex-col;
 }
 
+.product-card .product-header {
+  @apply relative;
+}
+
+.product-card .product-header .product-badges {
+  @apply absolute top-2 left-2 z-[1] flex gap-2;
+}
+
+.product-card .product-header .product-badges .badge {
+  @apply rounded-md text-white text-xs leading-6 block bg-[#333] px-2;
+}
+
+.product-card .product-header .product-badges .badge.sale-badge {
+  @apply bg-brand-primary;
+}
+
+.product-card .product-header .wishlist-button-holder {
+  @apply absolute top-2 right-2 z-[1];
+}
+
+.product-card .product-header .wishlist-button-holder svg {
+  @apply fill-transparent stroke-[#777] cursor-pointer;
+}
+
+.product-card .product-header .wishlist-button-holder svg:hover {
+  @apply fill-brand-primary stroke-brand-primary;
+}
+
 .product-card.has-border {
   @apply border border-solid border-[#ECEEEF] max-w-xs;
 }
@@ -768,7 +796,7 @@ body {
 }
 
 .product-card .product-card-label .product-title {
-  @apply font-bold leading-6 text-[20px] text-[#000180];
+  @apply font-bold leading-6 text-[20px] text-[#000180] font-play;
 }
 
 .product-card .product-card-label .product-category {
@@ -780,7 +808,15 @@ body {
 }
 
 .product-card .product-image-holder {
-  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center w-full h-[257.848px] lg:w-full lg:h-[209px] rounded-lg bg-white object-cover;
+  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center w-full h-[257.848px] lg:w-full lg:h-[209px] rounded-lg bg-transparent object-cover;
+}
+
+.product-card .product-image-holder .wishlist-button {
+  @apply absolute w-full h-full flex justify-end overflow-hidden z-20 flex-col !top-0 !bottom-auto;
+}
+
+.product-card .product-image-holder .wishlist-button .button-label {
+  @apply hidden;
 }
 
 .product-card .product-variant-image-holder .glider-track {

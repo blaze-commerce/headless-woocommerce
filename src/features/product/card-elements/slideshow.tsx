@@ -2,15 +2,18 @@ import Glider from 'react-glider';
 import { Product } from '@src/models/product';
 import Image from 'next/image';
 import type { Image as ImageType } from '@models/product/types';
+import { RawLink } from '@src/components/common/raw-link';
+import { seoUrlParser } from '@src/components/page-seo';
 
 type ISlideshow = {
   product: Product;
+  showWishlistButton?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gliderRef: React.RefObject<any>;
 };
 
 export const CardSlideshow: React.FC<ISlideshow> = (props) => {
-  const { product, gliderRef } = props;
+  const { product, gliderRef, showWishlistButton = false } = props;
 
   if (!product) return null;
 
@@ -18,6 +21,8 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
 
   //remove the first image from the gallery images
   const galleryImages = product.galleryImages.slice(1);
+
+  const productLink = seoUrlParser(product?.permalink || '');
 
   return (
     <div className="product-variant-image-holder">
@@ -30,14 +35,19 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
         {galleryImages &&
           galleryImages.map((image: ImageType, key) => (
             <figure key={`gallery-image-${key}`}>
-              <Image
-                src={image.src}
-                alt={String(image.altText)}
-                title={image.title}
-                width={398}
-                height={616}
-                className="product-image"
-              />
+              <RawLink
+                href={productLink}
+                title={product.name}
+              >
+                <Image
+                  src={image.src}
+                  alt={String(image.altText)}
+                  title={image.title}
+                  width={398}
+                  height={616}
+                  className="product-image"
+                />
+              </RawLink>
             </figure>
           ))}
       </Glider>

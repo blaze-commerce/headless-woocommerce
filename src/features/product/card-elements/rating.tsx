@@ -27,7 +27,7 @@ export const CardRating = ({ product, detailsAlignment, showRating }: ICardRatin
     <div className={cn('product-rating', `justify-${detailsAlignment}`)}>
       {reviewService === 'judge.me' && <ProductRating stats={judgemeReviews as Stats} />}
       {reviewService === 'yotpo' && <ProductRating stats={yotpoReviews as Stats} />}
-      {reviewService === 'woocommerce_native_reviews' && metaData?.wooProductReviews?.stats && (
+      {reviewService === 'woocommerce_native_reviews' && (
         <ProductRating stats={wooProductReviews?.stats} />
       )}
     </div>

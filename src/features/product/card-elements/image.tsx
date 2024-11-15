@@ -10,6 +10,8 @@ import { cn, isImage } from '@src/lib/helpers/helper';
 import { Product } from '@src/models/product';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
 import TSThumbnail from '@src/lib/typesense/image';
+import { seoUrlParser } from '@src/components/page-seo';
+import { RawLink } from '@src/components/common/raw-link';
 
 interface ICardImage {
   product: Product;
@@ -102,6 +104,7 @@ export const CardImage = (props: ICardImage) => {
   const [imgError, setImgError] = useState(false);
   const [imgHoverError, setImgHoverError] = useState(false);
   const { settings } = useSiteContext();
+  const productLink = seoUrlParser(product?.permalink || '');
 
   return (
     <div
@@ -134,37 +137,35 @@ export const CardImage = (props: ICardImage) => {
           imgHoverError,
         })
       ) : (
-        <Image
-          src={mainImage.src}
-          alt={mainImage.altText as string}
-          width={398}
-          height={616}
-          className={cn('product-image', {
-            'group-hover:opacity-0 group-hover:transition group-hover:ease-linear group-hover:duration-300 ease-linear duration-300':
-              mainImage?.src &&
-              typeof mainImage?.src !== undefined &&
-              secondaryImage &&
-              typeof secondaryImage !== undefined &&
-              !imgError &&
-              !imgHoverError,
-            'xl:w-full xl:px-20': imgError && productFilters !== '1' && productColumns == '3',
-            'xl:w-full xl:h-full': imgError && productColumns == '4',
-            'xl:w-full xl:h-full xl:px-6':
-              imgError && productFilters === '1' && productColumns == '3',
-            'object-center object-cover lg:w-full lg:h-full': !imgError,
-            'p-4 lg:p-7': imgError,
-          })}
-          onError={() => {
-            setImgError(true);
-          }}
-        />
-      )}
-      <CardStockAvailability />
-      {showWishlistButton && (
-        <CardWishlishButton
-          product={product}
-          hasItemsLeftBadge={true}
-        />
+        <RawLink
+          href={productLink}
+          title={product.name}
+        >
+          <Image
+            src={mainImage.src}
+            alt={mainImage.altText as string}
+            width={398}
+            height={616}
+            className={cn('product-image', {
+              'group-hover:opacity-0 group-hover:transition group-hover:ease-linear group-hover:duration-300 ease-linear duration-300':
+                mainImage?.src &&
+                typeof mainImage?.src !== undefined &&
+                secondaryImage &&
+                typeof secondaryImage !== undefined &&
+                !imgError &&
+                !imgHoverError,
+              'xl:w-full xl:px-20': imgError && productFilters !== '1' && productColumns == '3',
+              'xl:w-full xl:h-full': imgError && productColumns == '4',
+              'xl:w-full xl:h-full xl:px-6':
+                imgError && productFilters === '1' && productColumns == '3',
+              'object-center object-cover lg:w-full lg:h-full': !imgError,
+              'p-4 lg:p-7': imgError,
+            })}
+            onError={() => {
+              setImgError(true);
+            }}
+          />
+        </RawLink>
       )}
     </div>
   );

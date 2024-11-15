@@ -215,10 +215,15 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
   }
 
   if (!isEmpty(queryVars.categoryFilter)) {
-    const newCategoryFilter = queryVars.categoryFilter?.split(', ');
+    const newCategoryFilter = queryVars.categoryFilter?.split('|, ');
+    newCategoryFilter?.map((queryFilter, key) => {
+      let filter = `taxonomies.filters:=[\`${queryFilter}\`]`;
 
-    newCategoryFilter?.map((queryFilter) => {
-      filterByOrLogic.push(`taxonomies.filters:=[\`${queryFilter}\`]`);
+      // if key is not the last item, add | on the last filter value
+      if (key !== newCategoryFilter.length - 1) {
+        filter += '|';
+      }
+      filterByOrLogic.push(`${filter}`);
     });
   }
 
@@ -261,7 +266,7 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     max_facet_values: 200,
     sort_by: `stockStatus:asc,${queryVars.sortBy}`, // Default sortby totalSales desc
     include_fields:
-      'permalink,thumbnail,name,onSale,stockStatus,regularPrice,price,sku,salePrice,galleryImages,createdAt,stockQuantity,productType,id,judgemeReviews,publishedAt,daysPassed,yotpoReviews,variations,metaData',
+      'permalink,thumbnail,name,onSale,stockStatus,regularPrice,price,sku,salePrice,galleryImages,createdAt,stockQuantity,productType,id,judgemeReviews,publishedAt,daysPassed,yotpoReviews,variations,metaData,taxonomies',
   };
 
   const hasRefinedSelection = !isEmpty(filterByRefinedSelection);
@@ -560,7 +565,7 @@ const getBrandsFilterOptions = (facetData: SearchResponseFacetCountSchema<{}>[] 
         thumbnailSrc,
       };
 
-      if (type === 'product_brand') {
+      if (type === 'product_brand' || type === 'product_brands') {
         result.push(itemData);
       }
 

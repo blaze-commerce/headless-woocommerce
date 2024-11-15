@@ -13,6 +13,7 @@ type Props = {
     [key: string]: string;
   };
   passHref?: boolean;
+  title?: string;
 };
 
 export const RawLink = (props: Props) => {
@@ -34,6 +35,7 @@ export const RawLink = (props: Props) => {
       className={cn(props.className, 'raw-link')}
       style={props.style}
       onMouseEnter={handleMouseEnter}
+      title={props.title}
     >
       {props.children}
     </Link>
