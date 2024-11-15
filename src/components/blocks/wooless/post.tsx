@@ -31,14 +31,18 @@ export const PostItem = ({ post }: { post: ITSPage }) => {
         )}
 
         <div className="flex flex-col gap-3">
-          <h2 className="font-secondary font-semibold text-3xl">{post.name}</h2>
+          <h2 className="font-secondary font-semibold text-primary text-2xl leading-normal">
+            {post.name}
+          </h2>
 
-          <div className="text-primary">
+          <div className="text-[#777777] text-sm font-bold font-primary leading-normal">
             {formatDate(post.createdAt, 'M j, Y')} by {capitalizeString(post.author.displayName)}
           </div>
 
-          <p>{htmlParser(createExcerpt(post.content))}</p>
-          <p className="hover:bg-secondary rounded-md self-start w-auto inline-block uppercase font-primary bg-primary text-primary-foreground py-4 px-7">
+          <p className="text-[#777777] text-base font-bold font-primary leading-normal">
+            {htmlParser(createExcerpt(post.content))}
+          </p>
+          <p className="hover:bg-secondary rounded-md self-start capitalize font-primary bg-primary text-primary-foreground w-[203px] h-[45px] px-4 py-2  justify-center items-center gap-2.5 inline-flex">
             Read More
           </p>
         </div>
@@ -110,7 +114,7 @@ export const RecentPost = ({ block }: PostlistProps) => {
           <Link
             href={post.permalink}
             key={post.id}
-            className="font-primary text-primary text-lg"
+            className="font-primary text-primary text-sm font-normal leading-normal"
           >
             {post.name}
           </Link>
