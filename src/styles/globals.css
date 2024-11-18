@@ -808,7 +808,7 @@ body {
 }
 
 .product-card .product-image-holder {
-  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center w-full h-[257.848px] lg:w-full lg:h-[209px] rounded-lg bg-transparent object-cover;
+  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center aspect-h-1 rounded-lg bg-transparent object-cover border;
 }
 
 .product-card .product-image-holder .wishlist-button {
@@ -817,6 +817,10 @@ body {
 
 .product-card .product-image-holder .wishlist-button .button-label {
   @apply hidden;
+}
+
+.product-card .product-variant-image-holder {
+  @apply aspect-h-1 rounded-lg object-cover border;
 }
 
 .product-card .product-variant-image-holder .glider-track {
