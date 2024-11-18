@@ -145,7 +145,6 @@ export const DefaultProductCard = (props: Props) => {
           <CardSlideshow
             product={parsedProduct}
             gliderRef={gliderRef}
-            showWishlistButton={showWishlistButton}
           />
         )}
         {(!product?.galleryImages || product?.galleryImages.length === 1) && (

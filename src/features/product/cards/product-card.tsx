@@ -8,7 +8,8 @@ import { Image } from '@src/components/common/image';
 import { RawLink } from '@src/components/common/raw-link';
 import { ProductRating } from '@src/features/product/product-rating';
 import { seoUrlParser } from '@src/components/page-seo';
-import { WishListIcon, WishListActions } from '@src/features/wish-list/wish-list-icon';
+import { WishListIcon } from '@src/features/wish-list/wish-list-icon';
+import * as WishListAction from '@src/features/wish-list/wish-list-schema';
 import { AddToCartButton } from '@src/components/button/add-to-cart-button';
 import { ProductPrice as Price } from '@src/features/product/product-price';
 import { useSiteContext } from '@src/context/site-context';
@@ -255,7 +256,7 @@ export const ProductCard = (props: Props) => {
 
   const renderWishlistButton = () => {
     const { showWishlistButton, hasItemsLeftBadge, wishlistButtonType = 1 } = props;
-    const action: WishListActions = 'add';
+    const action: WishListAction.Actions = 'add';
     const shouldShowWishListIcon = settings?.store?.wishlist?.enabled;
 
     if (inWishList && settings?.store?.wishlist?.enabled) {
