@@ -87,7 +87,8 @@ export const Postlist = ({ block }: PostlistProps) => {
   return (
     <div className={attribute.className}>
       <div className={'divide-y space-y-5'}>
-        {postList.length > 0 &&
+        {postList &&
+          postList.length > 0 &&
           postList.map((post) => (
             <PostItem
               key={post.id}
@@ -95,10 +96,12 @@ export const Postlist = ({ block }: PostlistProps) => {
             />
           ))}
       </div>
-      <Pagination
-        totalPages={totalPages}
-        currentPage={page}
-      />
+      {totalPages && (
+        <Pagination
+          totalPages={totalPages}
+          currentPage={page}
+        />
+      )}
     </div>
   );
 };
