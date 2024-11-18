@@ -109,7 +109,9 @@ export const RecentPost = ({ block }: PostlistProps) => {
 
   return (
     <div className={cn('flex flex-col gap-3', attribute.className)}>
-      {recentPosts.length &&
+      {recentPosts &&
+        recentPosts &&
+        recentPosts.length &&
         recentPosts.map((post) => (
           <Link
             href={post.permalink}
