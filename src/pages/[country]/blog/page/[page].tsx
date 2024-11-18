@@ -1,4 +1,4 @@
-import Blog, { getBlogStaticProps } from '@src/pages/[country]/blog/blog-page';
+import Blog, { getBlogStaticProps } from '@src/components/blog-page';
 
 export const getStaticPaths = async () => {
   return {

@@ -8,8 +8,9 @@ import type { NextPageWithLayout } from '@src/pages/_app';
 import { GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { getPageBySlug } from '@src/lib/typesense/page';
-import { getPosts, GetPostsResponse } from '@src/lib/typesense/post';
+import { getPosts } from '@src/lib/typesense/post';
 import { BlogContextProvider } from '@src/context/blog-context';
+import { PageContextProvider } from '@src/context/page-context';
 
 interface Props {
   country: string;
@@ -19,7 +20,7 @@ interface Props {
   totalPages: number;
   currentPage: number;
   perPage: number;
-  recentPosts: GetPostsResponse;
+  recentPosts: ITSPage[];
 }
 
 interface Params extends ParsedUrlQuery {
@@ -46,10 +47,10 @@ export const getBlogStaticProps = async (context: GetStaticPropsContext<Params>)
       country,
       postList: getPostsResponse?.posts,
       found: getPostsResponse?.found,
-      currentPage: page ? parseInt(page) : null,
+      currentPage: page ? parseInt(page) : 1,
       perPage: getPostsResponse?.perPage,
       totalPages: getPostsResponse?.totalPages,
-      recentPosts: recentPosts ? recentPosts : null,
+      recentPosts: recentPosts?.posts,
     },
     revalidate: 43200, // Refresh the generated page every 12 hours,
   };
@@ -65,11 +66,18 @@ const Blog: NextPageWithLayout<Props> = (props) => {
         currentPage={props.currentPage}
         totalPages={props.totalPages}
         perPage={props.perPage}
-        recentPost={props.recentPosts}
+        recentPosts={props.recentPosts}
       >
-        <div className="blog font-primary">
-          {props.pageData?.rawContent && <Content content={props.pageData?.rawContent} />}
-        </div>
+        <PageContextProvider page={props.pageData}>
+          <div className="blog font-primary">
+            {props.pageData?.rawContent && (
+              <Content
+                type="page"
+                content={props.pageData?.rawContent}
+              />
+            )}
+          </div>
+        </PageContextProvider>
       </BlogContextProvider>
     </>
   );

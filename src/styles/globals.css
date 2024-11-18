@@ -15,15 +15,15 @@ body {
 }
 
 @layer components {
-  li.navbar-has-submenu > ul.navbar-submenu {
+  li.navbar-has-submenu>ul.navbar-submenu {
     @apply hidden absolute bg-brand-primary w-full top-16 z-10 mr-0 bg-white border;
   }
 
-  ul:not(.vertical-submenu) li.navbar-has-submenu:hover > ul.navbar-submenu {
+  ul:not(.vertical-submenu) li.navbar-has-submenu:hover>ul.navbar-submenu {
     @apply block;
   }
 
-  li.navbar-has-submenu:hover > ul.navbar-submenu > li:after {
+  li.navbar-has-submenu:hover>ul.navbar-submenu>li:after {
     content: '';
   }
 
@@ -31,11 +31,11 @@ body {
     @apply flex mr-0 flex-col overflow-y-auto;
   }
 
-  ul.vertical-submenu > li:after {
+  ul.vertical-submenu>li:after {
     content: '';
   }
 
-  ul.vertical-submenu > li > div.link {
+  ul.vertical-submenu>li>div.link {
     @apply flex items-center justify-between;
   }
 
@@ -104,7 +104,7 @@ body {
   }
 
   /* Main Navigation */
-  .main-navigation-menu > div > ul > li > .nav-item:hover {
+  .main-navigation-menu>div>ul>li>.nav-item:hover {
     @apply text-white hover:text-white;
   }
 
@@ -121,15 +121,11 @@ body {
     @apply fill-white;
   }
 
-  .navbar-overlay-content {
-    height: calc(100vh - 58px);
-  }
-
-  .has-submenu > ul:not(.mega-menu-column) {
+  .has-submenu>ul:not(.mega-menu-column) {
     @apply p-0 lg:p-4 shadow-none lg:shadow;
   }
 
-  .has-submenu > ul:not(.mega-menu-column) {
+  .has-submenu>ul:not(.mega-menu-column) {
     @apply hidden;
   }
 
@@ -138,7 +134,7 @@ body {
   }
 
   @media only screen and (max-width: 768px) {
-    li.is-open .has-submenu > a {
+    li.is-open .has-submenu>a {
       @apply pb-4 lg:pb-0;
     }
 
@@ -192,7 +188,7 @@ body {
     @apply text-brand-links hover:text-brand-hover-links;
   }
 
-  .tab-content.tab-description > p {
+  .tab-content.tab-description>p {
     @apply mb-4;
   }
 
@@ -317,7 +313,7 @@ body {
     }
   }
 
-  .product-gallery-arrows > button > span > svg {
+  .product-gallery-arrows>button>span>svg {
     @apply w-11 h-7 text-[#6F6F6F];
   }
 
@@ -433,7 +429,7 @@ body {
   }
 
   .single-product .product-dialogs {
-    @apply flex  md:items-center justify-between border border-[#1d1da5] rounded p-4 h-auto;
+    @apply flex md:items-center justify-between border border-[#1d1da5] rounded p-4 h-auto;
   }
 
   .single-product .product-dialogs.horizontal {
@@ -501,8 +497,7 @@ body {
     @apply relative w-full py-4 flex justify-between items-center text-left text-black font-medium cursor-pointer;
   }
 
-  .single-product .product-accordion-information .accordion-title .accordion-button {
-  }
+  .single-product .product-accordion-information .accordion-title .accordion-button {}
 
   /**
   * Product Archive
@@ -548,8 +543,7 @@ body {
     @apply flex justify-end flex-row-reverse items-center gap-2 font-bold font-play text-2xl text-sub-title border-b pb-2;
   }
 
-  .product-archive-container .filter-widget {
-  }
+  .product-archive-container .filter-widget {}
 
   .product-archive-container .filter-widget .filter-widget-header {
     @apply flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 pb-4;
@@ -579,12 +573,7 @@ body {
     @apply relative flex gap-2 items-start font-roboto font-normal text-[16px] leading-[24px];
   }
 
-  .product-archive-container
-    .filter-widget
-    .filter-widget-content
-    .fieldset
-    .option
-    .checkbox-container {
+  .product-archive-container .filter-widget .filter-widget-content .fieldset .option .checkbox-container {
     @apply flex items-center;
   }
 
@@ -592,30 +581,15 @@ body {
     @apply h-4 w-4 border-gray-300 focus:ring-brand-primary rounded;
   }
 
-  .product-archive-container
-    .filter-widget
-    .filter-widget-content
-    .fieldset
-    .option
-    input.hasProduct {
+  .product-archive-container .filter-widget .filter-widget-content .fieldset .option input.hasProduct {
     @apply cursor-pointer;
   }
 
-  .product-archive-container
-    .filter-widget
-    .filter-widget-content
-    .fieldset
-    .option
-    input.hasNoProduct {
+  .product-archive-container .filter-widget .filter-widget-content .fieldset .option input.hasNoProduct {
     @apply opacity-50 brightness-90;
   }
 
-  .product-archive-container
-    .filter-widget
-    .filter-widget-content
-    .fieldset
-    .option
-    label.hasProduct {
+  .product-archive-container .filter-widget .filter-widget-content .fieldset .option label.hasProduct {
     @apply cursor-pointer;
   }
 
@@ -647,12 +621,7 @@ body {
     @apply inline-flex flex-shrink-0 items-center justify-center rounded-full bg-[#777] h-6 w-6 hover:text-brand-primary focus:bg-brand-primary focus:text-white focus:outline-none;
   }
 
-  .product-archive-display
-    .product-filter-and-sort
-    .active-filters
-    .filter-label
-    .remove-filter
-    svg {
+  .product-archive-display .product-filter-and-sort .active-filters .filter-label .remove-filter svg {
     @apply h-2 w-2;
   }
 
@@ -693,20 +662,11 @@ body {
   @apply flex flex-row gap-4 flex-nowrap py-8;
 }
 
-.product-popup-holder
-  .product-popup-container
-  .product-popup
-  .popup-content-container
-  .popup-content {
+.product-popup-holder .product-popup-container .product-popup .popup-content-container .popup-content {
   @apply text-[#777] leading-6 text-base;
 }
 
-.product-popup-holder
-  .product-popup-container
-  .product-popup
-  .popup-content-container
-  .popup-content
-  a {
+.product-popup-holder .product-popup-container .product-popup .popup-content-container .popup-content a {
   @apply text-[#000180];
 }
 
@@ -886,7 +846,7 @@ body {
   @apply flex flex-wrap space-x-5 items-center self-center;
 }
 
-ul.minicart-items li:last-of-type > .border-b {
+ul.minicart-items li:last-of-type>.border-b {
   border: none;
 }
 
@@ -970,8 +930,8 @@ input::placeholder {
     @apply !mx-0;
   }
 
-  .wishlist-item div:nth-child(3) > div > div,
-  .wishlist-recently-viewed-item div:nth-child(3) > div > div {
+  .wishlist-item div:nth-child(3)>div>div,
+  .wishlist-recently-viewed-item div:nth-child(3)>div>div {
     @apply flex-col items-center;
   }
 
@@ -1004,7 +964,7 @@ input::placeholder {
   } */
 }
 
-.product-gallery-arrows > button > span {
+.product-gallery-arrows>button>span {
   @apply w-12 h-12 rounded-full opacity-80 bg-white flex items-center justify-center;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   z-index: 7;
@@ -1074,7 +1034,7 @@ input::placeholder {
 }
 
 .breadcrumbs {
-  @apply flex flex-row flex-wrap gap-x-4 !text-sm md:text-base font-normal text-[#777777] mb-4;
+  @apply flex flex-row flex-wrap gap-x-4 !text-sm md:text-base font-normal text-[#777777] mb-3.5;
 }
 
 .breadcrumbs .home-link {
@@ -1217,7 +1177,7 @@ button.button-cart {
   }
 }
 
-.tab-content .blz-container .inner-div-container .blz-section-2 > p {
+.tab-content .blz-container .inner-div-container .blz-section-2>p {
   @apply w-full mb-[3px];
 }
 
@@ -1259,56 +1219,32 @@ button.button-cart {
   @apply flex flex-row flex-wrap gap-2.5 justify-between;
 }
 
-.tab-content
-  .blz-container
-  .fittings-instruction-container
-  .instruction-inner-div
-  .instruction-subheading {
+.tab-content .blz-container .fittings-instruction-container .instruction-inner-div .instruction-subheading {
   @apply w-full;
 }
 
-.tab-content
-  .blz-container
-  .fittings-instruction-container
-  .instruction-inner-div
-  .video-container {
+.tab-content .blz-container .fittings-instruction-container .instruction-inner-div .video-container {
   @apply w-full pb-[240px];
 }
 
 @screen md {
-  .tab-content
-    .blz-container
-    .fittings-instruction-container
-    .instruction-inner-div
-    .video-container {
+  .tab-content .blz-container .fittings-instruction-container .instruction-inner-div .video-container {
     @apply w-[48%];
   }
 }
 
-.tab-content
-  .blz-container
-  .fittings-instruction-container
-  .instruction-inner-div
-  .pdf-instruction {
+.tab-content .blz-container .fittings-instruction-container .instruction-inner-div .pdf-instruction {
   @apply w-full;
 }
 
 @screen lg {
-  .tab-content
-    .blz-container
-    .fittings-instruction-container
-    .instruction-inner-div
-    .video-container {
+  .tab-content .blz-container .fittings-instruction-container .instruction-inner-div .video-container {
     @apply w-[49%] pb-[410px];
   }
 }
 
 @screen md {
-  .tab-content
-    .blz-container
-    .fittings-instruction-container
-    .instruction-inner-div
-    .pdf-instruction {
+  .tab-content .blz-container .fittings-instruction-container .instruction-inner-div .pdf-instruction {
     @apply w-[48%];
   }
 }

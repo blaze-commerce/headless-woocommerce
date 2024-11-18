@@ -2,6 +2,7 @@ import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parse
 
 import { BlockName, ParsedBlock as NewParsedBlock, blocks } from '@src/components/blocks';
 import { ContentContextProvider } from '@src/context/content-context';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type ContentProps = {
   content: string | ParsedBlock[];
@@ -21,7 +22,12 @@ export const Content = ({ content, type }: ContentProps) => {
         {parsedContent.map((block, index) => {
           const BlockComponent = blocks[block.blockName as BlockName];
           if (!BlockComponent || typeof BlockComponent === 'undefined') {
-            return null;
+            return (
+              <ReactHTMLParser
+                key={index}
+                html={block.innerHTML}
+              />
+            );
           }
 
           return (

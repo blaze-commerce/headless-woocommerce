@@ -18,6 +18,7 @@ import { ParsedBlock as NewParsedBlock } from '@src/components/blocks';
 import { getPageSlugs } from '@src/lib/typesense/page';
 
 import postSlugs from '@public/post-slugs.json';
+import siteData from '@public/site.json';
 
 /**
  * This process the post and pages styles blocks
@@ -26,6 +27,7 @@ import postSlugs from '@public/post-slugs.json';
  */
 const processPostAndPageStyles = async () => {
   const pageSlugs = await getPageSlugs();
+  pageSlugs.push(siteData.blogPageSlug);
 
   const pageStyles = await Promise.all(
     pageSlugs.map(async (slug: string) => {

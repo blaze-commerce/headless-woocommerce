@@ -2,19 +2,21 @@ import { Content } from '@src/components/blocks/content';
 import { defaultLayout } from '@src/components/layouts/default';
 import { PageSeo } from '@src/components/page-seo';
 import { getAllBaseContries } from '@src/lib/helpers/country';
-import { getPostBySlug, getPostSlugs } from '@src/lib/typesense/post';
+import { getPostBySlug, getPosts, getPostSlugs } from '@src/lib/typesense/post';
 import { ITSPage } from '@src/lib/typesense/types';
 
 import SINGLE_POST_TEMPLATE from '@public/single-post.json';
 
 import type { NextPageWithLayout } from '@src/pages/_app';
-import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { PostContextProvider } from '@src/context/post-context';
+import { BlogContextProvider } from '@src/context/blog-context';
 
 interface Props {
   country: string;
   post: ITSPage | null;
+  recentPosts: ITSPage[];
 }
 
 interface Params extends ParsedUrlQuery {
@@ -38,9 +40,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<Props, Params> = async (
-  context: GetStaticPropsContext<Params>
-) => {
+export const getStaticProps = async (context: GetStaticPropsContext<Params>) => {
   const params = context.params;
   if (!params) {
     return {
@@ -51,10 +51,13 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const { country, slug } = params;
   const post = await getPostBySlug(slug);
 
+  const recentPosts = await getPosts({ page: 1 });
+
   return {
     props: {
       post,
       country,
+      recentPosts: recentPosts?.posts,
     },
     revalidate: 43200, // Refresh the generated page every 12 hours,
   };
@@ -64,11 +67,16 @@ const Page: NextPageWithLayout<Props> = (props) => {
   return (
     <>
       {props.post && <PageSeo seoFullHead={props.post.seoFullHead} />}
-      <PostContextProvider post={props.post}>
-        <div className="post">
-          <Content content={SINGLE_POST_TEMPLATE} />
-        </div>
-      </PostContextProvider>
+      <BlogContextProvider recentPosts={props.recentPosts}>
+        <PostContextProvider post={props.post}>
+          <div className="post">
+            <Content
+              type="post"
+              content={SINGLE_POST_TEMPLATE}
+            />
+          </div>
+        </PostContextProvider>
+      </BlogContextProvider>
     </>
   );
 };
