@@ -396,11 +396,11 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
                         productColumns={productColumns}
                         showRating={true}
                         {...layout?.productCards}
-                        showWishlistButton={settings?.store?.wishlist?.enabled}
+                        showWishlistButton={true}
                         saleBadgeColor="#393939"
                         saleBadgeType={4}
                         showCategory={true}
-                        hasAddToCart={productCards?.hasAddToCart}
+                        hasAddToCart={false}
                       />
                     </>
                   ))}

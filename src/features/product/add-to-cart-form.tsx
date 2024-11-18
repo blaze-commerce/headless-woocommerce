@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 
-import { WishListIcon } from '@src/features/wish-list/wish-list-icon';
 import { Spinner } from '@src/components/svg/spinner';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
@@ -25,6 +23,10 @@ const ProductMatchedVariantPrice = dynamic(() =>
   import('@src/features/product/product-matched-variant-price').then(
     (mod) => mod.ProductMatchedVariantPrice
   )
+);
+
+const WishlistButton = dynamic(() =>
+  import('@src/features/wish-list/wish-list-button').then((mod) => mod.WishListButton)
 );
 
 export const AddToCartForm = () => {
@@ -147,7 +149,7 @@ export const AddToCartForm = () => {
           </button>
 
           {true && (
-            <WishListIcon
+            <WishlistButton
               action="add"
               showIcon={true}
               product={product}

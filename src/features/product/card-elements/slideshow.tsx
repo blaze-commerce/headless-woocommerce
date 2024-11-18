@@ -2,6 +2,8 @@ import Glider from 'react-glider';
 import { Product } from '@src/models/product';
 import Image from 'next/image';
 import type { Image as ImageType } from '@models/product/types';
+import { RawLink } from '@src/components/common/raw-link';
+import { seoUrlParser } from '@src/components/page-seo';
 
 type ISlideshow = {
   product: Product;
@@ -19,8 +21,10 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
   //remove the first image from the gallery images
   const galleryImages = product.galleryImages.slice(1);
 
+  const productLink = seoUrlParser(product?.permalink || '');
+
   return (
-    <div className="product-variant-image-holder">
+    <div className="product-variant-image-holder aspect-h-1 overflow-hidden">
       <Glider
         draggable={false}
         slidesToShow={1}
@@ -30,14 +34,19 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
         {galleryImages &&
           galleryImages.map((image: ImageType, key) => (
             <figure key={`gallery-image-${key}`}>
-              <Image
-                src={image.src}
-                alt={String(image.altText)}
-                title={image.title}
-                width={398}
-                height={616}
-                className="product-image"
-              />
+              <RawLink
+                href={productLink}
+                title={product.name}
+              >
+                <Image
+                  src={image.src}
+                  alt={String(image.altText)}
+                  title={image.title}
+                  width={400}
+                  height={400}
+                  className="product-image"
+                />
+              </RawLink>
             </figure>
           ))}
       </Glider>

@@ -32,7 +32,9 @@ export const FilterOptionBlocks = ({ blocks, baseCountry }: Props) => {
   const generateContent = (content: ContentBlock) => {
     let metaData;
 
-    switch (content.blockId) {
+    const blockId = content.blockId;
+
+    switch (blockId) {
       case 'text':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
         return <Text {...metaData} />;
@@ -46,6 +48,7 @@ export const FilterOptionBlocks = ({ blocks, baseCountry }: Props) => {
         metaData = content.metaData.map((meta: ContentBlockMetaData) => {
           return isObject(meta) ? Object.values(meta)[0] : meta;
         });
+
         return <CategoryFilter filters={metaData} />;
       case 'subCategoryFilters':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);

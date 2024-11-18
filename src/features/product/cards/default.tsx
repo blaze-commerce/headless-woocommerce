@@ -47,6 +47,12 @@ const CardItemsLeftBadge = dynamic(() =>
   )
 );
 
+const CardWishlishButton = dynamic(() =>
+  import('@src/features/product/card-elements/wishlist-button').then(
+    (mod) => mod.CardWishlishButton
+  )
+);
+
 interface Props extends ProductCards {
   product: Product;
   productFilters?: string;
@@ -134,11 +140,12 @@ export const DefaultProductCard = (props: Props) => {
         padding: `${props?.imagePadding}px`,
       }}
     >
-      <div>
+      <div className="product-header">
         {product?.galleryImages && product?.galleryImages.length > 1 && (
           <CardSlideshow
             product={parsedProduct}
             gliderRef={gliderRef}
+            showWishlistButton={showWishlistButton}
           />
         )}
         {(!product?.galleryImages || product?.galleryImages.length === 1) && (
@@ -150,21 +157,30 @@ export const DefaultProductCard = (props: Props) => {
             showWishlistButton={showWishlistButton}
           />
         )}
-        {isOnSale && (
-          <CardSaleBadge
-            badgeType={saleBadgeType}
-            badgeColor={saleBadgeColor}
+        <div className="product-badges">
+          {isOnSale && (
+            <CardSaleBadge
+              badgeType={saleBadgeType}
+              badgeColor={saleBadgeColor}
+            />
+          )}
+          <CardNewBadge
+            product={parsedProduct}
+            badgeType={newBadgeType}
+            badgeColor={newBadgeColor}
+          />
+          <CardItemsLeftBadge
+            product={parsedProduct}
+            hasItemsLeftBadge={true}
+          />
+        </div>
+
+        {showWishlistButton && (
+          <CardWishlishButton
+            product={product}
+            hasItemsLeftBadge={true}
           />
         )}
-        <CardNewBadge
-          product={parsedProduct}
-          badgeType={newBadgeType}
-          badgeColor={newBadgeColor}
-        />
-        <CardItemsLeftBadge
-          product={parsedProduct}
-          hasItemsLeftBadge={true}
-        />
       </div>
       <CardDiscountLabel
         showLabel={props.showDiscountLabel as boolean}
@@ -181,7 +197,6 @@ export const DefaultProductCard = (props: Props) => {
           link={productLink}
         />
         {showCategory && <CardProductCategory product={parsedProduct} />}
-
         <CardRating
           product={parsedProduct}
           detailsAlignment={detailsAlignment}
@@ -194,17 +209,16 @@ export const DefaultProductCard = (props: Props) => {
             gliderRef={gliderRef}
           />
         )}
-        <div className={`text-${detailsAlignment} w-full lg:w-auto mt-2`}>
-          <CardPrice
-            product={parsedProduct}
-            currency={currentCurrency}
-            isTaxExclusive={settings?.isTaxExclusive}
-            className={cn('!text-base !font-normal flex-wrap', {
-              'justify-left': detailsAlignment === 'left',
-              'justify-center': detailsAlignment === 'center',
-            })}
-          />
-        </div>
+
+        <CardPrice
+          product={parsedProduct}
+          currency={currentCurrency}
+          isTaxExclusive={settings?.isTaxExclusive}
+          className={cn('!text-base !font-normal flex-wrap', {
+            'justify-left': detailsAlignment === 'left',
+            'justify-center': detailsAlignment === 'center',
+          })}
+        />
         {/* {renderAvailableOptions()} */}
       </div>
       <div className="relative mt-auto z-[8]">
