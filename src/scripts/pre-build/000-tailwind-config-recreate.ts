@@ -42,6 +42,7 @@ const tailwindConfig = `module.exports = {
     './public/styles/*.css',
     './public/homepage.json',
     './public/page/*.json',
+    './public/post/*.json',
     './public/*.json',
   ],
   theme: {
