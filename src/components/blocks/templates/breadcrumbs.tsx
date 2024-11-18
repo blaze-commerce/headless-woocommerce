@@ -5,6 +5,7 @@ import { usePostContext } from '@src/context/post-context';
 import { Separator } from '@src/features/product/breadcrumbs';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
+import { decode } from 'html-entities';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
 
@@ -40,7 +41,7 @@ export const Breadcrumbs = ({ block }: Props) => {
                 className="text-black"
                 key={index}
               >
-                {breadcrumb.title}
+                {decode(breadcrumb.title)}
               </span>
             );
           }
