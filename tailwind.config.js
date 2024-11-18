@@ -1,36 +1,4 @@
-/* eslint-disable no-console */
-import * as fs from 'fs';
-import path from 'path';
-import theme from '@public/theme.json';
-
-const gridItemWidths = ['25', '33', '50', '66', '75', '100']; // this is what is provider by generate press block settins GRID ITEM WIDTH (%)
-const gridItemWidthsClasses = gridItemWidths
-  .flatMap((i) => [`w-[${i}%]`, `md:w-[${i}%]`, `lg:w-[${i}%]`])
-  .map((item) => `'${item}'`)
-  .join(',');
-
-const safeListPattern = /(mb|mt|ml|mr)-\d*/;
-
-const themeColors = Object.entries(theme.colorClasses)
-  .map(([key, value]) => `'${key}': '${value}'`)
-  .join(',\n');
-
-const fontFamilies = Object.entries(theme.fontFamilies);
-const modifiedFontFamilies: [string, string][] = [...fontFamilies];
-
-if (fontFamilies.length >= 1) {
-  modifiedFontFamilies.push(['primary', fontFamilies[0][1]]);
-}
-
-if (fontFamilies.length >= 2) {
-  modifiedFontFamilies.push(['secondary', fontFamilies[1][1]]);
-}
-
-const fontFamilyConfig = modifiedFontFamilies
-  .map(([key, value]) => `'${key}': ['${value}']`)
-  .join(',\n');
-
-const tailwindConfig = `module.exports = {
+module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     './public/site.json',
@@ -42,7 +10,6 @@ const tailwindConfig = `module.exports = {
     './public/styles/*.css',
     './public/homepage.json',
     './public/page/*.json',
-    './public/post/*.json',
     './public/*.json',
   ],
   theme: {
@@ -93,35 +60,32 @@ const tailwindConfig = `module.exports = {
         'brand-second-grey': 'var(--colors-brandPrimary)',
         'sub-title': 'var(--colors-subTitle)',
         'contrast-3': '#655B51',
-        ${themeColors}
+        'primary': 'var(--primary)',
+'primary-foreground': 'var(--primary-foreground)',
+'destructive': 'var(--destructive)',
+'destructive-foreground': 'var(--destructive-foreground)',
+'muted': 'var(--muted)',
+'muted-foreground': 'var(--muted-foreground)',
+'secondary': 'var(--secondary)',
+'secondary-foreground': 'var(--secondary-foreground)',
+'border': 'var(--border)'
       },
       fontFamily: {
-        ${fontFamilyConfig}
+        'roboto': ['var(--font-roboto)'],
+'play': ['var(--font-play)'],
+'primary': ['var(--font-roboto)'],
+'secondary': ['var(--font-play)']
       },
     },
   },
   safelist: [
     {
-      pattern: ${safeListPattern},
+      pattern: /(mb|mt|ml|mr)-\d*/,
     },
-    ${gridItemWidthsClasses}
+    'w-[25%]','md:w-[25%]','lg:w-[25%]','w-[33%]','md:w-[33%]','lg:w-[33%]','w-[50%]','md:w-[50%]','lg:w-[50%]','w-[66%]','md:w-[66%]','lg:w-[66%]','w-[75%]','md:w-[75%]','lg:w-[75%]','w-[100%]','md:w-[100%]','lg:w-[100%]'
   ],
   corePlugins: {
     aspectRatio: false,
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')],
-};`;
-
-export default async function execute() {
-  try {
-    console.log('recreating/update tailwind config');
-    const tailwindPath = path.join(process.cwd(), 'tailwind.config.js');
-
-    fs.writeFileSync(tailwindPath, `${tailwindConfig}`, {
-      encoding: 'utf-8',
-      flag: 'w',
-    });
-  } catch (error) {
-    console.error('Error recreating/update tailwind config:', error);
-  }
-}
+};
