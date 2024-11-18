@@ -50,7 +50,7 @@ public/page/*.*
 public/post/*.*
 public/*.json
 
-#tailwind.config.js
+tailwind.config.js
 
 public/styles/styles.css
 build-storybook.log
