@@ -158,7 +158,7 @@ export const DefaultProductCard = (props: Props) => {
           />
         )}
         <div className="product-badges">
-          {true && (
+          {isOnSale && (
             <CardSaleBadge
               badgeType={saleBadgeType}
               badgeColor={saleBadgeColor}

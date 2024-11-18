@@ -21,5 +21,5 @@ export const CardNewBadge = (props: ICardNewBadge) => {
   const publishedDate = toDateTime(product.publishedAt as number);
   const isTwoMonthsAgo = isWithInMonthsAgo(publishedDate, newBadgeThreshold);
 
-  return <>{true && <div className="badge new-badge">New</div>}</>;
+  return <>{isTwoMonthsAgo && <div className="badge new-badge">New</div>}</>;
 };

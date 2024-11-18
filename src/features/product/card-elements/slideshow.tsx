@@ -7,13 +7,12 @@ import { seoUrlParser } from '@src/components/page-seo';
 
 type ISlideshow = {
   product: Product;
-  showWishlistButton?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gliderRef: React.RefObject<any>;
 };
 
 export const CardSlideshow: React.FC<ISlideshow> = (props) => {
-  const { product, gliderRef, showWishlistButton = false } = props;
+  const { product, gliderRef } = props;
 
   if (!product) return null;
 
@@ -25,7 +24,7 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
   const productLink = seoUrlParser(product?.permalink || '');
 
   return (
-    <div className="product-variant-image-holder">
+    <div className="product-variant-image-holder aspect-h-1 overflow-hidden">
       <Glider
         draggable={false}
         slidesToShow={1}
@@ -43,8 +42,8 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
                   src={image.src}
                   alt={String(image.altText)}
                   title={image.title}
-                  width={398}
-                  height={616}
+                  width={400}
+                  height={400}
                   className="product-image"
                 />
               </RawLink>

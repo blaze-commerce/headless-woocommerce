@@ -1,6 +1,6 @@
+import { useEffect } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
-import classNames from 'classnames';
 import { find, isEmpty, reduce } from 'lodash';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -26,6 +26,11 @@ export const BrandsFilter = (props: CategoryFilterItems) => {
   const [, , newFilterState] = taxonomyCtx.newFilter;
   const [, , refinedSelectionFilterState] = taxonomyCtx.refinedSelection;
   const [, , availabilityFilterState] = taxonomyCtx.availabilityFilter;
+
+  useEffect(() => {
+    if (!enableDisclosure) setDisclosureOpen(true);
+    if (enableDisclosure) setDisclosureOpen(defaultShow);
+  }, [enableDisclosure, setDisclosureOpen, defaultShow]);
 
   const isOtherFilterStateEmpty =
     isEmpty(categoryFilterState) &&

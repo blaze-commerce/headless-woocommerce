@@ -819,8 +819,12 @@ body {
   @apply hidden;
 }
 
+.product-card .product-image-holder img {
+  @apply object-contain;
+}
+
 .product-card .product-variant-image-holder {
-  @apply aspect-h-1 rounded-lg object-cover border;
+  @apply aspect-h-1 aspect-w-1 rounded-lg object-cover border;
 }
 
 .product-card .product-variant-image-holder .glider-track {

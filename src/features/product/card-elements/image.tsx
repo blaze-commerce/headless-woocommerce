@@ -81,14 +81,7 @@ const renderHoverImage = (props: IHoverImage) => {
 };
 
 export const CardImage = (props: ICardImage) => {
-  const {
-    product,
-    imageClassNames,
-    productFilters,
-    productColumns,
-    imageMaxWidth,
-    showWishlistButton,
-  } = props;
+  const { product, imageClassNames, productFilters, productColumns, imageMaxWidth } = props;
   const thumbnailSrc = TSThumbnail.clean(product?.thumbnail?.src || '');
   const galleryImages = product?.galleryImages;
   const mainImage: ImageType = {
