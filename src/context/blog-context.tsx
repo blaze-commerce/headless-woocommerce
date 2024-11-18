@@ -3,12 +3,12 @@ import createCtx from '@src/context/create-ctx';
 import { ITSPage } from '@src/lib/typesense/types';
 
 export type BlogContextValue = {
-  postList: ITSPage[];
-  found: number;
-  currentPage: number;
-  perPage: number;
-  totalPages: number;
-  recentPosts: ITSPage[];
+  postList?: ITSPage[];
+  found?: number;
+  currentPage?: number;
+  perPage?: number;
+  totalPages?: number;
+  recentPosts?: ITSPage[];
 };
 
 export type BlogContextProps = BlogContextValue & {
