@@ -133,6 +133,12 @@ export const DefaultProductCard = (props: Props) => {
         {
           'has-border': hasBorders,
           'has-shadow': cardShadow,
+          'is-variable': product.hasVariations,
+          'is-simple': product.isSimple,
+          'is-on-sale': isOnSale,
+          'is-composite': product.isComposite,
+          'is-bundle': product.hasBundle,
+          'is-gift-card': product.isGiftCard,
         },
         classNames
       )}
@@ -141,13 +147,13 @@ export const DefaultProductCard = (props: Props) => {
       }}
     >
       <div className="product-header">
-        {product?.galleryImages && product?.galleryImages.length > 1 && (
+        {product.hasVariations && (
           <CardSlideshow
             product={parsedProduct}
             gliderRef={gliderRef}
           />
         )}
-        {(!product?.galleryImages || product?.galleryImages.length === 1) && (
+        {!product.hasVariations && (
           <CardImage
             product={parsedProduct}
             imageClassNames={props.imageClassNames}
@@ -201,7 +207,7 @@ export const DefaultProductCard = (props: Props) => {
           detailsAlignment={detailsAlignment}
           showRating={showRating}
         />
-        {product?.galleryImages && product?.galleryImages.length > 1 && (
+        {product.hasVariations && (
           <CardGalleryThumbnail
             product={product}
             detailsAlignment={detailsAlignment}
