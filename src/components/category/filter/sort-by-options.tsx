@@ -28,6 +28,8 @@ export const SortByOptions = (props: Props) => {
       onSortChange(e);
       return selectedSort;
     });
+
+    localStorage.setItem('sortValue', JSON.stringify(selectedSort));
   };
 
   return (
