@@ -417,6 +417,10 @@ export class Product {
     return returnedTabs;
   }
 
+  get isSimple() {
+    return this.productType === 'simple';
+  }
+
   get hasVariations() {
     return this.productType === 'variable';
   }
