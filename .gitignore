@@ -56,4 +56,5 @@ public/styles/styles.css
 build-storybook.log
 .env
 public/archive-product.json
+public/taxonomy-product-cat.json
 public/pageslugs.json
