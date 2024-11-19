@@ -53,6 +53,7 @@ public/*.json
 tailwind.config.js
 
 public/styles/styles.css
+public/styles/theme-variables.css
 build-storybook.log
 .env
 public/archive-product.json
