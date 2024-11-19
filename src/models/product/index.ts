@@ -334,12 +334,14 @@ export class Product {
 
   static async findOneRaw({ slug }: ProductQuery): Promise<ProductTypesenseResponse> {
     const productTypeArgs = getProductTypesForDisplay().join('`,`');
-    const response = await WoolessTypesense.product.documents().search({
-      q: 'slug',
-      facet_by: 'slug,status',
-      query_by: 'slug,status',
+    const searchArgs = {
+      q: '*',
+      facet_by: 'slug,status,productType',
+      query_by: 'slug,status,productType',
       filter_by: `slug:=[\`${slug}\`] && status:=[\`publish\`] && productType:=[\`${productTypeArgs}\`]`,
-    });
+    };
+
+    const response = await WoolessTypesense.product.documents().search(searchArgs);
 
     const products = await transformToProducts(response);
     return !isEmpty(products[0]) ? products[0] : {};
