@@ -45,7 +45,11 @@ export const Filter: React.FC<Props> = (props) => {
   const [selectedSortOption, setSelectedSortOption] = taxonomyCtx.sortByState;
 
   useEffect(() => {
-    const { label, value } = JSON.parse(localStorage.getItem('sortValue') as string);
+    const sortValue = localStorage.getItem('sortValue') as string;
+
+    if (!sortValue || sortValue === '') return;
+
+    const { label, value } = JSON.parse(sortValue as string);
 
     if (label && value) {
       setSelectedSortOption({
