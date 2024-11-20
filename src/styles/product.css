@@ -1,0 +1,158 @@
+@import 'product/popup.css';
+@import 'product/slider.css';
+@import 'product/card.css';
+@import 'product/accordion.css';
+
+/** Default style for single product page */
+.single-product .product-rating {
+  @apply mt-2;
+}
+
+.single-product .product-short-description {
+  @apply mt-2;
+}
+
+.single-product .price-container {
+  @apply mt-2;
+}
+
+.single-product .stock-status {
+  @apply text-sm mt-2;
+}
+
+.single-product .stock-status .instock {
+  @apply text-[#009E10];
+}
+
+.single-product .stock-status .outofstock {
+  @apply text-red-600;
+}
+
+.single-product .product-meta .core-group {
+  @apply flex;
+}
+
+.single-product .add-to-cart-form {
+  @apply flex flex-col gap-4;
+}
+
+.single-product .add-to-cart-form .product-variant-container {
+  @apply flex flex-col gap-4 border-b border-solid border-[#ddd] pb-4;
+}
+
+.single-product .add-to-cart-form .product-variant-container .product-variant-select {
+  @apply flex items-center gap-4;
+}
+
+.single-product .add-to-cart-form .product-variant-container .product-variant-select label {
+  @apply w-1/3;
+}
+
+.single-product .add-to-cart-form .product-variant-container .product-variant-select select {
+  @apply w-full;
+}
+
+/** Add to Cart Button */
+.single-product .add-to-cart-form .button-container {
+  @fixed bottom-0 right-0 p-4 bg-brand-secondary w-full lg:w-auto md:bg-[#ECEEEFE8] z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw];
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper {
+  @apply flex items-stretch justify-start gap-2.5;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity-label {
+  @apply items-center text-sm text-black font-bold md:flex hidden;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity {
+  @apply text-black bg-white rounded-md;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity * {
+  @apply border-none;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity .quantity-control {
+  @apply leading-9;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
+  @apply flex items-center justify-center bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text sm:px-8 flex-grow sm:flex-grow-0 p-4 text-sm font-medium rounded-md;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/** Add to Cart - Wishlist Button */
+
+.single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
+  @apply cursor-pointer flex justify-center items-center p-2.5 px-4 gap-4 rounded-md;
+}
+
+/** Product Meta */
+
+.single-product .product-meta {
+  @apply w-full;
+}
+
+.single-product .product-meta .product-sku .product-sku__label {
+  @apply font-bold;
+}
+
+.single-product .product-meta .post-term .post-term__label {
+  @apply font-bold;
+}
+
+.single-product .product-dialogs {
+  @apply flex md:items-center justify-between border border-[#1d1da5] rounded p-4 h-auto;
+}
+
+.single-product .product-dialogs.horizontal {
+  @apply flex-col md:flex-row;
+}
+
+.single-product .product-dialogs.vertical {
+  @apply flex-row;
+}
+
+.single-product .product-dialogs a {
+  @apply cursor-pointer font-normal leading-none text-brand-font flex gap-2 text-xs align-middle;
+}
+
+.single-product .product-dialogs a:first-of-type {
+  @apply pb-2 md:pb-0;
+}
+
+.single-product .product-dialogs a:not(:first-of-type) {
+  @apply pb-2 md:pb-0 md:pl-4;
+}
+
+.single-product .product-dialogs a:not(:last-child) {
+  @apply pb-0;
+}
+
+.single-product .product-dialogs svg {
+  @apply stroke-[#1d1da5];
+}
+
+.single-product .product-popup-info {
+  @apply p-3 h-auto;
+}
+
+.single-product .product-popup-info .button-open {
+  @apply text-[#ed0000] text-xs;
+}
+
+.single-product .product-installment {
+  @apply flex flex-row gap-2 items-center mb-4;
+}
+
+.single-product .product-installment .text {
+  @apply font-normal text-xs text-[#6F6F6F];
+}
+
+.single-product .product-installment .text a {
+  @apply underline text-blue-500;
+}

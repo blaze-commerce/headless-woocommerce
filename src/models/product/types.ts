@@ -55,6 +55,8 @@ export type Attribute = {
   name: string;
   label: string;
   options: AttributeOptions[];
+  slug: string;
+  type?: string;
 };
 
 export type Attributes = Attribute[];

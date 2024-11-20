@@ -16,15 +16,16 @@ const ImageVariant = dynamic(() =>
 );
 
 export const Variant = () => {
-  const { product, additionalData } = useProductContext();
+  const { product } = useProductContext();
 
   const availableAttributes = product?.getAvailableAttributes();
 
   return (
     <div className="product-variant-container">
       {availableAttributes?.map((attribute: Attribute, key: Number) => {
-        switch (additionalData?.attributeDisplayType[attribute.name]) {
+        switch (attribute.type) {
           case 'boxed':
+          case 'button':
             return (
               <BoxedVariant
                 attribute={attribute}
