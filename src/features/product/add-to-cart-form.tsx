@@ -142,7 +142,7 @@ export const AddToCartForm = () => {
               showIcon={true}
               product={product}
               classNames={cn('wishlist-button', {
-                'rounded-sm border': layout?.wishlist?.buttonType === '1',
+                'rounded-sm': layout?.wishlist?.buttonType === '1',
                 'rounded-full border': layout?.wishlist?.buttonType === '2',
                 'shadow-[0_4px_8px_rgba(0,0,0,0.1)]': layout?.wishlist?.buttonType === '2',
               })}

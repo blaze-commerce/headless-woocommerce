@@ -74,7 +74,7 @@
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
-  @apply flex items-center justify-center bg-primary hover:bg-secondary text-primary-foreground hover:text-primary-foreground flex-grow max-w-xs px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
+  @apply flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground hover:text-primary-foreground flex-grow max-w-xs px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {
@@ -84,7 +84,7 @@
 /** Add to Cart - Wishlist Button */
 
 .single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
-  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md w-10 md:w-auto md:px-2 lg:w-52;
+  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md w-10 md:w-auto md:px-2 lg:w-52 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
 }
 
 /** Product Meta */
