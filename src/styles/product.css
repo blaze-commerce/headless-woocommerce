@@ -74,7 +74,7 @@
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
-  @apply flex items-center justify-center bg-primary hover:bg-secondary text-primary-foreground hover:text-primary-foreground flex-grow max-w-xs px-4 py-2 text-sm font-medium rounded-md disabled:bg-muted disabled:text-muted-foreground;
+  @apply flex items-center justify-center bg-primary hover:bg-secondary text-primary-foreground hover:text-primary-foreground flex-grow max-w-xs px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {

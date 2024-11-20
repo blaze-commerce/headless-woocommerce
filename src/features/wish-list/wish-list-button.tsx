@@ -96,7 +96,9 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
         onMouseLeave={() => setIsWishlistHovering(false)}
         style={!isEmpty(wishlistButtonStyle) && isSingleProduct ? wishlistButtonStyle : {}}
       >
-        <span className="button-label hidden md:inline-block">Add to Wishlist</span>
+        <span className="button-label hidden md:inline-block text-sm font-bold text-black/80">
+          Add to Wishlist
+        </span>
         {isWishlistHovering ? (
           <HeartFilledIcon
             strokeColor={isSingleProduct ? iconColor : ''}

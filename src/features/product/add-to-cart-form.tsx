@@ -132,7 +132,7 @@ export const AddToCartForm = () => {
                 Adding to cart...
               </>
             ) : (
-              <>ADD TO CART</>
+              <>Add to Cart</>
             )}
           </button>
 
