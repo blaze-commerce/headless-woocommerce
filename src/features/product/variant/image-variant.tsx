@@ -65,9 +65,10 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
           return (
             <div
               key={v4()}
-              className={cn('w-10 h-10 border border-[#56575A] rounded-sm', {
+              className={cn('w-[74px] h-[74px] border border-border rounded cursor-pointer', {
                 'opacity-60': option.label !== currentAttributeLabel,
-                'opacity-100': option.label === currentAttributeLabel,
+                'opacity-100 border-2 border-primary outline-2':
+                  option.label === currentAttributeLabel,
               })}
               onClick={() => handleOnClick(currentImageSrc as ImageType, option.name, option.label)}
             >

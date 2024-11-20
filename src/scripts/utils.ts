@@ -191,3 +191,25 @@ export const generatePostJsonDataBySlug = async (slug: string) => {
 
   return jsonData;
 };
+
+/**
+ * Slugifies a given string.
+ * Converts the string into a URL-friendly slug by:
+ * 1. Lowercasing all characters
+ * 2. Removing special characters
+ * 3. Replacing spaces with hyphens
+ *
+ * @param {string} text - The string to slugify
+ * @returns {string} - The slugified string
+ */
+export function slugify(text: string): string {
+  return text
+    .toString() // Ensure the input is a string
+    .trim() // Remove leading and trailing whitespace
+    .toLowerCase() // Convert to lowercase
+    .normalize('NFD') // Normalize Unicode characters
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-'); // Collapse multiple hyphens into one
+}

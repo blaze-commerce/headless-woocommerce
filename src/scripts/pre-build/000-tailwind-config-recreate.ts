@@ -1,7 +1,19 @@
 /* eslint-disable no-console */
 import * as fs from 'fs';
+import Color from 'color';
 import path from 'path';
 import theme from '@public/theme.json';
+import wptheme from '@public/wp-theme.json';
+
+const hexToHslValue = (hexColor: string): string => {
+  const color = Color(hexColor).hsl(); // Get the HSL object
+
+  const h = Math.round(color.hue()); // Hue
+  const s = Math.round(color.saturationl()); // Saturation
+  const l = Math.round(color.lightness()); // Lightness
+
+  return `${h} ${s}% ${l}%`;
+};
 
 const gridItemWidths = ['25', '33', '50', '66', '75', '100']; // this is what is provider by generate press block settins GRID ITEM WIDTH (%)
 const gridItemWidthsClasses = gridItemWidths
@@ -11,8 +23,12 @@ const gridItemWidthsClasses = gridItemWidths
 
 const safeListPattern = /(mb|mt|ml|mr)-\d*/;
 
+const colorVars = Object.entries(theme.colorVars)
+  .map(([key, value]) => `${key}: ${hexToHslValue(value)};`)
+  .join('\n');
+
 const themeColors = Object.entries(theme.colorClasses)
-  .map(([key, value]) => `'${key}': '${value}'`)
+  .map(([key, value]) => `'${key}': 'hsl(${value})'`)
   .join(',\n');
 
 const fontFamilies = Object.entries(theme.fontFamilies);
@@ -47,14 +63,9 @@ const tailwindConfig = `module.exports = {
   ],
   theme: {
     container: {
+      center: true,
       screens: {
-        sm: '540px',
-        md: '768px',
-        lg: '1024px',
-        xl: '1280px',
-        '2xl': '1536px',
-        '3xl': '1600px',
-        '4xl': '1750px',
+        '2xl': '${wptheme.layout.contentSize}',
       },
     },
     extend: {
@@ -112,12 +123,27 @@ const tailwindConfig = `module.exports = {
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')],
 };`;
 
+const themeVariables = `
+@tailwind base;
+@layer base {
+  :root {
+    ${colorVars}
+    --container-width: ${wptheme.layout.contentSize};
+  }
+}`;
+
 export default async function execute() {
   try {
     console.log('recreating/update tailwind config');
     const tailwindPath = path.join(process.cwd(), 'tailwind.config.js');
 
-    fs.writeFileSync(tailwindPath, `${tailwindConfig}`, {
+    fs.writeFileSync(tailwindPath, tailwindConfig, {
+      encoding: 'utf-8',
+      flag: 'w',
+    });
+
+    const themeVariablesPath = path.join(process.cwd(), 'src/styles', 'theme-variables.css');
+    fs.writeFileSync(themeVariablesPath, themeVariables, {
       encoding: 'utf-8',
       flag: 'w',
     });

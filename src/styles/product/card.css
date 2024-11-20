@@ -104,7 +104,7 @@
 }
 
 .product-card .product-variants button {
-  @apply w-9 h-9 rounded border border-solid border-[#e7e7e7];
+  @apply w-9 h-9 rounded border border-solid border-[#e7e7e7] !z-[5];
 }
 
 .product-card .product-variants button img {

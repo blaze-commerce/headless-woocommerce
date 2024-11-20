@@ -62,7 +62,7 @@
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .quantity-label {
-  @apply items-center text-sm text-black font-bold md:flex hidden;
+  @apply items-center text-sm text-black font-bold flex hidden;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .quantity {

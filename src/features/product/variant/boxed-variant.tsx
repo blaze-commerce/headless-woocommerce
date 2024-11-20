@@ -68,7 +68,7 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
                 handleOnChange(e.target.value, option.label);
               }}
             />
-            <div className="cursor-pointer border peer-checked:border-black py-2 px-8 h-full flex items-center justify-center text-center text-brand-button-text hover:text-brand-hover-button-text hover:bg-brand-hover-button-background peer-checked:bg-brand-button-background">
+            <div className="cursor-pointer rounded border peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:border-2 py-2 px-8 h-full flex items-center justify-center text-center text-black/80 ">
               {option.label}
             </div>
           </label>
