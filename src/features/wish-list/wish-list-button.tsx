@@ -79,7 +79,7 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [addProductToWishList] = useAddProductToWishListMutation(props.product);
     return (
-      <p
+      <button
         className={cn(props.classNames, {
           'bg-brand-wishlist-background': !isSingleProduct,
           'hover:bg-brand-wishlist-hover-background': !isSingleProduct,
@@ -96,7 +96,7 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
         onMouseLeave={() => setIsWishlistHovering(false)}
         style={!isEmpty(wishlistButtonStyle) && isSingleProduct ? wishlistButtonStyle : {}}
       >
-        <span className="button-label">Add to Wishlist</span>
+        <span className="button-label hidden md:inline-block">Add to Wishlist</span>
         {isWishlistHovering ? (
           <HeartFilledIcon
             strokeColor={isSingleProduct ? iconColor : ''}
@@ -109,7 +109,7 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
             className={cn('border-white group-hover/wishlist:fill-brand-primary fill-white')}
           />
         )}
-      </p>
+      </button>
     );
   }
 

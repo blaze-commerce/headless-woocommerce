@@ -48,7 +48,6 @@ export const AddToCartForm = () => {
     addToCartStatus,
   } = useProductContext();
   const { currentCurrency, settings } = useSiteContext();
-  const { store } = settings as Settings;
   const { layout } = settings?.product as ProductSettings;
   const [disableAddToCart, setDisableAddToCart] = addToCartStatus;
 
@@ -124,27 +123,16 @@ export const AddToCartForm = () => {
           </div>
           <button
             disabled={loading || disableAddToCart}
-            className={cn('button-add-to-cart', {
-              disabled: loading || disableAddToCart,
-              'bg-brand-secondary': !settings?.buttonColor?.background,
-              'text-white': !settings?.buttonColor?.text,
-            })}
-            // style={{
-            //   color: settings?.buttonColor?.text ?? '',
-            //   backgroundColor: settings?.buttonColor?.background ?? '',
-            // }}
+            className="button-add-to-cart"
             onClick={handleAddToCart}
           >
             {loading ? (
               <>
-                <Spinner className="text-white" />
+                <Spinner className="text-primary" />
                 Adding to cart...
               </>
             ) : (
-              <>
-                ADD TO CART
-                <ArrowRightIcon className="w-4 h-4 md:w-6 md:h-6 inline-block" />
-              </>
+              <>ADD TO CART</>
             )}
           </button>
 
