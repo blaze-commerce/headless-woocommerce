@@ -16,8 +16,6 @@ import { useLocalStorage, useUpdateEffect } from 'usehooks-ts';
 
 import regionSettings from '@public/region.json';
 import siteSettings from '@public/site.json';
-import wptheme from '@public/wp-theme.json';
-import theme from '@public/theme.json';
 
 import { GET_CART, UPDATE_CUSTOMER, UPDATE_SHIPPING_METHOD } from '@src/lib/graphql/queries';
 import { useCalculateShipping } from '@src/lib/hooks';
@@ -27,18 +25,6 @@ import { getCookie, setCookie } from '@src/lib/helpers/cookie';
 import { Settings } from '@src/models/settings';
 import { RegionalData, ShippingMethodRates } from '@src/types';
 import type { CalculateShippingHook } from '@src/lib/hooks';
-
-import tailwindConfig from '../../tailwind.config';
-
-const fullConfig = resolveConfig(tailwindConfig);
-//@ts-ignore
-const tailwindBreakpoints = fullConfig.theme.screens || {
-  sm: '640px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
-  '2xl': '1536px',
-};
 
 const country = reduce<
   RegionalData,
@@ -304,12 +290,6 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
 
   const currencies = keyBy(regionSettings, 'currency');
 
-  const generateColorVars = (data: Record<string, string>) => {
-    return Object.entries(data)
-      .map(([key, value]) => `${key}: ${value};`)
-      .join('\n');
-  };
-
   return (
     <SiteContext.Provider
       value={{
@@ -387,15 +367,6 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --price-font-weight: ${settings?.product?.font?.price?.weight};
           --price-regurlar-color: ${settings?.product?.font?.regularPrice?.color};
           --price-sale-color: ${settings?.product?.font?.salePrice?.color ?? 'rgb(75 85 99)'};
-
-          --container-width: ${wptheme.layout.contentSize};
-          ${generateColorVars(theme.colorVars)}
-        }
-
-        @media screen and (min-width: ${tailwindBreakpoints.lg}) {
-          .container {
-            max-width: var(--container-width);
-          }
         }
       `}</style>
       {props.children}

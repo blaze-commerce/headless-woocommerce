@@ -1,0 +1,40 @@
+.product-popup-holder {
+  @apply fixed inset-0 z-10 overflow-y-auto;
+}
+
+.product-popup-holder .product-popup-container {
+  @apply fixed inset-0 z-10 flex items-center justify-center;
+}
+
+.product-popup-holder .product-popup-container .product-popup {
+  @apply bg-white w-full max-w-[500px] p-4 pt-10 rounded-lg relative;
+}
+
+.product-popup-holder .product-popup-container .product-popup .button-close {
+  @apply absolute top-0 right-0 p-4 cursor-pointer;
+}
+
+.product-popup-holder .product-popup-container .product-popup .popup-title {
+  @apply font-bold text-2xl pb-2 mb-2 border-b border-[#ddd];
+}
+
+.product-popup-holder .product-popup-container .product-popup .popup-content-container {
+  @apply flex flex-row gap-4 flex-nowrap py-8;
+}
+
+.product-popup-holder
+  .product-popup-container
+  .product-popup
+  .popup-content-container
+  .popup-content {
+  @apply text-[#777] leading-6 text-base;
+}
+
+.product-popup-holder
+  .product-popup-container
+  .product-popup
+  .popup-content-container
+  .popup-content
+  a {
+  @apply text-[#000180];
+}

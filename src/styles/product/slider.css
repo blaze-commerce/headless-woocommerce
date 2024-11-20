@@ -1,0 +1,31 @@
+/** Product Slider */
+.product-slider {
+  @apply mt-8;
+}
+
+.product-slider .title-holder {
+  @apply flex justify-between items-center gap-2 mb-4;
+}
+
+.product-slider .title-holder h2 {
+  @apply text-[#333333] text-xl sm:text-3xl shrink-0 font-bold;
+}
+
+.product-slider .title-holder hr {
+  /** @apply w-full  border-t border-[#E4E5E7] */
+  @apply hidden;
+}
+
+.product-slider .title-holder .button-holder {
+  @apply flex gap-2;
+}
+
+.product-slider .title-holder .button-holder button {
+  @apply cursor-pointer p-2 rounded-lg border-[1px] border-[#e7e7e7];
+}
+
+.product-slider .slide-holder {
+  @apply w-full h-auto block relative;
+}
+
+/** END | Product Slider */

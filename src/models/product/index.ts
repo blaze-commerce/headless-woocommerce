@@ -19,7 +19,12 @@ import { MAX_QUERY_LIMIT, WoolessTypesense } from '@src/lib/typesense';
 import { GIFT_CARD_TYPE } from '@src/lib/constants/giftcards';
 import { formatTextWithNewline } from '@src/lib/helpers/helper';
 import { ProductElement, Settings, Store } from '@src/lib/typesense/types';
-import { getVariations, transformToProduct, transformToProducts } from '@src/lib/typesense/product';
+import {
+  getProductTypesForDisplay,
+  getVariations,
+  transformToProduct,
+  transformToProducts,
+} from '@src/lib/typesense/product';
 import { PRODUCT_TYPES } from '@src/lib/constants/product';
 import { Store as TStoreSetting } from '@src/models/settings/store';
 import { htmlParser } from '@src/lib/block/react-html-parser';
@@ -328,12 +333,15 @@ export class Product {
   }
 
   static async findOneRaw({ slug }: ProductQuery): Promise<ProductTypesenseResponse> {
-    const response = await WoolessTypesense.product.documents().search({
+    const productTypeArgs = getProductTypesForDisplay().join('`,`');
+    const searchArgs = {
       q: '*',
-      facet_by: 'slug,status',
-      query_by: 'slug,status',
-      filter_by: 'slug:=[`' + slug + '`] && status:=[`publish`]',
-    });
+      facet_by: 'slug,status,productType',
+      query_by: 'slug,status,productType',
+      filter_by: `slug:=[\`${slug}\`] && status:=[\`publish\`] && productType:=[\`${productTypeArgs}\`]`,
+    };
+
+    const response = await WoolessTypesense.product.documents().search(searchArgs);
 
     const products = await transformToProducts(response);
     return !isEmpty(products[0]) ? products[0] : {};
