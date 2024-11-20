@@ -48,7 +48,6 @@ export const AddToCartForm = () => {
     addToCartStatus,
   } = useProductContext();
   const { currentCurrency, settings } = useSiteContext();
-  const { store } = settings as Settings;
   const { layout } = settings?.product as ProductSettings;
   const [disableAddToCart, setDisableAddToCart] = addToCartStatus;
 
@@ -97,14 +96,14 @@ export const AddToCartForm = () => {
         <div className="button-wrapper">
           <span className="quantity-label">Qty:</span>
           <div className="quantity">
-            <div
+            <button
               className={cn('quantity-control', {
                 hidden: product?.isGiftCard,
               })}
               onClick={decrementQuantity}
             >
               -
-            </div>
+            </button>
             <input
               className="quantity-input"
               type="text"
@@ -113,38 +112,27 @@ export const AddToCartForm = () => {
               onBlur={validateQuantity}
               disabled={product?.isGiftCard}
             />
-            <div
+            <button
               className={cn('quantity-control', {
                 hidden: product?.isGiftCard,
               })}
               onClick={incrementQuantity}
             >
               +
-            </div>
+            </button>
           </div>
           <button
             disabled={loading || disableAddToCart}
-            className={cn('button-add-to-cart', {
-              disabled: loading || disableAddToCart,
-              'bg-brand-secondary': !settings?.buttonColor?.background,
-              'text-white': !settings?.buttonColor?.text,
-            })}
-            // style={{
-            //   color: settings?.buttonColor?.text ?? '',
-            //   backgroundColor: settings?.buttonColor?.background ?? '',
-            // }}
+            className="button-add-to-cart"
             onClick={handleAddToCart}
           >
             {loading ? (
               <>
-                <Spinner className="text-white" />
+                <Spinner className="text-primary" />
                 Adding to cart...
               </>
             ) : (
-              <>
-                ADD TO CART
-                <ArrowRightIcon className="w-4 h-4 md:w-6 md:h-6 inline-block" />
-              </>
+              <>Add to Cart</>
             )}
           </button>
 
@@ -154,7 +142,7 @@ export const AddToCartForm = () => {
               showIcon={true}
               product={product}
               classNames={cn('wishlist-button', {
-                'rounded-sm border': layout?.wishlist?.buttonType === '1',
+                'rounded-sm': layout?.wishlist?.buttonType === '1',
                 'rounded-full border': layout?.wishlist?.buttonType === '2',
                 'shadow-[0_4px_8px_rgba(0,0,0,0.1)]': layout?.wishlist?.buttonType === '2',
               })}

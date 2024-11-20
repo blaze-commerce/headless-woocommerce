@@ -54,15 +54,15 @@
 
 /** Add to Cart Button */
 .single-product .add-to-cart-form .button-container {
-  @fixed bottom-0 right-0 p-4 bg-brand-secondary w-full lg:w-auto md:bg-[#ECEEEFE8] z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw];
+  @apply fixed bottom-0 right-0 p-2.5 bg-background/80 w-full lg:w-auto z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw];
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper {
-  @apply flex items-stretch justify-start gap-2.5;
+  @apply flex items-stretch justify-evenly xl:justify-start gap-1.5;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .quantity-label {
-  @apply items-center text-sm text-black font-bold flex hidden;
+  @apply items-center text-sm text-black font-bold hidden md:flex;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .quantity {
@@ -73,12 +73,8 @@
   @apply border-none;
 }
 
-.single-product .add-to-cart-form .button-container .button-wrapper .quantity .quantity-control {
-  @apply leading-9;
-}
-
 .single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
-  @apply flex items-center justify-center bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text sm:px-8 flex-grow sm:flex-grow-0 p-4 text-sm font-medium rounded-md;
+  @apply flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground hover:text-primary-foreground flex-grow max-w-xs px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {
@@ -88,7 +84,7 @@
 /** Add to Cart - Wishlist Button */
 
 .single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
-  @apply cursor-pointer flex justify-center items-center p-2.5 px-4 gap-4 rounded-md;
+  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md w-10 md:w-auto md:px-2 lg:w-52 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
 }
 
 /** Product Meta */
@@ -156,3 +152,18 @@
 .single-product .product-installment .text a {
   @apply underline text-blue-500;
 }
+
+/* Product Quantity */
+.quantity {
+  @apply flex border border-[#C0C0C0] items-center;
+}
+
+.quantity-control {
+  @apply cursor-pointer w-6 text-xl text-black h-11;
+}
+
+.quantity-input {
+  @apply w-10 px-2 text-center border-y-0 outline-none border-inherit bg-transparent text-black text-base font-normal h-full;
+}
+
+/* End Product Quantity */
