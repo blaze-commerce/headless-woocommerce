@@ -156,3 +156,18 @@
 .single-product .product-installment .text a {
   @apply underline text-blue-500;
 }
+
+/* Product Quantity */
+.quantity {
+  @apply flex border border-[#C0C0C0] items-center;
+}
+
+.quantity-control {
+  @apply cursor-pointer px-4 py-2 text-xl text-black h-full;
+}
+
+.quantity-input {
+  @apply w-10 px-2 text-center border-y-0 outline-none border-inherit bg-transparent text-black text-base font-normal h-full;
+}
+
+/* End Product Quantity */

@@ -128,19 +128,6 @@ body {
     @apply ms-8;
   }
 
-  /* Product Quantity */
-  .quantity {
-    @apply flex border border-[#C0C0C0];
-  }
-
-  .quantity-control {
-    @apply cursor-pointer px-4 py-2 text-xl text-white lg:text-black;
-  }
-
-  .quantity-input {
-    @apply w-10 px-2 text-center border-y-0 outline-none border-inherit text-neutral-100 bg-transparent lg:text-black text-base font-normal;
-  }
-
   /* Product Description */
   .tab-content a {
     @apply text-brand-links hover:text-brand-hover-links;

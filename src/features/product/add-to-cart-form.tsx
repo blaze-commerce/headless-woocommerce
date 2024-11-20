@@ -97,14 +97,14 @@ export const AddToCartForm = () => {
         <div className="button-wrapper">
           <span className="quantity-label">Qty:</span>
           <div className="quantity">
-            <div
+            <button
               className={cn('quantity-control', {
                 hidden: product?.isGiftCard,
               })}
               onClick={decrementQuantity}
             >
               -
-            </div>
+            </button>
             <input
               className="quantity-input"
               type="text"
@@ -113,14 +113,14 @@ export const AddToCartForm = () => {
               onBlur={validateQuantity}
               disabled={product?.isGiftCard}
             />
-            <div
+            <button
               className={cn('quantity-control', {
                 hidden: product?.isGiftCard,
               })}
               onClick={incrementQuantity}
             >
               +
-            </div>
+            </button>
           </div>
           <button
             disabled={loading || disableAddToCart}
