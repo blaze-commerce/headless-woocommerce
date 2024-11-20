@@ -43,7 +43,6 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
             <button
               key={`product-image-${image.id}-${key}`}
               type="button"
-              className="z-10"
               onClick={() => {
                 gliderRef?.current?.scrollItem(key);
               }}

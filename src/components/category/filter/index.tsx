@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ResultCount } from '@src/components/category/filter/result-count';
@@ -42,7 +42,25 @@ export const Filter: React.FC<Props> = (props) => {
   const [filterOpen, setFilterOpen] = taxonomyCtx.slideOverFilter;
   const [sortByOpen, setSortByOpen] = taxonomyCtx.slideOverSort;
 
-  const [selectedSortOption] = taxonomyCtx.sortByState;
+  const [selectedSortOption, setSelectedSortOption] = taxonomyCtx.sortByState;
+
+  useEffect(() => {
+    const sortValue = localStorage.getItem('sortValue') as string;
+
+    if (!sortValue || sortValue === '') return;
+
+    const { label, value } = JSON.parse(sortValue as string);
+
+    if (label && value) {
+      setSelectedSortOption({
+        label,
+        value,
+      });
+
+      onSortChange({ target: { value } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFilterByClicked = () => {
     setFilterOpen(!filterOpen);
@@ -92,6 +110,7 @@ export const Filter: React.FC<Props> = (props) => {
     return () => {
       router.events.off('routeChangeComplete', resetFilterAction);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events]);
 
   const isFilterSet = !isEmpty(
