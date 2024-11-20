@@ -9,6 +9,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { useAddProductToWishListMutation } from '@src/lib/hooks';
 import { cn } from '@src/lib/helpers/helper';
+import { Spinner } from '@src/components/svg/spinner';
 
 import * as Wishlist from './wish-list-schema';
 
@@ -77,9 +78,23 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
 
   if (props.action == 'add') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [addProductToWishList] = useAddProductToWishListMutation(props.product);
+    const [addProductToWishList, { loading }] = useAddProductToWishListMutation(props.product);
+    const heartIcon = isWishlistHovering ? (
+      <HeartFilledIcon
+        strokeColor={isSingleProduct ? iconColor : ''}
+        fillColor={'#fff'}
+        className={cn({ 'fill-brand-wishlist-hover-icon-fill': !isSingleProduct })}
+      />
+    ) : (
+      <HeartFilledIcon
+        strokeColor={isSingleProduct ? iconColor : ''}
+        className={cn('border-white group-hover/wishlist:fill-brand-primary fill-white')}
+      />
+    );
+
     return (
-      <p
+      <button
+        disabled={loading}
         className={cn(props.classNames, {
           'bg-brand-wishlist-background': !isSingleProduct,
           'hover:bg-brand-wishlist-hover-background': !isSingleProduct,
@@ -94,22 +109,12 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
         }}
         onMouseOver={() => setIsWishlistHovering(true)}
         onMouseLeave={() => setIsWishlistHovering(false)}
-        style={!isEmpty(wishlistButtonStyle) && isSingleProduct ? wishlistButtonStyle : {}}
       >
-        <span className="button-label">Add to Wishlist</span>
-        {isWishlistHovering ? (
-          <HeartFilledIcon
-            strokeColor={isSingleProduct ? iconColor : ''}
-            fillColor={'#fff'}
-            className={cn({ 'fill-brand-wishlist-hover-icon-fill': !isSingleProduct })}
-          />
-        ) : (
-          <HeartFilledIcon
-            strokeColor={isSingleProduct ? iconColor : ''}
-            className={cn('border-white group-hover/wishlist:fill-brand-primary fill-white')}
-          />
-        )}
-      </p>
+        <span className="button-label hidden md:inline-block text-sm font-bold text-black/80">
+          Add to Wishlist
+        </span>
+        {loading ? <Spinner className="text-primary" /> : heartIcon}
+      </button>
     );
   }
 
