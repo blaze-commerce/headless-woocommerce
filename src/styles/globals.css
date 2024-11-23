@@ -424,10 +424,12 @@ input::placeholder {
     @apply !mx-0;
   }
 
+  /**
   .wishlist-item div:nth-child(3) > div > div,
   .wishlist-recently-viewed-item div:nth-child(3) > div > div {
     @apply flex-col items-center;
   }
+  */
 
   .woocommerce-advanced-product-label {
     @apply !px-14 flex mx-auto w-fit rounded-sm;
