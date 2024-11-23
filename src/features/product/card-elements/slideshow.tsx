@@ -24,7 +24,7 @@ export const CardSlideshow: React.FC<ISlideshow> = (props) => {
   const productLink = seoUrlParser(product?.permalink || '');
 
   return (
-    <div className="product-variant-image-holder aspect-h-1 overflow-hidden">
+    <div className="product-variant-image-holder">
       <Glider
         draggable={false}
         slidesToShow={1}

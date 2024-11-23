@@ -11,7 +11,8 @@ export const WishListIcon: React.FC<Wishlist.Props> = (props) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [addProductToWishList] = useAddProductToWishListMutation(props.product);
     return (
-      <p
+      <button
+        type="button"
         onClick={() => {
           addProductToWishList({
             variables: {
@@ -22,7 +23,7 @@ export const WishListIcon: React.FC<Wishlist.Props> = (props) => {
         }}
       >
         <HeartFilledIcon />
-      </p>
+      </button>
     );
   }
 

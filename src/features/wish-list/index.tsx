@@ -82,11 +82,9 @@ export const WishList = () => {
                         </div>
                       </div>
 
-                      <div className="">
-                        <div className="flow-root">
-                          <WishListItems />
-                          <WishListRecentlyViewed />
-                        </div>
+                      <div className="flow-root">
+                        <WishListItems />
+                        <WishListRecentlyViewed />
                       </div>
                     </div>
                   </div>

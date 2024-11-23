@@ -5,6 +5,7 @@
 @import 'theme-variables.css';
 @import 'product.css';
 @import 'product-archive.css';
+@import 'wishlist.css';
 
 html {
   width: 100vw;
