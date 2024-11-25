@@ -3,7 +3,7 @@
 }
 
 .woocommerce-product-attributes {
-  @apply w-full min-w-[600px] text-left text-sm border-collapse;
+  @apply w-full min-w-[320px] text-left text-sm border-collapse;
 }
 
 .woocommerce-product-attributes th {
