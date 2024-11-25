@@ -80,7 +80,7 @@
 }
 
 .product-card .product-variant-image-holder {
-  @apply aspect-h-1 aspect-w-1 rounded-lg object-cover border;
+  @apply h-auto;
 }
 
 .product-card .product-variant-image-holder .glider-track {
@@ -88,11 +88,11 @@
 }
 
 .product-card .product-variant-image-holder figure {
-  @apply lg:w-full lg:!h-[300px] border rounded-md overflow-hidden;
+  @apply lg:w-full lg:!h-[265px] border rounded-md overflow-hidden;
 }
 
 .product-card .product-variant-image-holder figure img {
-  @apply w-full h-full object-cover;
+  @apply w-full h-full object-contain;
 }
 
 .product-cart .product-image-holder .product-image {

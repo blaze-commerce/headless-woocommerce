@@ -175,7 +175,7 @@ export const Gallery: React.FC<Props> = ({
                 blur={false}
                 src={currentImageSrc}
                 alt={(currentAltText || image.title) as string}
-                className="w-full h-full lg:object-center lg:object-cover"
+                className="w-full h-full lg:object-center object-contain"
                 hasZoomHover={zoomType === '1'}
               />
             ) : (

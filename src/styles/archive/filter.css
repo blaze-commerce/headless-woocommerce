@@ -1,0 +1,19 @@
+.active-filters {
+  @apply flex-1 flex gap-x-4 items-center;
+}
+
+.active-filters .filter-label {
+  @apply border-none bg-[#efefef] text-sm leading-6 text-[#777] rounded p-2 flex gap-2 items-center;
+}
+
+.active-filters .filter-label .remove-filter {
+  @apply inline-flex flex-shrink-0 items-center justify-center rounded-full bg-[#777] h-6 w-6 hover:text-brand-primary focus:bg-brand-primary focus:text-white focus:outline-none;
+}
+
+.active-filters .filter-label .remove-filter svg {
+  @apply h-2 w-2;
+}
+
+.active-filters .clear-button-holder {
+  @apply flex items-center gap-1.5 underline text-sm text-[#777] leading-6;
+}

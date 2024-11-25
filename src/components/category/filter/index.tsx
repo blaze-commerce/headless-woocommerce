@@ -1,27 +1,23 @@
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
 
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ResultCount } from '@src/components/category/filter/result-count';
-import { FilterOptionBlocks } from '@components/filter-option-blocks';
+
 import { ActiveFilters } from '@src/components/category/filter/active-filters';
 import { Modal } from '@src/components/category/filter/modal';
 import { SortByOptions } from '@src/components/category/filter/sort-by-options';
-
-import { PriceRangeSlider } from '@src/features/product/range/price-range-slider';
-import { PriceRangeFilter } from '@src/components/category/filter/price-range';
-
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Settings } from '@src/models/settings';
 import { Shop } from '@src/models/settings/shop';
 import TSTaxonomy from '@src/lib/typesense/taxonomy';
-import { cn } from '@src/lib/helpers/helper';
 import { useRouter } from 'next/router';
 import { FilterIcon } from '@src/components/svg/filter';
-import { FilterV2Icon } from '@src/components/svg/filter-v2';
-import { ChevronDown } from '@src/components/svg/chevron-down';
-import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+
+import { SortByButton } from '@src/components/category/filter/sort-by-button';
+import { MobileFilterSortButtons } from '@src/components/category/filter/mobile-filter-sort-buttons';
+import { MobileActiveFilters } from '@src/components/category/filter/mobile-active-filters';
+import { SidebarFilter } from '@src/components/category/filter/sidebar-filter';
 
 type Props = {
   pageNo: number;
@@ -35,7 +31,7 @@ export const Filter: React.FC<Props> = (props) => {
   const { pageNo, productCount, applyFilter, onSortChange } = props;
   const taxonomyCtx = useTaxonomyContext();
   const { settings, currentCountry, currentCurrency } = useSiteContext();
-  const { shop, store } = settings as Settings;
+  const { shop } = settings as Settings;
   const { layout } = shop as Shop;
   const router = useRouter();
 
@@ -124,22 +120,6 @@ export const Filter: React.FC<Props> = (props) => {
       taxonomyCtx.attributeFilter[2]
   );
 
-  const renderSortByButton = () => {
-    return (
-      <div className="group/sortby">
-        <button
-          onClick={() => {
-            setSortByOpen((prev) => !prev);
-          }}
-          className="button-sort-by "
-        >
-          <ReactHTMLParser html={selectedSortOption?.label || 'Sort by'} />
-          <ChevronDown />
-        </button>
-      </div>
-    );
-  };
-
   const renderProductGrid = () => {
     const { layout } = shop as Shop;
     return (
@@ -147,23 +127,9 @@ export const Filter: React.FC<Props> = (props) => {
         {layout?.productFilters == '1' ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             <form className="hidden lg:block">
-              <FilterOptionBlocks
-                blocks={taxonomyCtx.filterOptionContent}
-                baseCountry={currentCountry}
-              />
-
-              <PriceRangeSlider
-                disclosureProp={taxonomyCtx.priceFilter}
-                min={Math.trunc(
-                  taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
-                    currentCurrency
-                  ] as number
-                )}
-                max={Math.trunc(
-                  taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
-                    currentCurrency
-                  ] as number
-                )}
+              <SidebarFilter
+                applyFilterClicked={applyFilterClicked}
+                resetFilterAction={resetFilterAction}
               />
 
               <button
@@ -185,7 +151,10 @@ export const Filter: React.FC<Props> = (props) => {
                   pageNo={pageNo}
                   productCount={productCount}
                 />
-                {renderSortByButton()}
+                <SortByButton
+                  setSortByOpen={setSortByOpen}
+                  selectedSortOption={selectedSortOption}
+                />
               </div>
               {props.children}
             </div>
@@ -194,23 +163,6 @@ export const Filter: React.FC<Props> = (props) => {
           <div className="product-grid">{props.children}</div>
         )}
       </>
-    );
-  };
-
-  const renderActiveFilters = () => {
-    const { layout } = shop as Shop;
-    return (
-      <div className="active-filters">
-        <ActiveFilters {...layout?.activeFilters} />
-        {isFilterSet && (
-          <button
-            onClick={resetFilterAction}
-            className="clear-button-holder"
-          >
-            <span className="text-sm">Clear all</span>
-          </button>
-        )}
-      </div>
     );
   };
 
@@ -237,52 +189,6 @@ export const Filter: React.FC<Props> = (props) => {
     );
   };
 
-  const renderMobileFilterButtons = () => {
-    return (
-      <div
-        className={cn('flex xl:hidden lg:hidden sticky py-3.5 border-y', {
-          'mt-4': !store?.breadcrumbMobile?.enabled,
-        })}
-      >
-        <button
-          onClick={handleFilterByClicked}
-          className="rounded-l-[4px] bg-[#FAF6F2] flex flex-1 uppercase  text-[#111111] group-hover/filter:text-white border border-[#111111] py-3 text-sm leading-3 font-normal justify-center items-center gap-3 border-r-0"
-        >
-          Filter <FilterIcon fillColor="#111111" />
-        </button>
-        <button
-          onClick={handleSortByClicked}
-          className="rounded-r-[4px] bg-[#FAF6F2] flex-1 uppercase  text-[#111111] group-hover/filter:text-white border border-[#111111] py-3 text-sm leading-3 font-normal"
-        >
-          Sort By:
-        </button>
-      </div>
-    );
-  };
-
-  const renderMobileActiveFilters = () => {
-    const { layout } = shop as Shop;
-    return (
-      <>
-        {isFilterSet && (
-          <div className="mt-3.5 flex items-center justify-between lg:hidden pb-3 border-b border-stone-200">
-            <div>
-              <ActiveFilters {...layout?.activeFilters} />
-            </div>
-            <div>
-              <button onClick={resetFilterAction}>
-                <span className="flex items-center gap-x-2.5 text-sm">
-                  CLEAR ALL
-                  <XMarkIcon className="w-5 h-5" />
-                </span>
-              </button>
-            </div>
-          </div>
-        )}
-      </>
-    );
-  };
-
   return (
     <>
       <Modal
@@ -297,35 +203,32 @@ export const Filter: React.FC<Props> = (props) => {
           onSortChange={onSortChange}
         />
       </Modal>
-      {renderMobileFilterButtons()}
-      {renderMobileActiveFilters()}
+      <div className="product-archive-filter-mobile">
+        <MobileFilterSortButtons
+          handleFilterByClicked={handleFilterByClicked}
+          handleSortByClicked={handleSortByClicked}
+        />
+        <MobileActiveFilters
+          resetFilterAction={resetFilterAction}
+          isFilterSet={isFilterSet}
+        />
+      </div>
       <div className="product-archive-container container">
-        <aside className="product-archive-filter">
-          <h2 className="filter-main-title">
-            Filters <FilterV2Icon />
-          </h2>
-          <FilterOptionBlocks
-            blocks={taxonomyCtx.filterOptionContent}
-            baseCountry={currentCountry}
+        <Modal
+          open={filterOpen}
+          setOpen={setFilterOpen}
+          position="left"
+        >
+          <SidebarFilter
+            applyFilterClicked={applyFilterClicked}
+            resetFilterAction={resetFilterAction}
           />
-
-          <PriceRangeFilter
-            enableDisclosure={true}
-            defaultShow={true}
+        </Modal>
+        <aside className="product-archive-filter-desktop">
+          <SidebarFilter
+            applyFilterClicked={applyFilterClicked}
+            resetFilterAction={resetFilterAction}
           />
-
-          <button
-            className="hidden mt-3 w-full border border-black mb-2 p-2.5"
-            onClick={applyFilterClicked}
-          >
-            APPLY
-          </button>
-          <button
-            onClick={resetFilterAction}
-            className="hidden w-full border border-black mb-2 p-2.5"
-          >
-            RESET
-          </button>
         </aside>
         <div className="product-archive-display">
           <div className="product-filter-and-sort">
@@ -335,8 +238,23 @@ export const Filter: React.FC<Props> = (props) => {
                 productCount={productCount}
               />
             )}
-            {renderActiveFilters()}
-            {shop?.layout?.productFilters != '1' && renderSortByButton()}
+            <div className="active-filters">
+              <ActiveFilters {...layout?.activeFilters} />
+              {isFilterSet && (
+                <button
+                  onClick={resetFilterAction}
+                  className="clear-button-holder"
+                >
+                  <span className="text-sm">Clear all</span>
+                </button>
+              )}
+            </div>
+            {shop?.layout?.productFilters != '1' && (
+              <SortByButton
+                setSortByOpen={setSortByOpen}
+                selectedSortOption={selectedSortOption}
+              />
+            )}
           </div>
           {renderProductGrid()}
         </div>

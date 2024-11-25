@@ -111,55 +111,57 @@ export const CardImage = (props: ICardImage) => {
       )}
       style={{ width: imageMaxWidth !== 0 && !imgError ? `${imageMaxWidth}px` : '100%' }}
     >
-      {typeof secondaryImage !== 'undefined' &&
-        !imgHoverError &&
-        renderHoverImage({
-          mainImage,
-          secondaryImage,
-          productFilters,
-          productColumns,
-          imgError,
-          setImgHoverError,
-        })}
-      {imgError ? (
-        renderEmptyImagePlaceholder({
-          mainImage,
-          productFilters,
-          productColumns,
-          imgError,
-          imgHoverError,
-        })
-      ) : (
-        <RawLink
-          href={productLink}
-          title={product.name}
-        >
-          <Image
-            src={mainImage.src}
-            alt={mainImage.altText as string}
-            width={398}
-            height={616}
-            className={cn('product-image', {
-              'group-hover:opacity-0 group-hover:transition group-hover:ease-linear group-hover:duration-300 ease-linear duration-300':
-                mainImage?.src &&
-                typeof mainImage?.src !== undefined &&
-                secondaryImage &&
-                typeof secondaryImage !== undefined &&
-                !imgError &&
-                !imgHoverError,
-              'xl:w-full xl:px-20': imgError && productFilters !== '1' && productColumns == '3',
-              'xl:w-full xl:h-full': imgError && productColumns == '4',
-              'xl:w-full xl:h-full xl:px-6':
-                imgError && productFilters === '1' && productColumns == '3',
-              'object-center object-cover lg:w-full lg:h-full': !imgError,
-              'p-4 lg:p-7': imgError,
-            })}
-            onError={() => {
-              setImgError(true);
-            }}
-          />
-        </RawLink>
-      )}
+      <figure>
+        {typeof secondaryImage !== 'undefined' &&
+          !imgHoverError &&
+          renderHoverImage({
+            mainImage,
+            secondaryImage,
+            productFilters,
+            productColumns,
+            imgError,
+            setImgHoverError,
+          })}
+        {imgError ? (
+          renderEmptyImagePlaceholder({
+            mainImage,
+            productFilters,
+            productColumns,
+            imgError,
+            imgHoverError,
+          })
+        ) : (
+          <RawLink
+            href={productLink}
+            title={product.name}
+          >
+            <Image
+              src={mainImage.src}
+              alt={mainImage.altText as string}
+              width={398}
+              height={616}
+              className={cn('product-image', {
+                'group-hover:opacity-0 group-hover:transition group-hover:ease-linear group-hover:duration-300 ease-linear duration-300':
+                  mainImage?.src &&
+                  typeof mainImage?.src !== undefined &&
+                  secondaryImage &&
+                  typeof secondaryImage !== undefined &&
+                  !imgError &&
+                  !imgHoverError,
+                'xl:w-full xl:px-20': imgError && productFilters !== '1' && productColumns == '3',
+                'xl:w-full xl:h-full': imgError && productColumns == '4',
+                'xl:w-full xl:h-full xl:px-6':
+                  imgError && productFilters === '1' && productColumns == '3',
+                'object-center object-cover lg:w-full lg:h-full': !imgError,
+                'p-4 lg:p-7': imgError,
+              })}
+              onError={() => {
+                setImgError(true);
+              }}
+            />
+          </RawLink>
+        )}
+      </figure>
     </div>
   );
 };
