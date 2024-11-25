@@ -25,7 +25,7 @@
 }
 
 .product-archive-page header .page-title {
-  @apply font-play leading-[150%] text-5xl text-[#000180] font-bold;
+  @apply font-play text-3xl leading-[150%] md:text-5xl text-[#000180] font-bold;
 }
 
 .product-archive-page header .page-subtitle {

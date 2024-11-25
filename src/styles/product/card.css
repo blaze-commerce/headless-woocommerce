@@ -88,7 +88,7 @@
 }
 
 .product-card .product-variant-image-holder figure {
-  @apply lg:w-full lg:!h-[265px] border rounded-md overflow-hidden;
+  @apply lg:w-full !h-[265px] border rounded-md overflow-hidden;
 }
 
 .product-card .product-variant-image-holder figure img {
