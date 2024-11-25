@@ -127,23 +127,9 @@ export const Filter: React.FC<Props> = (props) => {
         {layout?.productFilters == '1' ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             <form className="hidden lg:block">
-              <FilterOptionBlocks
-                blocks={taxonomyCtx.filterOptionContent}
-                baseCountry={currentCountry}
-              />
-
-              <PriceRangeSlider
-                disclosureProp={taxonomyCtx.priceFilter}
-                min={Math.trunc(
-                  taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
-                    currentCurrency
-                  ] as number
-                )}
-                max={Math.trunc(
-                  taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
-                    currentCurrency
-                  ] as number
-                )}
+              <SidebarFilter
+                applyFilterClicked={applyFilterClicked}
+                resetFilterAction={resetFilterAction}
               />
 
               <button
