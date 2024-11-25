@@ -2,6 +2,8 @@
 @import 'product/slider.css';
 @import 'product/card.css';
 @import 'product/accordion.css';
+@import 'product/ni-variation-table.css';
+@import 'product/tabs.css';
 
 /** Default style for single product page */
 .single-product .product-rating {

@@ -174,7 +174,7 @@ export class Product {
     this.upsellProducts = props.upsellProducts || [];
     this.defaultAttributes = props.defaultAttributes;
     this.deliveryInformation = props.deliveryInformation;
-    this.description = sanitizeHtml(props.description || '');
+    this.description = props.description || '';
     this.favouriteLinks = props.favouriteLinks;
     this.favouriteNames = props.favouriteNames;
     this.galleryImages = [];
