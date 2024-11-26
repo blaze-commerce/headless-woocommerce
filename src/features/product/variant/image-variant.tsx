@@ -69,7 +69,7 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
       >
         {label}: <span className="font-medium">{currentAttributeLabel}</span>
       </label>
-      <div className="flex space-x-2.5 mt-2.5">
+      <div className="flex gap-2.5 mt-2.5 flex-wrap">
         {options?.map((option) => {
           const currentImageSrc = find(attributeImageSrc, [name, option.name]);
           return (
