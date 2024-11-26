@@ -83,7 +83,7 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
               onClick={() => handleOnClick(currentImageSrc as ImageType, option.name, option.label)}
             >
               <Image
-                className="w-full h-full"
+                className="w-full h-full object-contain"
                 src={currentImageSrc?.src as string}
                 alt={(currentImageSrc?.altText as string) || option.label}
                 width={100}
