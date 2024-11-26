@@ -1,8 +1,9 @@
 import { useProductContext } from '@src/context/product-context';
 import { useAttributeParams } from '@src/lib/hooks/product';
 import { Attribute, Image } from '@src/models/product/types';
-import { find, isEmpty } from 'lodash';
+import { find, isEmpty, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
+import { useEffectOnce } from 'usehooks-ts';
 
 type Props = {
   attribute: Attribute;
@@ -17,12 +18,21 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
     variation: {
       image: [, setImageThumbnailAttribute],
     },
+    fields: {
+      required: [, setRequiredFields],
+      value: [, setFieldValue],
+    },
     addToCartStatus: [, setDisableAddToCart],
   } = useProductContext();
   const { name, label, options } = attribute;
   const attributeImageSrc = product?.variantImageSrc;
 
   const [currentAttributeLabel, setCurrentAttributeLabel] = useState('');
+
+  useEffectOnce(() => {
+    setRequiredFields((prev) => uniq([...prev, name]));
+    setFieldValue((prev) => ({ ...prev, [name]: '' }));
+  });
 
   useEffect(() => {
     if (!isEmpty(attributeParams[name]) && !isEmpty(name)) {
