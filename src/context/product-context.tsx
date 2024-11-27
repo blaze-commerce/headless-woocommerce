@@ -284,6 +284,10 @@ export const ProductContextProvider: React.FC<{
     const matchedVariant = findVariationByAttribute(newAttributes);
 
     setMatchedVariant(matchedVariant);
+    if (typeof matchedVariant === 'undefined') {
+      // Disable add to cart since there is no matching variant found.
+      setDisableAddToCart(true);
+    }
   };
 
   const {

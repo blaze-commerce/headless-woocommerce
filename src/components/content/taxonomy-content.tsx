@@ -13,17 +13,13 @@ import { LoadingModal } from '@src/components/common/loading-modal';
 import { BreadCrumbs } from '@src/features/product/breadcrumbs';
 import { DefaultProductCard as ProductCard } from '@src/features/product/cards/default';
 import { SkeletonCategory } from '@src/components/skeletons/skeleton-category';
-import { CategoryList } from '@src/components/blocks/category-list';
 import { LoadMoreButton } from '@src/components/category/load-more-button';
 import { ProductGrid } from '@src/features/product/grids/product-grid';
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Product } from '@src/models/product';
 import { Settings } from '@src/models/settings';
-import { Header } from '@src/models/settings/header';
 import { Shop } from '@src/models/settings/shop';
-import { Store } from '@src/models/settings/store';
-import { SubCategory } from '@src/schemas/taxonomy-schema';
 import { useFetchTsTaxonomyProducts } from '@src/lib/hooks';
 import { IFilterOptionData, ITaxonomyContentProps } from '@src/lib/types/taxonomy';
 import { ITSPaginationInfo, ITSTaxonomyProductQueryVars } from '@src/lib/typesense/types';
@@ -33,14 +29,10 @@ import { transformProductsForDisplay } from '@src/lib/helpers/product';
 
 export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { settings } = useSiteContext();
-  const { shop, header, store } = settings as Settings;
+  const { shop } = settings as Settings;
 
   const { layout } = shop as Shop;
-  const { productCards, productFilters, productColumns = '3' } = layout;
-
-  const { breadcrumb = '&gt;' } = store as Store;
-
-  const { wishlist } = (header as Header).options;
+  const { productFilters, productColumns = '3' } = layout;
 
   const taxonomyCtx = useTaxonomyContext();
 
@@ -72,7 +64,6 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { loading, data, isFetched } = useFetchTsTaxonomyProducts(cachedTsQueryVars);
 
   const searchQuery = props.searchQuery;
-  const isCategoryListEnabled = true;
   const showBreadCrumbs = !searchQuery || searchQuery === '*';
 
   const router = useRouter();
@@ -415,7 +406,7 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
                 </div>
               )}
 
-              {shoulShowLoadMore && <LoadMoreButton loadMoreItems={loadMoreItems} />}
+              {shoulShowLoadMore && !loading && <LoadMoreButton loadMoreItems={loadMoreItems} />}
             </Fragment>
           ) : (
             <p>No products found</p>

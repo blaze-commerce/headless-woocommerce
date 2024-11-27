@@ -54,12 +54,17 @@ export const CartBasketIcon: React.FC<Props> = ({ showText, label, color, iconBl
       className="button-cart"
       onClick={handleMinicartOpen}
     >
+      {totalProductsInCart > 0 && (
+        <span className="bg-[#fe3c3d] rounded-full w-4 h-4 text-center text-white text-[11px] absolute -top-1 -right-1">
+          {totalProductsInCart}
+        </span>
+      )}
+
       {iconBlock && iconBlock.blockName === 'core/html' ? (
         <Html block={iconBlock} />
       ) : (
         renderCartIcon()
       )}
-
       <span className="hidden lg:inline-block">{showText && label}</span>
     </button>
   );

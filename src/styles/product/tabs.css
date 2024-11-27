@@ -1,0 +1,25 @@
+.tab-additional {
+  @apply overflow-x-auto;
+}
+
+.woocommerce-product-attributes {
+  @apply w-full min-w-[320px] text-left text-sm border-collapse;
+}
+
+.woocommerce-product-attributes th {
+  color: #777777;
+  @apply text-sm px-2.5 py-4 border-b border-border text-left font-medium;
+}
+
+.woocommerce-product-attributes td {
+  @apply text-sm px-2.5 py-4 border-b border-border text-black/80;
+}
+
+.woocommerce-product-attributes tr:nth-last-child(1) td,
+.woocommerce-product-attributes tr:nth-last-child(1) th {
+  @apply border-b-0;
+}
+
+.tab-additional h2 {
+  @apply hidden;
+}
