@@ -377,7 +377,7 @@ export class Product {
     return this.stockQuantity;
   }
 
-  get shouldShowAddToCart() {
+  get isPurchasable() {
     if (!this.isOutOfStock) {
       return true;
     }

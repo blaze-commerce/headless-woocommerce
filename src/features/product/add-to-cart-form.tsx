@@ -55,7 +55,7 @@ export const AddToCartForm = () => {
     setDisableAddToCart(!(product?.hasVariations && !matchedVariant));
   });
 
-  if (!product || !product?.shouldShowAddToCart) {
+  if (!product || !product?.isPurchasable) {
     return null;
   }
 

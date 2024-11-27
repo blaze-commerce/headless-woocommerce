@@ -288,6 +288,10 @@ export const ProductContextProvider: React.FC<{
       // Disable add to cart since there is no matching variant found.
       setDisableAddToCart(true);
     }
+
+    if (matchedVariant && matchedVariant.isPurchasable) {
+      setDisableAddToCart(false);
+    }
   };
 
   const {
