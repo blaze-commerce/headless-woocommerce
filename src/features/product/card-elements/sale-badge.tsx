@@ -1,6 +1,3 @@
-import { cn } from '@src/lib/helpers/helper';
-import { isLightColor } from '@src/lib/helpers/helper';
-
 interface ICardSaleBadge {
   badgeType?: number;
   badgeColor?: string;

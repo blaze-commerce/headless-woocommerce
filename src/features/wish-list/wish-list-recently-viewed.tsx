@@ -24,10 +24,6 @@ export const WishListRecentlyViewed = () => {
     setRecentIds(getRecentlyViewedProductArr());
   }, []);
 
-  if (!recentlyViewed?.enabled) {
-    return <></>;
-  }
-
   if (loading) {
     const cardCount = recentlyViewed.showNumProducts;
 
@@ -70,7 +66,6 @@ export const WishListRecentlyViewed = () => {
                 product={product}
                 {...layout?.productCards}
                 hasAddToCart={options.showAddToCartButton}
-                imageClassNames="lg:h-[257.848px]"
               />
             );
           })}

@@ -7,7 +7,7 @@ import { MiniCartItemSkeleton } from '@src/features/mini-cart/mini-cart-item-ske
 import { Image } from '@src/components/common/image';
 import { useSiteContext } from '@src/context/site-context';
 import { REMOVE_CART_ITEM, UPDATE_CART_ITEM_QUANTITY } from '@src/lib/graphql/queries';
-import { ProductCartItem } from '@src/lib/hooks/cart';
+import { type ProductCartItem, getFinalProductPrice } from '@src/lib/hooks/cart';
 import { track } from '@src/lib/track';
 import { parseApolloError } from '@src/lib/helpers';
 import { cn, getCurrencySymbol, removeCurrencySymbol } from '@src/lib/helpers/helper';
@@ -193,7 +193,7 @@ export const MiniCartItem = ({ cartItem }: Props) => {
             {!isCompositeChildren && (
               <span className="minicart-item-price font-bold text-black text-sm mb-2 block">
                 {getCurrencySymbol(currentCurrency)}
-                {removeCurrencySymbol(currentCurrency, `${cartItem.price}`)}
+                {removeCurrencySymbol(currentCurrency, `${cartItem.totalPrice}`)}
               </span>
             )}
             {!isCompositeChildren && (

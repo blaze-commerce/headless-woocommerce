@@ -58,11 +58,7 @@ export const AddToCartButton = (props: Props) => {
   };
 
   const unavailable = product?.stockStatus === 'outofstock';
-  const defaultBtnClasses = [
-    'flex justify-center items-center gap-2',
-    'p-2 md:p-4 text-sm md:text-lg md:leading-6 rounded-md border w-full uppercase',
-    'bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text',
-  ];
+  const defaultBtnClasses = ['add-to-cart-button'];
 
   const ctaClasses = cn(
     defaultBtnClasses.join(' '),
