@@ -21,20 +21,11 @@ export const SelectVariant: React.FC<Props> = ({ attribute }) => {
     variation: {
       image: [, setImageThumbnailAttribute],
     },
-    fields: {
-      required: [, setRequiredFields],
-      value: [, setFieldValue],
-    },
   } = useProductContext();
 
   const { name, label, options } = attribute;
   const attributeImageSrc = product?.variantImageSrc;
   const selectedRef = useRef(!isEmpty(selectedAttributes[name]) ? selectedAttributes[name] : '');
-
-  useEffectOnce(() => {
-    setRequiredFields((prev) => uniq([...prev, name]));
-    setFieldValue((prev) => ({ ...prev, [name]: '' }));
-  });
 
   useEffect(() => {
     if (!isEmpty(attributeParams[name]) && !isEmpty(name)) {
@@ -55,7 +46,6 @@ export const SelectVariant: React.FC<Props> = ({ attribute }) => {
     setImageThumbnailAttribute(currentImageSrc as Image);
     onAttributeSelect(name, e.target.value);
     selectedRef.current = e.target.value;
-    setFieldValue((prev) => ({ ...prev, [name]: e.target.value }));
   };
 
   return (

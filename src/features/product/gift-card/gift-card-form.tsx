@@ -113,8 +113,6 @@ export const GiftCardForm = () => {
   useEffect(() => {
     if (isShowPreview && isEmailValid) {
       setDisableAddToCart(false);
-    } else {
-      setDisableAddToCart(true);
     }
   }, [isShowPreview, isEmailValid, setDisableAddToCart]);
 

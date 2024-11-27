@@ -188,6 +188,7 @@ export const ProductContextProvider: React.FC<{
   };
   customer: ProductReviews;
 }> = ({ children, product, additionalData, linkedProducts, customer }) => {
+  const { currentCurrency } = useSiteContext();
   const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string }>({});
   const [matchedVariant, setMatchedVariant] = useState<Product>();
   const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
@@ -205,7 +206,7 @@ export const ProductContextProvider: React.FC<{
   const [selectedBundle, setSelectedBundle] = useState<ObjectData>({});
   const [requiredFields, setRequiredFields] = useState<string[]>([]);
   const [fieldsValue, setFieldsValue] = useState<ObjectData>({});
-  const [disableAddToCart, setDisableAddToCart] = useState(false);
+  const [disableAddToCart, setDisableAddToCart] = useState(!product.purchasable);
   const [outOfStockStatus, setOutOfStockStatus] = useState(false);
   const [giftProductId, setGiftProductId] = useState<number>(0);
 
@@ -237,27 +238,8 @@ export const ProductContextProvider: React.FC<{
     return variation;
   };
 
-  useEffect(() => {
-    if (requiredFields.length === 0) {
-      setDisableAddToCart(false);
-    } else {
-      // find key with empty value in fieldsValue
-      const missingFields = requiredFields.filter((field) => !fieldsValue[field]);
-
-      // check if missingFields is in requiredFields
-
-      if (missingFields.length > 0) {
-        setDisableAddToCart(true);
-
-        // make sure to disable add to cart if product is out of stock
-      } else if (!outOfStockStatus) {
-        setDisableAddToCart(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldsValue]);
-
-  // disable add to cart if product is out of stock ( inculudes bundle or addons )
+  // disable add to cart if product is out of stock ( includes bundle or addons )
+  // @TODO need to refactor this because this should be in the product class checking if the product is purchasable or not
   useEffect(() => {
     if (outOfStockStatus) {
       setDisableAddToCart(true);
@@ -289,8 +271,12 @@ export const ProductContextProvider: React.FC<{
       setDisableAddToCart(true);
     }
 
-    if (matchedVariant && matchedVariant.isPurchasable) {
-      setDisableAddToCart(false);
+    if (matchedVariant && matchedVariant.purchasable) {
+      let allowAddToCart = true;
+      if (matchedVariant.currencyPrice(currentCurrency) <= 0) {
+        allowAddToCart = false;
+      }
+      setDisableAddToCart(!allowAddToCart);
     }
   };
 

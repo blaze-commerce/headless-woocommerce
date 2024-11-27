@@ -377,7 +377,11 @@ export class Product {
     return this.stockQuantity;
   }
 
-  get isPurchasable() {
+  get purchasable() {
+    if (this.productType === 'variable') {
+      return false;
+    }
+
     if (!this.isOutOfStock) {
       return true;
     }

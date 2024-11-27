@@ -49,13 +49,9 @@ export const AddToCartForm = () => {
   } = useProductContext();
   const { currentCurrency, settings } = useSiteContext();
   const { layout } = settings?.product as ProductSettings;
-  const [disableAddToCart, setDisableAddToCart] = addToCartStatus;
+  const [disableAddToCart] = addToCartStatus;
 
-  useEffectOnce(() => {
-    setDisableAddToCart(!(product?.hasVariations && !matchedVariant));
-  });
-
-  if (!product || !product?.isPurchasable) {
+  if (!product) {
     return null;
   }
 
