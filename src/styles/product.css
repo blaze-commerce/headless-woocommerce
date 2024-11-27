@@ -43,11 +43,11 @@
 }
 
 .single-product .add-to-cart-form .product-variant-container .product-variant-select {
-  @apply flex items-center gap-4;
+  @apply flex flex-col md:flex-row items-start md:items-center gap-4;
 }
 
 .single-product .add-to-cart-form .product-variant-container .product-variant-select label {
-  @apply w-1/3;
+  @apply md:w-1/3 text-sm leading-6 font-bold;
 }
 
 .single-product .add-to-cart-form .product-variant-container .product-variant-select select {
@@ -104,11 +104,11 @@
 }
 
 .single-product .product-dialogs {
-  @apply flex md:items-center justify-between border border-[#1d1da5] rounded p-4 h-auto;
+  @apply flex md:items-center justify-between border border-[#1d1da5] rounded-lg p-4 h-auto gap-4 text-sm leading-6;
 }
 
 .single-product .product-dialogs.horizontal {
-  @apply flex-col md:flex-row;
+  @apply flex-row;
 }
 
 .single-product .product-dialogs.vertical {
@@ -116,19 +116,11 @@
 }
 
 .single-product .product-dialogs a {
-  @apply cursor-pointer font-normal leading-none text-brand-font flex gap-2 text-xs align-middle;
+  @apply cursor-pointer font-normal leading-none text-brand-font flex gap-2 align-middle;
 }
 
-.single-product .product-dialogs a:first-of-type {
-  @apply pb-2 md:pb-0;
-}
-
-.single-product .product-dialogs a:not(:first-of-type) {
-  @apply pb-2 md:pb-0 md:pl-4;
-}
-
-.single-product .product-dialogs a:not(:last-child) {
-  @apply pb-0;
+.single-product .product-dialogs a:last-of-type {
+  @apply hidden;
 }
 
 .single-product .product-dialogs svg {
@@ -144,7 +136,7 @@
 }
 
 .single-product .product-installment {
-  @apply flex flex-row gap-2 items-center mb-4;
+  @apply flex flex-col md:flex-row gap-2 items-start md:items-center mb-4;
 }
 
 .single-product .product-installment .text {

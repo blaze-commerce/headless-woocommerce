@@ -1,5 +1,4 @@
 import { Product } from '@src/models/product';
-import { cn } from '@src/lib/helpers/helper';
 
 type ICardProductCategory = {
   product: Product;

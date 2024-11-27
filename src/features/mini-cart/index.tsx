@@ -12,6 +12,7 @@ import { MiniCartItemSkeleton } from '@src/features/mini-cart/mini-cart-item-ske
 import { useSiteContext } from '@src/context/site-context';
 import { numberFormat } from '@src/lib/helpers/product';
 import { cn, getCurrencySymbol } from '@src/lib/helpers/helper';
+import { WishListRecentlyViewed } from '@src/features/wish-list/wish-list-recently-viewed';
 
 const ViewCartLoadingIndicator = () => {
   return (
@@ -109,7 +110,7 @@ export const MiniCart = () => {
                     <div className="overflow-y-auto py-6 px-4 sm:px-6">
                       <div className="flex items-start justify-between border-b pb-4">
                         <Dialog.Title className="font-bold text-black text-sm uppercase">
-                          Your Cart
+                          Your Cart ({cart?.products?.length || 0})
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -164,6 +165,7 @@ export const MiniCart = () => {
                       </div>
                     </div>
                     {hasCartItems && <CouponCode />}
+
                     {hasCartItems ? (
                       <div className=" py-6 pt-0 px-4 sm:px-6">
                         <AppliedCoupon appliedCoupons={cart.appliedCoupons} />

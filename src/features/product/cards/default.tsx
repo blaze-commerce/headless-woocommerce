@@ -46,6 +46,9 @@ const CardItemsLeftBadge = dynamic(() =>
     (mod) => mod.CardItemsLeftBadge
   )
 );
+const CardOutOfStock = dynamic(() =>
+  import('@src/features/product/card-elements/out-of-stock').then((mod) => mod.CardOutOfStock)
+);
 
 const CardWishlishButton = dynamic(() =>
   import('@src/features/product/card-elements/wishlist-button').then(
@@ -139,6 +142,7 @@ export const DefaultProductCard = (props: Props) => {
           'is-composite': product.isComposite,
           'is-bundle': product.hasBundle,
           'is-gift-card': product.isGiftCard,
+          'is-out-of-stock': product.isOutOfStock,
         },
         classNames
       )}
@@ -147,21 +151,13 @@ export const DefaultProductCard = (props: Props) => {
       }}
     >
       <div className="product-header">
-        {product.hasVariations && (
-          <CardSlideshow
-            product={parsedProduct}
-            gliderRef={gliderRef}
-          />
-        )}
-        {!product.hasVariations && (
-          <CardImage
-            product={parsedProduct}
-            imageClassNames={props.imageClassNames}
-            productFilters={props.productFilters}
-            productColumns={props.productColumns}
-            showWishlistButton={showWishlistButton}
-          />
-        )}
+        <CardImage
+          product={parsedProduct}
+          imageClassNames={props.imageClassNames}
+          productFilters={props.productFilters}
+          productColumns={props.productColumns}
+          showWishlistButton={showWishlistButton}
+        />
         <div className="product-badges">
           {isOnSale && (
             <CardSaleBadge
@@ -186,6 +182,8 @@ export const DefaultProductCard = (props: Props) => {
             hasItemsLeftBadge={true}
           />
         )}
+
+        {product.isOutOfStock && <CardOutOfStock />}
       </div>
       <CardDiscountLabel
         showLabel={props.showDiscountLabel as boolean}
@@ -226,7 +224,7 @@ export const DefaultProductCard = (props: Props) => {
         />
         {/* {renderAvailableOptions()} */}
       </div>
-      <div className="relative mt-auto z-[8]">
+      <div className="add-to-cart-container">
         <CardAddToCart
           product={parsedProduct}
           hasAddToCart={hasAddToCart}
