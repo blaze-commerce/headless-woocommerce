@@ -150,6 +150,7 @@ export const Filter: React.FC<Props> = (props) => {
                 <ResultCount
                   pageNo={pageNo}
                   productCount={productCount}
+                  handleFilterByClicked={handleFilterByClicked}
                 />
                 <SortByButton
                   setSortByOpen={setSortByOpen}
@@ -236,6 +237,7 @@ export const Filter: React.FC<Props> = (props) => {
               <ResultCount
                 pageNo={pageNo}
                 productCount={productCount}
+                handleFilterByClicked={handleFilterByClicked}
               />
             )}
             <div className="active-filters">

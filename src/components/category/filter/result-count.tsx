@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
-
+import { FilterV2Icon } from '@src/components/svg/filter-v2';
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Settings } from '@src/models/settings';
@@ -8,6 +8,7 @@ import { Settings } from '@src/models/settings';
 type Props = {
   productCount: number;
   pageNo: number;
+  handleFilterByClicked: () => void;
 };
 
 export const ResultCount = (props: Props) => {
@@ -16,7 +17,7 @@ export const ResultCount = (props: Props) => {
   const { asPath } = useRouter();
   const pathIndex = asPath.split('/');
   const { shop } = settings as Settings;
-  const { productCount, pageNo } = props;
+  const { productCount, pageNo, handleFilterByClicked } = props;
 
   const [, , selectedPriceFilter] = taxonomyCtx.priceFilter;
   const [, , selectedBrandsFilter] = taxonomyCtx.brandsFilter;
@@ -49,12 +50,20 @@ export const ResultCount = (props: Props) => {
   return (
     <>
       {(pathIndex[1] !== 'brand' || isFilterSet || isSortByChanged) && (
-        <p
-          className="result-count"
-          style={resultCountStyle ? resultCountStyle : {}}
-        >
-          Items {loadedResult !== 0 && `1 - ${loadedResult} of ${productCount}`}
-        </p>
+        <>
+          <button
+            className="filter-button"
+            onClick={handleFilterByClicked}
+          >
+            Filter <FilterV2Icon />
+          </button>
+          <div
+            className="result-count"
+            style={resultCountStyle ? resultCountStyle : {}}
+          >
+            Items {loadedResult !== 0 && `1 - ${loadedResult} of ${productCount}`}
+          </div>
+        </>
       )}
     </>
   );

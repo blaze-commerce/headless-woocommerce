@@ -37,7 +37,7 @@
 }
 
 .product-archive-filter-mobile {
-  @apply flex flex-col gap-4 xl:hidden px-4 mb-4;
+  @apply flex flex-col gap-4 lg:hidden px-4 mb-4;
 }
 
 /** Product Archive Mobile Filter & Sort  **/
@@ -113,7 +113,7 @@
 }
 
 .product-archive-filter .filter-widget .filter-widget-content .fieldset .option input {
-  @apply h-4 w-4 border-gray-300 focus:ring-brand-primary rounded;
+  @apply h-4 w-4 mt-1 border-gray-300 focus:ring-brand-primary rounded;
 }
 
 .product-archive-filter .filter-widget .filter-widget-content .fieldset .option input.hasProduct {
@@ -144,8 +144,12 @@
   @apply hidden md:flex;
 }
 
+.product-archive-display .product-filter-and-sort .filter-button {
+  @apply xl:hidden flex items-center border justify-center h-10 gap-2 leading-6 text-sm font-bold rounded-lg px-4;
+}
+
 .product-archive-display .product-filter-and-sort .result-count {
-  @apply text-lg font-normal text-center leading-6 text-[#333];
+  @apply text-lg font-normal text-center leading-6 text-[#333] hidden xl:block;
 }
 
 .product-archive-display .product-filter-and-sort .button-sort-by {
