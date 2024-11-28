@@ -21,11 +21,11 @@ export const SimplePrice = ({ product, isTaxExclusive }: TSimplePrice) => {
   }
 
   if (isTaxExclusive) {
+    renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
+  } else {
     renderedResult.push(
       <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
     );
-  } else {
-    renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
   }
 
   return (
