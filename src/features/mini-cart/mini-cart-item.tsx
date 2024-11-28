@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const MiniCartItem = ({ cartItem }: Props) => {
-  const { setCartUpdating, fetchCart, currentCurrency } = useSiteContext();
+  const { setCartUpdating, fetchCart, currentCurrency, settings } = useSiteContext();
   const [currentQuantity, setCurrentQuantity] = useState<number>();
 
   const [
@@ -133,6 +133,8 @@ export const MiniCartItem = ({ cartItem }: Props) => {
       </div>
     );
   };
+
+  const priceDisplay = settings?.isTaxExclusive ? cartItem.subTotal : cartItem.total;
   return (
     <>
       <div
@@ -193,7 +195,7 @@ export const MiniCartItem = ({ cartItem }: Props) => {
             {!isCompositeChildren && (
               <span className="minicart-item-price font-bold text-black text-sm mb-2 block">
                 {getCurrencySymbol(currentCurrency)}
-                {removeCurrencySymbol(currentCurrency, `${cartItem.totalPrice}`)}
+                {removeCurrencySymbol(currentCurrency, `${priceDisplay}`)}
               </span>
             )}
             {!isCompositeChildren && (

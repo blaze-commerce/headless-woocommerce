@@ -31,6 +31,9 @@ export type ProductCartItem = {
   stockQuantity?: number;
   price: number;
   totalPrice: string;
+  total: string;
+  subTotal: string;
+  subTotalTax: string;
   sku: string;
   image: {
     sourceUrl: string;
@@ -130,6 +133,9 @@ export const getFormattedCart = (data: any): FormattedCart => {
       qty: givenProducts?.[i]?.quantity,
       price,
       totalPrice: givenProducts?.[i]?.total ?? '',
+      total: givenProducts?.[i]?.total ?? '',
+      subTotal: givenProducts?.[i]?.subtotal ?? '',
+      subTotalTax: givenProducts?.[i]?.subtotalTax ?? '',
       image: {
         sourceUrl: givenProduct?.image?.sourceUrl ?? '',
         srcSet: givenProduct?.image?.srcSet ?? '',
