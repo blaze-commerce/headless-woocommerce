@@ -236,11 +236,10 @@ export class Product {
     const availableAttributes: Attributes = [];
     if (this.variations) {
       const variationAttributes = this.variations.reduce((accumulator, variation) => {
-        if ('instock' === variation.stockStatus || 'yes' === variation.backorder) {
+        if (variation.purchasable) {
           const attributes = JSON.parse(JSON.stringify(variation.attributes));
           accumulator.push(attributes);
         }
-
         return accumulator;
       }, [] as Variation['attributes'][]);
 
