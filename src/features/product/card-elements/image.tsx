@@ -111,30 +111,31 @@ export const CardImage = (props: ICardImage) => {
       )}
       style={{ width: imageMaxWidth !== 0 && !imgError ? `${imageMaxWidth}px` : '100%' }}
     >
-      <figure>
-        {typeof secondaryImage !== 'undefined' &&
-          !imgHoverError &&
-          renderHoverImage({
-            mainImage,
-            secondaryImage,
-            productFilters,
-            productColumns,
-            imgError,
-            setImgHoverError,
-          })}
-        {imgError ? (
-          renderEmptyImagePlaceholder({
-            mainImage,
-            productFilters,
-            productColumns,
-            imgError,
-            imgHoverError,
-          })
-        ) : (
-          <RawLink
-            href={productLink}
-            title={product.name}
-          >
+      <RawLink
+        href={productLink}
+        title={product.name}
+        className="jvl-test"
+      >
+        <figure>
+          {typeof secondaryImage !== 'undefined' &&
+            !imgHoverError &&
+            renderHoverImage({
+              mainImage,
+              secondaryImage,
+              productFilters,
+              productColumns,
+              imgError,
+              setImgHoverError,
+            })}
+          {imgError ? (
+            renderEmptyImagePlaceholder({
+              mainImage,
+              productFilters,
+              productColumns,
+              imgError,
+              imgHoverError,
+            })
+          ) : (
             <Image
               src={mainImage.src}
               alt={mainImage.altText as string}
@@ -159,9 +160,9 @@ export const CardImage = (props: ICardImage) => {
                 setImgError(true);
               }}
             />
-          </RawLink>
-        )}
-      </figure>
+          )}
+        </figure>
+      </RawLink>
     </div>
   );
 };
