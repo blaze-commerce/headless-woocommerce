@@ -108,7 +108,7 @@
 }
 
 .single-product .product-dialogs {
-  @apply flex md:items-center justify-between border border-[#1d1da5] rounded-lg p-4 h-auto gap-4 text-sm leading-6;
+  @apply inline-flex md:items-center justify-between border border-[#1d1da5] rounded-lg p-4 h-auto gap-4 text-sm leading-6;
 }
 
 .single-product .product-dialogs.horizontal {

@@ -25,9 +25,9 @@ interface IProductGridProps {
 }
 
 export const ProductSlides = (props: IProductGridProps) => {
-  const { id, title, products, style } = props;
+  const { id, title, products } = props;
   const { settings } = useSiteContext();
-  const { layout, options } = settings?.shop as Shop;
+  const { layout } = settings?.shop as Shop;
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
   const [gliderPage, setGliderPage] = useState(1);
@@ -91,10 +91,10 @@ export const ProductSlides = (props: IProductGridProps) => {
               slidesToScroll={2}
               responsive={[
                 {
-                  breakpoint: 768,
+                  breakpoint: 1025,
                   settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
                   },
                 },
               ]}

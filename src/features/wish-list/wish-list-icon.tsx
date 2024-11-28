@@ -2,7 +2,7 @@ import { LuHeartOff } from 'react-icons/lu';
 import { v4 } from 'uuid';
 
 import { HeartIcon } from '@src/components/svg/heart';
-import { HeartFilledIcon } from '@src/components/svg/heart-filled';
+import { HeartFilledIconV2 } from '@src/components/svg/heart-filled-v2';
 import { useAddProductToWishListMutation } from '@src/lib/hooks';
 import * as Wishlist from './wish-list-schema';
 
@@ -22,7 +22,7 @@ export const WishListIcon: React.FC<Wishlist.Props> = (props) => {
           });
         }}
       >
-        <HeartFilledIcon />
+        <HeartFilledIconV2 />
       </button>
     );
   }
