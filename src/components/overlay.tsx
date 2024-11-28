@@ -69,7 +69,7 @@ export const Overlay: React.FC<Props> = ({
           leaveTo="-translate-x-full"
         >
           <div
-            className="mr-10 px-4 z-40 block h-full relative"
+            className="mr-10 px-4 max-w-[349px] block h-full relative"
             style={style}
           >
             <div

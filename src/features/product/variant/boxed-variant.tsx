@@ -18,21 +18,11 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
     variation: {
       image: [, setImageThumbnailAttribute],
     },
-    fields: {
-      required: [, setRequiredFields],
-      value: [, setFieldValue],
-    },
-    addToCartStatus: [, setDisableAddToCart],
   } = useProductContext();
   const { name, label, options } = attribute;
   const attributeImageSrc = product?.variantImageSrc;
 
   const [currentAttributeLabel, setCurrentAttributeLabel] = useState('');
-
-  useEffectOnce(() => {
-    setRequiredFields((prev) => uniq([...prev, name]));
-    setFieldValue((prev) => ({ ...prev, [name]: '' }));
-  });
 
   useEffect(() => {
     if (!isEmpty(attributeParams[name]) && !isEmpty(name)) {
@@ -54,7 +44,6 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
 
   const handleOnChange = (value: string, label: string) => {
     setCurrentAttributeLabel(label);
-    setDisableAddToCart(false);
     onAttributeSelect(name, value);
   };
 
