@@ -30,6 +30,7 @@ cart${currency ? `(currency: "${currency}")` : ''} {
             slug
             averageRating
             reviewCount
+            link
             image {
               id
               sourceUrl
@@ -148,6 +149,7 @@ cart${currency ? `(currency: "${currency}")` : ''} {
             type
             onSale
             slug
+            link
             averageRating
             reviewCount
             image {

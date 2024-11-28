@@ -147,20 +147,22 @@ export const MiniCartItem = ({ cartItem }: Props) => {
         {isCompositeChildren && renderComponentName()}
         {!isCompositeChildren && (
           <div className="h-[61px] w-[68px] flex-shrink-0 overflow-hidden border border-gray-200">
-            <Image
-              src={cartItem.image.sourceUrl}
-              alt={cartItem.image.altText}
-              width={68}
-              height={61}
-              className="h-full w-full object-cover object-center"
-            />
+            <a href={'/product/' + cartItem.slug}>
+              <Image
+                src={cartItem.image.sourceUrl}
+                alt={cartItem.image.altText}
+                width={68}
+                height={61}
+                className="h-full w-full object-cover object-center"
+              />
+            </a>
           </div>
         )}
 
         <div className=" flex flex-col flex-1 gap-2">
           <h3 className="leading-3">
             <a
-              href={'#'}
+              href={'/product/' + cartItem.slug}
               className={cn('text-sm font-medium', {
                 'text-black': !isCompositeChildren,
               })}

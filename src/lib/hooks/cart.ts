@@ -35,6 +35,8 @@ export type ProductCartItem = {
   subTotal: string;
   subTotalTax: string;
   sku: string;
+  slug?: string;
+  link?: string;
   image: {
     sourceUrl: string;
     srcSet: string;
@@ -90,6 +92,8 @@ export const getFormattedCart = (data: any): FormattedCart => {
 
   for (let i = 0; i < givenProducts.length; i++) {
     let givenProduct = givenProducts?.[i]?.product?.node;
+    const link = givenProduct?.link ?? '';
+    const slug = givenProduct?.slug ?? '';
     const productId = givenProduct?.productId ?? '';
     const sku = givenProduct?.sku ?? '';
     const cartKey = givenProducts?.[i]?.key ?? '';
@@ -140,6 +144,8 @@ export const getFormattedCart = (data: any): FormattedCart => {
       total: givenProducts?.[i]?.total ?? '',
       subTotal: givenProducts?.[i]?.subtotal ?? '',
       subTotalTax: givenProducts?.[i]?.subtotalTax ?? '',
+      slug,
+      link,
       image: {
         sourceUrl: givenProduct?.image?.sourceUrl ?? '',
         srcSet: givenProduct?.image?.srcSet ?? '',
