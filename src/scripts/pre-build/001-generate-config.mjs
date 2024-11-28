@@ -25,6 +25,7 @@ const configNames = [
   'footer_content_after',
   'woocommerce_calc_taxes',
   'woocommerce_prices_include_tax',
+  'woocommerce_tax_setup',
   'free_shipping_threshold',
   'description_after_content',
   'woographql_is_composite_enabled',
