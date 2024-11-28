@@ -31,6 +31,9 @@ export type ProductCartItem = {
   stockQuantity?: number;
   price: number;
   totalPrice: string;
+  total: string;
+  subTotal: string;
+  subTotalTax: string;
   sku: string;
   slug?: string;
   link?: string;
@@ -62,9 +65,13 @@ export type FormattedCart = {
   totalProductsPrice?: string;
   appliedCoupons?: CouponCode[];
   subtotal?: string;
+  subtotalTax?: string;
+  shippingTax?: string;
+  shippingTotal?: string;
   total?: string;
   totalTax?: string;
   feeTotal?: string;
+  feeTax?: string;
 };
 
 /**
@@ -134,6 +141,9 @@ export const getFormattedCart = (data: any): FormattedCart => {
       qty: givenProducts?.[i]?.quantity,
       price,
       totalPrice: givenProducts?.[i]?.total ?? '',
+      total: givenProducts?.[i]?.total ?? '',
+      subTotal: givenProducts?.[i]?.subtotal ?? '',
+      subTotalTax: givenProducts?.[i]?.subtotalTax ?? '',
       slug,
       link,
       image: {
@@ -161,12 +171,17 @@ export const getFormattedCart = (data: any): FormattedCart => {
 
   const total = parseFloat(data?.cart?.total ?? '') || 0;
   const totalTax = parseFloat(data?.cart?.totalTax ?? '') || 0;
+
   const shippingTotal = parseFloat(data?.cart?.shippingTotal ?? '') || 0;
+  const shippingTax = parseFloat(data?.cart?.shippingTax);
+
   const totalWithoutShipping = total - shippingTotal;
   const feeTotal = parseFloat(data?.cart?.feeTotal ?? '') || 0;
   const feeTax = parseFloat(data?.cart?.feeTax ?? '') || 0;
   const feeTotalWithTax = parseFloat((feeTotal + feeTax).toString() || '');
-  const subtotal = parseFloat(data?.cart?.subtotal) + parseFloat(data?.cart?.subtotalTax);
+
+  const subtotal = parseFloat(data?.cart?.subtotal ?? '') || 0;
+  const subtotalTax = parseFloat(data?.cart?.subtotalTax ?? '') || 0;
 
   const productsKeyByCartKey = keyBy(products, 'cartKey');
 
@@ -203,9 +218,16 @@ export const getFormattedCart = (data: any): FormattedCart => {
     totalProductsPrice: data?.cart?.total ?? '',
     appliedCoupons: data?.cart?.appliedCoupons ?? [],
     subtotal: subtotal.toString() ?? '',
-    total: totalWithoutShipping.toString() ?? '',
+    subtotalTax: subtotalTax.toString() ?? '',
+
+    shippingTax: shippingTax.toString() ?? '',
+    shippingTotal: shippingTotal.toString() ?? '',
+
+    total: total.toString() ?? '',
     totalTax: totalTax.toString() ?? '',
-    feeTotal: numberFormat(feeTotalWithTax) ?? '',
+
+    feeTotal: numberFormat(feeTotal) ?? '',
+    feeTax: numberFormat(feeTax) ?? '',
   };
 };
 

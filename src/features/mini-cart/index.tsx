@@ -71,6 +71,7 @@ export const MiniCart = () => {
     }
   }, [query?.cart, setOpen]);
 
+  const subtotalDisplay = settings?.isTaxExclusive ? cart.subtotal : cart.total;
   return (
     <Transition.Root
       show={open}
@@ -183,7 +184,7 @@ export const MiniCart = () => {
                           <p>Subtotal:</p>
                           <p className="subtotal">
                             {getCurrencySymbol(currentCurrency)}
-                            {numberFormat(parseFloat(cart.total || ''))}
+                            {numberFormat(parseFloat(subtotalDisplay || ''))}
                           </p>
                         </div>
                         {/* <div className="flex text-brand-primary justify-between text-lg font-bold">

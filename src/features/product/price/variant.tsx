@@ -1,6 +1,6 @@
 import { ReactElement, Fragment } from 'react';
 import { useSiteContext } from '@src/context/site-context';
-import { cn, formatPrice } from '@src/lib/helpers/helper';
+import { formatPrice } from '@src/lib/helpers/helper';
 import { Product } from '@src/models/product';
 
 type TVariablePrice = {
@@ -23,28 +23,28 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
       );
 
       if (isTaxExclusive) {
+        renderedResult.push(<span className="price">{formatPrice(salePrice, currency)}</span>);
+      } else {
         renderedResult.push(
           <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
         );
-      } else {
-        renderedResult.push(<span className="price">{formatPrice(salePrice, currency)}</span>);
       }
     } else {
-      let price = product.variantMinPrice;
+      let price = product.variantMinPriceWithTax;
       if (isTaxExclusive) {
-        price = product.variantMinPriceWithTax;
+        price = product.variantMinPrice;
       }
       renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
     }
 
     // variable product with different min and max price
   } else {
-    let minPrice = product.variantMinPrice;
-    let maxPrice = product.variantMaxPrice;
+    let minPrice = product.variantMinPriceWithTax;
+    let maxPrice = product.variantMaxPriceWithTax;
 
     if (isTaxExclusive) {
-      minPrice = product.variantMinPriceWithTax;
-      maxPrice = product.variantMaxPriceWithTax;
+      minPrice = product.variantMinPrice;
+      maxPrice = product.variantMaxPrice;
     }
 
     renderedResult.push(
