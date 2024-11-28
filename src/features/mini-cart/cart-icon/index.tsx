@@ -4,6 +4,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { Html } from '@src/components/blocks/core/html';
 import { ParsedBlock } from '@src/components/blocks';
+import { useIsClient } from 'usehooks-ts';
 
 type Props = {
   showText: boolean;
@@ -21,6 +22,7 @@ export const CartBasketIcon: React.FC<Props> = ({ showText, label, color, iconBl
     settings,
   } = useSiteContext();
   const { header } = settings as Settings;
+  const isClient = useIsClient();
   const totalProductsInCart = cart?.totalProductsCount || 0;
 
   const cartIcon = header?.layout?.cartIcon;
@@ -54,7 +56,7 @@ export const CartBasketIcon: React.FC<Props> = ({ showText, label, color, iconBl
       className="button-cart"
       onClick={handleMinicartOpen}
     >
-      {totalProductsInCart > 0 && (
+      {isClient && totalProductsInCart > 0 && (
         <span className="bg-[#fe3c3d] rounded-full w-4 h-4 text-center text-white text-[11px] absolute -top-1 -right-1">
           {totalProductsInCart}
         </span>
