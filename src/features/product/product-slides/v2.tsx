@@ -110,7 +110,7 @@ export const ProductSlides = (props: IProductGridProps) => {
                     showRating={true}
                     product={data as Product}
                     {...layout?.productCards}
-                    hasAddToCart={options.showAddToCartButton}
+                    hasAddToCart={false}
                     showWishlistButton={settings?.store?.wishlist?.enabled}
                     saleBadgeColor="#393939"
                     saleBadgeType={4}

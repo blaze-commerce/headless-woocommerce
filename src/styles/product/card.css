@@ -75,8 +75,12 @@
   @apply hidden;
 }
 
+.product-card .product-image-holder a {
+  @apply block w-full h-full;
+}
+
 .product-card .product-image-holder img {
-  @apply object-contain;
+  @apply object-contain object-center w-full h-full;
 }
 
 .product-card .product-variant-image-holder {
