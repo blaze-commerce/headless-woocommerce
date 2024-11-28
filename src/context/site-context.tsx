@@ -11,7 +11,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import resolveConfig from 'tailwindcss/resolveConfig';
+
 import { useLocalStorage, useUpdateEffect } from 'usehooks-ts';
 
 import regionSettings from '@public/region.json';
