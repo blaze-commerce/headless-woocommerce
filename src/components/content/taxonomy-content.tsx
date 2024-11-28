@@ -412,7 +412,6 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
               <ResultCount
                 pageNo={tsPaginationInfo.page}
                 productCount={tsPaginationInfo.totalFound}
-                handleFilterByClicked={() => setSlideOverSortByOpen(true)}
               />
             </div>
           )}

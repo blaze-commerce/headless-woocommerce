@@ -18,6 +18,7 @@ import { SortByButton } from '@src/components/category/filter/sort-by-button';
 import { MobileFilterSortButtons } from '@src/components/category/filter/mobile-filter-sort-buttons';
 import { MobileActiveFilters } from '@src/components/category/filter/mobile-active-filters';
 import { SidebarFilter } from '@src/components/category/filter/sidebar-filter';
+import { FilterToggleButton } from '@src/components/category/filter/filter-toggle';
 
 type Props = {
   pageNo: number;
@@ -147,10 +148,10 @@ export const Filter: React.FC<Props> = (props) => {
             </form>
             <div className="mt-4 lg:col-span-3">
               <div className="mb-4 w-full flex justify-between items-center">
+                <FilterToggleButton handleFilterByClicked={handleFilterByClicked} />
                 <ResultCount
                   pageNo={pageNo}
                   productCount={productCount}
-                  handleFilterByClicked={handleFilterByClicked}
                 />
                 <SortByButton
                   setSortByOpen={setSortByOpen}
@@ -234,11 +235,13 @@ export const Filter: React.FC<Props> = (props) => {
         <div className="product-archive-display">
           <div className="product-filter-and-sort">
             {layout?.productFilters === '2' && (
-              <ResultCount
-                pageNo={pageNo}
-                productCount={productCount}
-                handleFilterByClicked={handleFilterByClicked}
-              />
+              <>
+                <FilterToggleButton handleFilterByClicked={handleFilterByClicked} />
+                <ResultCount
+                  pageNo={pageNo}
+                  productCount={productCount}
+                />
+              </>
             )}
             <div className="active-filters">
               <ActiveFilters {...layout?.activeFilters} />
