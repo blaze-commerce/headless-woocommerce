@@ -33,11 +33,11 @@
 }
 
 .product-archive-container {
-  @apply grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-[268px_1fr] px-4;
+  @apply grid grid-cols-1 gap-x-8 gap-y-10 xl:grid-cols-[268px_1fr] px-4;
 }
 
 .product-archive-filter-mobile {
-  @apply flex flex-col gap-4 md:hidden px-4 mb-4;
+  @apply flex flex-col gap-4 xl:hidden px-4 mb-4;
 }
 
 /** Product Archive Mobile Filter & Sort  **/
@@ -65,7 +65,7 @@
 }
 
 .product-archive-filter-desktop {
-  @apply hidden md:block;
+  @apply hidden xl:block;
 }
 
 .product-archive-filter .filter-main-title {

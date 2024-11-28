@@ -375,39 +375,35 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
           onSortChange={onSortChange}
         >
           {productsData.length > 0 ? (
-            <Fragment>
-              <div className="mx-0">
-                <ProductGrid productColumns={productColumns}>
-                  {transformProductsForDisplay(productsData).map((product, index: number) => (
-                    <>
-                      <ProductCard
-                        key={index}
-                        product={product}
-                        productFilters={productFilters}
-                        productColumns={productColumns}
-                        showRating={true}
-                        {...layout?.productCards}
-                        showWishlistButton={true}
-                        saleBadgeColor="#393939"
-                        saleBadgeType={4}
-                        showCategory={true}
-                        hasAddToCart={false}
-                      />
-                    </>
-                  ))}
-                </ProductGrid>
-              </div>
+            <>
+              <ProductGrid productColumns={productColumns}>
+                {transformProductsForDisplay(productsData).map((product, index: number) => (
+                  <>
+                    <ProductCard
+                      key={index}
+                      product={product}
+                      productFilters={productFilters}
+                      productColumns={productColumns}
+                      showRating={true}
+                      {...layout?.productCards}
+                      showWishlistButton={true}
+                      saleBadgeColor="#393939"
+                      saleBadgeType={4}
+                      showCategory={true}
+                      hasAddToCart={false}
+                    />
+                  </>
+                ))}
+              </ProductGrid>
               {loading && (
-                <div className="mx-0">
-                  <SkeletonCategory
-                    productColumns={productColumns}
-                    productCount={layout?.productCount}
-                  />
-                </div>
+                <SkeletonCategory
+                  productColumns={productColumns}
+                  productCount={layout?.productCount}
+                />
               )}
 
               {shoulShowLoadMore && !loading && <LoadMoreButton loadMoreItems={loadMoreItems} />}
-            </Fragment>
+            </>
           ) : (
             <p>No products found</p>
           )}

@@ -32,6 +32,8 @@ export type ProductCartItem = {
   price: number;
   totalPrice: string;
   sku: string;
+  slug?: string;
+  link?: string;
   image: {
     sourceUrl: string;
     srcSet: string;
@@ -83,6 +85,8 @@ export const getFormattedCart = (data: any): FormattedCart => {
 
   for (let i = 0; i < givenProducts.length; i++) {
     let givenProduct = givenProducts?.[i]?.product?.node;
+    const link = givenProduct?.link ?? '';
+    const slug = givenProduct?.slug ?? '';
     const productId = givenProduct?.productId ?? '';
     const sku = givenProduct?.sku ?? '';
     const cartKey = givenProducts?.[i]?.key ?? '';
@@ -130,6 +134,8 @@ export const getFormattedCart = (data: any): FormattedCart => {
       qty: givenProducts?.[i]?.quantity,
       price,
       totalPrice: givenProducts?.[i]?.total ?? '',
+      slug,
+      link,
       image: {
         sourceUrl: givenProduct?.image?.sourceUrl ?? '',
         srcSet: givenProduct?.image?.srcSet ?? '',

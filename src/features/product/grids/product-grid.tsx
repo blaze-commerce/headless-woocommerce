@@ -18,15 +18,16 @@ export const ProductGrid = ({ children, className, productColumns }: Props) => {
   const gridStyle = {
     columnGap: `${shop?.layout?.productCards?.cardPadding}`,
   };
+
   return (
     <div
       className={cn(
-        'grid grid-cols-2 md:grid-cols-3',
+        'cinta grid grid-cols-2 lg:grid-cols-3',
         settings?.productCardGapClasses,
         {
           'md:grid-cols-2': productColumns === '2',
           'lg:grid-cols-3': productColumns === '3',
-          'lg:grid-cols-4': productColumns === '4',
+          'xl:grid-cols-4': productColumns === '4',
           'gap-y-7': productColumns === '5',
           'gap-y-8': productColumnGaps,
         },

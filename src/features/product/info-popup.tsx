@@ -33,7 +33,7 @@ export const ProductInfoPopup = ({ attributes }: { attributes: ShortcodeAttribut
       </button>
       <Dialog
         as="div"
-        className="product-popup-holder"
+        className="product-popup-holder bg-[rgba(0,0,0,0.5)]"
         open={isOpen}
         onClose={setIsOpen}
       >

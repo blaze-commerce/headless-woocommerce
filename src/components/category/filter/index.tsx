@@ -160,7 +160,7 @@ export const Filter: React.FC<Props> = (props) => {
             </div>
           </div>
         ) : (
-          <div className="product-grid">{props.children}</div>
+          <div className="product-grid-container">{props.children}</div>
         )}
       </>
     );

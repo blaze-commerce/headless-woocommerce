@@ -5,6 +5,10 @@
 @import 'product/ni-variation-table.css';
 @import 'product/tabs.css';
 
+.single-product > .core-group > .core-columns {
+  @apply flex flex-col xl:flex-row;
+}
+
 /** Default style for single product page */
 .single-product .product-rating {
   @apply mt-2;
@@ -117,10 +121,6 @@
 
 .single-product .product-dialogs a {
   @apply cursor-pointer font-normal leading-none text-brand-font flex gap-2 align-middle;
-}
-
-.single-product .product-dialogs a:last-of-type {
-  @apply hidden;
 }
 
 .single-product .product-dialogs svg {
