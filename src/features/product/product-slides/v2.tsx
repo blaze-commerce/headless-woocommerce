@@ -93,6 +93,13 @@ export const ProductSlides = (props: IProductGridProps) => {
                 {
                   breakpoint: 1025,
                   settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                  },
+                },
+                {
+                  breakpoint: 768,
+                  settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
                   },

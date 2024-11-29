@@ -18,10 +18,6 @@ import { cn } from '@src/lib/helpers/helper';
 import type { ProductCards } from '@src/models/settings/shop';
 import { GliderMethods } from 'react-glider/dist/types';
 
-const CardSlideshow = dynamic(() =>
-  import('@src/features/product/card-elements/slideshow').then((mod) => mod.CardSlideshow)
-);
-
 const CardGalleryThumbnail = dynamic(() =>
   import('@src/features/product/card-elements/slideshow-thumbnail').then(
     (mod) => mod.CardGalleryThumbnail
