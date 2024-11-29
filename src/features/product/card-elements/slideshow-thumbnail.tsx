@@ -17,6 +17,11 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
   const [displayedImages, setDisplayedImages] = useState<ImageType[]>([]);
   const [displayMore, setDisplayMore] = useState(false);
 
+  const availableAttributes = product?.getAvailableAttributes();
+  const imageAttribute = availableAttributes.find((attribute) => attribute.type === 'image');
+
+  console.log({ availableAttributes });
+
   useEffect(() => {
     if (product?.galleryImages && product.galleryImages.length > 4) {
       setDisplayMore(true);
@@ -33,7 +38,11 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
     }
   }, [displayMore, product.galleryImages]);
 
-  if (!product?.galleryImages || product.galleryImages.length <= 1) return null;
+  if (!availableAttributes?.length) return null;
+
+  // find in availableAttributes if there is an attribute with type image
+
+  if (!imageAttribute) return null;
 
   return (
     <div className={cn('product-variants', `justify-${detailsAlignment}`)}>
@@ -63,7 +72,7 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
           className="product-images-more"
           onClick={() => setDisplayMore(false)}
         >
-          +{product.galleryImages.length - 4}
+          +{5 - 4}
         </span>
       )}
     </div>

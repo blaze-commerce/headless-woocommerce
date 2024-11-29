@@ -28,7 +28,7 @@
 }
 
 .product-card .product-header .wishlist-button-holder svg:hover {
-  @apply fill-brand-primary stroke-brand-primary;
+  @apply fill-[#1d1da5] stroke-[#1d1da5];
 }
 
 .product-card.has-border {
@@ -77,6 +77,10 @@
 
 .product-card .product-image-holder a {
   @apply block w-full h-full;
+}
+
+.product-card .product-image-holder a figure {
+  @apply w-full h-full;
 }
 
 .product-card .product-image-holder img {
