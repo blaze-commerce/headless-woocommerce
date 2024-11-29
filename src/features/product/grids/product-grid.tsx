@@ -22,17 +22,14 @@ export const ProductGrid = ({ children, className, productColumns }: Props) => {
   return (
     <div
       className={cn(
-        'cinta grid grid-cols-2 lg:grid-cols-3',
-        settings?.productCardGapClasses,
+        'product-grid',
         {
-          'md:grid-cols-2': productColumns === '2',
-          'lg:grid-cols-3': productColumns === '3',
-          'xl:grid-cols-4': productColumns === '4',
-          'gap-y-7': productColumns === '5',
-          'gap-y-8': productColumnGaps,
+          'column-2': productColumns === '2',
+          'column-3': productColumns === '3',
+          'column-4': productColumns === '4',
+          'column-5': productColumns === '5',
         },
-        className,
-        'gap-x-6'
+        className
       )}
       style={!isEmpty(gridStyle) ? gridStyle : {}}
     >
