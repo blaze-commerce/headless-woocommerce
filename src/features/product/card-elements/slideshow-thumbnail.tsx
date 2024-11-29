@@ -20,8 +20,6 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
   const availableAttributes = product?.getAvailableAttributes();
   const imageAttribute = availableAttributes.find((attribute) => attribute.type === 'image');
 
-  console.log({ availableAttributes });
-
   useEffect(() => {
     if (product?.galleryImages && product.galleryImages.length > 4) {
       setDisplayMore(true);

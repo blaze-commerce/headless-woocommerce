@@ -5,6 +5,7 @@
 @import 'theme-variables.css';
 @import 'product.css';
 @import 'product-archive.css';
+@import 'product-grid.css';
 @import 'wishlist.css';
 
 html {
