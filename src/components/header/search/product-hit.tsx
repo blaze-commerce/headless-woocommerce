@@ -102,15 +102,12 @@ export const ProductHit = ({ hit }: any) => {
               </>
             ) : (
               <>
-                {settings?.isTaxExclusive ? (
-                  <span className="text-[#333333] text-sm font-bold  leading-none">
-                    {formatPrice(hit.metaData?.priceWithTax, currentCurrency)}
-                  </span>
-                ) : (
-                  <span className="text-[#333333] text-sm font-bold  leading-none">
-                    {formatPrice(hit.price, currentCurrency)}
-                  </span>
-                )}
+                <span className="text-[#333333] text-sm font-bold  leading-none">
+                  {formatPrice(
+                    settings?.isTaxExclusive ? hit.price : hit.metaData?.priceWithTax,
+                    currentCurrency
+                  )}
+                </span>
               </>
             )}
 
