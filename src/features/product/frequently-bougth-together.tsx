@@ -1,13 +1,11 @@
 import { isEmpty } from 'lodash';
 import { useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import Link from 'next/link';
 import Glider from 'react-glider';
 
 import { DefaultProductCard as ProductCard } from '@src/features/product/cards/default';
 import { ArrowRoundLeft } from '@components/svg/arrow-round-left';
 import { ArrowRoundRight } from '@components/svg/arrow-round-right';
-import { ArrowRight } from '@src/components/svg/arrow-right';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { Product } from '@src/models/product';
