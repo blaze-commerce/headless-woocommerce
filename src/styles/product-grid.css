@@ -3,9 +3,9 @@
 }
 
 .product-grid.column-4 {
-  @apply 2xl:grid-cols-4;
+  @apply xl:grid-cols-4;
 }
 
 .produt-grid.column-5 {
-  @apply 2xl:grid-cols-5;
+  @apply xl:grid-cols-5;
 }
