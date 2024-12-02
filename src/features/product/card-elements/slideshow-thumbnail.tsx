@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { Image as ImageType } from '@models/product/types';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { Product } from '@src/models/product';
 import { cn } from '@src/lib/helpers/helper';
 import { v4 } from 'uuid';
@@ -8,69 +7,54 @@ import { v4 } from 'uuid';
 type ICardGalleryThumbnail = {
   product: Product;
   detailsAlignment: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  gliderRef: React.RefObject<any>;
+  setShowImageVariant: Dispatch<SetStateAction<string>>;
 };
 
 export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => {
-  const { product, detailsAlignment = 'left', gliderRef } = props;
-  const [displayedImages, setDisplayedImages] = useState<ImageType[]>([]);
-  const [displayMore, setDisplayMore] = useState(false);
-
-  const availableAttributes = product?.getAvailableAttributes();
-  const imageAttribute = availableAttributes.find((attribute) => attribute.type === 'image');
+  const { product, detailsAlignment = 'left', setShowImageVariant } = props;
+  const [displayMore, setDisplayMore] = useState(true);
+  const images = product?.variableImages;
 
   useEffect(() => {
-    if (product?.galleryImages && product.galleryImages.length > 4) {
-      setDisplayMore(true);
+    if (images && Object.keys(images).length <= 4) {
+      setDisplayMore(false);
     }
+  }, [images]);
 
-    setDisplayedImages(product?.galleryImages ?? []);
-  }, [product]);
-
-  useEffect(() => {
-    if (displayMore) {
-      setDisplayedImages(product?.galleryImages ? product.galleryImages.slice(0, 4) : []);
-    } else {
-      setDisplayedImages(product?.galleryImages ?? []);
-    }
-  }, [displayMore, product.galleryImages]);
-
-  if (!availableAttributes?.length) return null;
-
-  // find in availableAttributes if there is an attribute with type image
-
-  if (!imageAttribute) return null;
+  if (!images || Object.keys(images).length <= 1) return null;
 
   return (
-    <div className={cn('product-variants', `justify-${detailsAlignment}`)}>
-      {displayedImages.map(
-        (image, key) =>
-          image?.src && (
-            <button
-              key={`product-image-${image.id}-${key}`}
-              type="button"
-              onClick={() => {
-                gliderRef?.current?.scrollItem(key);
-              }}
-            >
-              <Image
-                src={image?.src}
-                alt={String(image?.altText)}
-                title={image?.title}
-                width={34}
-                height={34}
-                className="product-image-image"
-              />
-            </button>
-          )
-      )}
+    <div
+      className={cn('product-variants', `justify-${detailsAlignment}`, {
+        'display-more': displayMore,
+        'hide-more': !displayMore,
+      })}
+    >
+      {Object.keys(images).map((key) => {
+        const image = images[key];
+        return (
+          <button
+            key={`product-button-image-${image.id}-${key}`}
+            type="button"
+            onClick={() => setShowImageVariant(key)}
+          >
+            <Image
+              src={image?.src}
+              alt={String(image?.altText)}
+              title={image?.title}
+              width={34}
+              height={34}
+              className="product-image-image"
+            />
+          </button>
+        );
+      })}
       {displayMore && (
         <span
           className="product-images-more"
           onClick={() => setDisplayMore(false)}
         >
-          +{5 - 4}
+          +{Object.keys(images).length - 4}
         </span>
       )}
     </div>

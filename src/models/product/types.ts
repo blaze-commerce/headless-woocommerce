@@ -59,6 +59,10 @@ export type Attribute = {
   type?: string;
 };
 
+export type ImageAttributes = {
+  [key: string]: Image;
+};
+
 export type Attributes = Attribute[];
 
 export type Variation = {

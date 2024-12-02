@@ -266,7 +266,7 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     max_facet_values: 200,
     sort_by: `stockStatus:asc,${queryVars.sortBy}`, // Default sortby totalSales desc
     include_fields:
-      'permalink,thumbnail,name,onSale,stockStatus,regularPrice,price,sku,salePrice,galleryImages,createdAt,stockQuantity,productType,id,judgemeReviews,publishedAt,daysPassed,yotpoReviews,variations,metaData,taxonomies',
+      'permalink,attributes,thumbnail,name,onSale,stockStatus,regularPrice,price,sku,salePrice,galleryImages,createdAt,stockQuantity,productType,id,judgemeReviews,publishedAt,daysPassed,yotpoReviews,variations,metaData,taxonomies',
   };
 
   const hasRefinedSelection = !isEmpty(filterByRefinedSelection);
