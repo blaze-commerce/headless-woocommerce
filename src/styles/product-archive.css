@@ -33,11 +33,11 @@
 }
 
 .product-archive-container {
-  @apply grid grid-cols-1 gap-x-8 gap-y-10 2xl:grid-cols-[268px_1fr] px-4;
+  @apply grid grid-cols-1 gap-x-8 gap-y-10 xl:grid-cols-[268px_1fr] px-4;
 }
 
 .product-archive-filter-mobile {
-  @apply flex flex-col gap-4 xl:hidden px-4 mb-4;
+  @apply flex flex-col gap-4 lg:hidden px-4 mb-4;
 }
 
 /** Product Archive Mobile Filter & Sort  **/
@@ -65,7 +65,7 @@
 }
 
 .product-archive-filter-desktop {
-  @apply hidden 2xl:block;
+  @apply hidden xl:block;
 }
 
 .product-archive-filter .filter-main-title {
@@ -145,11 +145,11 @@
 }
 
 .product-archive-display .product-filter-and-sort .filter-button {
-  @apply hidden lg:flex 2xl:hidden  items-center border justify-center h-10 gap-2 leading-6 text-sm font-bold rounded-lg px-4;
+  @apply hidden lg:flex xl:hidden  items-center border justify-center h-10 gap-2 leading-6 text-sm font-bold rounded-lg px-4;
 }
 
 .product-archive-display .product-filter-and-sort .result-count {
-  @apply text-lg font-normal text-center leading-6 text-[#333] hidden 2xl:block;
+  @apply text-lg font-normal text-center leading-6 text-[#333] hidden xl:block;
 }
 
 .product-archive-display .product-filter-and-sort .button-sort-by {
