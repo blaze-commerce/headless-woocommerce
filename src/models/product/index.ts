@@ -3,8 +3,10 @@ import sanitizeHtml from 'sanitize-html';
 
 import { Reviews, Stats } from '@models/product/reviews';
 import type {
+  Attribute,
   Attributes,
   Image,
+  ImageAttributes,
   ProductMetaData,
   ProductPrice,
   ProductStocStatuses,
@@ -28,6 +30,7 @@ import {
 import { PRODUCT_TYPES } from '@src/lib/constants/product';
 import { Store as TStoreSetting } from '@src/models/settings/store';
 import { htmlParser } from '@src/lib/block/react-html-parser';
+import { isImage } from '@src/lib/helpers/helper';
 
 export type ProductBackorderStatus = 'yes' | 'no' | 'notify';
 
@@ -603,5 +606,73 @@ export class Product {
     }
 
     return false;
+  }
+
+  get variableImages(): null | ImageAttributes {
+    if (this.productType !== 'variable') return null;
+
+    if (!this?.variations || this?.variations?.length === 0) return null;
+
+    const imageAttribute =
+      this.getAvailableAttributes().find((attribute) => attribute.type === 'image') || null;
+
+    if (!imageAttribute) return null;
+
+    const attr = imageAttribute as Attribute;
+    const slug = attr.slug;
+
+    const images: ImageAttributes = {};
+
+    this.variations.forEach((variation) => {
+      if (variation.attributes) {
+        const key = String(
+          (variation.attributes as { [key: string]: string })[`attribute_${slug}`]
+        );
+        if (!images[key] && variation.thumbnail) {
+          images[key] = variation.thumbnail;
+        }
+      }
+    });
+
+    return images;
+  }
+
+  hasVariableImages(): boolean {
+    if (!this.variableImages) return false;
+
+    return Object.keys(this.variableImages).length > 1;
+  }
+
+  get mainImage(): Image {
+    if (this.productType !== 'variable') {
+      return this.thumbnail as Image;
+    }
+
+    const imageVariants = this.variableImages;
+
+    if (!imageVariants) {
+      return this.thumbnail as Image;
+    }
+
+    const keys = Object.keys(imageVariants);
+
+    if (keys.length === 0) {
+      return this.thumbnail as Image;
+    }
+
+    return imageVariants[keys[0]] as Image;
+  }
+
+  get secondaryImage(): Image | undefined {
+    if (this.productType !== 'variable') {
+      const mainImage = this.mainImage;
+      const galleryImages = this.galleryImages;
+
+      if (typeof galleryImages === 'undefined' || isEmpty(galleryImages[0])) {
+        return undefined;
+      }
+
+      return isImage(galleryImages, mainImage?.src);
+    }
   }
 }

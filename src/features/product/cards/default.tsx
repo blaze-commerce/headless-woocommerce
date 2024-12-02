@@ -1,6 +1,6 @@
 import { find } from 'lodash';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { useEffectOnce, useIntersectionObserver } from 'usehooks-ts';
 
@@ -89,6 +89,7 @@ export const DefaultProductCard = (props: Props) => {
 
   const productLink = seoUrlParser(product?.permalink || '');
   const { currentCurrency, settings, currentCountry } = useSiteContext();
+  const [showImageVariant, setShowImageVariant] = useState<string>('');
   // const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -140,7 +141,8 @@ export const DefaultProductCard = (props: Props) => {
           'is-gift-card': product.isGiftCard,
           'is-out-of-stock': product.isOutOfStock,
         },
-        classNames
+        classNames,
+        `product-${product.id}`
       )}
       style={{
         padding: `${props?.imagePadding}px`,
@@ -153,6 +155,7 @@ export const DefaultProductCard = (props: Props) => {
           productFilters={props.productFilters}
           productColumns={props.productColumns}
           showWishlistButton={showWishlistButton}
+          showImageVariant={showImageVariant}
         />
         <div className="product-badges">
           {isOnSale && (
@@ -205,7 +208,7 @@ export const DefaultProductCard = (props: Props) => {
           <CardGalleryThumbnail
             product={product}
             detailsAlignment={detailsAlignment}
-            gliderRef={gliderRef}
+            setShowImageVariant={setShowImageVariant}
           />
         )}
 
