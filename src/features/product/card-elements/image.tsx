@@ -132,11 +132,11 @@ const renderBasicImage = (props: any) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderVariableImages = (props: any) => {
   const { product, setImgError, showImageVariant } = props;
   const firstKey = Object.keys(product.variableImages)[0];
 
-  console.log({ firstKey });
   return (
     <>
       {Object.keys(product.variableImages).map((key) => {
@@ -154,7 +154,7 @@ const renderVariableImages = (props: any) => {
                 'opacity-0': showImageVariant !== '' || showImageVariant !== key,
                 'opacity-100 ease-linear duration-300': showImageVariant === key,
                 // set opacity 100 for the first iamge if showImageVariant is empty
-                '!opacity-100': showImageVariant === '' && key === firstKey,
+                'opacity-100': showImageVariant === '' && key === firstKey,
               },
               `key-${key}`
             )}

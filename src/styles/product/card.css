@@ -104,7 +104,7 @@
 }
 
 .product-card .product-image-holder .product-image {
-  @apply absolute opacity-100;
+  @apply absolute;
 }
 
 .product-card .product-image-holder:hover .product-image.has-hover-image {
