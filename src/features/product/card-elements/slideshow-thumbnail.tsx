@@ -44,6 +44,7 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
               title={image?.title}
               width={34}
               height={34}
+              priority={true}
               className="product-image-image"
             />
           </button>
