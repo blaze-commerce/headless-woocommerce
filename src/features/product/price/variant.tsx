@@ -12,6 +12,10 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
   const { currentCurrency: currency } = useSiteContext();
   const { regularPrice, salePrice } = product;
   const isOnSale = product.onSale && (product.salePrice?.[currency] as number) > 0;
+  // Product or currency is undefined. Ensure both are properly provided.
+  if (!product || !currency) {
+    return null;
+  }
 
   if (!product.hasSameMinMaxPrice(currency)) {
     const minPrice = isTaxExclusive ? product.variantMinPrice : product.variantMinPriceWithTax;
