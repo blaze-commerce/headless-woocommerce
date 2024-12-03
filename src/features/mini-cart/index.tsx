@@ -71,7 +71,11 @@ export const MiniCart = () => {
     }
   }, [query?.cart, setOpen]);
 
-  const subtotalDisplay = settings?.isTaxExclusive ? cart.subtotal : cart.total;
+  // const subtotalDisplay = settings?.isTaxExclusive ? cart.subtotal : cart.total;
+  const subtotalDisplay =
+    parseFloat(cart?.total || '') -
+    parseFloat(cart?.shippingTotal || '') -
+    parseFloat(cart?.totalTax || '');
   return (
     <Transition.Root
       show={open}
