@@ -107,12 +107,16 @@
   @apply absolute;
 }
 
-.product-card .product-image-holder:hover .product-image.has-hover-image {
-  @apply opacity-0 transition ease-linear duration-300;
+.product-card .product-image-holder .product-image.is-hover-image {
+  @apply opacity-0;
 }
 
-.product-card .product-image-hoder:hover .product-image.is-hover-image {
-  @apply opacity-100 transition ease-linear duration-300;
+.product-card .product-image-holder:hover .product-image.has-hover-image {
+  @apply !opacity-0 transition ease-linear duration-300;
+}
+
+.product-card .product-image-holder:hover .product-image.is-hover-image {
+  @apply !opacity-100 transition ease-linear duration-300;
 }
 
 .product-card .product-variants {
