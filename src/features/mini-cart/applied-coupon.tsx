@@ -39,7 +39,8 @@ export const AppliedCoupon: React.FC<Props> = ({ appliedCoupons }: Props) => {
   if (!appliedCoupons || appliedCoupons.length === 0) return null;
 
   const getAppliedCouponAmount = ({ discountAmount, discountTax }: CouponCode) => {
-    const combinedCouponTotal = parseFloat(discountAmount || '') + parseFloat(discountTax || '');
+    // const combinedCouponTotal = parseFloat(discountAmount || '') + parseFloat(discountTax || '');
+    const combinedCouponTotal = parseFloat(discountAmount);
     return numberFormat(combinedCouponTotal);
   };
 
