@@ -48,7 +48,7 @@
 }
 
 .product-card .product-card-label {
-  @apply flex flex-col justify-center font-medium gap-2 mt-2;
+  @apply flex flex-col justify-center font-medium gap-2;
 }
 
 .product-card .product-card-label .product-title {

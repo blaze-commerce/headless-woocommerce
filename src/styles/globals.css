@@ -785,3 +785,19 @@ button.button-cart {
 .loading-placeholder {
   @apply animate-pulse bg-gray-300 rounded-md;
 }
+
+.homepage-products .add-to-cart-container {
+  @apply hidden;
+}
+
+.homepage-products .product-grid {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.homepage-products .product-grid .product-card:nth-child(4) {
+  @apply hidden xl:flex;
+}
+
+.homepage-products .product-grid .product-card:nth-child(3) {
+  @apply hidden lg:flex;
+}
