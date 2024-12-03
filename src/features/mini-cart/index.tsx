@@ -188,7 +188,7 @@ export const MiniCart = () => {
                           <p>Subtotal:</p>
                           <p className="subtotal">
                             {getCurrencySymbol(currentCurrency)}
-                            {numberFormat(parseFloat(subtotalDisplay || ''))}
+                            {numberFormat(subtotalDisplay)}
                           </p>
                         </div>
                         {/* <div className="flex text-brand-primary justify-between text-lg font-bold">
