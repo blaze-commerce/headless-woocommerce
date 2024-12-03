@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useSiteContext } from '@src/context/site-context';
 import { Product } from '@src/models/product';
 import { cn } from '@src/lib/helpers/helper';
+import { VariablePrice } from '@src/features/product/price/variant';
 
 const BundlePrice = dynamic(() =>
   import('@src/features/product/price/bundle').then((mod) => mod.BundlePrice)
@@ -13,9 +14,9 @@ const SimplePrice = dynamic(() =>
   import('@src/features/product/price/simple').then((mod) => mod.SimplePrice)
 );
 
-const VariablePrice = dynamic(() =>
-  import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
-);
+// const VariablePrice = dynamic(() =>
+//   import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
+// );
 
 type Props = {
   currency: string;

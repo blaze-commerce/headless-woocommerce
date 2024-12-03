@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { useSiteContext } from '@src/context/site-context';
 import { useProductContext } from '@src/context/product-context';
 import { cn } from '@src/lib/helpers/helper';
+import { VariablePrice } from '@src/features/product/price/variant';
 
 type Props = {
   id?: string;
@@ -17,9 +18,9 @@ const SimplePrice = dynamic(() =>
   import('@src/features/product/price/simple').then((mod) => mod.SimplePrice)
 );
 
-const VariablePrice = dynamic(() =>
-  import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
-);
+// const VariablePrice = dynamic(() =>
+//   import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
+// );
 
 export const ProductPrice: React.FC<Props> = ({ id, className }) => {
   const { product } = useProductContext();
