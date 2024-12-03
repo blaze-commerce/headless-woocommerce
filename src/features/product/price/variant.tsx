@@ -10,55 +10,46 @@ type TVariablePrice = {
 
 export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
   const { currentCurrency: currency } = useSiteContext();
-  const renderedResult: ReactElement[] = [];
   const { regularPrice, salePrice } = product;
   const isOnSale = product.onSale && (product.salePrice?.[currency] as number) > 0;
+  // Product or currency is undefined. Ensure both are properly provided.
+  if (!product || !currency) {
+    return null;
+  }
 
-  // variable product with same min and max price
-  if (product.hasSameMinMaxPrice(currency)) {
-    // variable product with same min and max price on sale
-    if (isOnSale && salePrice) {
-      renderedResult.push(
-        <span className="sale-price">{formatPrice(regularPrice, currency)}</span>
-      );
+  if (!product.hasSameMinMaxPrice(currency)) {
+    const minPrice = isTaxExclusive ? product.variantMinPrice : product.variantMinPriceWithTax;
+    const maxPrice = isTaxExclusive ? product.variantMaxPrice : product.variantMaxPriceWithTax;
 
-      if (isTaxExclusive) {
-        renderedResult.push(<span className="price">{formatPrice(salePrice, currency)}</span>);
-      } else {
-        renderedResult.push(
-          <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
-        );
-      }
-    } else {
-      let price = product.variantMinPriceWithTax;
-      if (isTaxExclusive) {
-        price = product.variantMinPrice;
-      }
-      renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
-    }
+    return (
+      <span className="variable-product-price-container">
+        <span className="price">
+          {formatPrice(minPrice, currency)} – {formatPrice(maxPrice, currency)}
+        </span>
+      </span>
+    );
+  }
 
-    // variable product with different min and max price
-  } else {
-    let minPrice = product.variantMinPriceWithTax;
-    let maxPrice = product.variantMaxPriceWithTax;
+  // variable product with same min and max price on sale
+  const sameMinMaxPrice = isOnSale && salePrice;
+  if (!sameMinMaxPrice) {
+    const price = isTaxExclusive ? product.variantMinPrice : product.variantMinPriceWithTax;
 
-    if (isTaxExclusive) {
-      minPrice = product.variantMinPrice;
-      maxPrice = product.variantMaxPrice;
-    }
-
-    renderedResult.push(
-      <span className="price">
-        {formatPrice(minPrice, currency)} – {formatPrice(maxPrice, currency)}
+    return (
+      <span className="variable-product-price-container">
+        <span className="price">{formatPrice(price, currency)}</span>
       </span>
     );
   }
 
   return (
     <span className="variable-product-price-container">
-      {renderedResult.map((price, i) => {
-        return <Fragment key={`variable-product-price-${i}`}>{price}</Fragment>;
-      })}
+      <span className="sale-price">{formatPrice(regularPrice, currency)}</span>
+      <span className="price">
+        {isTaxExclusive
+          ? formatPrice(salePrice, currency)
+          : formatPrice(product.metaData?.priceWithTax, currency)}
+      </span>
     </span>
   );
 };
