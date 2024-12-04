@@ -114,7 +114,7 @@ export const MiniCart = () => {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="overflow-y-auto py-6 px-4 sm:px-6">
                       <div className="flex items-start justify-between border-b pb-4">
-                        <Dialog.Title className="font-bold text-black text-sm uppercase">
+                        <Dialog.Title className="font-bold text-black text-sm font-secondary">
                           Your Cart ({cart?.products?.length || 0})
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
