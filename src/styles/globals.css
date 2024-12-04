@@ -368,14 +368,14 @@ ul.minicart-items li:last-of-type > .border-b {
 }
 
 .price {
-  @apply text-lg leading-6 flex md:flex-row space-x-1 relative items-baseline;
+  @apply text-2xl leading-6 flex md:flex-row space-x-1 relative items-baseline;
   font-weight: var(--price-font-weight);
   color: var(--price-regurlar-color);
 }
 
 .sale-price {
   color: var(--price-sale-color);
-  @apply line-through text-sm;
+  @apply line-through text-2xl;
 }
 
 .price .currency {
