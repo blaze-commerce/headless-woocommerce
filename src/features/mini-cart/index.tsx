@@ -16,9 +16,9 @@ import { WishListRecentlyViewed } from '@src/features/wish-list/wish-list-recent
 
 const ViewCartLoadingIndicator = () => {
   return (
-    <div className="flex justify-center items-center gap-5 w-full flex-1 bg-brand-primary-light border border-transparent text-base font-semibold py-3 h-12 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-brand-gold sm:w-full uppercase">
-      <div className="w-4 h-4 bg-white animate-ping rounded-full flex items-center justify-center">
-        <div className="w-2 h-2 bg-white animate-ping rounded-full flex items-center justify-center"></div>
+    <div className="flex justify-center items-center gap-5 w-full flex-1 bg-muted text-muted-foreground border border-transparent text-base font-semibold py-3 h-12 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-brand-gold sm:w-full uppercase">
+      <div className="w-4 h-4 bg-primary animate-ping rounded-full flex items-center justify-center">
+        <div className="w-2 h-2 bg-primary animate-ping rounded-full flex items-center justify-center"></div>
       </div>
       Loading Cart...
     </div>
@@ -36,13 +36,8 @@ const ProceedToCheckoutButton = ({
     <a
       href={`${process.env.NEXT_PUBLIC_CHECKOUT_URL}`}
       className={cn(
-        'button-checkout text-sm font-bold block text-white p-4 uppercase text-center w-full md:w-auto',
-        {
-          'text-white': !textColor,
-          'bg-black': !backgroundColor,
-        }
+        'button-checkout text-sm font-bold block text-white bg-primary hover:bg-primary/90 p-4 text-center w-full md:w-auto rounded-md h-10 px-4 py-2'
       )}
-      style={{ color: textColor ?? '', backgroundColor: backgroundColor ?? '' }}
     >
       Checkout
     </a>
@@ -83,7 +78,7 @@ export const MiniCart = () => {
     >
       <Dialog
         as="div"
-        className="font-sans relative z-20"
+        className="font-primary relative z-20"
         onClose={setOpen}
       >
         <Transition.Child
@@ -110,17 +105,17 @@ export const MiniCart = () => {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-[344px]">
+                <Dialog.Panel className="pointer-events-auto w-screen max-w-[349px]">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="overflow-y-auto py-6 px-4 sm:px-6">
+                    <div className="overflow-y-auto py-7 px-4 sm:px-7">
                       <div className="flex items-start justify-between border-b pb-4">
-                        <Dialog.Title className="font-bold text-black text-sm font-secondary">
+                        <Dialog.Title className="font-bold text-black/90 text-2xl font-secondary">
                           Your Cart ({cart?.products?.length || 0})
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
-                            className="button-close-minicart -m-2 p-2 text-gray-400 hover:text-gray-500"
+                            className="button-close-minicart w-7 h-7 -m-2 p-2 text-white hover:bg-black/90 rounded-full bg-black/50 flex items-center justify-center "
                             onClick={() => setOpen(false)}
                           >
                             <HiX
@@ -133,9 +128,15 @@ export const MiniCart = () => {
 
                       <FreeShippingProgress />
 
+                      {!hasCartItems && !fetchingCart && (
+                        <p className="text-left text-base font-normal text-black/50 my-3">
+                          There are no items in your cart.
+                        </p>
+                      )}
+
                       <div className="mt-8">
                         <div className="flow-root">
-                          {hasCartItems ? (
+                          {hasCartItems && (
                             <ul
                               role="list"
                               className="-my-4 minicart-items"
@@ -151,11 +152,8 @@ export const MiniCart = () => {
                                 );
                               })}
                             </ul>
-                          ) : (
-                            <>
-                              {!fetchingCart && <p className="text-center">No Items in the cart</p>}
-                            </>
                           )}
+
                           {fetchingCart && (
                             <ul
                               role="list"
@@ -175,7 +173,7 @@ export const MiniCart = () => {
                       <div className=" py-6 pt-0 px-4 sm:px-6">
                         <AppliedCoupon appliedCoupons={cart.appliedCoupons} />
                         {parseInt(cart.feeTotal || '', 10) > 0 && (
-                          <div className="flex text-black justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-2 ">
+                          <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-2 ">
                             <p>Discount:</p>
                             <p className="subtotal">
                               {getCurrencySymbol(currentCurrency)}
@@ -184,7 +182,7 @@ export const MiniCart = () => {
                           </div>
                         )}
 
-                        <div className="flex text-black justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-2 ">
+                        <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-2 ">
                           <p>Subtotal:</p>
                           <p className="subtotal">
                             {getCurrencySymbol(currentCurrency)}
