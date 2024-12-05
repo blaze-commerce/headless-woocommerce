@@ -84,6 +84,7 @@ export const AddToCartAddons = () => {
               <CheckboxElement
                 key={`addon-field-${key}`}
                 field={addon}
+                product={product}
               />
             );
 
@@ -92,6 +93,7 @@ export const AddToCartAddons = () => {
               <MultiplierElement
                 key={`addon-field-${key}`}
                 field={addon}
+                product={product}
               />
             );
 

@@ -1,22 +1,28 @@
 import { v4 } from 'uuid';
 import { cn, formatPriceWithCurrency } from '@src/lib/helpers/helper';
 import { ProductAddons } from '@src/models/product/types';
+import { Product } from '@src/models/product';
 import { useSiteContext } from '@src/context/site-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
 import { debounce } from 'lodash';
 
 import { AddOnsTitle } from './title';
 import { AddOnsDescription } from './description';
+import { useProductContext } from '@src/context/product-context';
 
 type TProps = {
   field: ProductAddons;
+  product: Product;
 };
 
-export const AddOnsInputMultiplier = ({ field }: TProps) => {
+export const AddOnsInputMultiplier = ({ field, product }: TProps) => {
   const { currentCountry } = useSiteContext();
+  const { fields: formFields } = useProductContext();
+  const [, setFieldsValue] = formFields.value;
   const { addons } = useAddToCartContext();
   const [, setAddonItems] = addons;
-  const { id, name, description, titleFormat, required, adjustPrice, price, min, max } = field;
+  const { id, name, required, adjustPrice, price, min, max } = field;
+  const fieldName = `addon-${product.productId}-${field.position}`;
 
   let title = name;
 
@@ -26,6 +32,7 @@ export const AddOnsInputMultiplier = ({ field }: TProps) => {
 
   const debounceOnChange = debounce((e) => {
     const value = Number(e.target.value);
+
     setAddonItems((prev) => {
       const items = prev.map((item) => {
         if (id === item.id) {
@@ -40,6 +47,13 @@ export const AddOnsInputMultiplier = ({ field }: TProps) => {
 
       return items;
     });
+
+    setFieldsValue((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: value,
+      };
+    });
   }, 500);
 
   return (
@@ -53,7 +67,7 @@ export const AddOnsInputMultiplier = ({ field }: TProps) => {
       <input
         className="addon-field-quantity"
         id={v4()}
-        name={v4()}
+        name={fieldName}
         type="number"
         min={min}
         max={max}

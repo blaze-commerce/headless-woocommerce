@@ -1,20 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
+import { useProductContext } from '@src/context/product-context';
 import { cn } from '@src/lib/helpers/helper';
 import { ProductAddons } from '@src/models/product/types';
+import { Product } from '@src/models/product';
 import { sanitizeTitle } from '@src/lib/helpers/helper';
 import { AddOnsTitle } from './title';
 import { AddOnsDescription } from './description';
 
 type TProps = {
   field: ProductAddons;
+  product: Product;
 };
 
-export const AddOnsCheckbox = ({ field }: TProps) => {
+export const AddOnsCheckbox = ({ field, product }: TProps) => {
   const { id: addonId, name, required, options } = field;
   const { addons } = useAddToCartContext();
+  const { fields: formFields } = useProductContext();
+  const [, setFieldsValue] = formFields.value;
   const [, setAddonItems] = addons;
   const [selected, setSelected] = useState<string[]>([]);
+
+  const fieldName = `addon-${product.productId}-${field.position}`;
 
   useEffect(() => {
     // later we need to improve to calculate price by its option
@@ -32,7 +39,14 @@ export const AddOnsCheckbox = ({ field }: TProps) => {
 
       return items;
     });
-  }, [selected, setAddonItems, addonId]);
+
+    setFieldsValue((prev) => {
+      return {
+        ...prev,
+        [`${fieldName}`]: selected.map((item) => item.toLowerCase()),
+      };
+    });
+  }, [selected, setAddonItems, addonId, setFieldsValue, fieldName]);
 
   return (
     <div

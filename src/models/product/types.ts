@@ -1,7 +1,7 @@
 import { Product } from '@src/models/product';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
 
-export type ObjectData = { [key: string]: string | number | boolean };
+export type ObjectData = Record<string, unknown>;
 
 export type ProductStocStatuses = 'instock' | 'outofstock';
 
