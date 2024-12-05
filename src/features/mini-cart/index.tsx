@@ -36,7 +36,7 @@ const ProceedToCheckoutButton = ({
     <a
       href={`${process.env.NEXT_PUBLIC_CHECKOUT_URL}`}
       className={cn(
-        'button-checkout text-sm font-bold block text-white bg-primary hover:bg-primary/90 p-4 text-center w-full md:w-auto rounded-md h-10 px-4 py-2'
+        'button-checkout text-sm font-bold text-white bg-primary hover:bg-primary/90 p-4 text-center w-full md:w-auto rounded-md h-10 px-4 py-2 flex items-center justify-center'
       )}
     >
       Checkout

@@ -53,7 +53,7 @@ export const CouponCode = () => {
       {isOpen && (
         <div className="border-t py-4 w-full">
           <Input
-            label="Coupon Code"
+            label="Enter Coupon Code"
             name="coupon_code"
             value={couponCode}
             type="normal"
@@ -67,7 +67,7 @@ export const CouponCode = () => {
             onClick={handleApplyCoupon}
             disabled={applyCouponLoading}
             className={cx(
-              'button-apply-coupon-code bg-secondary rounded-md text-white uppercase text-center w-full py-2 mt-2',
+              'button-apply-coupon-code border border-black/20 hover:border-secondary bg-background text-black/80 hover:bg-secondary hover:text-secondary-foreground  rounded-md w-full py-2 mt-2 text-center text-sm font-bold leading-normal h-10',
               {
                 'opacity-50': applyCouponLoading,
               }
