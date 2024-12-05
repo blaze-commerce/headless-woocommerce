@@ -1,5 +1,10 @@
 import { Product } from '@src/models/product';
 import { ProductBundleConfiguration } from '@src/models/product/types';
+
+import client from '@src/lib/typesense/client';
+import TS_CONFIG from '@src/lib/typesense/config';
+import TSProduct, { transformToProducts } from '@src/lib/typesense/product';
+
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -58,4 +63,40 @@ export const useProductBundle = (
   if (!product || product.productType !== 'bundle') return null;
 
   return bundles;
+};
+
+export const useFetchProducts = (productIds: number[]) => {
+  const [data, setData] = useState<Product[]>([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const strProductIds = JSON.stringify(productIds);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const pIds = JSON.parse(strProductIds).map((productId: string) => parseInt(productId));
+    const searchParameters = TSProduct.generateSearchParamsByProductIds(pIds);
+    const searchOptions = {
+      cacheSearchResultsForSeconds: 60,
+      abortSignal: controller.signal,
+    };
+
+    client
+      .collections(TS_CONFIG.collectionNames.product)
+      .documents()
+      .search(searchParameters, searchOptions)
+      .then(async (results) => {
+        const products = await transformToProducts(results);
+        setData(Product.buildFromResponseArray(products));
+      })
+      .catch(setError)
+      .finally(() => setLoading(false));
+
+    return () => {
+      controller.abort();
+    };
+  }, [strProductIds]);
+
+  return { data, error, loading };
 };

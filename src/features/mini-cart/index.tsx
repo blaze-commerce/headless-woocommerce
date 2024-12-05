@@ -13,6 +13,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { numberFormat } from '@src/lib/helpers/product';
 import { cn, getCurrencySymbol } from '@src/lib/helpers/helper';
 import { WishListRecentlyViewed } from '@src/features/wish-list/wish-list-recently-viewed';
+import { Recommendation } from '@src/features/mini-cart/recommendation';
 
 const ViewCartLoadingIndicator = () => {
   return (
@@ -169,7 +170,7 @@ export const MiniCart = () => {
                     </div>
                     {hasCartItems && <CouponCode />}
 
-                    {hasCartItems ? (
+                    {hasCartItems && (
                       <div className=" py-6 pt-0 px-4 sm:px-6">
                         <AppliedCoupon appliedCoupons={cart.appliedCoupons} />
                         {parseInt(cart.feeTotal || '', 10) > 0 && (
@@ -182,7 +183,7 @@ export const MiniCart = () => {
                           </div>
                         )}
 
-                        <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-2 ">
+                        <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-0 ">
                           <p>Subtotal:</p>
                           <p className="subtotal">
                             {getCurrencySymbol(currentCurrency)}
@@ -204,7 +205,8 @@ export const MiniCart = () => {
                           )}
                         </div>
                       </div>
-                    ) : null}
+                    )}
+                    <Recommendation />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
