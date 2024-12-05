@@ -8,7 +8,7 @@ export const AddOnsDescription = ({ field }: TProps) => {
   if (field.descriptionEnable === false) return null;
 
   return (
-    <p className="text-sm text-[#777]">
+    <p className="addon-field-description">
       {field.description}
       {field.titleFormat === 'hide' && field.required && (
         <sup className="text-red-600 font-semibold">*</sup>

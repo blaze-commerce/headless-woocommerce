@@ -370,3 +370,12 @@ export const sanitizeTitle = (text: string): string => {
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-');
 };
+
+export function formatPriceWithCurrency(price: number | string, currency: string) {
+  // convert string or number price to currency format
+
+  if (typeof price === 'string') price = parseFloat(price);
+
+  const currencySymbol = getCurrencySymbol(currency);
+  return `${currencySymbol}${numberFormat(price)}`;
+}

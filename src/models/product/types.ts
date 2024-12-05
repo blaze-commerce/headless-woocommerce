@@ -152,6 +152,7 @@ export type ProductBundleConfiguration = {
 export type ProductAddonsPriceType = 'flat_fee' | 'quantity_based' | 'percentage_based';
 
 export type ProductAddons = {
+  id: string;
   name: string;
   titleFormat: 'label' | 'heading' | 'hide';
   description: string;
@@ -173,10 +174,9 @@ export type ProductAddons = {
   restrictionsType: 'any_text' | 'email' | 'only_letters' | 'only_numbers' | 'only_letters_numbers';
   adjustPrice: boolean;
   priceType: ProductAddonsPriceType;
-  price: number;
+  price: string;
   min: number;
   max: number;
-  id: number;
   options: {
     label: string;
     price: number;

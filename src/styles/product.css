@@ -46,6 +46,8 @@
   @apply flex flex-col gap-4 border-b border-solid border-[#ddd] pb-4;
 }
 
+/** Variant Select */
+
 .single-product .add-to-cart-form .product-variant-container .product-variant-select {
   @apply flex flex-col md:flex-row items-start md:items-center gap-4;
 }
@@ -58,9 +60,64 @@
   @apply w-full;
 }
 
+/** Addons */
+
+.single-product .add-to-cart-form .product-addon-container {
+  @apply flex flex-col gap-6;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-group {
+  @apply flex flex-col gap-2;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-group.input-multiplier {
+  @apply flex-row items-center justify-start;
+}
+
+.single-product
+  .add-to-cart-form
+  .product-addon-container
+  .addon-field-group.input-multiplier
+  input {
+  @apply border-[#c0c0c0] leading-6 p-4;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-title {
+  @apply text-sm font-bold leading-6;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-description {
+  @apply text-sm text-[#777] leading-6;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-options {
+  @apply flex gap-4;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-options .addon-option {
+  @apply py-2 px-4 border-2 border-solid border-[#ddd] rounded-md cursor-pointer text-xs font-normal leading-6 text-[#333] w-24 text-center;
+}
+
+.single-product
+  .add-to-cart-form
+  .product-addon-container
+  .addon-field-options
+  .addon-option.selected {
+  @apply bg-[#E1EDFF] border-primary;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-options input {
+  @apply hidden;
+}
+
+.single-product .add-to-cart-form .addons-price-breakdown {
+  @apply flex flex-col gap-2 font-bold text-lg leading-6;
+}
+
 /** Add to Cart Button */
 .single-product .add-to-cart-form .button-container {
-  @apply fixed bottom-0 right-0 p-2.5 bg-background/80 w-full lg:w-auto z-10 lg:z-0 lg:bg-transparent lg:relative lg:p-0 max-w-[100vw];
+  @apply fixed bottom-0 right-0 p-2.5 bg-background/80 w-full  z-10  max-w-[100vw];
+  @apply lg:w-auto lg:z-0 lg:bg-transparent lg:relative lg:p-0 lg:border-t lg:pt-4;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper {
@@ -80,7 +137,7 @@
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
-  @apply flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground hover:text-primary-foreground flex-grow max-w-xs px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
+  @apply flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground hover:text-primary-foreground flex-grow px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {

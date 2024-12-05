@@ -675,4 +675,20 @@ export class Product {
       return isImage(galleryImages, mainImage?.src);
     }
   }
+
+  get classes(): string[] {
+    const classes: string[] = [];
+
+    if (this.hasVariations) classes.push('has-variation');
+
+    if (this.isComposite) classes.push('composite');
+
+    if (this.isGiftCard) classes.push('gift-card');
+
+    if (this.isSimple) classes.push('simple');
+
+    if (this.hasBundle) classes.push('bundle');
+
+    return classes;
+  }
 }
