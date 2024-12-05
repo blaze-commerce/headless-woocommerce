@@ -20,6 +20,8 @@ export const Variant = () => {
 
   const availableAttributes = product?.getAvailableAttributes();
 
+  if (!availableAttributes || Object.keys(availableAttributes).length === 0) return null;
+
   return (
     <div className="product-variant-container">
       {availableAttributes?.map((attribute: Attribute, key: Number) => {

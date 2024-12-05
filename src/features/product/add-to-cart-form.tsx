@@ -1,23 +1,11 @@
 import dynamic from 'next/dynamic';
 
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
-
 import { Spinner } from '@src/components/svg/spinner';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { parseApolloError } from '@src/lib/helpers';
-import { Settings } from '@src/models/settings';
 import { ProductSettings } from '@src/models/settings/product';
 import { cn } from '@src/lib/helpers/helper';
-import { useEffectOnce } from 'usehooks-ts';
-
-const AddToCartBundle = dynamic(() =>
-  import('@src/features/product/add-to-cart/bundle').then((mod) => mod.AddToCartBundle)
-);
-
-const AddToCartAddons = dynamic(() =>
-  import('@src/features/product/add-to-cart/addons').then((mod) => mod.AddToCartAddons)
-);
 
 const ProductMatchedVariantPrice = dynamic(() =>
   import('@src/features/product/product-matched-variant-price').then(
@@ -86,8 +74,6 @@ export const AddToCartForm = () => {
   return (
     <>
       {renderMatchedVariant()}
-      {product.hasBundle && <AddToCartBundle />}
-      {product.hasAddons() && <AddToCartAddons />}
       <div className="button-container">
         <div className="button-wrapper">
           <span className="quantity-label">Qty:</span>

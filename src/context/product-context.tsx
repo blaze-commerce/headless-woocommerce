@@ -1,6 +1,6 @@
 import { ApolloError, useMutation, useQuery } from '@apollo/client';
 import { Dictionary } from '@reduxjs/toolkit';
-import { cloneDeep, difference, isEmpty } from 'lodash';
+import { cloneDeep, difference, isEmpty, pickBy, startsWith } from 'lodash';
 import { useRouter } from 'next/router';
 import React, {
   Dispatch,
@@ -305,13 +305,17 @@ export const ProductContextProvider: React.FC<{
       quantity,
     };
 
+    const extraData: any = {};
+
     if ((product.hasVariations || product.isGiftCard) && matchedVariant?.id) {
       inputVariables.variationId = parseInt(matchedVariant.id);
     }
 
     // bundle product
     if (product.hasBundle) {
-      inputVariables.extraData = `{"woolessGraphqlRequest":${JSON.stringify(selectedBundle)}}`;
+      extraData.woolessGraphqlRequest = pickBy(fieldsValue, (_obj, key) =>
+        startsWith(key, 'bundle')
+      );
     }
 
     // gift card product
@@ -319,15 +323,17 @@ export const ProductContextProvider: React.FC<{
       inputVariables.variationId = giftProductId;
 
       if (!isEmpty(giftCardInput)) {
-        const giftCardFormValues: GiftCardInput = {};
-
         for (const inputKey in giftCardInput) {
-          giftCardFormValues[GIFT_CARD_FORM_FIELD_KEYS[inputKey]] = giftCardInput[inputKey];
+          extraData[GIFT_CARD_FORM_FIELD_KEYS[inputKey]] = giftCardInput[inputKey];
         }
-
-        inputVariables.extraData = `${JSON.stringify(giftCardFormValues)}`;
       }
     }
+
+    if (product.hasAddons()) {
+      extraData.graphqlAddons = pickBy(fieldsValue, (_obj, key) => startsWith(key, 'addon'));
+    }
+
+    inputVariables.extraData = JSON.stringify(extraData);
 
     return inputVariables;
   };
