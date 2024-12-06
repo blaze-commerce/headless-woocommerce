@@ -1,11 +1,9 @@
-import { useProductContext } from '@src/context/product-context';
-import { useSiteContext } from '@src/context/site-context';
 import { DefaultProductCard } from '@src/features/product/cards/default';
-import { RecentlyViewed } from '@src/features/product/recently-viewed';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
 
 import { useFetchRecentlyViewedProducts } from '@src/lib/hooks';
 import { useFetchTopRecommendedProductsForCartItems } from '@src/lib/hooks/top-recommendation';
+import { Product } from '@src/models/product';
 import React from 'react';
 
 type Props = {};
