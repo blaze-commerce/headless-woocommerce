@@ -1,3 +1,4 @@
+import { useSiteContext } from '@src/context/site-context';
 import { DefaultProductCard } from '@src/features/product/cards/default';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
 
@@ -39,28 +40,34 @@ const RecommendationDisplay = ({ label, products }: { label: string; products: P
 };
 
 export const Recommendation = () => {
+  const { miniCartState, cart, fetchingCart, cartUpdating, currentCurrency, settings } =
+    useSiteContext();
+
+  const hasCartItems = cart !== null && cart?.products?.length > 0 ? true : false;
+
   const { data: recentlyViewedProducts, loading: fetchingRecentlyViewedProducts } =
     useFetchRecentlyViewedProducts();
 
   const { data: recommendedProducts, loading: fetchingRecommendedProducts } =
     useFetchTopRecommendedProductsForCartItems();
 
-  let recommendationLabel = 'Recently viewed items';
-  let productsToShow = recentlyViewedProducts;
-
-  if (!fetchingRecommendedProducts && recommendedProducts.length > 0) {
-    recommendationLabel = 'We also recommend';
-    productsToShow = recommendedProducts;
+  if (hasCartItems && !fetchingRecommendedProducts && recommendedProducts.length > 0) {
+    return (
+      <RecommendationDisplay
+        label="We also recommend"
+        products={recommendedProducts}
+      />
+    );
   }
 
-  if (productsToShow.length <= 0) {
-    return null;
+  if (!hasCartItems && !fetchingRecentlyViewedProducts && recentlyViewedProducts.length > 0) {
+    return (
+      <RecommendationDisplay
+        label="Recently viewed items"
+        products={recentlyViewedProducts}
+      />
+    );
   }
 
-  return (
-    <RecommendationDisplay
-      label={recommendationLabel}
-      products={productsToShow}
-    />
-  );
+  return null;
 };
