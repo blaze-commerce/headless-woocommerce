@@ -29,13 +29,15 @@ export const AddOnsPriceBreakdown = () => {
     setOptionalFee(calculateOptionalCost());
   }, [calculateOptionalCost]);
 
-  if (optionalFee === 0) return null;
-
   if (product?.stockStatus === 'outofstock') return null;
 
   if (!product?.price) return null;
 
   if (product?.productType === 'simple') productPrice = product.price[currency];
+
+  if (product?.productType === 'variable' && matchedVariant && matchedVariant.price) {
+    productPrice = matchedVariant.price[currency];
+  }
 
   return (
     <div className="addons-price-breakdown">
