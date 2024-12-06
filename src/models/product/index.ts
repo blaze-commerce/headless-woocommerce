@@ -368,7 +368,8 @@ export class Product {
 
   get isOutOfStock() {
     return (
-      (this.stockQuantity == null || this.stockQuantity < 1) && this.stockStatus === 'outofstock'
+      // (this.stockQuantity == null || this.stockQuantity < 1) && this.stockStatus === 'outofstock'
+      this.stockStatus === 'outofstock'
     );
   }
 

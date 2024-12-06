@@ -58,7 +58,12 @@ export const AddToCartForm = () => {
   };
 
   const renderMatchedVariant = () => {
-    if (product?.hasSameMinMaxPrice(currentCurrency) || !product?.hasVariations || !matchedVariant)
+    if (
+      product?.hasSameMinMaxPrice(currentCurrency) ||
+      !product?.hasVariations ||
+      !matchedVariant ||
+      product.hasAddons()
+    )
       return null;
 
     return (
