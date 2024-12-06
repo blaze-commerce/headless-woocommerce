@@ -1,13 +1,14 @@
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { DefaultProductCard } from '@src/features/product/cards/default';
+import { RecentlyViewed } from '@src/features/product/recently-viewed';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
 
 import { useFetchRecentlyViewedProducts } from '@src/lib/hooks';
 import { useFetchTopRecommendedProductsForCartItems } from '@src/lib/hooks/top-recommendation';
-import { Product } from '@src/models/product';
 import React from 'react';
 
+type Props = {};
 const RecommendationDisplay = ({ label, products }: { label: string; products: Product[] }) => {
   if (products.length <= 0) {
     return null;
@@ -40,46 +41,29 @@ const RecommendationDisplay = ({ label, products }: { label: string; products: P
   );
 };
 
-const CrossSell = () => {
-  const { data: recommendedProducts, loading: fetchingRecommendedProducts } =
-    useFetchTopRecommendedProductsForCartItems();
-
-  if (fetchingRecommendedProducts) {
-    return null;
-  }
-
-  return (
-    <RecommendationDisplay
-      label="We also recommend"
-      products={recommendedProducts}
-    />
-  );
-};
-
-const RecentlyViewed = () => {
+export const Recommendation = (props: Props) => {
   const { data: recentlyViewedProducts, loading: fetchingRecentlyViewedProducts } =
     useFetchRecentlyViewedProducts();
 
-  if (fetchingRecentlyViewedProducts) {
+  const { data: recommendedProducts, loading: fetchingRecommendedProducts } =
+    useFetchTopRecommendedProductsForCartItems();
+
+  let recommendationLabel = 'Recently viewed items';
+  let productsToShow = recentlyViewedProducts;
+
+  if (!fetchingRecommendedProducts && recommendedProducts.length > 0) {
+    recommendationLabel = 'Top Recommendations';
+    productsToShow = recommendedProducts;
+  }
+
+  if (productsToShow.length <= 0) {
     return null;
   }
 
   return (
     <RecommendationDisplay
-      label="Recently viewed items"
-      products={recentlyViewedProducts}
+      label={recommendationLabel}
+      products={productsToShow}
     />
   );
-};
-
-export const Recommendation = ({
-  list = 'cross-sell',
-}: {
-  list: 'recently-viewed-products' | 'cross-sell';
-}) => {
-  if ('recently-viewed-products' == list) {
-    return <RecentlyViewed />;
-  }
-
-  return <CrossSell />;
 };
