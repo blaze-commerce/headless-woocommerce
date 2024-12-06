@@ -25,11 +25,10 @@ const RecommendationDisplay = ({ label, products }: { label: string; products: P
               <DefaultProductCard
                 key={index}
                 product={product}
-                showRating={true}
-                showWishlistButton={true}
-                saleBadgeColor="#393939"
+                showRating={false}
+                showWishlistButton={false}
                 saleBadgeType={4}
-                showCategory={true}
+                showCategory={false}
                 hasAddToCart={false}
               />
             </>
@@ -50,7 +49,7 @@ export const Recommendation = (props: Props) => {
   let productsToShow = recentlyViewedProducts;
 
   if (!fetchingRecommendedProducts && recommendedProducts.length > 0) {
-    recommendationLabel = 'Top Recommendations';
+    recommendationLabel = 'We also recommend';
     productsToShow = recommendedProducts;
   }
 
