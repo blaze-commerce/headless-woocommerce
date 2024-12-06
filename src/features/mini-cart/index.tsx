@@ -166,6 +166,8 @@ export const MiniCart = () => {
                             </ul>
                           )}
                         </div>
+                        <Recommendation list="cross-sell" />
+                        <Recommendation list="recently-viewed-products" />
                       </div>
                     </div>
                     {hasCartItems && <CouponCode />}
@@ -206,7 +208,6 @@ export const MiniCart = () => {
                         </div>
                       </div>
                     )}
-                    <Recommendation />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
