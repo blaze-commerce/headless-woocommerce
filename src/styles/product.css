@@ -155,10 +155,28 @@
   @apply opacity-50 cursor-not-allowed;
 }
 
+/** Notify Me */
+
+.single-product .add-to-cart-form .button-container.notify-me-form .button-wrapper {
+  @apply flex-col gap-4;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .header {
+  @apply inline-flex justify-between gap-4;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .header .notify-me-title {
+  @apply w-full bg-primary text-white h-11 rounded-md flex justify-center items-center gap-2 py-2 px-4 text-sm leading-6;
+}
+
 /** Add to Cart - Wishlist Button */
 
 .single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
-  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md w-10 md:w-auto md:px-2 lg:w-52 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
+  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md w-12 md:w-auto md:px-4 lg:w-72 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button span {
+  @apply hidden lg:block;
 }
 
 /** Product Meta */
