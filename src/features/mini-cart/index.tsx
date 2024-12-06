@@ -79,7 +79,7 @@ export const MiniCart = () => {
     >
       <Dialog
         as="div"
-        className="font-primary relative z-20"
+        className="font-primary relative z-20 mini-cart"
         onClose={setOpen}
       >
         <Transition.Child

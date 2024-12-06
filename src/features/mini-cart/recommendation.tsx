@@ -21,24 +21,24 @@ const RecommendationDisplay = ({ label, products }: { label: string; products: P
         {transformProductsForDisplay(products)
           .slice(-2)
           .map((product, index: number) => (
-            <>
-              <DefaultProductCard
-                key={index}
-                product={product}
-                showRating={false}
-                showWishlistButton={false}
-                saleBadgeType={4}
-                showCategory={false}
-                hasAddToCart={false}
-              />
-            </>
+            <DefaultProductCard
+              key={index}
+              product={product}
+              showRating={false}
+              showWishlistButton={false}
+              saleBadgeType={4}
+              showCategory={false}
+              hasAddToCart={false}
+              showBadge={false}
+              showVariants={false}
+            />
           ))}
       </div>
     </div>
   );
 };
 
-export const Recommendation = (props: Props) => {
+export const Recommendation = () => {
   const { data: recentlyViewedProducts, loading: fetchingRecentlyViewedProducts } =
     useFetchRecentlyViewedProducts();
 

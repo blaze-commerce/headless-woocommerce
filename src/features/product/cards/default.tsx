@@ -61,6 +61,7 @@ interface Props extends ProductCards {
   layout?: 'primary' | 'secondary';
   showWishlistButton?: boolean;
   showVariants?: boolean;
+  showBadge?: boolean;
   showCategory?: boolean;
   newBadgeColor?: string;
   newBadgeType?: number;
@@ -79,8 +80,9 @@ export const DefaultProductCard = (props: Props) => {
     hasAddToCart = false,
     layout = 'primary',
     showWishlistButton = false,
-    showVariants = false,
+    showVariants = true,
     showCategory = false,
+    showBadge = true,
     newBadgeColor = '#FF0000',
     newBadgeType = 1,
     saleBadgeColor = '#FF0000',
@@ -157,23 +159,25 @@ export const DefaultProductCard = (props: Props) => {
           showWishlistButton={showWishlistButton}
           showImageVariant={showImageVariant}
         />
-        <div className="product-badges">
-          {isOnSale && (
-            <CardSaleBadge
-              badgeType={saleBadgeType}
-              badgeColor={saleBadgeColor}
+        {showBadge && (
+          <div className="product-badges">
+            {isOnSale && (
+              <CardSaleBadge
+                badgeType={saleBadgeType}
+                badgeColor={saleBadgeColor}
+              />
+            )}
+            <CardNewBadge
+              product={parsedProduct}
+              badgeType={newBadgeType}
+              badgeColor={newBadgeColor}
             />
-          )}
-          <CardNewBadge
-            product={parsedProduct}
-            badgeType={newBadgeType}
-            badgeColor={newBadgeColor}
-          />
-          <CardItemsLeftBadge
-            product={parsedProduct}
-            hasItemsLeftBadge={true}
-          />
-        </div>
+            <CardItemsLeftBadge
+              product={parsedProduct}
+              hasItemsLeftBadge={true}
+            />
+          </div>
+        )}
 
         {showWishlistButton && (
           <CardWishlishButton
@@ -204,7 +208,7 @@ export const DefaultProductCard = (props: Props) => {
           detailsAlignment={detailsAlignment}
           showRating={showRating}
         />
-        {product.hasVariations && (
+        {showVariants && product.hasVariations && (
           <CardGalleryThumbnail
             product={product}
             detailsAlignment={detailsAlignment}
