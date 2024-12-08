@@ -1,0 +1,53 @@
+/** Addons */
+
+.single-product .add-to-cart-form .product-addon-container {
+  @apply flex flex-col gap-6;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-group {
+  @apply flex flex-col gap-2;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-group.input-multiplier {
+  @apply flex-row items-center justify-start;
+}
+
+.single-product
+  .add-to-cart-form
+  .product-addon-container
+  .addon-field-group.input-multiplier
+  input {
+  @apply border-[#c0c0c0] leading-6 p-4;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-title {
+  @apply text-sm font-bold leading-6;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-description {
+  @apply text-sm text-[#777] leading-6;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-options {
+  @apply flex gap-4;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-options .addon-option {
+  @apply py-2 px-4 border-2 border-solid border-[#ddd] rounded-md cursor-pointer text-xs font-normal leading-6 text-[#333] w-24 text-center;
+}
+
+.single-product
+  .add-to-cart-form
+  .product-addon-container
+  .addon-field-options
+  .addon-option.selected {
+  @apply bg-[#E1EDFF] border-primary;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-options input {
+  @apply hidden;
+}
+
+.single-product .add-to-cart-form .addons-price-breakdown {
+  @apply flex flex-col gap-2 font-bold text-lg leading-6;
+}

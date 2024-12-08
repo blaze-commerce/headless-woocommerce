@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-
+import { cn } from '@src/lib/helpers/helper';
 import { ContentBlocks } from '@src/components/content-blocks';
 import { Header } from '@components/header-block';
 import { Footer } from '@components/footer';
@@ -13,6 +13,7 @@ type Props = {
 
 const SingleProductLayout: React.FC<Props> = ({ children }) => {
   const { settings } = useSiteContext();
+
   return (
     <>
       <Header />
@@ -23,7 +24,7 @@ const SingleProductLayout: React.FC<Props> = ({ children }) => {
           blocks={settings.siteMessage}
         />
       )}
-      <main className="single-product container mx-auto p-4">{children}</main>
+      {children}
       <Footer />
       {settings?.store?.ageGate?.enabled && <AgeGate />}
     </>

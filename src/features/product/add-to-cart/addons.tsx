@@ -37,11 +37,13 @@ export const AddToCartAddons = () => {
     if (!product || !product.addons) return;
 
     const required = product.addons.filter((addon) => addon.required);
+
+    // set required fields
     setRequiredFields((prev) => {
       const fields: string[] = [];
 
       required.forEach((addon) => {
-        fields.push(`addon-${product.productId}-${addon.position + 1}`);
+        fields.push(`addon-${product.productId}-${addon.position}`);
       });
 
       return uniq([...prev, ...fields]);
@@ -59,6 +61,8 @@ export const AddToCartAddons = () => {
         isCalculated: false,
       });
     });
+
+    // set addon items
     setAddonItems(items);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);

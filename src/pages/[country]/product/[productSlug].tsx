@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import SINGLEPRODUCT_TEMPLATE from '@public/single-product.json';
 import Head from 'next/head';
 
+import { cn } from '@src/lib/helpers/helper';
 import { singleProductLayout } from '@src/components/layouts/single-product';
 import { NotFound } from '@src/components/not-found';
 import { PageSeo } from '@src/components/page-seo';
@@ -206,8 +207,19 @@ export const ProductPage = (props: Props) => {
           />
         </Head>
       )}
-
-      <Content content={SINGLEPRODUCT_TEMPLATE} />
+      <main
+        className={cn('single-product container mx-auto p-4', {
+          'out-of-stock': product.isOutOfStock,
+          'simple-product': product.productType === 'simple',
+          'variation-product': product.hasVariations,
+          'bundle-product': product.hasBundle,
+          'composite-product': product.isComposite,
+          'has-addons': product.hasAddons(),
+          'featured-product': product.isFeatured,
+        })}
+      >
+        <Content content={SINGLEPRODUCT_TEMPLATE} />
+      </main>
     </ProductContextProvider>
   );
 };

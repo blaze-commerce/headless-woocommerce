@@ -4,6 +4,8 @@
 @import 'product/accordion.css';
 @import 'product/ni-variation-table.css';
 @import 'product/tabs.css';
+@import 'product/addon.css';
+@import 'product/add-to-cart.css';
 
 .single-product {
   @apply font-primary;
@@ -14,17 +16,6 @@
 }
 
 /** Default style for single product page */
-.single-product .product-rating {
-  @apply mt-2;
-}
-
-.single-product .product-short-description {
-  @apply mt-2;
-}
-
-.single-product .price-container {
-  @apply mt-2;
-}
 
 .single-product .sale-price {
   @apply text-base md:text-2xl font-normal;
@@ -34,7 +25,11 @@
 }
 
 .single-product .stock-status {
-  @apply text-sm mt-2;
+  @apply text-sm;
+}
+
+.single-product.out-of-stock .hide-if-out-of-stock {
+  @apply !hidden;
 }
 
 .single-product .stock-status .instock {
@@ -71,90 +66,6 @@
   @apply w-full;
 }
 
-/** Addons */
-
-.single-product .add-to-cart-form .product-addon-container {
-  @apply flex flex-col gap-6;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-group {
-  @apply flex flex-col gap-2;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-group.input-multiplier {
-  @apply flex-row items-center justify-start;
-}
-
-.single-product
-  .add-to-cart-form
-  .product-addon-container
-  .addon-field-group.input-multiplier
-  input {
-  @apply border-[#c0c0c0] leading-6 p-4;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-title {
-  @apply text-sm font-bold leading-6;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-description {
-  @apply text-sm text-[#777] leading-6;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-options {
-  @apply flex gap-4;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-options .addon-option {
-  @apply py-2 px-4 border-2 border-solid border-[#ddd] rounded-md cursor-pointer text-xs font-normal leading-6 text-[#333] w-24 text-center;
-}
-
-.single-product
-  .add-to-cart-form
-  .product-addon-container
-  .addon-field-options
-  .addon-option.selected {
-  @apply bg-[#E1EDFF] border-primary;
-}
-
-.single-product .add-to-cart-form .product-addon-container .addon-field-options input {
-  @apply hidden;
-}
-
-.single-product .add-to-cart-form .addons-price-breakdown {
-  @apply flex flex-col gap-2 font-bold text-lg leading-6;
-}
-
-/** Add to Cart Button */
-.single-product .add-to-cart-form .button-container {
-  @apply fixed bottom-0 right-0 p-2.5 bg-background/80 w-full  z-10  max-w-[100vw];
-  @apply lg:w-auto lg:z-0 lg:bg-transparent lg:relative lg:p-0 lg:border-t lg:pt-4;
-}
-
-.single-product .add-to-cart-form .button-container .button-wrapper {
-  @apply flex items-stretch justify-evenly xl:justify-start gap-1.5;
-}
-
-.single-product .add-to-cart-form .button-container .button-wrapper .quantity-label {
-  @apply items-center text-sm text-black font-bold hidden md:flex;
-}
-
-.single-product .add-to-cart-form .button-container .button-wrapper .quantity {
-  @apply text-black bg-white rounded-md;
-}
-
-.single-product .add-to-cart-form .button-container .button-wrapper .quantity * {
-  @apply border-none;
-}
-
-.single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
-  @apply flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground hover:text-primary-foreground flex-grow px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
-}
-
-.single-product .add-to-cart-form .button-container .button-wrapper .button-cart.disabled {
-  @apply opacity-50 cursor-not-allowed;
-}
-
 /** Notify Me */
 
 .single-product .add-to-cart-form .button-container.notify-me-form .button-wrapper {
@@ -167,6 +78,14 @@
 
 .single-product .add-to-cart-form .button-container.notify-me-form .header .notify-me-title {
   @apply w-full bg-primary text-white h-11 rounded-md flex justify-center items-center gap-2 py-2 px-4 text-sm leading-6;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .input-field {
+  @apply border-[#777] hover:shadow-md rounded-md focus:ring-primary focus:border-primary focus:outline-none py-2 px-4;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .submit-button {
+  @apply border border-[#777] rounded-md py-2 px-4 font-bold hover:border-primary hover:text-primary;
 }
 
 /** Add to Cart - Wishlist Button */

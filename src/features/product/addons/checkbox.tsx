@@ -72,6 +72,7 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
                 id={`${prefix}-${key}`}
                 name={`${prefix}[]`}
                 value={option.label}
+                className={prefix}
                 onChange={(e) => {
                   if (e.target.checked) {
                     setSelected((prev) => [...prev, option.label]);
