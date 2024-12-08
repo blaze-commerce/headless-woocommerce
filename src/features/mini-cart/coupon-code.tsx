@@ -44,16 +44,16 @@ export const CouponCode = () => {
     <div className="pt-0 px-4 sm:px-6">
       <div
         className={cx(
-          'button-coupon-code border-y py-4 flex justify-between items-center cursor-pointer'
+          'button-coupon-code border-y py-4 flex justify-between items-center cursor-pointer font-secondary text-lg font-bold text-black/80 '
         )}
         onClick={onCouponTriggerClick}
       >
-        COUPON CODE <ChevronDown className={cx({ 'rotate-180': isOpen })} />
+        COUPON CODE <ChevronDown className={cx({ 'rotate-180 text-black/80': isOpen })} />
       </div>
       {isOpen && (
         <div className="border-t py-4 w-full">
           <Input
-            label="Coupon Code"
+            label="Enter Coupon Code"
             name="coupon_code"
             value={couponCode}
             type="normal"
@@ -67,7 +67,7 @@ export const CouponCode = () => {
             onClick={handleApplyCoupon}
             disabled={applyCouponLoading}
             className={cx(
-              'button-apply-coupon-code bg-brand-secondary text-white uppercase text-center w-full py-2 mt-2',
+              'button-apply-coupon-code border border-black/20 hover:border-secondary bg-background text-black/80 hover:bg-secondary hover:text-secondary-foreground  rounded-md w-full py-2 mt-2 text-center text-sm font-bold leading-normal h-10',
               {
                 'opacity-50': applyCouponLoading,
               }

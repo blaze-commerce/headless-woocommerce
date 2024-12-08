@@ -7,11 +7,22 @@
 @import 'product/addon.css';
 @import 'product/add-to-cart.css';
 
+.single-product {
+  @apply font-primary;
+}
+
 .single-product > .core-group > .core-columns {
   @apply flex flex-col xl:flex-row;
 }
 
 /** Default style for single product page */
+
+.single-product .sale-price {
+  @apply text-base md:text-2xl font-normal;
+}
+.single-product .price {
+  @apply text-base md:text-2xl font-bold;
+}
 
 .single-product .stock-status {
   @apply text-sm;

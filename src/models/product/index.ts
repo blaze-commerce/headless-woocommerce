@@ -367,6 +367,10 @@ export class Product {
   }
 
   get isOutOfStock() {
+    if (this.productType === 'variable') {
+      return this.stockStatus === 'outofstock';
+    }
+
     return (
       // (this.stockQuantity == null || this.stockQuantity < 1) && this.stockStatus === 'outofstock'
       this.stockStatus === 'outofstock'
@@ -382,6 +386,10 @@ export class Product {
 
   get purchasable() {
     if (this.productType === 'variable') {
+      if (!this.isOutOfStock) {
+        return true;
+      }
+
       return false;
     }
 

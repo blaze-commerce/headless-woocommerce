@@ -12,6 +12,7 @@ import { track } from '@src/lib/track';
 import { parseApolloError } from '@src/lib/helpers';
 import { cn, getCurrencySymbol, removeCurrencySymbol } from '@src/lib/helpers/helper';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 type Props = {
   cartItem: ProductCartItem;
@@ -146,7 +147,7 @@ export const MiniCartItem = ({ cartItem }: Props) => {
       >
         {isCompositeChildren && renderComponentName()}
         {!isCompositeChildren && (
-          <div className="h-[61px] w-[68px] flex-shrink-0 overflow-hidden border border-gray-200">
+          <div className="w-[94px] h-[94px] flex-shrink-0 overflow-hidden border border-gray-200 rounded-md">
             <a href={'/product/' + cartItem.slug}>
               <Image
                 src={cartItem.image.sourceUrl}
@@ -163,8 +164,8 @@ export const MiniCartItem = ({ cartItem }: Props) => {
           <h3 className="leading-3">
             <a
               href={'/product/' + cartItem.slug}
-              className={cn('text-sm font-medium', {
-                'text-black': !isCompositeChildren,
+              className={cn('text-base font-bold font-secondary', {
+                'text-primary': !isCompositeChildren,
               })}
             >
               {cartItem.name}
@@ -195,7 +196,7 @@ export const MiniCartItem = ({ cartItem }: Props) => {
             ))}
           <span className="text-brand-font">
             {!isCompositeChildren && (
-              <span className="minicart-item-price font-bold text-black text-sm mb-2 block">
+              <span className="minicart-item-price font-bold text-black/80 text-sm mb-2 block">
                 {getCurrencySymbol(currentCurrency)}
                 {removeCurrencySymbol(currentCurrency, `${priceDisplay}`)}
               </span>
@@ -203,10 +204,10 @@ export const MiniCartItem = ({ cartItem }: Props) => {
             {!isCompositeChildren && (
               <div className="p-0 z-10 md:mb-4 md:relative">
                 <div className="flex items-center justify-start gap-2">
-                  <span className="items-center text-black text-sm font-bold">Qty:</span>
-                  <div className="flex border">
+                  <span className="hidden items-center text-black text-sm font-bold">Qty:</span>
+                  <div className="flex border rounded-md">
                     <div
-                      className="minicart-item-control decrement cursor-pointer px-4 py-2 text-xl"
+                      className="minicart-item-control decrement cursor-pointer flex items-center justify-center text-xl w-9 h-[45px]"
                       onClick={decreaseQuantity}
                     >
                       -
@@ -216,11 +217,11 @@ export const MiniCartItem = ({ cartItem }: Props) => {
                       value={currentQuantity || ''}
                       onChange={(e) => setCurrentQuantity(parseInt(e.target.value))}
                       onBlur={updateInputQuantity}
-                      className="w-10 px-2 text-center border-x outline-none flex items-center justify-center border-gray-200"
+                      className="w-9 h-[45px] px-2 text-center border-x border-y-0 outline-none flex items-center justify-center border-gray-200 "
                     />
                     <div
                       className={cn(
-                        'minicart-item-control increment cursor-pointer px-4 py-2 text-xl',
+                        'minicart-item-control increment cursor-pointer flex items-center justify-center text-xl w-9 h-[45px]',
                         {
                           'opacity-50': hasReachedLimit(),
                         }
@@ -250,7 +251,7 @@ export const MiniCartItem = ({ cartItem }: Props) => {
                   })
                 }
               >
-                <CgClose
+                <TrashIcon
                   className=" text-brand-second-gray group-hover:text-brand-primary"
                   aria-hidden="true"
                 />

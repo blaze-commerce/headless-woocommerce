@@ -40,7 +40,7 @@ export const Input: React.FC<Props> = ({
       })}
     >
       <input
-        className="border p-2 peer w-full"
+        className="border p-2 peer w-full h-10 px-4 py-2 bg-white rounded-md borde"
         name={name}
         id={name}
         value={value}

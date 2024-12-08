@@ -43,8 +43,8 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
   }
 
   return (
-    <span className="variable-product-price-container">
-      <span className="sale-price">{formatPrice(regularPrice, currency)}</span>
+    <span className="variable-product-price-container flex items-center gap-2.5">
+      <span className="sale-price 22222222">{formatPrice(regularPrice, currency)}</span>
       <span className="price">
         {isTaxExclusive
           ? formatPrice(salePrice, currency)

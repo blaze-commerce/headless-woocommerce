@@ -12,11 +12,11 @@
 }
 
 .product-card .product-header .product-badges .badge {
-  @apply rounded-md text-white text-xs leading-6 block bg-[#333] px-2;
+  @apply rounded-md uppercase text-white text-xs leading-6 block bg-[#333] px-4 py-1;
 }
 
 .product-card .product-header .product-badges .badge.sale-badge {
-  @apply bg-brand-primary;
+  @apply bg-primary;
 }
 
 .product-card .product-header .wishlist-button-holder {
