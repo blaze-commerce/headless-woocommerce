@@ -22,7 +22,7 @@ export const useProductNotifier = (): UseProductNotifierResult => {
     const config: AxiosRequestConfig = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/api/instocknotifier/subscribe',
+      url: '/api/instocknotifier/subscribe/',
       headers: {
         'Content-Type': 'application/json',
       },

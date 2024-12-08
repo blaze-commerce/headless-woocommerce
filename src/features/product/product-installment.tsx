@@ -25,7 +25,7 @@ export const ProductInstallment = (props: TProps) => {
 
   return (
     <>
-      <div className="product-installment">
+      <div className="product-installment hide-if-out-of-stock">
         <div className="provider">
           {(providers.includes('mastercard') || providers.includes('all')) && <MasterCard />}
           {(providers.includes('visa') || providers.includes('all')) && <Visa />}

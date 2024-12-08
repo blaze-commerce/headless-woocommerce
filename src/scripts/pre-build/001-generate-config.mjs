@@ -44,7 +44,7 @@ const configNames = [
   'category_page_default_sort',
   'font_family',
   'site_icon_url',
-  'is_bundle_product_enabled'
+  'is_bundle_product_enabled',
 ];
 
 const loadFile = (file) => {
@@ -86,8 +86,6 @@ export const isJsonString = (str) => {
   return true;
 };
 
-
-
 const parseJSON = (value, fallback = '') => {
   if (typeof value === 'string' && value === '""') {
     return fallback;
@@ -116,11 +114,11 @@ const normalizeJsonArray = (obj) => {
 
 const getDefaultSettings = () => {
   return loadFile(path.resolve(process.cwd(), 'config', 'default-settings.json'));
-
 };
 
 const generateMenuJSON = async (params) => {
-  const { NEXT_PUBLIC_STORE_ID, NEXT_PUBLIC_TYPESENSE_HOST, NEXT_PUBLIC_TYPESENSE_PUBLIC_KEY } = params.env;
+  const { NEXT_PUBLIC_STORE_ID, NEXT_PUBLIC_TYPESENSE_HOST, NEXT_PUBLIC_TYPESENSE_PUBLIC_KEY } =
+    params.env;
   let menuArray = [];
   const fullFilePath = path.join(process.cwd(), 'public', 'menu.json');
 
@@ -175,7 +173,6 @@ const deleteFile = async (fullFilePath) => {
   }
 };
 
-
 const getTypesenseConfigs = async (client, storeId) => {
   const siteInfos = await client
     .collections(`site_info-${storeId}`)
@@ -199,14 +196,15 @@ export default async function execute(params) {
   const typesenseConfigs = await getTypesenseConfigs(client, NEXT_PUBLIC_STORE_ID);
 
   try {
-
     settingsWithDefaults.header.logo.desktop.wpSrc = typesenseConfigs?.siteLogo?.value;
 
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
     settingsWithDefaults.shopPageSlug = typesenseConfigs?.shopPageSlug?.value;
     settingsWithDefaults.blogPageSlug = typesenseConfigs?.blogPageSlug?.value;
-    settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(typesenseConfigs?.isBundleProductEnabled?.value);
+    settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(
+      typesenseConfigs?.isBundleProductEnabled?.value
+    );
     settingsWithDefaults.categoryPageDefaultSort = typesenseConfigs?.categoryPageDefaultSort?.value;
     const favIcon = typesenseConfigs?.siteIconUrl?.value;
     if (!_.isEmpty(favIcon)) {

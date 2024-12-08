@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { cn } from '@src/lib/helpers/helper';
 import dynamic from 'next/dynamic';
 
-import { WishListIcon } from '@src/features/wish-list/wish-list-icon';
 import { EmailIcon } from '@src/components/svg/email';
 import { useSiteContext } from '@src/context/site-context';
 import { Product } from '@src/models/product';
@@ -45,6 +44,7 @@ export const NotifyMeWhenAvailable = (props: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const response = await subscribeProductNotification(formData);
   };
 
@@ -52,6 +52,10 @@ export const NotifyMeWhenAvailable = (props: Props) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+
+  useEffect(() => {
+    console.log({ data, error, loading });
+  }, [data, error, loading]);
 
   return (
     <form
@@ -95,7 +99,7 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           disabled={loading}
           onChange={handleChange}
           placeholder="Your Name"
-          className="border-brand-primary hover:shadow-md rounded-sm focus:ring-brand-primary focus:border-brand-primary focus:outline-none"
+          className="input-field"
         />
         <input
           type="email"
@@ -104,12 +108,12 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           disabled={loading}
           onChange={handleChange}
           placeholder="Email address"
-          className="border-brand-primary hover:shadow-md rounded-sm focus:ring-brand-primary focus:border-brand-primary focus:outline-none"
+          className="input-field"
         />
 
         <button
           type="submit"
-          className="border border-[#585858] rounded-sm h-10 uppercase"
+          className="submit-button"
           disabled={loading}
         >
           {loading ? 'Loading..' : 'Submit'}
