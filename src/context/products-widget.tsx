@@ -7,6 +7,7 @@ import { ITSProductQueryResponse, ITSTaxonomyProductQueryVars } from '@src/lib/t
 import { useFetchTsTaxonomyProducts } from '@src/lib/hooks';
 import { Product } from '@src/models/product';
 import { getAttributeValue } from '@src/lib/block';
+import { useWindowSize } from 'usehooks-ts';
 
 export type ProductsWidgetContextValue = {
   block: ParsedBlock;
@@ -30,6 +31,7 @@ export const [useProductsWidgetContext, ProductsWidgetContext] =
 
 export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps) => {
   const { block, children } = props;
+  const { width } = useWindowSize();
   const attribute = props.block.attrs as BlockAttributes;
   const htmlAttributes = attribute.htmlAttributes ?? [];
 
@@ -54,6 +56,22 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
 
   const [tsQueryVars, setTsQueryVars] = useState(productQueryVars);
   const cachedTsQueryVars = useMemo(() => tsQueryVars, [tsQueryVars]);
+
+  useEffect(() => {
+    let widthBasedPerPage = perPage;
+    if (width < 768) {
+      widthBasedPerPage = 2;
+    } else if (width >= 768 && width < 1024) {
+      widthBasedPerPage = 3;
+    }
+
+    setTsQueryVars((prevProps) => {
+      return {
+        ...prevProps,
+        perPage: widthBasedPerPage,
+      };
+    });
+  }, [width, perPage]);
 
   const [productsData, setProductsData] = useState<Product[]>([]);
 
