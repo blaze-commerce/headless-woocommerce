@@ -56,7 +56,7 @@ export type ProductTypesenseResponse = Partial<{
   favouriteLinks: string[];
   favouriteNames: string[];
   galleryImages: Image[];
-  id: string;
+  id?: string;
   ingredients: string;
   isFeatured: boolean;
   judgemeReviews?: Stats & Reviews;
