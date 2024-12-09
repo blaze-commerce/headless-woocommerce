@@ -61,7 +61,7 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
     let widthBasedPerPage = perPage;
     if (width < 768) {
       widthBasedPerPage = 2;
-    } else if (width >= 768 && width < 1024) {
+    } else if (width >= 768 && width <= 1024) {
       widthBasedPerPage = 3;
     }
 
