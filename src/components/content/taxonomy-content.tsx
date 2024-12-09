@@ -1,7 +1,7 @@
 import cleanDeep from 'clean-deep';
 import { isArray, isEmpty, map } from 'lodash';
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'usehooks-ts';
 
 import { PageSeo } from '@src/components/page-seo';
@@ -344,6 +344,29 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
     marginTop: shop?.layout?.bannerMarginTop ? `${shop?.layout?.bannerMarginTop}px` : '0px',
   };
 
+  const transformedProducts = useMemo(
+    () => transformProductsForDisplay(productsData),
+    [productsData]
+  );
+
+  const productCards = useMemo(() => {
+    return transformedProducts.map((product, index) => (
+      <ProductCard
+        key={product.id} // Use a unique key based on product id
+        product={product}
+        productFilters={productFilters}
+        productColumns={productColumns}
+        showRating={true}
+        {...layout?.productCards}
+        showWishlistButton={true}
+        saleBadgeColor="#393939"
+        saleBadgeType={4}
+        showCategory={true}
+        hasAddToCart={false}
+      />
+    ));
+  }, [transformedProducts, productFilters, productColumns, layout]);
+
   const shoulShowLoadMore = !isEmpty(tsPaginationInfo) && tsPaginationInfo.nextPage > 0;
   return (
     <>
@@ -376,25 +399,7 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
         >
           {productsData.length > 0 ? (
             <>
-              <ProductGrid productColumns={productColumns}>
-                {transformProductsForDisplay(productsData).map((product, index: number) => (
-                  <>
-                    <ProductCard
-                      key={index}
-                      product={product}
-                      productFilters={productFilters}
-                      productColumns={productColumns}
-                      showRating={true}
-                      {...layout?.productCards}
-                      showWishlistButton={true}
-                      saleBadgeColor="#393939"
-                      saleBadgeType={4}
-                      showCategory={true}
-                      hasAddToCart={false}
-                    />
-                  </>
-                ))}
-              </ProductGrid>
+              <ProductGrid productColumns={productColumns}>{productCards}</ProductGrid>
               {loading && (
                 <SkeletonCategory
                   productColumns={productColumns}
