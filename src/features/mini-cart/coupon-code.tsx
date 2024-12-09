@@ -48,7 +48,7 @@ export const CouponCode = () => {
         )}
         onClick={onCouponTriggerClick}
       >
-        COUPON CODE <ChevronDown className={cx({ 'rotate-180 text-black/80': isOpen })} />
+        Coupon Code <ChevronDown className={cx({ 'rotate-180 text-black/80': isOpen })} />
       </div>
       {isOpen && (
         <div className="border-t py-4 w-full">
