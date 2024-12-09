@@ -49,10 +49,7 @@ export const ResultCount = (props: Props) => {
     <>
       {(pathIndex[1] !== 'brand' || isFilterSet || isSortByChanged) && (
         <>
-          <div
-            className="result-count"
-            style={resultCountStyle ? resultCountStyle : {}}
-          >
+          <div className="result-count">
             Items {loadedResult !== 0 && `1 - ${loadedResult} of ${productCount}`}
           </div>
         </>
