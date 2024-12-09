@@ -56,7 +56,7 @@ export type ProductTypesenseResponse = Partial<{
   favouriteLinks: string[];
   favouriteNames: string[];
   galleryImages: Image[];
-  id?: string;
+  id: string;
   ingredients: string;
   isFeatured: boolean;
   judgemeReviews?: Stats & Reviews;
@@ -122,7 +122,7 @@ export class Product {
   readonly favouriteLinks?: string[];
   readonly favouriteNames?: string[];
   readonly galleryImages?: Image[];
-  readonly id: string;
+  readonly id?: string;
   readonly ingredients?: string;
   readonly isFeatured?: boolean;
   readonly judgemeReviews?: Stats & Reviews;
