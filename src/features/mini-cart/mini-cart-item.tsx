@@ -12,7 +12,7 @@ import { track } from '@src/lib/track';
 import { parseApolloError } from '@src/lib/helpers';
 import { cn, getCurrencySymbol, removeCurrencySymbol } from '@src/lib/helpers/helper';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@src/features/mini-cart/trash-icon';
 
 type Props = {
   cartItem: ProductCartItem;
@@ -244,17 +244,14 @@ export const MiniCartItem = ({ cartItem }: Props) => {
             <div className="">
               <button
                 type="button"
-                className="btn-remove-item-from-cart group hover:border-brand-primary w-5 h-5 border border-brand-second-gray rounded-full text-black hover:text-black flex items-center justify-center"
+                className="btn-remove-item-from-cart group hover:border-brand-primary w-5 h-5 text-black hover:text-black flex items-center justify-center"
                 onClick={() =>
                   removeItemFromCart({
                     variables: { cartKey: cartItem.cartKey },
                   })
                 }
               >
-                <TrashIcon
-                  className=" text-brand-second-gray group-hover:text-brand-primary"
-                  aria-hidden="true"
-                />
+                <TrashIcon className=" text-brand-second-gray group-hover:text-brand-primary" />
               </button>
             </div>
           </div>
