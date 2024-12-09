@@ -122,7 +122,7 @@ export class Product {
   readonly favouriteLinks?: string[];
   readonly favouriteNames?: string[];
   readonly galleryImages?: Image[];
-  readonly id?: string;
+  readonly id: string;
   readonly ingredients?: string;
   readonly isFeatured?: boolean;
   readonly judgemeReviews?: Stats & Reviews;
@@ -235,20 +235,27 @@ export class Product {
     this.bundle = props.bundle;
   }
 
+  get purchasableVariations() {
+    if (!this.variations) {
+      return [];
+    }
+
+    return this.variations?.filter((variation) => variation.purchasable);
+  }
+
   getAvailableAttributes() {
     const availableAttributes: Attributes = [];
     if (this.variations) {
-      const variationAttributes = this.variations.reduce((accumulator, variation) => {
-        if (variation.purchasable) {
-          const attributes = JSON.parse(JSON.stringify(variation.attributes));
-          accumulator.push(attributes);
-        }
-        return accumulator;
-      }, [] as Variation['attributes'][]);
-
       if (!isArray(this.attributes)) {
         return [];
       }
+
+      const variationAttributes = this.purchasableVariations.reduce((accumulator, variation) => {
+        const attributes = JSON.parse(JSON.stringify(variation.attributes));
+        accumulator.push(attributes);
+
+        return accumulator;
+      }, [] as Variation['attributes'][]);
 
       return this.attributes?.map((attribute) => {
         const attributeSlugs = variationAttributes.map((attr) => attr[attribute.name]);
@@ -627,16 +634,11 @@ export class Product {
 
     if (!imageAttribute) return null;
 
-    const attr = imageAttribute as Attribute;
-    const slug = attr.slug;
-
     const images: ImageAttributes = {};
 
-    this.variations.forEach((variation) => {
+    this.purchasableVariations.forEach((variation) => {
       if (variation.attributes) {
-        const key = String(
-          (variation.attributes as { [key: string]: string })[`attribute_${slug}`]
-        );
+        const key = `${variation.id}`;
         if (!images[key] && variation.thumbnail) {
           images[key] = variation.thumbnail;
         }
