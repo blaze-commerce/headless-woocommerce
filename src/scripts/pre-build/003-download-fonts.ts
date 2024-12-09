@@ -63,7 +63,7 @@ export default async function execute() {
               }
             })
             .on('error', (err) => {
-              console.error(`Error downloading ${fileName}: ${err.message}`);
+              console.error(`Error downloading ${fontUrl}: ${err.message}`);
             });
 
           output += `\t\t\t{ path: 'fonts/${fileName}', weight: '${
