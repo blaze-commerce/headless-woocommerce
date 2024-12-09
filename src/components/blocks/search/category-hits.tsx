@@ -6,6 +6,8 @@ import { useHits } from 'react-instantsearch-hooks-web';
 
 import { PrefetchLink } from '@src/components/common/prefetch-link';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { useEffect } from 'react';
+import { useSearchContext } from '@src/context/search-context';
 
 type SearchCategoryHitsProps = {
   block: ParsedBlock;
@@ -13,6 +15,20 @@ type SearchCategoryHitsProps = {
 
 export const SearchCategoryHits = ({ block }: SearchCategoryHitsProps) => {
   const { hits } = useHits();
+  const { searchTermState, setCategoryPermalink } = useSearchContext();
+  const [searchTerm] = searchTermState;
+
+  useEffect(() => {
+    const firstHit = hits.length > 0 ? hits[0] : null;
+    const name = firstHit?.name ? `${firstHit.name}` : '';
+
+    let categoryPermalink = '';
+    if (searchTerm && name.toLowerCase() === searchTerm.toLowerCase()) {
+      categoryPermalink = firstHit?.permalink ? (firstHit?.permalink as string) : '';
+    }
+    setCategoryPermalink(categoryPermalink);
+  }, [hits, searchTerm, setCategoryPermalink]);
+
   const attribute = block.attrs as BlockAttributes;
   return (
     <div className={attribute.className}>
