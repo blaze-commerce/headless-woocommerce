@@ -14,7 +14,7 @@ type SearchInputProps = {
 };
 
 export const SearchInput = ({ block }: SearchInputProps) => {
-  const { showResultState, searchTermState } = useSearchContext();
+  const { showResultState, searchTermState, categoryPermalink } = useSearchContext();
   const router = useRouter();
   const { s } = router.query;
 
@@ -43,7 +43,8 @@ export const SearchInput = ({ block }: SearchInputProps) => {
        */
       event.preventDefault();
 
-      const destinationUrl = `/search-results?s=${encodeURIComponent(searchTerm)}`;
+      const destinationUrl =
+        categoryPermalink || `/search-results?s=${encodeURIComponent(searchTerm)}`;
       if (router.asPath !== destinationUrl) {
         router.push(destinationUrl);
       }
