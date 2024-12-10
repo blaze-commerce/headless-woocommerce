@@ -13,6 +13,10 @@ const BundlePrice = dynamic(() =>
   import('@src/features/product/price/bundle').then((mod) => mod.BundlePrice)
 );
 
+const GiftCardPrice = dynamic(() =>
+  import('@src/features/product/price/gift').then((mod) => mod.GiftCardPrice)
+);
+
 const SimplePrice = dynamic(() =>
   import('@src/features/product/price/simple').then((mod) => mod.SimplePrice)
 );
@@ -43,6 +47,11 @@ export const ProductPrice: React.FC<Props> = ({ id, className }) => {
           />
         ) : product.hasBundle ? (
           <BundlePrice
+            product={product}
+            isTaxExclusive={settings?.isTaxExclusive as boolean}
+          />
+        ) : product.isGiftCard ? (
+          <GiftCardPrice
             product={product}
             isTaxExclusive={settings?.isTaxExclusive as boolean}
           />
