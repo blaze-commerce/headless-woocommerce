@@ -10,6 +10,7 @@ import { getAllBaseContries } from '@src/lib/helpers/country';
 import TSTaxonomy, { getProducts } from '@src/lib/typesense/taxonomy';
 import { ITSTaxonomyProductQueryVars } from '@src/lib/typesense/types';
 import { getPageBySlug } from '@src/lib/typesense/page';
+import { meta } from '@src/lib/constants/meta';
 
 interface Props {
   country: string;
@@ -66,7 +67,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
   return {
     props: {
       country,
-      fullHead: pageData?.seoFullHead,
+      fullHead: pageData?.seoFullHead || meta('Shop'),
       categoryName: pageData?.name || null,
       popular: [],
       hero: {
