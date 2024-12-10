@@ -625,11 +625,6 @@ export class Product {
 
     if (!this?.variations || this?.variations?.length === 0) return null;
 
-    const imageAttribute =
-      this.getAvailableAttributes().find((attribute) => attribute.type === 'image') || null;
-
-    if (!imageAttribute) return null;
-
     const images: ImageAttributes = {};
 
     this.purchasableVariations.forEach((variation) => {
