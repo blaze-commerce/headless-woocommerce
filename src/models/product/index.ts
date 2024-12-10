@@ -393,10 +393,6 @@ export class Product {
 
   get purchasable() {
     if (this.productType === 'variable') {
-      if (!this.isOutOfStock) {
-        return true;
-      }
-
       return false;
     }
 
