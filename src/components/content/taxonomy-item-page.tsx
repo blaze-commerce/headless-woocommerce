@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import uniqid from 'uniqid';
@@ -21,6 +22,56 @@ export const TaxonomyItemPage: NextPageWithLayout<ITaxonomyContentProps, Props> 
   const { settings } = useSiteContext();
   const { shop } = settings as Settings;
   const router = useRouter();
+  const {
+    defaultSortBy,
+    tsFetchedData,
+    contents,
+    hero,
+    subCategories,
+    taxonomyData,
+    fullHead,
+    categoryName,
+    taxonomyDescription,
+    showPerfectGiftHelper,
+    topDescription,
+    searchQuery,
+  } = props;
+
+  const memoizedTaxonomyContent = useMemo(
+    () => (
+      <TaxonomyContent
+        key={uniqid()}
+        fullHead={fullHead}
+        hero={hero}
+        categoryName={categoryName}
+        taxonomyDescription={taxonomyDescription}
+        tsFetchedData={tsFetchedData}
+        showPerfectGiftHelper={showPerfectGiftHelper}
+        defaultSortBy={defaultSortBy}
+        topDescription={topDescription}
+        taxonomyData={taxonomyData}
+        searchQuery={searchQuery}
+        subCategories={subCategories}
+        showBanner={true}
+        pagedUrl={true}
+        showBreadCrumbs={true}
+      />
+    ),
+    [
+      fullHead,
+      hero,
+      categoryName,
+      taxonomyDescription,
+      tsFetchedData,
+      showPerfectGiftHelper,
+      defaultSortBy,
+      topDescription,
+      taxonomyData,
+      searchQuery,
+      subCategories,
+    ]
+  );
+
   // If the page is not yet generated, this will be displayed
   // initially until getStaticProps() finishes running
   if (router.isFallback && isEmpty(props)) {
@@ -54,23 +105,7 @@ export const TaxonomyItemPage: NextPageWithLayout<ITaxonomyContentProps, Props> 
           categorySlugs={getCarCategorySlugsFromBreadCrumbs(props.taxonomyData.breadcrumbs)}
         />
       )}
-      <TaxonomyContent
-        key={uniqid()}
-        fullHead={props.fullHead}
-        hero={props.hero}
-        categoryName={props.categoryName}
-        taxonomyDescription={props.taxonomyDescription}
-        tsFetchedData={props.tsFetchedData}
-        showPerfectGiftHelper={props.showPerfectGiftHelper}
-        defaultSortBy={props.defaultSortBy}
-        topDescription={props.topDescription}
-        taxonomyData={props.taxonomyData}
-        searchQuery={props.searchQuery}
-        subCategories={props.subCategories}
-        showBanner={true}
-        pagedUrl={true}
-        showBreadCrumbs={true}
-      />
+      {memoizedTaxonomyContent}
     </TaxonomyContext>
   );
 };

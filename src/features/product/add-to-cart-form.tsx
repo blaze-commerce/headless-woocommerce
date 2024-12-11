@@ -47,6 +47,7 @@ export const AddToCartForm = () => {
 
   const handleAddToCart = () => {
     if (loading) return;
+
     if (product?.isGiftCard && (!isFormValid || !isEmailValid)) {
       return;
     }

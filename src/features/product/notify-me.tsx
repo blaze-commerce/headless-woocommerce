@@ -53,10 +53,6 @@ export const NotifyMeWhenAvailable = (props: Props) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  useEffect(() => {
-    console.log({ data, error, loading });
-  }, [data, error, loading]);
-
   return (
     <form
       onSubmit={handleSubmit}
