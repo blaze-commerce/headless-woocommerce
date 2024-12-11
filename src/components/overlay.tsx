@@ -94,7 +94,7 @@ export const Overlay: React.FC<Props> = ({
                 />
               </svg>
             </div>
-            <div className="overflow-y-auto navbar-overlay-content z-20">{children}</div>
+            <div className="overflow-y-auto navbar-overlay-content z-20 h-screen">{children}</div>
           </div>
         </Transition.Child>
       </div>
