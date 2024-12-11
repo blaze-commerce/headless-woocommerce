@@ -315,6 +315,7 @@ export const GiftCardForm = () => {
           <select
             id="giftcard-variant-selection"
             className="atc-field-select"
+            value={giftProductId}
             onChange={(e) => {
               const selectedOption = amountOptions.find(
                 (option) => option.id === parseInt(e.target.value)
@@ -331,7 +332,6 @@ export const GiftCardForm = () => {
                 <option
                   key={option.id}
                   value={option.id}
-                  selected={option.id === giftProductId}
                 >
                   {option.price[currency] > 0
                     ? `${currency} ${option.price[currency]}`
