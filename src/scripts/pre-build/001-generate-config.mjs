@@ -33,8 +33,9 @@ const configNames = [
   'show_free_shipping_banner',
   'show_free_shipping_minicart_component',
   'is_multicurrency',
-  'ec_supreme_all_header_logo',
-  'ec_supreme_all_footer_text',
+  'gift_card_header_logo',
+  'gift_card_header_text',
+  'gift_card_footer_text',
   'regions',
   'show_variant_as_separate_product_cards',
   'judgeme_settings',
@@ -249,10 +250,11 @@ export default async function execute(params) {
       typesenseConfigs?.woocommerceIsAfterpayEnabled?.value
     );
 
-    settingsWithDefaults.store.giftCardHeaderImage =
-      typesenseConfigs?.ecSupremeAllHeaderLogo?.value;
+    settingsWithDefaults.store.giftCardHeaderImage = typesenseConfigs?.giftCardHeaderLogo?.value;
 
-    settingsWithDefaults.store.giftCardFooterText = typesenseConfigs?.ecSupremeAllFooterText?.value;
+    settingsWithDefaults.store.giftCardHeaderText = typesenseConfigs?.giftCardHeaderText.value;
+
+    settingsWithDefaults.store.giftCardFooterText = typesenseConfigs?.giftCardFooterText?.value;
 
     settingsWithDefaults.store.isMulticurrency = maybeConvertToBool(
       typesenseConfigs?.isMulticurrency?.value
