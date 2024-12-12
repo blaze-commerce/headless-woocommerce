@@ -43,6 +43,7 @@ export type Store = {
   isAfterpayEnabled?: boolean;
   isMulticurrency?: boolean;
   giftCardHeaderImage?: string;
+  giftCardHeaderText?: string;
   giftCardFooterText?: string;
   wishlist?: WishlistButton;
   woocommerceTaxSetup?: WooCommerceTaxSetup;

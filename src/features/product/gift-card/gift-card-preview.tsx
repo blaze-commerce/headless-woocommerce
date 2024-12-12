@@ -60,7 +60,7 @@ export const GiftCardPreview = (props: TGiftCardPreview) => {
             className="site-image"
           />
         )}
-        <div className="shop-name">{NEXT_PUBLIC_SHOP_NAME} Gift Card</div>
+        <div className="shop-name">{store?.giftCardHeaderText as string}</div>
         <div className="card-info">
           <div className="card-info-label">Amount</div>
           <div className="card-info-value amount">
