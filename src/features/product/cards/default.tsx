@@ -197,7 +197,6 @@ export const DefaultProductCard = (props: Props) => {
         <CardLabel product={parsedProduct} />
         <CardTitle
           product={parsedProduct}
-          ref={ref}
           handleMouseEnter={handleMouseEnter}
           layout={layout}
           link={productLink}

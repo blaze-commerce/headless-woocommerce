@@ -9,21 +9,23 @@ import { Settings } from '@src/models/settings';
 import { addYears, currentDate as currentDateFn, formatDate } from '@src/lib/helpers/date';
 import { Divider } from '@mui/material';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { useEffect } from 'react';
 
 const { NEXT_PUBLIC_SHOP_NAME } = env();
 
-export const GiftCardPreview = () => {
+type TGiftCardPreview = {
+  amount: number;
+};
+
+export const GiftCardPreview = (props: TGiftCardPreview) => {
+  const { amount } = props;
   const {
-    product,
     giftCards: {
       state: [giftCardInput],
     },
   } = useProductContext();
   const { settings, currentCurrency } = useSiteContext();
   const { store } = settings as Settings;
-
-  const { price, regularPrice } = product as Product;
-  const displayPrice = regularPrice?.[currentCurrency] != 0 ? regularPrice : price;
 
   const currencySymbol = getCurrencySymbol(currentCurrency);
 
@@ -34,50 +36,47 @@ export const GiftCardPreview = () => {
   const formattedExpirationDate = formatDate(expirationDate.toISOString(), 'yyyy-mm-dd');
 
   return (
-    <div>
-      {store?.giftCardHeaderImage && (
-        <Image
-          src={store?.giftCardHeaderImage as string}
-          alt="Gift Card Header"
-          width={640}
-          height={200}
-          className="w-full h-auto"
-        />
-      )}
-      <div className="my-6 space-y-3 flex flex-col text-[#333333]">
-        {giftCardInput?.['giftcard-recipient-field'] && (
-          <span>To: {giftCardInput?.['giftcard-recipient-field']}</span>
+    <>
+      <div className="gift-card-message-preview">
+        {giftCardInput?.['giftcard-from-field'] && (
+          <span>From: {giftCardInput?.['giftcard-from-field']}</span>
         )}
         {giftCardInput?.['giftcard-message-field'] && (
           <span className="break-all">
+            Message:
             <ReactHTMLParser
               html={giftCardInput?.['giftcard-message-field']?.replace(/(?:\r\n|\r|\n)/g, '<br>')}
             />
           </span>
         )}
       </div>
-      <div className="mt-1.5 px-6 bg-[#fffbf8] border border-[#333333] rounded-2xl">
-        <div className="flex items-center justify-center my-6 text-xl text-[#333333]">
-          {NEXT_PUBLIC_SHOP_NAME} Gift Card
-        </div>
-        <div className="mt-6 flex flex-col">
-          <div className="text-xs text-[#666666]">Amount</div>
-          <div className="text-4xl text-[#333333]">
+      <div className="gift-card-content-preview">
+        {store?.giftCardHeaderImage && (
+          <Image
+            src={store?.giftCardHeaderImage as string}
+            alt="Gift Card Header"
+            width={640}
+            height={200}
+            className="site-image"
+          />
+        )}
+        <div className="shop-name">{NEXT_PUBLIC_SHOP_NAME} Gift Card</div>
+        <div className="card-info">
+          <div className="card-info-label">Amount</div>
+          <div className="card-info-value amount">
             {currencySymbol}
-            {displayPrice?.[currentCurrency]?.toFixed(2)}
+            {amount.toFixed(2)}
           </div>
         </div>
-        <div className="mt-6 flex flex-col">
-          <div className="text-xs text-[#666666]">Gift Card Number</div>
-          <div className="font-semibold text-lg text-[#333333]">1234-WXYZ-5678-ABCD</div>
+        <div className="card-info">
+          <div className="card-info-label">Gift Card Number</div>
+          <div className="card-info-value card-number">1234-WXYZ-5678-ABCD</div>
         </div>
-        <div className="my-6 flex flex-row justify-between">
-          <div className="py-3.5 px-8 flex items-center justify-center rounded-md bg-[#bfa677] text-base text-white cursor-pointer">
-            Redeem
-          </div>
-          <div className="flex flex-col justify-end">
-            <div className="text-xs text-[#666666]">Expires</div>
-            <div className="text-sm text-[#333333]">{formattedExpirationDate}</div>
+        <div className="redeem-container">
+          <div className="redeem-button">Redeem</div>
+          <div className="card-info expire-info">
+            <div className="card-info-label">Expires</div>
+            <div className="card-info-value">{formattedExpirationDate}</div>
           </div>
         </div>
       </div>
@@ -86,7 +85,6 @@ export const GiftCardPreview = () => {
           <ReactHTMLParser html={store?.giftCardFooterText as string} />
         </div>
       )}
-      <Divider className="mb-4" />
-    </div>
+    </>
   );
 };

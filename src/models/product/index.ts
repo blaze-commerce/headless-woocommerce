@@ -579,6 +579,10 @@ export class Product {
   }
 
   isFree(currency: string) {
+    if (this.isGiftCard) {
+      return;
+    }
+
     if (this.productType === 'bundle') {
       return typeof this.getBundlePrice === 'undefined' || this.getBundlePrice[currency] === 0;
     }
@@ -691,5 +695,16 @@ export class Product {
     if (this.hasBundle) classes.push('bundle');
 
     return classes;
+  }
+
+  get giftCardPrice(): ProductPrice[] | null {
+    if (!this.isGiftCard) return null;
+
+    if (this.metaData?.giftCard && this.metaData.giftCard?.allowCustomAmount) {
+      const { min, max } = this.metaData.giftCard;
+      return [min, max];
+    }
+
+    return null;
   }
 }

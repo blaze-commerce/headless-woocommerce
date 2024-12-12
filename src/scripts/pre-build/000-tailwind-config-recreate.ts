@@ -107,7 +107,8 @@ const tailwindConfig = `module.exports = {
         ${themeColors}
       },
       fontFamily: {
-        ${fontFamilyConfig}
+        ${fontFamilyConfig},
+        'courier': ['Courier New', 'Courier', 'monospace'],
       },
     },
   },

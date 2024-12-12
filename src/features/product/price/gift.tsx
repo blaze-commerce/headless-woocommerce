@@ -7,7 +7,7 @@ type TVariablePrice = {
   isTaxExclusive: boolean;
 };
 
-export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
+export const GiftCardPrice = ({ product, isTaxExclusive }: TVariablePrice) => {
   const { currentCurrency: currency } = useSiteContext();
   const { regularPrice, salePrice } = product;
   const isOnSale = product.onSale && (product.salePrice?.[currency] as number) > 0;
@@ -16,10 +16,13 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
     return null;
   }
 
-  if (!product.hasSameMinMaxPrice(currency)) {
-    const minPrice = isTaxExclusive ? product.variantMinPrice : product.variantMinPriceWithTax;
-    const maxPrice = isTaxExclusive ? product.variantMaxPrice : product.variantMaxPriceWithTax;
+  const thePrice = product.giftCardPrice;
 
+  if (!thePrice) return null;
+
+  const [minPrice, maxPrice] = thePrice;
+
+  if (minPrice !== maxPrice) {
     return (
       <span className="variable-product-price-container">
         <span className="price">
@@ -42,7 +45,7 @@ export const VariablePrice = ({ product, isTaxExclusive }: TVariablePrice) => {
   }
 
   return (
-    <span className="variable-product-price-container flex items-center gap-2.5">
+    <span className="gift-card-price-container flex items-center gap-2.5">
       <span className="sale-price">{formatPrice(regularPrice, currency)}</span>
       <span className="price">
         {isTaxExclusive

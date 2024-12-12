@@ -6,6 +6,7 @@
 @import 'product/tabs.css';
 @import 'product/addon.css';
 @import 'product/add-to-cart.css';
+@import 'product/gift.css';
 
 .single-product {
   @apply font-primary;
