@@ -37,11 +37,11 @@ export const AddToCartForm = ({ block }: BlockComponentProps) => {
       <div className={cn('add-to-cart-form', block?.id, className, product.classes)}>
         {!product.isOutOfStock && (
           <>
-            <Variant />
+            {product.hasVariations && <Variant />}
             {product.hasBundle && <AddToCartBundle />}
             {product.hasAddons() && <AddToCartAddons />}
-            <CompositeComponents />
-            <GiftCardForm />
+            {product.isComposite && <CompositeComponents />}
+            {product.isGiftCard && <GiftCardForm />}
             <AddToCartFormComponent />
           </>
         )}
