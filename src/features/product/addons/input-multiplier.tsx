@@ -70,7 +70,7 @@ export const AddOnsInputMultiplier = ({ field, product }: TProps) => {
         name={fieldName}
         type="number"
         min={min}
-        max={max}
+        max={max === 0 ? '' : max}
         defaultValue={min}
         onChange={debounceOnChange}
       />

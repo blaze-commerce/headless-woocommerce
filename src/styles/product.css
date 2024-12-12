@@ -50,7 +50,7 @@
 }
 
 .single-product .add-to-cart-form .product-variant-container {
-  @apply flex flex-col gap-4 border-b border-solid border-[#ddd] pb-4;
+  @apply flex flex-col gap-4;
 }
 
 /** Variant Select */
@@ -65,6 +65,10 @@
 
 .single-product .add-to-cart-form .product-variant-container .product-variant-select select {
   @apply w-full;
+}
+
+.single-product .add-to-cart-form .variable-product-price-matched {
+  @apply border-t border-solid border-[#ddd] pt-4;
 }
 
 /** Notify Me */
