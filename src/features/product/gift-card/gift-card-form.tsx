@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState, useCallback } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import { Divider } from '@src/components/common/divider';
 import { GiftCardPreview } from '@src/features/product/gift-card/gift-card-preview';
@@ -12,7 +12,7 @@ import {
 import { getVariations } from '@src/lib/typesense/product';
 import { cn, validateEmail } from '@src/lib/helpers/helper';
 import { useEffectOnce } from 'usehooks-ts';
-import { debounce, isObject, set } from 'lodash';
+import { debounce, isObject } from 'lodash';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { useSiteContext } from '@src/context/site-context';
 import { ProductPrice } from '@src/models/product/types';
@@ -93,12 +93,17 @@ export const GiftCardForm = () => {
 
       // sort variationsArray by price, put the custom amount at the end
       variationsArray.sort((a, b) => {
+        if (a.attr === 'Other amount') return 1;
+        if (b.attr === 'Other amount') return -1;
         if (a.price === undefined) return 1;
         if (b.price === undefined) return -1;
-        if (a.price[currency] === 0) return 1;
-        if (b.price[currency] === 0) return -1;
-        return a.price[currency] - b.price[currency];
+        if (Number(a.price[currency]) == 0) return 1;
+        if (Number(b.price[currency]) == 0) return -1;
+        return Number(a.price[currency]) - Number(b.price[currency]);
       });
+
+      // eslint-disable-next-line no-console
+      console.log({ variationsArray });
 
       setAmountOptions(variationsArray);
 
@@ -112,16 +117,26 @@ export const GiftCardForm = () => {
         setGiftProductId(matchedVariation.id);
       }
 
-      // find custom amount product ID from variationsArray where price is 0
-      const customAmount = variationsArray.find((variation) => variation.price[currency] === 0);
+      // find custom amount product ID from variationsArray where attributes.attribute_gift-card-amount is 'Other amount'
+      const customAmount = variationsArray.find((variation) => variation.attr === 'Other amount');
 
       // set optionCustomAmount to custom amount product ID
       if (customAmount) {
         setOptionCustomAmount(customAmount.id);
       }
 
+      let lowestPrice;
+
       // fund the lowest price from variationsArray and not 0
-      const lowestPrice = variationsArray.find((variation) => variation.price[currency] > 0);
+      if (variationsArray.length === 0) {
+        lowestPrice = variationsArray.find((variation) => variation.price[currency] > 0);
+      } else {
+        lowestPrice = {
+          price: {
+            [currency]: 0,
+          },
+        };
+      }
 
       // set giftCardValue to lowest price
       setGiftCardValue(lowestPrice?.price[currency] ?? 0);
@@ -131,7 +146,9 @@ export const GiftCardForm = () => {
         'giftcard-message-field': '',
         'giftcard-delivery-date-field': formattedCurrentDate,
         'giftcard-email-design-field': '0',
-        'giftcard-custom-amount-field': lowestPrice?.price[currency].toString() ?? '0',
+        'giftcard-custom-amount-field': lowestPrice?.price[currency]
+          ? String(lowestPrice?.price[currency])
+          : '0',
       });
     });
   });
@@ -185,32 +202,12 @@ export const GiftCardForm = () => {
   }, [giftCardInput, setGiftCardInput]);
 
   useEffect(() => {
-    if (isShowPreview && isEmailValid) {
+    if (isShowPreview && isEmailValid && giftCardValue > 0) {
       setDisableAddToCart(false);
+    } else if (!isEmailValid || giftCardValue == 0) {
+      setDisableAddToCart(true);
     }
-  }, [isShowPreview, isEmailValid, setDisableAddToCart]);
-
-  useEffect(() => {
-    // check if giftCardInput['giftcard-custom-amount-field'] is lower than minPrice, than set it to minPrice
-
-    const amountValue = parseFloat(giftCardInput['giftcard-custom-amount-field']);
-
-    if (amountValue < minPrice[currency] || isNaN(amountValue)) {
-      setGiftCardInput((prev) => ({
-        ...prev,
-        'giftcard-custom-amount-field': minPrice[currency].toString(),
-      }));
-      setGiftCardValue(minPrice[currency]);
-    } else if (amountValue > maxPrice[currency]) {
-      setGiftCardInput((prev) => ({
-        ...prev,
-        'giftcard-custom-amount-field': maxPrice[currency].toString(),
-      }));
-      setGiftCardValue(maxPrice[currency]);
-    } else {
-      setGiftCardValue(amountValue);
-    }
-  }, [giftCardInput, setGiftCardInput, currency, minPrice, maxPrice]);
+  }, [isShowPreview, isEmailValid, setDisableAddToCart, giftCardValue]);
 
   useEffect(() => {
     if (giftProductId === optionCustomAmount) {
@@ -221,10 +218,21 @@ export const GiftCardForm = () => {
   if (!product?.isGiftCard) return null;
 
   const onPreviewClick = (e: { preventDefault: () => void }) => {
+    const giftCardAmount = parseFloat(giftCardInput?.['giftcard-custom-amount-field']);
+
     if (
       giftCardInput?.['giftcard-to-field'] == '' ||
-      giftCardInput?.['giftcard-from-field'] == ''
+      giftCardInput?.['giftcard-from-field'] == '' ||
+      giftCardAmount < minPrice[currency] ||
+      giftCardAmount > maxPrice[currency]
     ) {
+      if (giftCardAmount < minPrice[currency] || giftCardAmount > maxPrice[currency]) {
+        (
+          document.getElementById('giftcard-custom-amount-field') as HTMLInputElement
+        )?.setCustomValidity(
+          `Please enter an amount between ${minPrice[currency]} and ${maxPrice[currency]}`
+        );
+      }
       return;
     } else {
       e.preventDefault();
@@ -285,6 +293,39 @@ export const GiftCardForm = () => {
       [inputName]: inputValue,
     }));
   };
+
+  const onAmountChange = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
+    const amountValue = parseFloat(event.target.value);
+
+    if (amountValue < minPrice[currency] || isNaN(amountValue)) {
+      setGiftCardInput((prev) => ({
+        ...prev,
+        'giftcard-custom-amount-field': String(minPrice[currency]),
+      }));
+
+      setGiftCardValue(minPrice[currency]);
+      // set value for element #giftcard-custom-amount-field
+
+      event.target.setCustomValidity(`Please enter an amount greater than ${minPrice[currency]}`);
+      event.target.value = String(minPrice[currency]);
+    } else if (amountValue > maxPrice[currency]) {
+      setGiftCardInput((prev) => ({
+        ...prev,
+        'giftcard-custom-amount-field': String(maxPrice[currency]),
+      }));
+      setGiftCardValue(maxPrice[currency]);
+
+      event.target.setCustomValidity(`Please enter an amount less than ${maxPrice[currency]}`);
+      event.target.value = String(maxPrice[currency]);
+    } else {
+      event.target.setCustomValidity('');
+      setGiftCardInput((prev) => ({
+        ...prev,
+        'giftcard-custom-amount-field': String(amountValue),
+      }));
+      setGiftCardValue(amountValue);
+    }
+  }, 800);
 
   const renderShortDescription = () => {
     const { shortDescription } = product;
@@ -357,17 +398,12 @@ export const GiftCardForm = () => {
             id="giftcard-custom-amount-field"
             name="giftcard-custom-amount-field"
             className="atc-field-input"
-            value={giftCardInput?.['giftcard-custom-amount-field'] ?? giftCardValue}
+            defaultValue={giftCardValue}
             onClick={(e) => {
               //highlight the text on click
               e.currentTarget.select();
             }}
-            onChange={(e) => {
-              setGiftCardInput((prev) => ({
-                ...prev,
-                'giftcard-custom-amount-field': e.target.value,
-              }));
-            }}
+            onChange={onAmountChange}
           />
         </div>
         <div className="atc-field-group required">
