@@ -250,23 +250,26 @@ export class Product {
         return [];
       }
 
-      const variationAttributes = this.purchasableVariations.reduce((accumulator, variation) => {
-        const attributes = JSON.parse(JSON.stringify(variation.attributes));
-        accumulator.push(attributes);
+      // const variationAttributes = this.purchasableVariations.reduce((accumulator, variation) => {
+      //   const attributes = JSON.parse(JSON.stringify(variation.attributes));
+      //   accumulator.push(attributes);
 
-        return accumulator;
-      }, [] as Variation['attributes'][]);
+      //   return accumulator;
+      // }, [] as Variation['attributes'][]);
 
-      return this.attributes?.map((attribute) => {
-        const attributeSlugs = variationAttributes.map((attr) => attr[attribute.name]);
-        const filteredOptions = attribute.options.filter((option) =>
-          attributeSlugs.includes(option.slug)
-        );
+      const currentAttributes: Attribute[] = this.attributes?.map((attribute) => {
+        // const attributeSlugs = variationAttributes.map((attr) => attr[attribute.name]);
+        // const filteredOptions = attribute.options.filter(() => true);
+
+        // console.log({ attribute, filteredOptions });
+
         return {
           ...attribute,
-          options: filteredOptions,
+          // options: filteredOptions,
         };
       });
+
+      return currentAttributes;
     }
 
     return availableAttributes;
@@ -542,9 +545,11 @@ export class Product {
   }
 
   get variantImageSrc() {
-    return this.variations?.map((variation) => {
+    const variantImages = this.variations?.map((variation) => {
       return { ...variation.attributes, ...variation.thumbnail };
     });
+
+    return variantImages;
   }
 
   hasSameMinMaxPrice(currency: string) {

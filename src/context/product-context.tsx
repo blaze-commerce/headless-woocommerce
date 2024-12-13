@@ -227,11 +227,12 @@ export const ProductContextProvider: React.FC<{
     const variation = product.variations?.find((variation) =>
       Object.keys(attributes).every((key) => {
         const variationAttr = JSON.parse(JSON.stringify(variation.attributes));
+
         return (
           variation.attributes &&
           typeof variationAttr === 'object' &&
           key in variationAttr &&
-          variationAttr[key] === attributes[key]
+          (variationAttr[key] === attributes[key] || variationAttr[key] === '')
         );
       })
     );
@@ -262,7 +263,6 @@ export const ProductContextProvider: React.FC<{
       setMatchedVariant(undefined);
       return;
     }
-
     const matchedVariant = findVariationByAttribute(newAttributes);
 
     setMatchedVariant(matchedVariant);
@@ -309,6 +309,16 @@ export const ProductContextProvider: React.FC<{
 
     if ((product.hasVariations || product.isGiftCard) && matchedVariant?.id) {
       inputVariables.variationId = parseInt(matchedVariant.id);
+
+      if (Object.keys(selectedAttributes).length > 0) {
+        inputVariables.variation = [];
+        Object.keys(selectedAttributes).forEach((key) => {
+          inputVariables.variation.push({
+            attributeName: key.replace('attribute_', ''),
+            attributeValue: selectedAttributes[key],
+          });
+        });
+      }
     }
 
     // bundle product
