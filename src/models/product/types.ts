@@ -13,6 +13,7 @@ export type ProductTaxonomy = {
   url: string;
   type: string;
   breadcrumbs?: ITSBreadcrumbs[];
+  componentType?: string;
   parentTerm?: string;
   slug?: string;
   nameAndType?: string;
