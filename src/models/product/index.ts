@@ -382,8 +382,7 @@ export class Product {
     }
 
     return (
-      // (this.stockQuantity == null || this.stockQuantity < 1) && this.stockStatus === 'outofstock'
-      this.stockStatus === 'outofstock'
+      (this.stockQuantity == null || this.stockQuantity < 1) && this.stockStatus === 'outofstock'
     );
   }
 

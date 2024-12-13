@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import path from 'path';
 import https from 'https';
 import wpTheme from '@public/wp-theme.json';
-import { endsWith, get } from 'lodash';
+import { camelCase, endsWith, get } from 'lodash';
 
 const isItalic = (str: string) => {
   return endsWith(str, 'italic');
@@ -40,7 +40,7 @@ export default async function execute() {
       // output += `export const ${'fonts'} = {\n`;
 
       fontFamilies.forEach((font) => {
-        output += `export const ${font.slug} = localFont({\n`;
+        output += `export const ${camelCase(font.slug)} = localFont({\n`;
         output += '    src: [\n';
         font.fontFace.forEach((face) => {
           const fontUrl = face.src;
