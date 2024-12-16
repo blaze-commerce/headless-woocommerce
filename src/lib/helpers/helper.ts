@@ -195,7 +195,8 @@ export const getCurrencySymbol = (currency: string) => {
 
 export const removeCurrencySymbol = (currency: string, price: string) => {
   const symbol = getCurrencySymbol(currency);
-  return numberFormat(parseFloat(price.replace(symbol, '')));
+  const regex = new RegExp(`\\${symbol}`, 'g');
+  return numberFormat(parseFloat(price.replace(regex, '').replace(/,/g, '')));
 };
 
 const priceOrder = ['symbol', 'price'];
