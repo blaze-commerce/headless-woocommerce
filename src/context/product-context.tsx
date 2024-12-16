@@ -82,7 +82,7 @@ type ProductState = {
     error?: ApolloError;
   };
   selectedAttributes: Dictionary<string>;
-  matchedVariant?: Product;
+  matchedVariant?: Product | false;
   compositeComponents?: CompositeProductComponent[];
   selectedCompositeComponents: SelectedCompositeComponent;
   hasLoaded: boolean;
@@ -314,7 +314,7 @@ export const ProductContextProvider: React.FC<{
 
     const extraData: any = {};
 
-    if ((product.hasVariations || product.isGiftCard) && matchedVariant?.id) {
+    if ((product.hasVariations || product.isGiftCard) && matchedVariant && matchedVariant.id) {
       inputVariables.variationId = parseInt(matchedVariant.id);
 
       if (Object.keys(selectedAttributes).length > 0) {
