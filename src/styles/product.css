@@ -29,7 +29,8 @@
   @apply text-sm;
 }
 
-.single-product.out-of-stock .hide-if-out-of-stock {
+.single-product.out-of-stock .hide-if-out-of-stock,
+.single-product.simple-product .hide-if-simple-product {
   @apply !hidden;
 }
 
@@ -69,6 +70,10 @@
 
 .single-product .add-to-cart-form .variable-product-price-matched {
   @apply border-t border-solid border-[#ddd] pt-4;
+}
+
+.single-product .product-unavailable-message {
+  @apply flex items-center gap-4 justify-center bg-[#f9f8f8] border-accent-3 border-t-2 py-2 px-4 text-xs leading-6 font-roboto;
 }
 
 /** Notify Me */

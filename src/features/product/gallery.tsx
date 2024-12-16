@@ -13,7 +13,6 @@ import { useSiteContext } from '@src/context/site-context';
 import { Image as ImageType } from '@src/models/product/types';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
 import { cn, isLightColor, isMp4 } from '@src/lib/helpers/helper';
-import { find } from 'lodash';
 
 type Props = {
   id?: string;
@@ -48,7 +47,7 @@ export const Gallery: React.FC<Props> = (props) => {
     },
     state: { matchedVariant },
   } = useProductContext();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | undefined>(0);
   const { asPath } = useRouter();
 
   useEffect(() => {
@@ -57,10 +56,16 @@ export const Gallery: React.FC<Props> = (props) => {
   }, [asPath]);
 
   useEffect(() => {
+    // reset the image thumbnail attribute when the selected image index changes
+    setImageThumbnailAttribute({} as ImageType);
+  }, [selectedImageIndex, setImageThumbnailAttribute]);
+
+  useEffect(() => {
     if (!matchedVariant) return;
 
     setImageThumbnailAttribute(matchedVariant.thumbnail as ImageType);
-  }, [matchedVariant, setImageThumbnailAttribute]);
+    setSelectedImageIndex(undefined);
+  }, [matchedVariant, setImageThumbnailAttribute, setSelectedImageIndex]);
 
   if (!images) return null;
 
@@ -274,8 +279,8 @@ export const Gallery: React.FC<Props> = (props) => {
     return (
       <>
         {images.length > 1 ? (
-          <div className="mt-5 lg:mt-2.5 w-full">
-            <Tab.List className="flex space-x-2.5 justify-center lg:space-x-0 lg:justify-normal lg:grid grid-cols-4 gap-[5px]">
+          <div className="mt-5 lg:mt-3 w-full">
+            <Tab.List className="flex space-x-2.5 justify-center lg:space-x-0 lg:justify-normal lg:grid grid-cols-4 gap-3">
               {images.map((image, index) => (
                 <Tab
                   key={`image-gallery-${image.id}-${index}`}

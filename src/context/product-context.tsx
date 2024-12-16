@@ -190,7 +190,7 @@ export const ProductContextProvider: React.FC<{
 }> = ({ children, product, additionalData, linkedProducts, customer }) => {
   const { currentCurrency } = useSiteContext();
   const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string }>({});
-  const [matchedVariant, setMatchedVariant] = useState<Product>();
+  const [matchedVariant, setMatchedVariant] = useState<Product | undefined | false>(undefined);
   const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
   const [selectedCompositeComponents, setSelectedCompositeComponents] =
     useState<SelectedCompositeComponent>({});
@@ -266,12 +266,15 @@ export const ProductContextProvider: React.FC<{
     }
     const matchedVariant = findVariationByAttribute(newAttributes);
 
-    setMatchedVariant(matchedVariant);
-
     if (typeof matchedVariant === 'undefined') {
       // Disable add to cart since there is no matching variant found.
+      setMatchedVariant(false);
       setDisableAddToCart(true);
+
+      return;
     }
+
+    setMatchedVariant(matchedVariant);
 
     if (matchedVariant && matchedVariant.purchasable) {
       let allowAddToCart = true;

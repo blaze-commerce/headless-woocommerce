@@ -13,6 +13,10 @@ const ProductMatchedVariantPrice = dynamic(() =>
   )
 );
 
+const UnavailableProduct = dynamic(() =>
+  import('@src/features/product/unavailable').then((mod) => mod.UnavailableProduct)
+);
+
 const WishlistButton = dynamic(() =>
   import('@src/features/wish-list/wish-list-button').then((mod) => mod.WishListButton)
 );
@@ -62,10 +66,14 @@ export const AddToCartForm = () => {
     if (
       product?.hasSameMinMaxPrice(currentCurrency) ||
       !product?.hasVariations ||
-      !matchedVariant ||
+      typeof matchedVariant === 'undefined' ||
       product.hasAddons()
     )
       return null;
+
+    if (!matchedVariant && typeof matchedVariant === 'boolean') {
+      return <UnavailableProduct />;
+    }
 
     return (
       <ProductMatchedVariantPrice
