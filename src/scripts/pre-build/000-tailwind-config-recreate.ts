@@ -104,6 +104,7 @@ const tailwindConfig = `module.exports = {
         'brand-second-grey': 'var(--colors-brandPrimary)',
         'sub-title': 'var(--colors-subTitle)',
         'contrast-3': '#655B51',
+        'accent-3': '#FF8A00',
         ${themeColors}
       },
       fontFamily: {

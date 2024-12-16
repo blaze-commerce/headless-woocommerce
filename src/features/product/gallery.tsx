@@ -27,31 +27,45 @@ type Props = {
   newBadgeColor?: string;
 };
 
-export const Gallery: React.FC<Props> = ({
-  id,
-  className,
-  images,
-  isNew,
-  onSale,
-  isGrid,
-  zoomType,
-  badgeType,
-  saleBadgeColor,
-  newBadgeColor,
-}) => {
+export const Gallery: React.FC<Props> = (props) => {
+  const {
+    id,
+    className,
+    images,
+    isNew,
+    onSale,
+    isGrid,
+    zoomType,
+    badgeType,
+    saleBadgeColor,
+    newBadgeColor,
+  } = props;
   const { settings } = useSiteContext();
   const {
     variation: {
-      image: [imageThumbnailAttribute],
+      image: [imageThumbnailAttribute, setImageThumbnailAttribute],
     },
+    state: { matchedVariant },
   } = useProductContext();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | undefined>(0);
   const { asPath } = useRouter();
 
   useEffect(() => {
     // On component mount reset the selected index of the image to the first element
     setSelectedImageIndex(0);
   }, [asPath]);
+
+  useEffect(() => {
+    // reset the image thumbnail attribute when the selected image index changes
+    setImageThumbnailAttribute({} as ImageType);
+  }, [selectedImageIndex, setImageThumbnailAttribute]);
+
+  useEffect(() => {
+    if (!matchedVariant) return;
+
+    setImageThumbnailAttribute(matchedVariant.thumbnail as ImageType);
+    setSelectedImageIndex(undefined);
+  }, [matchedVariant, setImageThumbnailAttribute, setSelectedImageIndex]);
 
   if (!images) return null;
 
@@ -265,8 +279,8 @@ export const Gallery: React.FC<Props> = ({
     return (
       <>
         {images.length > 1 ? (
-          <div className="mt-5 lg:mt-2.5 w-full">
-            <Tab.List className="flex space-x-2.5 justify-center lg:space-x-0 lg:justify-normal lg:grid grid-cols-4 gap-[5px]">
+          <div className="mt-5 lg:mt-3 w-full">
+            <Tab.List className="flex space-x-2.5 justify-center lg:space-x-0 lg:justify-normal lg:grid grid-cols-4 gap-3">
               {images.map((image, index) => (
                 <Tab
                   key={`image-gallery-${image.id}-${index}`}

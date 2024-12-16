@@ -56,6 +56,11 @@ export const ProductMatchedVariantPrice: React.FC<Props> = ({
   return (
     <div className={cn(className)}>
       {renderSimpleProductPrice()}
+      {typeof product.stockQuantity !== 'undefined' && product.stockQuantity > 0 && (
+        <div className="stock-status">
+          <span className="instock">{product.stockQuantity} in stock</span>
+        </div>
+      )}
       {priceDisplaySuffix && <span className="price-suffix"> {priceDisplaySuffix}</span>}
     </div>
   );

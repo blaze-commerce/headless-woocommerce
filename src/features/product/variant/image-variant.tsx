@@ -19,9 +19,6 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
   const {
     product,
     actions: { onAttributeSelect },
-    variation: {
-      image: [, setImageThumbnailAttribute],
-    },
   } = useProductContext();
   const { name, label, options } = attribute;
   const attributeImageSrc = product?.variantImageSrc;
@@ -30,11 +27,6 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
 
   useEffect(() => {
     if (!isEmpty(attributeParams[name]) && !isEmpty(name)) {
-      const foundAttribute = find(attributeImageSrc, attributeParams);
-      if (!isEmpty(foundAttribute)) {
-        setImageThumbnailAttribute(foundAttribute as ImageType);
-      }
-
       const foundLabel = find(options, { slug: attributeParams[name] });
       if (!isEmpty(foundLabel)) {
         setCurrentAttributeLabel(foundLabel.label);
@@ -48,7 +40,6 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
 
   const handleOnClick = (variantImageSrc: ImageType, variantName: string, variantLabel: string) => {
     setCurrentAttributeLabel(variantLabel);
-    setImageThumbnailAttribute(variantImageSrc as ImageType);
     onAttributeSelect(name, variantName);
   };
 
