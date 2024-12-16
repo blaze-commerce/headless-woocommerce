@@ -64,7 +64,7 @@ export const AddToCartForm = () => {
 
   const renderMatchedVariant = () => {
     if (
-      product?.hasSameMinMaxPrice(currentCurrency) ||
+      // product?.hasSameMinMaxPrice(currentCurrency) ||
       !product?.hasVariations ||
       typeof matchedVariant === 'undefined' ||
       product.hasAddons()

@@ -266,7 +266,7 @@ export const ProductContextProvider: React.FC<{
     }
     const matchedVariant = findVariationByAttribute(newAttributes);
 
-    if (typeof matchedVariant === 'undefined') {
+    if (typeof matchedVariant === 'undefined' || !matchedVariant.purchasable) {
       // Disable add to cart since there is no matching variant found.
       setMatchedVariant(false);
       setDisableAddToCart(true);
