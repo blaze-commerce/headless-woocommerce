@@ -256,6 +256,7 @@ export const ProductContextProvider: React.FC<{
     if (value === '') {
       delete newAttributes[attribute];
     }
+
     setSelectedAttributes(newAttributes);
 
     const missingFields = difference(product.requiredAttributes, Object.keys(newAttributes));
@@ -266,6 +267,7 @@ export const ProductContextProvider: React.FC<{
     const matchedVariant = findVariationByAttribute(newAttributes);
 
     setMatchedVariant(matchedVariant);
+
     if (typeof matchedVariant === 'undefined') {
       // Disable add to cart since there is no matching variant found.
       setDisableAddToCart(true);
@@ -277,6 +279,8 @@ export const ProductContextProvider: React.FC<{
         allowAddToCart = false;
       }
       setDisableAddToCart(!allowAddToCart);
+    } else {
+      setDisableAddToCart(true);
     }
   };
 
