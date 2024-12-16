@@ -13,6 +13,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { Image as ImageType } from '@src/models/product/types';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
 import { cn, isLightColor, isMp4 } from '@src/lib/helpers/helper';
+import { find } from 'lodash';
 
 type Props = {
   id?: string;
@@ -27,23 +28,25 @@ type Props = {
   newBadgeColor?: string;
 };
 
-export const Gallery: React.FC<Props> = ({
-  id,
-  className,
-  images,
-  isNew,
-  onSale,
-  isGrid,
-  zoomType,
-  badgeType,
-  saleBadgeColor,
-  newBadgeColor,
-}) => {
+export const Gallery: React.FC<Props> = (props) => {
+  const {
+    id,
+    className,
+    images,
+    isNew,
+    onSale,
+    isGrid,
+    zoomType,
+    badgeType,
+    saleBadgeColor,
+    newBadgeColor,
+  } = props;
   const { settings } = useSiteContext();
   const {
     variation: {
-      image: [imageThumbnailAttribute],
+      image: [imageThumbnailAttribute, setImageThumbnailAttribute],
     },
+    state: { matchedVariant },
   } = useProductContext();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { asPath } = useRouter();
@@ -52,6 +55,12 @@ export const Gallery: React.FC<Props> = ({
     // On component mount reset the selected index of the image to the first element
     setSelectedImageIndex(0);
   }, [asPath]);
+
+  useEffect(() => {
+    if (!matchedVariant) return;
+
+    setImageThumbnailAttribute(matchedVariant.thumbnail as ImageType);
+  }, [matchedVariant, setImageThumbnailAttribute]);
 
   if (!images) return null;
 

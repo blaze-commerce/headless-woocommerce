@@ -1,9 +1,8 @@
 import { useProductContext } from '@src/context/product-context';
 import { useAttributeParams } from '@src/lib/hooks/product';
-import { Attribute, Image } from '@src/models/product/types';
-import { find, isEmpty, uniq } from 'lodash';
+import { Attribute } from '@src/models/product/types';
+import { find, isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useEffectOnce } from 'usehooks-ts';
 
 type Props = {
   attribute: Attribute;
@@ -15,22 +14,13 @@ export const BoxedVariant: React.FC<Props> = ({ attribute }) => {
   const {
     product,
     actions: { onAttributeSelect },
-    variation: {
-      image: [, setImageThumbnailAttribute],
-    },
   } = useProductContext();
   const { name, label, options } = attribute;
-  const attributeImageSrc = product?.variantImageSrc;
 
   const [currentAttributeLabel, setCurrentAttributeLabel] = useState('');
 
   useEffect(() => {
     if (!isEmpty(attributeParams[name]) && !isEmpty(name)) {
-      const foundAttribute = find(attributeImageSrc, attributeParams);
-      if (!isEmpty(foundAttribute)) {
-        setImageThumbnailAttribute(foundAttribute as Image);
-      }
-
       const foundLabel = find(options, { slug: attributeParams[name] });
       if (!isEmpty(foundLabel)) {
         setCurrentAttributeLabel(foundLabel.label);
