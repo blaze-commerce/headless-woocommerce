@@ -10,7 +10,7 @@ type ICardAddToCart = {
 };
 
 export const CardAddToCart = (props: ICardAddToCart) => {
-  const { product, hasAddToCart, detailsAlignment, layout } = props;
+  const { product, hasAddToCart } = props;
   const { currentCurrency } = useSiteContext();
 
   if (product.isFree(currentCurrency)) return null;

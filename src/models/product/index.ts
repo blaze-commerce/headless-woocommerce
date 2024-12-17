@@ -356,6 +356,7 @@ export class Product {
     const response = await WoolessTypesense.product.documents().search(searchArgs);
 
     const products = await transformToProducts(response);
+
     return !isEmpty(products[0]) ? products[0] : {};
   }
 

@@ -102,9 +102,6 @@ export const GiftCardForm = () => {
         return Number(a.price[currency]) - Number(b.price[currency]);
       });
 
-      // eslint-disable-next-line no-console
-      console.log({ variationsArray });
-
       setAmountOptions(variationsArray);
 
       // set default giftProductId based on defaultAttributes

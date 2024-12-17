@@ -33,7 +33,7 @@
 }
 
 .single-product .add-to-cart-form .product-addon-container .addon-field-options .addon-option {
-  @apply py-2 px-4 border-2 border-solid border-[#ddd] rounded-md cursor-pointer text-xs font-normal leading-6 text-[#333] w-24 text-center;
+  @apply py-2 px-4 border-2 border-solid border-[#ddd] rounded-md cursor-pointer text-xs font-normal leading-6 text-[#333] min-w-[96px] text-center;
 }
 
 .single-product

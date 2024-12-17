@@ -1,3 +1,4 @@
+import { kebabCase } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
 import { useProductContext } from '@src/context/product-context';
@@ -32,6 +33,7 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
             ...item,
             quantity: selected.length,
             isCalculated: selected.length > 0,
+            options: options.filter((option) => selected.includes(option.label)),
           };
         }
         return item;
@@ -43,10 +45,10 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
     setFieldsValue((prev) => {
       return {
         ...prev,
-        [`${fieldName}`]: selected.map((item) => item.toLowerCase()),
+        [`${fieldName}`]: selected.map((item) => kebabCase(item.toLowerCase())),
       };
     });
-  }, [selected, setAddonItems, addonId, setFieldsValue, fieldName]);
+  }, [selected, setAddonItems, addonId, setFieldsValue, fieldName, options]);
 
   return (
     <div
