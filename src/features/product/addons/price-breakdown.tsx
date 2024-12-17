@@ -19,7 +19,16 @@ export const AddOnsPriceBreakdown = () => {
 
     return items.reduce((total, item) => {
       if (item.isCalculated) {
-        return total + item.price * item.quantity;
+        if (item?.options && item.options.length > 0) {
+          return (
+            total +
+            item.options.reduce((optionTotal, option) => {
+              return optionTotal + Number(option.price);
+            }, 0)
+          );
+        } else {
+          return total + item.price * item.quantity;
+        }
       }
       return total;
     }, 0);
@@ -27,7 +36,7 @@ export const AddOnsPriceBreakdown = () => {
 
   useEffect(() => {
     setOptionalFee(calculateOptionalCost());
-  }, [calculateOptionalCost]);
+  }, [calculateOptionalCost, setOptionalFee]);
 
   if (product?.stockStatus === 'outofstock') return null;
 
@@ -41,7 +50,7 @@ export const AddOnsPriceBreakdown = () => {
 
   return (
     <div className="addons-price-breakdown">
-      <span>Options total: ${optionalFee.toFixed(2)}</span>
+      <span>Options Total: ${optionalFee.toFixed(2)}</span>
       <span>Grand Total: ${(productPrice + optionalFee).toFixed(2)}</span>
     </div>
   );

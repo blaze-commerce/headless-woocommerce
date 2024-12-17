@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useProductContext } from '@src/context/product-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
