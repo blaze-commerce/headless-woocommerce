@@ -36,7 +36,8 @@ export const PostItem = ({ post }: { post: ITSPage }) => {
           </h2>
 
           <div className="text-[#777777] text-sm font-bold font-primary leading-normal">
-            {formatDate(post.createdAt, 'M j, Y')} by {capitalizeString(post.author.displayName)}
+            {formatDate(post.createdAt, 'M j, Y')}{' '}
+            {post.author && `by ${capitalizeString(post.author.displayName)}`}
           </div>
 
           <p className="text-[#777777] text-base font-bold font-primary leading-normal">

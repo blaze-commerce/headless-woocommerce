@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
 import postSlugs from '@public/post-slugs.json';
-import { getDefaultCountry } from '@src/lib/helpers/country';
+import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
 import pageSlugs from '@public/page-slugs.json';
 import { NextURL } from 'next/dist/server/web/next-url';
 
@@ -49,21 +49,12 @@ const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCount
 };
 
 const getCurrentCountry = (country: string) => {
-  const regionsMapping: { [key: string]: string[] } = siteData.regions;
-
-  let currentCountry = '';
-  for (const region in regionsMapping) {
-    currentCountry = region;
-    if (regionsMapping && regionsMapping[region].includes(country)) {
-      break;
-    }
+  const region = getRegionByCountry(country);
+  if (region) {
+    return region.baseCountry;
   }
 
-  if (currentCountry === '') {
-    currentCountry = getDefaultCountry();
-  }
-
-  return currentCountry;
+  return getDefaultCountry();
 };
 
 const isBlogPageUrl = (url: string): boolean => {
@@ -81,15 +72,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const { country: gCountry } = geolocation(req);
   const typedPostSlugs: string[] = postSlugs;
-  // Extract country
-  let country = req.cookies.get('currentCountry')?.value;
-  const geoCountry = gCountry || '';
-  if (!country) {
-    country = geoCountry;
-  }
 
+  const { country: geoCountry = '' } = geolocation(req);
+  const country = req.cookies.get('currentCountry')?.value || geoCountry;
   const currentCountry = getCurrentCountry(country);
 
   if (req.nextUrl.pathname.startsWith('/products/new')) {

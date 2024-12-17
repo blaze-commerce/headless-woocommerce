@@ -29,3 +29,12 @@ export const getAllBaseContries = () => {
 export const getAllCurrencies = () => {
   return regionSettings.map((item) => item.currency);
 };
+
+export const getRegionByCountry = (country: string) => {
+  return regionSettings.find((item) => item.baseCountry === country);
+};
+
+export const getCurrencyByCountry = (currencyCode: string) => {
+  const region = regionSettings.find((item) => item.currency === currencyCode);
+  return region ? region.currency : 'AU';
+};
