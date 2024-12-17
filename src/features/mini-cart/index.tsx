@@ -169,10 +169,10 @@ export const MiniCart = () => {
                     {hasCartItems && <CouponCode />}
 
                     {hasCartItems && (
-                      <div className=" py-6 pt-0 px-4 sm:px-6">
+                      <div className=" py-6 px-4 sm:px-6 space-y-4">
                         <AppliedCoupon appliedCoupons={cart.appliedCoupons} />
                         {parseInt(cart.feeTotal || '', 10) > 0 && (
-                          <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-2 ">
+                          <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray">
                             <p>Discount:</p>
                             <p className="subtotal">
                               {getCurrencySymbol(currentCurrency)}
@@ -181,12 +181,15 @@ export const MiniCart = () => {
                           </div>
                         )}
 
-                        <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-6 pb-0 ">
+                        <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-2">
                           <p>Subtotal:</p>
                           <p className="subtotal">
                             {getCurrencySymbol(currentCurrency)}
                             {numberFormat(Number(subtotalDisplay))}
                           </p>
+                        </div>
+                        <div className="text-sm leading-6">
+                          * Shipping and tax are calculated after the shipping step is completed.
                         </div>
                         {/* <div className="flex text-brand-primary justify-between text-lg font-bold">
                           <p>Total:</p>

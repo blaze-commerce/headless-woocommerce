@@ -46,11 +46,11 @@ export const AppliedCoupon: React.FC<Props> = ({ appliedCoupons }: Props) => {
   };
 
   return (
-    <div className="border-t pt-6 pb-2">
+    <>
       {appliedCoupons.map((appliedCoupon) => (
         <div
           key={appliedCoupon.code}
-          className="flex justify-between text-base pb-2"
+          className="flex justify-between text-base"
         >
           <p>{appliedCoupon.code}</p>
           <p>
@@ -67,6 +67,6 @@ export const AppliedCoupon: React.FC<Props> = ({ appliedCoupons }: Props) => {
           </p>
         </div>
       ))}
-    </div>
+    </>
   );
 };
