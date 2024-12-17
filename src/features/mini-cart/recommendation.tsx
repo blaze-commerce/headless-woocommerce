@@ -40,8 +40,7 @@ const RecommendationDisplay = ({ label, products }: { label: string; products: P
 };
 
 export const Recommendation = () => {
-  const { miniCartState, cart, fetchingCart, cartUpdating, currentCurrency, settings } =
-    useSiteContext();
+  const { cart, fetchingCart, cartUpdating } = useSiteContext();
 
   const hasCartItems = cart !== null && cart?.products?.length > 0 ? true : false;
 
@@ -50,6 +49,10 @@ export const Recommendation = () => {
 
   const { data: recommendedProducts, loading: fetchingRecommendedProducts } =
     useFetchTopRecommendedProductsForCartItems();
+
+  if (fetchingCart || cartUpdating) {
+    return null;
+  }
 
   if (hasCartItems && !fetchingRecommendedProducts && recommendedProducts.length > 0) {
     return (
