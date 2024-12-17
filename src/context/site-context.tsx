@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Dictionary } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
-import { find, isEmpty, keyBy, reduce } from 'lodash';
+import { find, isEmpty, keyBy } from 'lodash';
 import { useRouter } from 'next/router';
 import React, {
   Dispatch,
@@ -25,26 +25,7 @@ import { getCookie, setCookie } from '@src/lib/helpers/cookie';
 import { Settings } from '@src/models/settings';
 import { RegionalData, ShippingMethodRates } from '@src/types';
 import type { CalculateShippingHook } from '@src/lib/hooks';
-
-const country = reduce<
-  RegionalData,
-  {
-    [code: string]: {
-      currency: string;
-    };
-  }
->(
-  regionSettings,
-  (accumulator, currentData) => {
-    if (typeof accumulator[currentData.baseCountry] === 'undefined') {
-      accumulator[currentData.baseCountry] = {
-        currency: currentData.currency,
-      };
-    }
-    return accumulator;
-  },
-  {}
-);
+import { getCurrencyByCountry, getDefaultCountry } from '@src/lib/helpers/country';
 
 type SiteContextType = Partial<{
   settings: Settings;
@@ -248,10 +229,8 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
 
   useEffect(() => {
     setHistory((previous) => [...previous, asPath]);
-    const baseCountry = regionSettings?.[0]?.baseCountry;
-    const selectedCountry = getCookie('currentCountry') || baseCountry || 'AU';
-
-    const currency = country[selectedCountry].currency;
+    const selectedCountry = getCookie('currentCountry') || getDefaultCountry();
+    const currency = getCurrencyByCountry(selectedCountry);
 
     setCurrentCountry(selectedCountry);
     setCurrentCurrency(currency);
@@ -266,7 +245,7 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
     const selectedCountry = e.target.value;
     setCurrentCountry(selectedCountry);
     setCookie('currentCountry', selectedCountry, 30);
-    const currency = country[selectedCountry].currency;
+    const currency = getCurrencyByCountry(selectedCountry);
     setCookie('aelia_cs_selected_currency', currency, 30);
     setCurrentCurrency(currency);
     await updateCustomer({
