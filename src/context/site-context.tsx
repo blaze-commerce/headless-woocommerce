@@ -25,7 +25,11 @@ import { getCookie, setCookie } from '@src/lib/helpers/cookie';
 import { Settings } from '@src/models/settings';
 import { RegionalData, ShippingMethodRates } from '@src/types';
 import type { CalculateShippingHook } from '@src/lib/hooks';
-import { getCurrencyByCountry, getDefaultCountry } from '@src/lib/helpers/country';
+import {
+  getCurrencyByCountry,
+  getDefaultCountry,
+  getDefaultCurrency,
+} from '@src/lib/helpers/country';
 
 type SiteContextType = Partial<{
   settings: Settings;
@@ -98,7 +102,8 @@ export const SiteContext = createContext<SiteContextType>({
 export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { asPath, push, pathname } = useRouter();
   const [history, setHistory] = useState<string[]>([]);
-  const [currentCurrency, setCurrentCurrency] = useState('');
+  const defaultCurrency = getDefaultCurrency();
+  const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
   const [currentCountry, setCurrentCountry] = useState('');
 
   const [openLoginPopUp, setOpenLoginPopUp] = useState(false);
