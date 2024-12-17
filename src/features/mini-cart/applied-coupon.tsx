@@ -6,6 +6,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { REMOVE_COUPONS } from '@src/lib/graphql/queries';
 import { CouponCode, FormattedCart } from '@src/lib/hooks/cart';
 import { numberFormat } from '@src/lib/helpers/product';
+import { getCurrencySymbol } from '@src/lib/helpers/helper';
 
 type Props = Pick<FormattedCart, 'appliedCoupons'>;
 
@@ -53,7 +54,8 @@ export const AppliedCoupon: React.FC<Props> = ({ appliedCoupons }: Props) => {
         >
           <p>{appliedCoupon.code}</p>
           <p>
-            -{getAppliedCouponAmount(appliedCoupon)} {currentCurrency}
+            -{getCurrencySymbol(currentCurrency)}
+            {getAppliedCouponAmount(appliedCoupon)}
             <a
               className={`cursor-pointer block text-right text-xs text-black ${
                 removeCouponLoading ? 'pointer-events-none' : ''

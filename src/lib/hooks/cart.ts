@@ -72,6 +72,8 @@ export type FormattedCart = {
   totalTax?: string;
   feeTotal?: string;
   feeTax?: string;
+  discountTotal?: number;
+  discountTax?: number;
 };
 
 /**
@@ -180,8 +182,15 @@ export const getFormattedCart = (data: any): FormattedCart => {
   const feeTax = parseFloat(data?.cart?.feeTax ?? '') || 0;
   const feeTotalWithTax = parseFloat((feeTotal + feeTax).toString() || '');
 
-  const subtotal = parseFloat(data?.cart?.subtotal ?? '') || 0;
+  let subtotal = parseFloat(data?.cart?.subtotal ?? '') || 0;
   const subtotalTax = parseFloat(data?.cart?.subtotalTax ?? '') || 0;
+
+  const discountTotal = parseFloat(data?.cart?.discountTotal ?? '') || 0;
+  const discountTax = parseFloat(data?.cart?.discountTax ?? '') || 0;
+
+  if (discountTotal > 0) {
+    subtotal = subtotal - discountTotal;
+  }
 
   const productsKeyByCartKey = keyBy(products, 'cartKey');
 
@@ -228,6 +237,9 @@ export const getFormattedCart = (data: any): FormattedCart => {
 
     feeTotal: numberFormat(feeTotal) ?? '',
     feeTax: numberFormat(feeTax) ?? '',
+
+    discountTotal,
+    discountTax,
   };
 };
 
