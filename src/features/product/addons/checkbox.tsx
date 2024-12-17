@@ -1,4 +1,3 @@
-import { kebabCase } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
 import { useProductContext } from '@src/context/product-context';
@@ -18,7 +17,7 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
   const { id: addonId, name, required, options } = field;
   const { addons } = useAddToCartContext();
   const { fields: formFields } = useProductContext();
-  const [, setFieldsValue] = formFields.value;
+  const [fieldsValue, setFieldsValue] = formFields.value;
   const [, setAddonItems] = addons;
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -45,7 +44,7 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
     setFieldsValue((prev) => {
       return {
         ...prev,
-        [`${fieldName}`]: selected.map((item) => kebabCase(item.toLowerCase())),
+        [`${fieldName}`]: selected.map((item) => item.toLowerCase().replace(/\s/g, '-')),
       };
     });
   }, [selected, setAddonItems, addonId, setFieldsValue, fieldName, options]);
