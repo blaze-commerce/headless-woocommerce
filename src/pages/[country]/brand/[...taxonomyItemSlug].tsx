@@ -33,6 +33,7 @@ export const getStaticPaths = async () => {
   } catch (error) {
     currencies = [];
   }
+
   const countries = currencies.map((currency) => currency.baseCountry) || [Country.Australia.code];
   const slugPaths = await TSTaxonomy.buildStaticPathParams(1);
 

@@ -236,9 +236,9 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
     setHistory((previous) => [...previous, asPath]);
     const selectedCountry = getCookie('currentCountry') || getDefaultCountry();
     const currency = getCurrencyByCountry(selectedCountry);
-
     setCurrentCountry(selectedCountry);
     setCurrentCurrency(currency);
+
     setCookie('aelia_cs_selected_currency', currency, 30);
     setShowSearch(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
