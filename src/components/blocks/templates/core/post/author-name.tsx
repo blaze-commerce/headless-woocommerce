@@ -4,7 +4,7 @@ import { capitalizeString } from '@src/lib/helpers';
 
 export const PostAuthorName = ({ block }: BlockComponentProps) => {
   const { post } = usePostContext();
-  if ('core/post-author-name' !== block.blockName || !post) {
+  if ('core/post-author-name' !== block.blockName || !post || !post.author) {
     return null;
   }
 

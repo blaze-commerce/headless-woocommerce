@@ -42,7 +42,7 @@ export interface ITSPage {
   createdAt: number;
   content: string;
   rawContent: string;
-  author: ITSAuthor;
+  author: ITSAuthor | null;
   template: string;
   breadcrumbs: ITSBreadcrumb[];
 }
