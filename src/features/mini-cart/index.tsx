@@ -169,7 +169,7 @@ export const MiniCart = () => {
                     {hasCartItems && <CouponCode />}
 
                     {hasCartItems && (
-                      <div className=" py-6 px-4 sm:px-6 space-y-4">
+                      <div className="pb-6 px-4 sm:px-6 space-y-4">
                         <AppliedCoupon appliedCoupons={cart.appliedCoupons} />
                         {parseInt(cart.feeTotal || '', 10) > 0 && (
                           <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray">
