@@ -252,7 +252,7 @@ export default async function execute(params) {
 
     settingsWithDefaults.store.giftCardHeaderImage = typesenseConfigs?.giftCardHeaderLogo?.value;
 
-    settingsWithDefaults.store.giftCardHeaderText = typesenseConfigs?.giftCardHeaderText.value;
+    settingsWithDefaults.store.giftCardHeaderText = typesenseConfigs?.giftCardHeaderText?.value;
 
     settingsWithDefaults.store.giftCardFooterText = typesenseConfigs?.giftCardFooterText?.value;
 
