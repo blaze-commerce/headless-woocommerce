@@ -157,9 +157,13 @@ export const GiftCardForm = () => {
 
       if (selectedOption) {
         setGiftCardValue(selectedOption.price[currency]);
+        setGiftCardInput((prev) => ({
+          ...prev,
+          'giftcard-custom-amount-field': String(selectedOption.price[currency]),
+        }));
       }
     }
-  }, [giftProductId, optionCustomAmount, giftCardValue, amountOptions, currency]);
+  }, [giftProductId, optionCustomAmount, giftCardValue, amountOptions, currency, setGiftCardInput]);
 
   useEffect(() => {
     if (
