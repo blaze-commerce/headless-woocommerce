@@ -1,7 +1,6 @@
 import { find, isEmpty } from 'lodash';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { v4 } from 'uuid';
 
 import { useProductContext } from '@src/context/product-context';
 import { Attribute, Image as ImageType } from '@src/models/product/types';
@@ -52,11 +51,30 @@ export const ImageVariant: React.FC<Props> = ({ attribute }) => {
         {label}: <span className="font-medium">{currentAttributeLabel}</span>
       </label>
       <div className="flex gap-2.5 mt-2.5 flex-wrap">
-        {options?.map((option) => {
+        {options?.map((option, index) => {
           const currentImageSrc = find(attributeImageSrc, [name, option.name]);
+          if (!currentImageSrc?.src) {
+            return (
+              <button
+                key={`${index}-${option.slug}`}
+                className={cn(
+                  'cursor-pointer rounded border peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:border-2 py-2 px-8 h-full flex items-center justify-center text-center text-black/80',
+                  {
+                    'opacity-100 border-2 border-primary outline-2':
+                      option.label === currentAttributeLabel,
+                  }
+                )}
+                onClick={() =>
+                  handleOnClick(currentImageSrc as ImageType, option.name, option.label)
+                }
+              >
+                {option.label}
+              </button>
+            );
+          }
           return (
             <div
-              key={v4()}
+              key={`${index}-${option.slug}`}
               className={cn('w-[74px] h-[74px] border border-border rounded cursor-pointer', {
                 'opacity-60': option.label !== currentAttributeLabel,
                 'opacity-100 border-2 border-primary outline-2':
