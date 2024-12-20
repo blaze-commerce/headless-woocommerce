@@ -5,6 +5,7 @@ import { Reviews, Stats } from '@models/product/reviews';
 import type {
   Attribute,
   Attributes,
+  AttributeOptions,
   Image,
   ImageAttributes,
   ProductMetaData,
@@ -13,7 +14,6 @@ import type {
   ProductTabs,
   ProductTaxonomy,
   ProductBundleConfiguration,
-  Variation,
   ProductAddons,
 } from '@models/product/types';
 import { AccordionItem } from '@src/components/accordion';
@@ -21,14 +21,8 @@ import { MAX_QUERY_LIMIT, WoolessTypesense } from '@src/lib/typesense';
 import { GIFT_CARD_TYPE } from '@src/lib/constants/giftcards';
 import { formatTextWithNewline } from '@src/lib/helpers/helper';
 import { ProductElement, Settings, Store } from '@src/lib/typesense/types';
-import {
-  getProductTypesForDisplay,
-  getVariations,
-  transformToProduct,
-  transformToProducts,
-} from '@src/lib/typesense/product';
+import { getProductTypesForDisplay, transformToProducts } from '@src/lib/typesense/product';
 import { PRODUCT_TYPES } from '@src/lib/constants/product';
-import { Store as TStoreSetting } from '@src/models/settings/store';
 import { htmlParser } from '@src/lib/block/react-html-parser';
 import { isImage } from '@src/lib/helpers/helper';
 
@@ -250,22 +244,13 @@ export class Product {
         return [];
       }
 
-      // const variationAttributes = this.purchasableVariations.reduce((accumulator, variation) => {
-      //   const attributes = JSON.parse(JSON.stringify(variation.attributes));
-      //   accumulator.push(attributes);
-
-      //   return accumulator;
-      // }, [] as Variation['attributes'][]);
-
       const currentAttributes: Attribute[] = this.attributes?.map((attribute) => {
-        // const attributeSlugs = variationAttributes.map((attr) => attr[attribute.name]);
-        // const filteredOptions = attribute.options.filter(() => true);
-
-        // console.log({ attribute, filteredOptions });
-
+        const sortedOptions = (attribute.options as AttributeOptions[]).sort((a, b) =>
+          a.label.localeCompare(b.label)
+        );
         return {
           ...attribute,
-          // options: filteredOptions,
+          options: sortedOptions,
         };
       });
 
