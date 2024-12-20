@@ -21,6 +21,7 @@ export const FreeShippingBanner = () => {
     }
 
     const remaining = treshold - cartSubtotal;
+
     return `You're only ${numberFormat(remaining)} away from free shipping`;
   };
 

@@ -7,6 +7,9 @@ export const FreeShippingProgress = () => {
 
   if (!siteSettings.showFreeShippingMinicartComponent) return null;
   const treshold = parseFloat(availableFreeShippingMethod?.minAmount || '');
+
+  if (!treshold) return null;
+
   const cartSubtotal = parseFloat(cart?.subtotal || '0');
   const totalTax = parseFloat(cart?.totalTax || '0');
   const percentage = Math.ceil((cartSubtotal / treshold) * 100);
