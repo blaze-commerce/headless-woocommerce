@@ -259,6 +259,28 @@ export interface PostDateAttributes {
   format?: string;
 }
 
+export interface GroupAttributes {
+  layout?: {
+    flexWrap?: string;
+    type: 'constrained' | 'flex' | 'grid';
+    verticalAlignment?: string;
+    justifyContent?: 'center' | 'left' | 'right' | 'space-between';
+    orientation?: 'horizontal' | 'vertical';
+  };
+}
+
+export interface CoverAttributes {
+  alt?: string;
+  contentPosition?: string;
+  customOverlayColor?: string;
+  dimRatio?: number;
+  id?: number;
+  isDark?: boolean;
+  isUserOverlayColor?: boolean;
+  sizeSlug?: string;
+  url?: string;
+}
+
 export interface BlockAttributes
   extends BasicBlockAttributes,
     GridBlockAttributes,
@@ -277,7 +299,9 @@ export interface BlockAttributes
     RowGapAttributes,
     GradientAttributes,
     BackgroundAttributes,
-    PostDateAttributes {
+    PostDateAttributes,
+    GroupAttributes,
+    CoverAttributes {
   variantRole?: string;
 
   textColor?: string;

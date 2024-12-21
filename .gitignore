@@ -62,3 +62,6 @@ public/pageslugs.json
 
 .vercel
 .env*.local
+
+.vercel
+.env*.local

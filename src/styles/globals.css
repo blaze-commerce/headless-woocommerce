@@ -9,6 +9,8 @@
 @import 'wishlist.css';
 @import 'minicart.css';
 
+@import 'wp-block-cover.css';
+
 html {
   width: 100vw;
   max-width: 100vw;
