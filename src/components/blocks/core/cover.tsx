@@ -28,12 +28,12 @@ export const Cover = ({ block }: CoverProps) => {
   }
 
   return (
-    <div className="relative isolate overflow-hidden">
+    <div className={cn('relative isolate overflow-hidden', attributes.className)}>
       <Image
         src={coverImageUrl}
         fill
         alt={attributes.alt ?? 'cover'}
-        className="inset-0 -z-10 size-full object-cover h-full object-top !static"
+        className="inset-0 -z-10 size-full object-cover h-full object-center !static"
       />
       <div className={cn('absolute w-full h-full top-0', parseCoverClass(block.innerHTML))}>
         <Content content={block.innerBlocks} />

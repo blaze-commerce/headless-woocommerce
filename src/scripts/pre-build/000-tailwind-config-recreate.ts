@@ -69,6 +69,9 @@ const tailwindConfig = `module.exports = {
       },
     },
     extend: {
+      fontSize: {
+        xxs: '0.625rem',
+      },
       animation: {
         fade: 'fadeIn 1s ease-in-out',
       },
