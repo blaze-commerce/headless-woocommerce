@@ -42,6 +42,10 @@ if (fontFamilies.length >= 2) {
   modifiedFontFamilies.push(['secondary', fontFamilies[1][1]]);
 }
 
+if (fontFamilies.length >= 3) {
+  modifiedFontFamilies.push(['tertiary', fontFamilies[2][1]]);
+}
+
 const fontFamilyConfig = modifiedFontFamilies
   .map(([key, value]) => `'${key}': ['${value}']`)
   .join(',\n');
