@@ -128,8 +128,20 @@ const mergeColors = (defaultColors: ColorItem[], userColors: ColorItem[]): Color
 
 export default async function execute() {
   try {
-    const wpThemeColors = 'custom' in wpTheme.color.palette ? wpTheme.color.palette.custom : [];
-    const themeColors = mergeColors(defaultColors, wpThemeColors as ColorItem[]);
+    const wpThemeColors = 'theme' in wpTheme.color.palette ? wpTheme.color.palette.theme : [];
+    const wpCustomThemeColors =
+      'custom' in wpTheme.color.palette && wpTheme.color.palette && wpTheme.color.palette.custom
+        ? (wpTheme.color.palette?.custom as ColorItem[])
+        : [];
+
+    const mergedThemeColors = mergeColors(
+      wpThemeColors,
+      wpCustomThemeColors.map((item) => ({
+        ...item,
+        slug: item.slug.startsWith('custom-') ? item.slug.replace('custom-', '') : item.slug,
+      }))
+    );
+    const themeColors = mergeColors(defaultColors, mergedThemeColors as ColorItem[]);
 
     const themeObject = {
       colorVars: themeColors.reduce((acc, { color, name }) => {

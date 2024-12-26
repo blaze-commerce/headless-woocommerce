@@ -73,7 +73,7 @@
 }
 
 .single-product .product-unavailable-message {
-  @apply flex items-center gap-4 justify-center bg-[#f9f8f8] border-accent-3 border-t-2 py-2 px-4 text-xs leading-6 font-roboto;
+  @apply flex items-center gap-4 justify-center bg-[#f9f8f8] border-accent-3 border-t-2 py-2 px-4 text-xs leading-6 font-primary;
 }
 
 /** Notify Me */

@@ -21,7 +21,7 @@
 }
 
 .gift-card-content-preview .shop-name {
-  @apply text-2xl font-bold font-roboto;
+  @apply text-2xl font-bold font-primary;
 }
 
 .gift-card-content-preview .card-info-label {

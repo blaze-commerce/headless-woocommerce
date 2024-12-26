@@ -52,7 +52,7 @@
 }
 
 .product-card .product-card-label .product-title {
-  @apply font-bold leading-6 text-[20px] text-[#000180] font-play;
+  @apply font-bold leading-6 text-[20px] text-[#000180] font-secondary;
 }
 
 .product-card .product-card-label .product-category {

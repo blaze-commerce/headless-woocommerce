@@ -25,7 +25,7 @@
 }
 
 .product-archive-page header .page-title {
-  @apply font-play text-3xl leading-[150%] md:text-5xl text-[#000180] font-bold;
+  @apply font-secondary text-3xl leading-[150%] md:text-5xl text-[#000180] font-bold;
 }
 
 .product-archive-page header .page-subtitle {
@@ -69,7 +69,7 @@
 }
 
 .product-archive-filter .filter-main-title {
-  @apply flex justify-end flex-row-reverse items-center gap-2 font-bold font-play text-2xl text-sub-title border-b pb-2;
+  @apply flex justify-end flex-row-reverse items-center gap-2 font-bold font-secondary text-2xl text-sub-title border-b pb-2;
 }
 
 .product-archive-filter .filter-widget {
@@ -80,7 +80,7 @@
 }
 
 .product-archive-filter .filter-widget .filter-widget-header .filter-widget-title {
-  @apply text-sub-title font-bold font-play text-lg;
+  @apply text-sub-title font-bold font-secondary text-lg;
 }
 
 .product-archive-filter .filter-widget .filter-widget-header .open-filter {
@@ -100,7 +100,7 @@
 }
 
 .product-archive-filter .filter-widget .filter-widget-content .fieldset .option {
-  @apply relative flex gap-2 items-start font-roboto font-normal text-[16px] leading-[24px];
+  @apply relative flex gap-2 items-start font-primary font-normal text-[16px] leading-[24px];
 }
 
 .product-archive-filter
@@ -129,7 +129,7 @@
 }
 
 .product-archive-filter .filter-widget .filter-widget-content .more-options {
-  @apply mt-2.5 text-sm font-bold font-roboto text-[#777] underline uppercase;
+  @apply mt-2.5 text-sm font-bold font-primary text-[#777] underline uppercase;
 }
 
 .product-archive-display {

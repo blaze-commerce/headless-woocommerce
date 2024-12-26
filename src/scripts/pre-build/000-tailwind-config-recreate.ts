@@ -32,7 +32,7 @@ const themeColors = Object.entries(theme.colorClasses)
   .join(',\n');
 
 const fontFamilies = Object.entries(theme.fontFamilies);
-const modifiedFontFamilies: [string, string][] = [...fontFamilies];
+const modifiedFontFamilies: [string, string][] = [];
 
 if (fontFamilies.length >= 1) {
   modifiedFontFamilies.push(['primary', fontFamilies[0][1]]);
@@ -40,6 +40,10 @@ if (fontFamilies.length >= 1) {
 
 if (fontFamilies.length >= 2) {
   modifiedFontFamilies.push(['secondary', fontFamilies[1][1]]);
+}
+
+if (fontFamilies.length >= 3) {
+  modifiedFontFamilies.push(['tertiary', fontFamilies[2][1]]);
 }
 
 const fontFamilyConfig = modifiedFontFamilies
@@ -69,6 +73,9 @@ const tailwindConfig = `module.exports = {
       },
     },
     extend: {
+      fontSize: {
+        xxs: '0.625rem',
+      },
       animation: {
         fade: 'fadeIn 1s ease-in-out',
       },

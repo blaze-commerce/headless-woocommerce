@@ -62,7 +62,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
           />
         </Head>
 
-        <div className={`h-screen overflow-y-auto overflow-x-hidden ${fontClasses}`}>
+        <div className={`h-screen overflow-y-auto overflow-x-hidden ${fontClasses} font-primary`}>
           <TypesenseContextProvider>
             <SiteContextProvider>
               <UserContextProvider>
