@@ -32,7 +32,7 @@ const themeColors = Object.entries(theme.colorClasses)
   .join(',\n');
 
 const fontFamilies = Object.entries(theme.fontFamilies);
-const modifiedFontFamilies: [string, string][] = [...fontFamilies];
+const modifiedFontFamilies: [string, string][] = [];
 
 if (fontFamilies.length >= 1) {
   modifiedFontFamilies.push(['primary', fontFamilies[0][1]]);
