@@ -18,8 +18,10 @@ export const MiniCart = ({ block, force = false }: Props) => {
   // Get the first innerblocks if not empty
   const iconSvg = block.innerBlocks.length > 0 ? block.innerBlocks[0] : null;
 
+  console.log('block', block);
+
   return (
-    <div>
+    <div className={attributes?.className}>
       <CartBasketIcon
         showText={false}
         showIcon={true}

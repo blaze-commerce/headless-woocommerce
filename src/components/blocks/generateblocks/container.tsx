@@ -35,6 +35,7 @@ import { MaxMegaMenuOverlay } from '@src/components/blocks/maxmegamenu/overlay';
 import { Products } from '@src/components/blocks/woocommerce/products';
 import { ProductsWidget } from '@src/components/blocks/woocommerce/products-widgets';
 import { Postlist, RecentPost } from '@src/components/blocks/wooless/post';
+import { Navigation } from '@src/components/blocks/core/navigation';
 
 export const Container = ({ block }: BlockComponentProps) => {
   const { type } = useContentContext();
@@ -189,6 +190,10 @@ export const Container = ({ block }: BlockComponentProps) => {
 
   if (isBlockA(block, 'RecentPost')) {
     return <RecentPost block={block} />;
+  }
+
+  if (isBlockA(block, 'SimpleNavigation')) {
+    return <Navigation block={block} />;
   }
 
   const attribute = block.attrs as BlockAttributes;

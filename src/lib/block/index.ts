@@ -16,7 +16,7 @@ import { BlockAttributes, HtmlDataAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 import { get } from 'lodash';
 
-const tailwindBreakPoints = ['', 'md', 'xl'];
+const tailwindBreakPoints = ['', 'md', 'lg'];
 
 export const getAttributeScreenClasses = (values: (number | string | undefined)[]) => {
   const defaultValueIndex = values.findIndex((value) => !!value);
@@ -53,6 +53,18 @@ export const getDisplayClasses = (block: ParsedBlock) => {
     hideOnDesktop,
   } = attribute;
 
+  if (hideOnMobile) {
+    console.log('attribute', {
+      displayMobile,
+      displayTablet,
+      display,
+
+      hideOnMobile,
+      hideOnTablet,
+      hideOnDesktop,
+    });
+  }
+
   // set default value to desktop display value if undefined or not set
   const updatedDisplayMobile = displayMobile || display;
   const updatedDisplayTablet = displayTablet || display;
@@ -61,9 +73,15 @@ export const getDisplayClasses = (block: ParsedBlock) => {
   const dTablet = typeof hideOnTablet !== 'undefined' ? 'hidden' : updatedDisplayTablet;
   const dDesktop = typeof hideOnDesktop !== 'undefined' ? 'hidden' : display;
 
+  if (hideOnMobile) {
+    console.log('[dMobile, dTablet, dDesktop]', [dMobile, dTablet, dDesktop]);
+  }
   const displayValues = [dMobile, dTablet, dDesktop];
 
   const classes = getAttributeScreenClasses(displayValues);
+  if (hideOnMobile) {
+    console.log('classes', classes);
+  }
   return classes;
 };
 
@@ -857,4 +875,18 @@ export const formatDate = (unixTimestamp: number, format: string): string => {
     .replace('Y', year.toString());
 
   return formattedDate;
+};
+
+type HTMLAttributes = { attribute: string; value: any }[];
+
+export const convertAttributes = (attrs: { htmlAttributes: HTMLAttributes }) => {
+  const convertedHtmlAttrs = attrs?.htmlAttributes.reduce((acc, { attribute, value }) => {
+    const camelCaseKey = attribute
+      .replace(/^data-/, '')
+      .replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+    acc[camelCaseKey] = value;
+    return acc;
+  }, {} as Record<string, any>);
+
+  return Object.assign({}, attrs, convertedHtmlAttrs);
 };

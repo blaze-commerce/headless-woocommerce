@@ -796,3 +796,7 @@ button.button-cart {
 .homepage-products .product-grid {
   @apply grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4;
 }
+
+.menu-hovered li.nav-item:hover .normal-sub-menu-wrapper {
+  display: block;
+}

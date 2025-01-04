@@ -122,10 +122,11 @@ const Page: NextPageWithLayout<Props> = (props: {
         blogPosts={props.blogs}
         page={props.page}
       >
-        <Content
+        <div></div>
+        {/* <Content
           type="page"
           content={props.page.template ? PAGE_TEMPLATE : props.blocks}
-        />
+        /> */}
       </PageContextProvider>
     </div>
   );

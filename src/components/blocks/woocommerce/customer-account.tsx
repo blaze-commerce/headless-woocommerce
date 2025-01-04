@@ -1,5 +1,6 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { LoginMenuPopup } from '@src/components/header/account/login-menu-popup';
+import { convertAttributes } from '@src/lib/block';
 import { find } from 'lodash';
 
 type Props = {
@@ -12,18 +13,19 @@ export const CustomerAccount = ({ block, force = false }: Props) => {
     return null;
   }
 
-  const attributes = block.attrs as any;
-  const color = find(attributes?.htmlAttributes, ['attribute', 'data-color']);
+  const attributes = convertAttributes(block.attrs as any);
 
   // Get the first innerblocks if not empty
   const iconSvg = block.innerBlocks.length > 0 ? block.innerBlocks[0] : null;
+  const label = block.innerBlocks.length > 0 ? block.innerBlocks[1] : null;
 
   return (
     <div>
       <LoginMenuPopup
-        color={color?.value || attributes?.style?.color?.text}
-        displayType="icon_only"
+        color={attributes.color || attributes?.style?.color?.text}
         iconBlock={iconSvg}
+        label={label}
+        hasChevronDownIcon={attributes.hasChevronDown}
       />
     </div>
   );
