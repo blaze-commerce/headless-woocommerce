@@ -17,10 +17,11 @@ import { useAuth } from '@src/lib/hooks';
 import { Html } from '@src/components/blocks/core/html';
 import { ParsedBlock } from '@src/components/blocks';
 import { Paragraph } from '@src/components/blocks/core/paragraph';
+import { isString } from 'lodash';
 
 type Props = {
   displayType?: DisplayType | string | null;
-  label?: ParsedBlock | null;
+  label?: ParsedBlock | string | null;
   hasChevronDownIcon?: boolean | null;
   color?: string;
   iconBlock?: ParsedBlock | null;
@@ -105,11 +106,11 @@ export const LoginMenuPopup: React.FC<Props> = ({
 
       {label && (
         <span className="hidden md:inline-block">
-          <Paragraph block={label} />
+          {isString(label) ? label : <Paragraph block={label} />}
         </span>
       )}
       {hasChevronDownIcon && (
-        <ChevronDown
+        <ChevronDown¸
           className="hidden md:inline-block ml-2"
           color="none"
           fillColor={color || ''}
