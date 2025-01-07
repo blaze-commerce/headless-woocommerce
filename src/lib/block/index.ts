@@ -64,7 +64,6 @@ export const getDisplayClasses = (block: ParsedBlock) => {
   const displayValues = [dMobile, dTablet, dDesktop];
 
   const classes = getAttributeScreenClasses(displayValues);
-  if (hideOnMobile) {
   return classes;
 };
 
