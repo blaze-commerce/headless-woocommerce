@@ -16,7 +16,7 @@ import { BlockAttributes, HtmlDataAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 import { get } from 'lodash';
 
-const tailwindBreakPoints = ['', 'md', 'lg'];
+const tailwindBreakPoints = ['', 'md', 'xl'];
 
 export const getAttributeScreenClasses = (values: (number | string | undefined)[]) => {
   const defaultValueIndex = values.findIndex((value) => !!value);
