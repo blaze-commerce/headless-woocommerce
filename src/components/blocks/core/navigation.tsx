@@ -14,7 +14,6 @@ import { IconBlock } from '@src/components/blocks/outermost/IconBlock';
 import { convertAttributes } from '@src/lib/block';
 
 export const Navigation = ({ block }: BlockComponentProps) => {
-  const { asPath } = useRouter();
   const [linkHovered, setLinkHovered] = useState(false);
 
   const attributes = convertAttributes(block.attrs as any) as BlockAttributes;
@@ -55,8 +54,8 @@ export const Navigation = ({ block }: BlockComponentProps) => {
               href={item.url}
               $backgroundColor={'transparent'}
               $hoverBackgroundColor={'transparent'}
-              $color={color?.value || '#fff'}
-              $hoverColor={color?.value || '#fff'}
+              $color={(color as string) || '#fff'}
+              $hoverColor={(color as string) || '#fff'}
             >
               {iconBlock && <IconBlock block={iconBlock} />}
               <ReactHTMLParser html={item.title || ''} />
