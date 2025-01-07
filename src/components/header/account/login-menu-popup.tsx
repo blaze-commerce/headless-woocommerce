@@ -12,7 +12,7 @@ import { useUserContext } from '@src/context/user-context';
 import { REMOVE_CART_ITEM } from '@src/lib/graphql/queries';
 import { FormattedCart } from '@src/lib/hooks/cart';
 import { setCookie } from '@src/lib/helpers/cookie';
-import { DisplayType, getDisplayTypeValues } from '@src/lib/helpers/menu';
+import { DisplayType } from '@src/lib/helpers/menu';
 import { useAuth } from '@src/lib/hooks';
 import { Html } from '@src/components/blocks/core/html';
 import { ParsedBlock } from '@src/components/blocks';
@@ -28,7 +28,6 @@ type Props = {
 };
 
 export const LoginMenuPopup: React.FC<Props> = ({
-  displayType,
   label,
   hasChevronDownIcon,
   color,
@@ -40,7 +39,6 @@ export const LoginMenuPopup: React.FC<Props> = ({
   const [openLoginPopUp, setOpenLoginPopUp] = loginPopupState;
   const [isOpenLogin, setIsOpenLogin] = useState(openLoginPopUp);
   const { isLoggedIn, loginSessionId } = useUserContext();
-  const { showText } = getDisplayTypeValues(displayType);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
   const [removeItemFromCart] = useMutation(REMOVE_CART_ITEM);
 
@@ -110,7 +108,7 @@ export const LoginMenuPopup: React.FC<Props> = ({
         </span>
       )}
       {hasChevronDownIcon && (
-        <ChevronDown¸
+        <ChevronDown
           className="hidden md:inline-block ml-2"
           color="none"
           fillColor={color || ''}
