@@ -53,18 +53,6 @@ export const getDisplayClasses = (block: ParsedBlock) => {
     hideOnDesktop,
   } = attribute;
 
-  if (hideOnMobile) {
-    console.log('attribute', {
-      displayMobile,
-      displayTablet,
-      display,
-
-      hideOnMobile,
-      hideOnTablet,
-      hideOnDesktop,
-    });
-  }
-
   // set default value to desktop display value if undefined or not set
   const updatedDisplayMobile = displayMobile || display;
   const updatedDisplayTablet = displayTablet || display;
@@ -73,15 +61,10 @@ export const getDisplayClasses = (block: ParsedBlock) => {
   const dTablet = typeof hideOnTablet !== 'undefined' ? 'hidden' : updatedDisplayTablet;
   const dDesktop = typeof hideOnDesktop !== 'undefined' ? 'hidden' : display;
 
-  if (hideOnMobile) {
-    console.log('[dMobile, dTablet, dDesktop]', [dMobile, dTablet, dDesktop]);
-  }
   const displayValues = [dMobile, dTablet, dDesktop];
 
   const classes = getAttributeScreenClasses(displayValues);
   if (hideOnMobile) {
-    console.log('classes', classes);
-  }
   return classes;
 };
 
