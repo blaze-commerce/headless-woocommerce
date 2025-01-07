@@ -5,7 +5,7 @@ import { PageSeo } from '@src/components/page-seo';
 import { getAttributeValue, isBlockA } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { getAllBaseContries } from '@src/lib/helpers/country';
-import { PageTypesenseResponse } from '@src/lib/typesense/page';
+import { getPageBySlug, PageTypesenseResponse } from '@src/lib/typesense/page';
 import { getTaxonomyItemPageProps } from '@src/pages/[country]/[taxonomyFrontendSlug]/[...taxonomyItemSlug]';
 
 import type { NextPageWithLayout } from '@src/pages/_app';
@@ -19,11 +19,12 @@ import PAGE_TEMPLATE from '@public/page.json';
 import pageSlugs from '@public/page-slugs.json';
 import { ITSPage } from '@src/lib/typesense/types';
 import { GetStaticProps, GetStaticPropsContext } from 'next/dist/types';
+import { parse } from '@wordpress/block-serialization-default-parser';
+import { addIds } from '@src/scripts/utils';
 
 interface Props {
   country: string;
   blocks: ParsedBlock[];
-  blogs: PageTypesenseResponse[];
   page: ITSPage | null;
 }
 
@@ -58,49 +59,13 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   }
 
   const { country, pageSlug } = params;
-  const jsonData = await import(`public/page/${pageSlug}.json`);
-  let blogs: PageTypesenseResponse[] = [];
-
-  const blocks = jsonData.blocks.map(async (block: ParsedBlock) => {
-    const attribute = block.attrs as BlockAttributes;
-    const htmlAttributes = attribute.htmlAttributes ?? [];
-
-    if (isBlockA(block, 'categoryProducts')) {
-      const categorySlug = getAttributeValue(htmlAttributes, 'data-category-slug');
-      if (categorySlug) {
-        const taxonomyItemProps = await getTaxonomyItemPageProps(
-          'product-category',
-          categorySlug,
-          country
-        );
-
-        return {
-          ...block,
-          componentProps: taxonomyItemProps.props,
-        };
-      }
-    }
-
-    const hasBlogPostBlock =
-      isBlockA(block, 'BlogPosts') ||
-      !isEmpty(find(block?.innerBlocks, (innerBlock) => isBlockA(innerBlock, 'BlogPosts')));
-
-    if (hasBlogPostBlock) {
-      const blogPosts = await TypesensePage.findByThumbnail();
-      if (!isEmpty(blogPosts)) {
-        blogs = blogPosts;
-      }
-    }
-
-    return block;
-  });
+  const pageData = await getPageBySlug(pageSlug);
 
   return {
     props: {
-      blocks: await Promise.all(blocks),
-      page: JSON.parse(JSON.stringify(jsonData)) as ITSPage,
+      blocks: addIds(parse(pageData?.rawContent || '') as ParsedBlock[]),
+      page: pageData,
       country,
-      blogs,
     },
     revalidate: 43200, // Refresh the generated page every 12 hours,
   };
@@ -108,7 +73,6 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 
 const Page: NextPageWithLayout<Props> = (props: {
   page: ITSPage | null | undefined;
-  blogs: PageTypesenseResponse[] | undefined;
   blocks: string | ParsedBlock[];
 }) => {
   if (!props.page) {
@@ -118,15 +82,11 @@ const Page: NextPageWithLayout<Props> = (props: {
   return (
     <div className="page">
       {props.page.seoFullHead && <PageSeo seoFullHead={props.page.seoFullHead} />}
-      <PageContextProvider
-        blogPosts={props.blogs}
-        page={props.page}
-      >
-        <div></div>
-        {/* <Content
+      <PageContextProvider page={props.page}>
+        <Content
           type="page"
           content={props.page.template ? PAGE_TEMPLATE : props.blocks}
-        /> */}
+        />
       </PageContextProvider>
     </div>
   );

@@ -48,7 +48,7 @@ export const Image = ({ block }: ImageProps) => {
         <NextImage
           alt={altText}
           src={imageSource}
-          className={cn(imageClasses, '')}
+          className={cn('', imageClasses)}
           {...(fill ? { fill: true } : { width: finalWidth, height: finalHeight })}
         />
       </Link>
@@ -60,7 +60,7 @@ export const Image = ({ block }: ImageProps) => {
       alt={altText}
       src={imageSource}
       priority
-      className={cn(imageClasses, '')}
+      className={cn('object-center object-cover', imageClasses)}
       {...(fill ? { fill: true } : { width: finalWidth, height: finalHeight })}
     />
   );
