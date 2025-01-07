@@ -10,6 +10,7 @@ import type { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/b
 import { v4 } from 'uuid';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { useIntersectionObserver } from 'usehooks-ts';
+import { cn } from '@src/lib/helpers/helper';
 
 type Props = {
   attributes: MaxMegaMenuAttributes;
@@ -19,38 +20,34 @@ type Props = {
 
 export const NormalSubMenu: React.FC<Props> = ({ items, attributes }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const entry = useIntersectionObserver(ref, {});
-  const isVisible = !!entry?.isIntersecting;
 
   return (
     <MegaMenuSubMenuWrapper
       $mainNavigationBackgroundColor={attributes.submenuContainerBackgroundColor}
       $padding={attributes.submenuContainerPadding}
-      className="mega-menu normal-sub-menu-wrapper flex-col"
+      className="mega-menu normal-sub-menu-wrapper flex-col w-max"
       ref={ref}
     >
-      {isVisible && (
-        <ul>
-          {items?.map((menuItem, menuItemIndex) => (
-            <MenuListItem key={`item-normal-${menuItemIndex}-${v4()}`}>
-              <MenuLink
-                $padding={attributes.submenuLinkPadding}
-                $color={attributes.submenuLinkColor}
-                $colorSm={attributes.mobileSubmenuLinkColor}
-                $hoverColor={attributes.submenuLinkHoverColor}
-                $backgroundColor={attributes.submenuLinkBackgroundColor}
-                $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
-                $fontWeight={attributes.fontWeight}
-                $letterCase={attributes.letterCase}
-                className="flex cursor-pointer items-center rounded"
-                href={menuItem.url}
-              >
-                <ReactHTMLParser html={menuItem.title || ''} />
-              </MenuLink>
-            </MenuListItem>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {items?.map((menuItem, menuItemIndex) => (
+          <MenuListItem key={`item-normal-${menuItemIndex}-${v4()}`}>
+            <MenuLink
+              $padding={attributes.submenuLinkPadding}
+              $color={attributes.submenuLinkColor}
+              $colorSm={attributes.mobileSubmenuLinkColor}
+              $hoverColor={attributes.submenuLinkHoverColor}
+              $backgroundColor={attributes.submenuLinkBackgroundColor}
+              $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
+              $fontWeight={attributes.fontWeight}
+              $letterCase={attributes.letterCase}
+              className={cn('flex cursor-pointer items-center rounded', attributes.submenuClasses)}
+              href={menuItem.url}
+            >
+              <ReactHTMLParser html={menuItem.title || ''} />
+            </MenuLink>
+          </MenuListItem>
+        ))}
+      </ul>
     </MegaMenuSubMenuWrapper>
   );
 };

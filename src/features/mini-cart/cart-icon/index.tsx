@@ -5,6 +5,7 @@ import { Settings } from '@src/models/settings';
 import { Html } from '@src/components/blocks/core/html';
 import { ParsedBlock } from '@src/components/blocks';
 import { useIsClient } from 'usehooks-ts';
+import { IconBlock } from '@src/components/blocks/outermost/IconBlock';
 
 type Props = {
   showText: boolean;
@@ -33,6 +34,12 @@ export const CartBasketIcon: React.FC<Props> = ({ showText, label, color, iconBl
   };
 
   const renderCartIcon = () => {
+    if (iconBlock && iconBlock.blockName === 'core/html') {
+      return <Html block={iconBlock} />;
+    } else if (iconBlock && iconBlock.blockName === 'outermost/icon-block') {
+      return <IconBlock block={iconBlock} />;
+    }
+
     switch (cartIcon) {
       case '2':
         return (
@@ -62,11 +69,7 @@ export const CartBasketIcon: React.FC<Props> = ({ showText, label, color, iconBl
         </span>
       )}
 
-      {iconBlock && iconBlock.blockName === 'core/html' ? (
-        <Html block={iconBlock} />
-      ) : (
-        renderCartIcon()
-      )}
+      {renderCartIcon()}
       <span className="hidden lg:inline-block">{showText && label}</span>
     </button>
   );
