@@ -25,6 +25,10 @@ const VariablePrice = dynamic(() =>
   import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
 );
 
+const DiscountRules = dynamic(() =>
+  import('@src/features/product/price/discount-rules').then((mod) => mod.DiscountRules)
+);
+
 export const ProductPrice: React.FC<Props> = ({ id, className }) => {
   const { product } = useProductContext();
   const { settings, currentCurrency } = useSiteContext();
@@ -63,6 +67,8 @@ export const ProductPrice: React.FC<Props> = ({ id, className }) => {
         )}
         {priceDisplaySuffix && <span className="product-suffix"> {priceDisplaySuffix}</span>}
       </div>
+
+      {product.discountRules && <DiscountRules />}
     </>
   );
 };

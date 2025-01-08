@@ -58,8 +58,6 @@ export const ProductInstallment = (props: TProps) => {
 
   const providers: string[] = Array.isArray(provider) ? provider : provider.split(',');
 
-  console.log({ providers });
-
   return (
     <>
       <div className="product-installment hide-if-out-of-stock">

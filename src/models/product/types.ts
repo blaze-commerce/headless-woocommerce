@@ -1,5 +1,6 @@
 import { Product } from '@src/models/product';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
+import { from } from '@apollo/client';
 
 export type ObjectData = Record<string, unknown>;
 
@@ -184,4 +185,24 @@ export type ProductAddons = {
     image: string;
     priceType: ProductAddonsPriceType;
   }[];
+};
+
+export type ProductDiscountRuleRange = {
+  from: number;
+  to: number;
+  type: 'percentage' | 'fixed';
+  value: number;
+  label: string;
+};
+
+export type ProductDiscountRule = {
+  message: {
+    display: boolean;
+    badgeBackgroundColor: string;
+    badgeTextColor: string;
+  };
+  adjustment: {
+    operator: 'product_cumulative' | 'percentage' | 'fixed'; // need to fix this later
+    ranges: ProductDiscountRuleRange[];
+  };
 };

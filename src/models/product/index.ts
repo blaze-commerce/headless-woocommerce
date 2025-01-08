@@ -15,6 +15,8 @@ import type {
   ProductTaxonomy,
   ProductBundleConfiguration,
   ProductAddons,
+  ProductDiscountRule,
+  ProductDiscountRuleRange,
 } from '@models/product/types';
 import { AccordionItem } from '@src/components/accordion';
 import { MAX_QUERY_LIMIT, WoolessTypesense } from '@src/lib/typesense';
@@ -697,5 +699,41 @@ export class Product {
     }
 
     return null;
+  }
+
+  get discountRules(): null | ProductDiscountRule {
+    if (!this.metaData?.discountRule) return null;
+
+    const discountMessage = JSON.parse(this.metaData.discountRule.advanced_discount_message);
+    const discountAdjustment = JSON.parse(this.metaData.discountRule.bulk_adjustments);
+
+    const adjustmentRules: ProductDiscountRuleRange[] = [];
+
+    Object.keys(discountAdjustment.ranges).forEach((key) => {
+      const { from, to, type, value, label } = discountAdjustment.ranges[key];
+      adjustmentRules.push({
+        from: parseInt(from),
+        to: to === '' ? 0 : parseInt(to),
+        type,
+        value: parseInt(value),
+        label,
+      });
+    });
+
+    console.log({ discountMessage });
+
+    const rule: ProductDiscountRule = {
+      message: {
+        display: Boolean(discountMessage?.display),
+        badgeBackgroundColor: discountMessage?.badge_color_picker || '',
+        badgeTextColor: discountMessage?.badge_text_color_picker || '',
+      },
+      adjustment: {
+        operator: discountAdjustment?.operator || 'percentage',
+        ranges: adjustmentRules,
+      },
+    };
+
+    return rule;
   }
 }

@@ -1,0 +1,15 @@
+.single-product .sale-price {
+  @apply text-base md:text-2xl font-normal;
+}
+
+.single-product .price {
+  @apply text-base md:text-2xl font-bold;
+}
+
+.single-product .discount-rules {
+  @apply flex gap-3;
+}
+
+.single-product .discount-rules .discount-rule {
+  @apply text-sm font-medium leading-4 p-2;
+}
