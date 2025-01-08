@@ -19,7 +19,7 @@ export const MiniCart = ({ block, force = false }: Props) => {
   const iconSvg = block.innerBlocks.length > 0 ? block.innerBlocks[0] : null;
 
   return (
-    <div>
+    <div className={attributes?.className}>
       <CartBasketIcon
         showText={false}
         showIcon={true}

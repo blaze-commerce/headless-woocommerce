@@ -59,6 +59,7 @@ export type MaxMegaMenuAttributes = Partial<{
   submenuContainerPadding: BoxControlProps;
   submenuLinkMargin: BoxControlProps;
   submenuLinkPadding: BoxControlProps;
+  submenuClasses: string;
 }>;
 
 export const MaxMegaMenu = ({ block }: BlockComponentProps) => {

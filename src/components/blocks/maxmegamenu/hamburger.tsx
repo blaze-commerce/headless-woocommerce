@@ -13,6 +13,9 @@ export const Hamburger = ({ block }: BlockComponentProps) => {
   const attributes = block?.attrs as BlockAttributes;
   const color = find(attributes?.htmlAttributes, ['attribute', 'data-color']);
 
+  const svgContent = block.innerHTML.match(/<svg[\s\S]*<\/svg>/)?.[0] || '';
+  const renderHtmlBlock = 'outermost/icon-block' !== block.blockName ? block.innerHTML : svgContent;
+
   return (
     <div
       className={cn(
@@ -21,8 +24,8 @@ export const Hamburger = ({ block }: BlockComponentProps) => {
       )}
       onClick={() => setShowMenu(true)}
     >
-      {'core/html' === block.blockName ? (
-        <ReactHTMLParser html={block.innerHTML} />
+      {['core/html', 'outermost/icon-block'].includes(block.blockName!) ? (
+        <ReactHTMLParser html={renderHtmlBlock} />
       ) : (
         <HamburgerIcon fillColor={color?.value || '#000'} />
       )}

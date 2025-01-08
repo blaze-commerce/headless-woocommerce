@@ -858,3 +858,17 @@ export const formatDate = (unixTimestamp: number, format: string): string => {
 
   return formattedDate;
 };
+
+type HTMLAttributes = { attribute: string; value: any }[];
+
+export const convertAttributes = (attrs: { htmlAttributes: HTMLAttributes }) => {
+  const convertedHtmlAttrs = attrs?.htmlAttributes.reduce((acc, { attribute, value }) => {
+    const camelCaseKey = attribute
+      .replace(/^data-/, '')
+      .replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+    acc[camelCaseKey] = value;
+    return acc;
+  }, {} as Record<string, any>);
+
+  return Object.assign({}, attrs, convertedHtmlAttrs);
+};

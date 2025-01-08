@@ -332,7 +332,7 @@ export interface BlockAttributes
   };
   menuCentered?: boolean;
   menuFullWidth?: boolean;
-  [key: string]: ClassValue | { target: string; device: string; state: string }[];
+  [key: string]: ClassValue | { target: string; device: string; state: string }[] | string;
 }
 
 export interface WooCommerceBlockAttributes extends BasicBlockAttributes {
