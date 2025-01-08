@@ -42,8 +42,9 @@ export const AddToCartForm = () => {
   const { currentCurrency, settings } = useSiteContext();
   const { layout } = settings?.product as ProductSettings;
   const [disableAddToCart] = addToCartStatus;
+  const isAddToWishlistEnabled = false;
 
-  if (!product) {
+  if (!product || typeof product === 'undefined') {
     return null;
   }
 
@@ -132,7 +133,7 @@ export const AddToCartForm = () => {
             )}
           </button>
 
-          {true && (
+          {isAddToWishlistEnabled && (
             <WishlistButton
               action="add"
               showIcon={true}
