@@ -1,0 +1,23 @@
+.single-product .product-dialogs {
+  @apply flex md:items-center justify-between border-b pb-6 mb-6;
+}
+
+.single-product .product-dialogs.horizontal {
+  @apply flex-row;
+}
+
+.single-product .product-dialogs.vertical {
+  @apply flex-col;
+}
+
+.single-product .product-dialogs a {
+  @apply cursor-pointer font-normal text-foreground flex gap-2 align-middle w-1/4 justify-center items-center leading-6 text-sm border-r border-border;
+}
+
+.single-product .product-dialogs a:last-child {
+  @apply border-0;
+}
+
+.single-product .product-dialogs svg {
+  @apply stroke-foreground;
+}

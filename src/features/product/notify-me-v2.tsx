@@ -18,7 +18,7 @@ type Props = {
   product: Product;
 };
 
-export const NotifyMeWhenAvailable = (props: Props) => {
+export const NotifyMeWhenAvailableV2 = (props: Props) => {
   const { settings } = useSiteContext();
   const { product } = props;
   const { layout } = settings?.product as ProductSettings;
@@ -68,9 +68,6 @@ export const NotifyMeWhenAvailable = (props: Props) => {
         )}
 
         <div className="header">
-          <div className="notify-me-title">
-            Email me when available <EmailIcon fillColor={'rgb(255 255 255)'} />
-          </div>
           {isAddToWishlistEnabled && (
             <WishlistButton
               action="add"
@@ -90,7 +87,7 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           )}
         </div>
         <input
-          type="text"
+          type="hidden"
           name="subscriber_name"
           value={formData.subscriber_name}
           disabled={loading}
@@ -113,7 +110,13 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           className="submit-button"
           disabled={loading}
         >
-          {loading ? 'Loading..' : 'Submit'}
+          {loading ? (
+            'Loading..'
+          ) : (
+            <>
+              Email me when available <EmailIcon fillColor={'rgb(255 255 255)'} />
+            </>
+          )}
         </button>
       </div>
     </form>

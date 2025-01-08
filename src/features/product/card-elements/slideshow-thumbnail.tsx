@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { Product } from '@src/models/product';
 import { cn } from '@src/lib/helpers/helper';
-import { v4 } from 'uuid';
 
 type ICardGalleryThumbnail = {
   product: Product;
@@ -45,7 +44,7 @@ export const CardGalleryThumbnail: React.FC<ICardGalleryThumbnail> = (props) => 
               width={34}
               height={34}
               priority={true}
-              className="product-image-image"
+              className="product-thumb-image"
             />
           </button>
         );

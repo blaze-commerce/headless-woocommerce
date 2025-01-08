@@ -1,0 +1,21 @@
+/** Notify Me */
+
+.single-product .add-to-cart-form .button-container.notify-me-form .button-wrapper {
+  @apply flex-col gap-4;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .header {
+  @apply inline-flex justify-between gap-4;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .header .notify-me-title {
+  @apply w-full bg-primary text-white h-11 rounded-md flex justify-center items-center gap-2 py-2 px-4 text-sm leading-6;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .input-field {
+  @apply border-border hover:shadow-md rounded-md focus:ring-primary focus:border-primary focus:outline-none p-3;
+}
+
+.single-product .add-to-cart-form .button-container.notify-me-form .submit-button {
+  @apply border p-4 bg-primary text-white uppercase font-semibold;
+}
