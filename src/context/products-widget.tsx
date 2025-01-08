@@ -42,6 +42,11 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
   const attributeOnSale = getAttributeValue(htmlAttributes, 'data-on-sale');
   const onSale = attributeOnSale ? attributeOnSale : undefined;
 
+  const attributeTermSlug = getAttributeValue(htmlAttributes, 'data-product-category-slug');
+  const termSlug = attributeTermSlug ? attributeTermSlug : undefined;
+
+  const taxonomySlug = termSlug ? 'product_cat' : undefined;
+
   const attribbuteFeaturedProducts = getAttributeValue(htmlAttributes, 'data-featured');
   const isFeatured = attribbuteFeaturedProducts ? attribbuteFeaturedProducts : undefined;
 
@@ -52,6 +57,8 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
     onSale: onSale,
     isFeatured: isFeatured,
     perPage: perPage,
+    termSlug,
+    taxonomySlug,
   };
 
   const [tsQueryVars, setTsQueryVars] = useState(productQueryVars);
