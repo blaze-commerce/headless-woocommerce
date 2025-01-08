@@ -720,8 +720,6 @@ export class Product {
       });
     });
 
-    console.log({ discountMessage });
-
     const rule: ProductDiscountRule = {
       message: {
         display: Boolean(discountMessage?.display),
