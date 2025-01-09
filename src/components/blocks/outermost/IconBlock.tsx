@@ -9,6 +9,10 @@ type IconBlockProps = {
   block: ParsedBlock;
 };
 
+export const getSvgContent = (html: string) => {
+  return html.match(/<svg[\s\S]*<\/svg>/)?.[0] || '';
+};
+
 export const IconBlock = ({ block }: IconBlockProps) => {
   if ('outermost/icon-block' !== block.blockName && !block.innerBlocks[0]) {
     return null;
@@ -26,6 +30,6 @@ export const IconBlock = ({ block }: IconBlockProps) => {
     return <Hamburger block={block} />;
   }
 
-  const svgContent = block.innerHTML.match(/<svg[\s\S]*<\/svg>/)?.[0] || '';
+  const svgContent = getSvgContent(block.innerHTML);
   return <ReactHTMLParser html={svgContent} />;
 };

@@ -559,6 +559,9 @@ export const getBlockName = (block: ParsedBlock) => {
   return metadata?.name ?? blockLabel ?? block.blockName;
 };
 
+export const getBlockByName = (blocks: ParsedBlock[], name: string) =>
+  blocks.find((block) => getBlockName(block) === name);
+
 export const isMobileAccordion = (block: ParsedBlock) => {
   return isBlockA(block, 'MobileAccordion');
 };

@@ -4,13 +4,14 @@ import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
 import { Spinner } from '@components/svg/spinner';
 import { useEffect, useState } from 'react';
+import { getSvgContent } from '@src/components/blocks/outermost/IconBlock';
 
 type Props = {
   block: ParsedBlock;
 };
 
 export const PrevPage = ({ block }: Props) => {
-  const svgContent = block.innerHTML.match(/<svg[\s\S]*<\/svg>/)?.[0] || '';
+  const svgContent = getSvgContent(block.innerHTML);
   const attribute = block.attrs as BlockAttributes;
   const {
     data,
