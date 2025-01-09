@@ -7,7 +7,7 @@ import { sanitizeTitle } from '@src/lib/helpers/helper';
 type TProps = {
   product: Product;
   field: ProductAddons;
-  onChange: (value: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (_value: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const AddOnsSelect = ({ product, field, onChange }: TProps) => {
