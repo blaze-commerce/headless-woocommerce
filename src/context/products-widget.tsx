@@ -32,36 +32,13 @@ export const [useProductsWidgetContext, ProductsWidgetContext] =
 export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps) => {
   const { block, children } = props;
   const { width } = useWindowSize();
-  const attribute = props.block.attrs as BlockAttributes;
-  const htmlAttributes = attribute.htmlAttributes ?? [];
 
-  const defaultSortBy = TSTaxonomy.sortOptions()[0];
-  const attributePerpage = getAttributeValue(htmlAttributes, 'data-per-page');
-  const perPage = attributePerpage ? parseInt(attributePerpage) : 4;
+  // Since componentProps is JSON stringified objec we have to JSON.parse it
+  const componentProps = JSON.parse(block.componentProps) as ITSProductQueryResponse;
 
-  const attributeOnSale = getAttributeValue(htmlAttributes, 'data-on-sale');
-  const onSale = attributeOnSale ? attributeOnSale : undefined;
+  const perPage = componentProps.queryVars.perPage;
 
-  const attributeTermSlug = getAttributeValue(htmlAttributes, 'data-product-category-slug');
-  const termSlug = attributeTermSlug ? attributeTermSlug : undefined;
-
-  const taxonomySlug = termSlug ? 'product_cat' : undefined;
-
-  const attribbuteFeaturedProducts = getAttributeValue(htmlAttributes, 'data-featured');
-  const isFeatured = attribbuteFeaturedProducts ? attribbuteFeaturedProducts : undefined;
-
-  const defaultQueryVars: ITSTaxonomyProductQueryVars = TSTaxonomy.getDefaultTsQueryVars();
-  const productQueryVars: ITSTaxonomyProductQueryVars = {
-    ...defaultQueryVars,
-    sortBy: defaultSortBy?.value as string,
-    onSale: onSale,
-    isFeatured: isFeatured,
-    perPage: perPage,
-    termSlug,
-    taxonomySlug,
-  };
-
-  const [tsQueryVars, setTsQueryVars] = useState(productQueryVars);
+  const [tsQueryVars, setTsQueryVars] = useState(componentProps.queryVars);
   const cachedTsQueryVars = useMemo(() => tsQueryVars, [tsQueryVars]);
 
   useEffect(() => {
@@ -80,7 +57,9 @@ export const ProductsWidgetContextProvider = (props: ProductsWidgetContextProps)
     });
   }, [width, perPage]);
 
-  const [productsData, setProductsData] = useState<Product[]>([]);
+  const [productsData, setProductsData] = useState<Product[]>(
+    Product.buildFromResponseArray(componentProps?.products) ?? []
+  );
 
   const { loading, data, isFetched } = useFetchTsTaxonomyProducts(cachedTsQueryVars, true);
 
