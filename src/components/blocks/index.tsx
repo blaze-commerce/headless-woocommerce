@@ -1,10 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Column } from '@src/components/blocks/core/column';
 import { Columns } from '@src/components/blocks/core/columns';
-import {
-  Container,
-  generateBlockContainerDataHandler,
-} from '@src/components/blocks/generateblocks/container';
+import { Container } from '@src/components/blocks/generateblocks/container';
 import { CustomerAccount } from '@src/components/blocks/woocommerce/customer-account';
 import { Embed } from '@src/components/blocks/embed';
 import { Form } from '@src/components/blocks/gravityforms';
