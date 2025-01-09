@@ -289,18 +289,13 @@
   },
   "siteMessageTopHeader": [],
   "siteMessage": [],
-  "footerContentBefore": [],
-  "footerContent1": [],
-  "footerContent2": [],
-  "footerContent3": [],
-  "footerContent4": [],
-  "footerContent5": [],
-  "footerContentAfter": [],
-  "cookieDomain": ".ezywiper-bc-v1.blz.onl",
+  "cookieDomain": "",
   "showFreeShippingBanner": false,
   "showFreeShippingMinicartComponent": false,
   "regions": {
-    "AU": ["AU"]
+    "AU": [
+      "AU"
+    ]
   },
   "homepageSlug": "home",
   "categoryPageDefaultSort": "{\"sort_option\":\"sort_0\"}",

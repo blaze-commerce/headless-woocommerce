@@ -1,4 +1,5 @@
 import { ParsedBlock } from '@src/components/blocks';
+import { getSvgContent } from '@src/components/blocks/outermost/IconBlock';
 import { Spinner } from '@src/components/svg/spinner';
 import { useProductsWidgetContext } from '@src/context/products-widget';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export const NextPage = ({ block }: Props) => {
-  const svgContent = block.innerHTML.match(/<svg[\s\S]*<\/svg>/)?.[0] || '';
+  const svgContent = getSvgContent(block.innerHTML);
   const attribute = block.attrs as BlockAttributes;
   const {
     data,

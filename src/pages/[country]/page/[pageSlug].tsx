@@ -1,4 +1,4 @@
-import { ParsedBlock } from '@src/components/blocks';
+import { ParsedBlock, processBlockData } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
 import { defaultLayout } from '@src/components/layouts/default';
 import { PageSeo } from '@src/components/page-seo';
@@ -61,9 +61,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const { country, pageSlug } = params;
   const pageData = await getPageBySlug(pageSlug);
 
+  const blocks = addIds(parse(pageData?.rawContent || '') as ParsedBlock[]);
+
   return {
     props: {
-      blocks: addIds(parse(pageData?.rawContent || '') as ParsedBlock[]),
+      blocks: await Promise.all(blocks.map((block) => processBlockData(block))),
       page: pageData,
       country,
     },

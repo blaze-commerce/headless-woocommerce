@@ -547,12 +547,20 @@ export const isBlockA = (block: ParsedBlock, blockLabel: string) => {
 
 export const isBlockNameA = (block: ParsedBlock, blockLabel: string) => {
   const attribute = block.attrs as BlockAttributes;
-  if (blockLabel === attribute?.metadata?.name) {
+  if (blockLabel === attribute?.metadata?.name || blockLabel === attribute.blockLabel) {
     return true;
   }
 
   return false;
 };
+
+export const getBlockName = (block: ParsedBlock) => {
+  const { metadata, blockLabel } = block.attrs as BlockAttributes;
+  return metadata?.name ?? blockLabel ?? block.blockName;
+};
+
+export const getBlockByName = (blocks: ParsedBlock[], name: string) =>
+  blocks.find((block) => getBlockName(block) === name);
 
 export const isMobileAccordion = (block: ParsedBlock) => {
   return isBlockA(block, 'MobileAccordion');

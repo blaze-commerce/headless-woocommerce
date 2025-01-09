@@ -1,7 +1,10 @@
 import dynamic from 'next/dynamic';
 import { Column } from '@src/components/blocks/core/column';
 import { Columns } from '@src/components/blocks/core/columns';
-import { Container } from '@src/components/blocks/generateblocks/container';
+import {
+  Container,
+  generateBlockContainerDataHandler,
+} from '@src/components/blocks/generateblocks/container';
 import { CustomerAccount } from '@src/components/blocks/woocommerce/customer-account';
 import { Embed } from '@src/components/blocks/embed';
 import { Form } from '@src/components/blocks/gravityforms';
@@ -23,7 +26,7 @@ import { Separator } from '@src/components/blocks/separator';
 import { Buttons } from '@src/components/blocks/core/buttons';
 import { Button } from '@src/components/blocks/core/button';
 import { GenerateBlocksButton } from '@src/components/blocks/generateblocks/button/block';
-import { ITSPage } from '@src/lib/typesense/types';
+import { ITSPage, ITSProductQueryResponse } from '@src/lib/typesense/types';
 import { PostFeaturedImage } from '@src/components/blocks/templates/core/post/featured-image';
 import { PostContent } from '@src/components/blocks/templates/core/post/content';
 import { PostTitle } from '@src/components/blocks/templates/core/post/title';
@@ -33,6 +36,8 @@ import { IconBlock } from '@src/components/blocks/outermost/IconBlock';
 import { Breadcrumbs } from '@src/components/blocks/templates/breadcrumbs';
 import { Cover } from '@src/components/blocks/core/cover';
 import { Group } from '@src/components/blocks/core/group';
+import { productsWidgetDataHandler } from '@src/components/blocks/woocommerce/products-widgets';
+import { getBlockName } from '@src/lib/block';
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -77,6 +82,9 @@ const WooCommerceRelatedProducts = dynamic(() =>
   import('@src/components/blocks/woocommerce/related-products').then((mod) => mod.RelatedProducts)
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ComponentProps = any | ITSProductQueryResponse;
+
 export interface ParsedBlock extends GutenbergParsedBlock {
   id?: string;
   innerBlocks: ParsedBlock[];
@@ -92,8 +100,7 @@ export interface ParsedBlock extends GutenbergParsedBlock {
       value: string;
     }>;
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  componentProps?: any;
+  componentProps?: ComponentProps;
 }
 
 export type BlockComponentProps = {
@@ -156,3 +163,44 @@ export const blocks = {
 
 // Define type alias for block names
 export type BlockName = keyof typeof blocks;
+
+export const innerBlocksDataHandler = async (block: ParsedBlock): Promise<ParsedBlock> => {
+  // Process each inner block recursively
+  block.innerBlocks = await Promise.all(
+    block.innerBlocks.map(async (innerBlock) => await processBlockData(innerBlock))
+  );
+
+  return block;
+};
+
+/**
+ * Below are the block names that will fetch data serverside. You can add more if a block needs initial data from the server before client renders
+ */
+export const blockDataHandler = {
+  ProductsWidget: productsWidgetDataHandler,
+  'generateblocks/container': innerBlocksDataHandler,
+  'core/group': innerBlocksDataHandler,
+};
+
+export type BlockDataHandler = keyof typeof blockDataHandler;
+
+/**
+ * This function is meant to get the block data on the server so that block data is initially processed server-side.
+ * @param block
+ */
+export const processBlockData = async (block: ParsedBlock): Promise<ParsedBlock> => {
+  const blockName = getBlockName(block);
+  const fetcher = blockDataHandler[blockName as BlockDataHandler];
+  if (!fetcher) {
+    if (block.innerBlocks) {
+      // Try processing the inner blocks as those innerblocks might need to fetch data
+      return innerBlocksDataHandler(block);
+    }
+
+    // No handler found, return the block as-is
+    return block;
+  }
+
+  // Process the block using the appropriate fetcher/data handler
+  return await fetcher(block);
+};
