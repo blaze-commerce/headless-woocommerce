@@ -42,7 +42,7 @@ export const AddToCartForm = () => {
   const { currentCurrency, settings } = useSiteContext();
   const { layout } = settings?.product as ProductSettings;
   const [disableAddToCart] = addToCartStatus;
-  const isAddToWishlistEnabled = false;
+  const isAddToWishlistEnabled = true;
 
   if (!product || typeof product === 'undefined') {
     return null;
@@ -148,6 +148,7 @@ export const AddToCartForm = () => {
               buttonStrokeColor={settings?.wishlistColor.iconStroke}
               buttonFillColor={settings?.wishlistColor.iconFill}
               isSingleProduct={true}
+              hideText={true}
             />
           )}
         </div>
