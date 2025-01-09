@@ -72,8 +72,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const typedPostSlugs: string[] = postSlugs;
-
   const { country: geoCountry = '' } = geolocation(req);
   const country = req.cookies.get('currentCountry')?.value || geoCountry;
   const currentCountry = getCurrentCountry(country);
@@ -92,12 +90,7 @@ export async function middleware(req: NextRequest) {
     return response;
   }
 
-  if (
-    req.nextUrl.pathname.startsWith('/shop') ||
-    req.nextUrl.pathname.startsWith('/product') ||
-    req.nextUrl.pathname.startsWith('/brand') ||
-    req.nextUrl.pathname.startsWith('/brands')
-  ) {
+  if (req.nextUrl.pathname.startsWith(siteData.woocommercePermalinks.product_base)) {
     const pathName = req.nextUrl.pathname;
     req.nextUrl.pathname = `/${currentCountry}${pathName}`;
 
