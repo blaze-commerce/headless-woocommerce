@@ -75,7 +75,7 @@
 /** Add to Cart - Wishlist Button */
 
 .single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
-  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md md:px-4 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
+  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md px-4 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
 }
 
 .single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button.with-text {

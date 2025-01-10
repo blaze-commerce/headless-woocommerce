@@ -95,8 +95,8 @@ export const ProductTabs = ({ style, className }: TProductTabs) => {
               fontWeight: settings?.product?.font?.tabs?.weight,
               fontSize: settings?.product?.font?.tabs?.size,
             }}
-            titleClassname="text-base md:text-2xl"
-            contentClassname="text-sm md:text-lg"
+            titleClassname="text-lg md:text-2xl"
+            contentClassname="text-base md:text-lg leading-6"
             tabsCase={settings?.product?.layout?.tabsCase}
           />
         </div>

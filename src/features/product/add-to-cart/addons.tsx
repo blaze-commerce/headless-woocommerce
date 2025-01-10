@@ -1,7 +1,7 @@
 import { useEffect, useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { Disclosure } from '@headlessui/react';
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FaMinus, FaPlus } from 'react-icons/fa';
 
 import { useProductContext } from '@src/context/product-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
@@ -78,11 +78,15 @@ export const AddToCartAddons = () => {
   }, [product]);
 
   useEffect(() => {
-    const headers = [];
-    const panels = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const headers: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const panels: any[][] = [];
     let iteration = -1;
 
-    product.addons.forEach((addon, key) => {
+    if (!product || !product.addons) return;
+
+    product.addons.forEach((addon) => {
       if (addon.type === 'heading') {
         headers.push(addon);
         iteration++;
@@ -101,7 +105,7 @@ export const AddToCartAddons = () => {
 
     setHeaders(headers);
     setPanels(panels);
-  }, []);
+  }, [product]);
 
   if (!product || !product.addons) return null;
 
@@ -117,7 +121,8 @@ export const AddToCartAddons = () => {
     });
   };
 
-  const renderAddon = (addon, key) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderAddon = (addon: any, key: number) => {
     switch (addon.type) {
       case 'checkbox':
         return (
@@ -182,41 +187,39 @@ export const AddToCartAddons = () => {
 
   return (
     <div className="product-addon-container">
-      <Disclosure>
-        {({ open }) => (
-          <>
-            {headers.map((header, key) => (
-              <Fragment key={key}>
-                <Disclosure.Button
-                  className="addon-header addon-field-heading"
-                  as="h3"
-                >
-                  {header.name}
-                  <span className="accordion-button">
-                    {open ? (
-                      <FiChevronUp
-                        width="8"
-                        height="8"
-                      />
-                    ) : (
-                      <FiChevronDown
-                        width="8"
-                        height="8"
-                      />
-                    )}
-                  </span>
-                </Disclosure.Button>
-                <Disclosure.Panel
-                  as="div"
-                  className="addon-panel"
-                >
-                  {panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
-                </Disclosure.Panel>
-              </Fragment>
-            ))}
-          </>
-        )}
-      </Disclosure>
+      {headers.map((header, key) => (
+        <Disclosure key={key}>
+          {({ open }) => (
+            <Fragment key={key}>
+              <Disclosure.Button
+                className="addon-header addon-field-heading"
+                as="h3"
+              >
+                {header.name}
+                <span className="accordion-button">
+                  {open ? (
+                    <FaMinus
+                      width="8"
+                      height="8"
+                    />
+                  ) : (
+                    <FaPlus
+                      width="8"
+                      height="8"
+                    />
+                  )}
+                </span>
+              </Disclosure.Button>
+              <Disclosure.Panel
+                as="div"
+                className="addon-panel"
+              >
+                {panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
+              </Disclosure.Panel>
+            </Fragment>
+          )}
+        </Disclosure>
+      ))}
       <AddOnsPriceBreakdown />
     </div>
   );

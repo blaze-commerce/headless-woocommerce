@@ -1,6 +1,9 @@
 /** Addons */
 
-.single-product .add-to-cart-form .product-addon-container,
+.single-product .add-to-cart-form .product-addon-container {
+  @apply flex flex-col gap-4;
+}
+
 .single-product .add-to-cart-form .product-addon-container .addon-panel {
   @apply flex flex-col gap-6;
 }
@@ -21,12 +24,20 @@
   @apply border-[#c0c0c0] leading-6 p-4;
 }
 
+.single-product .add-to-cart-form .product-addon-container .addon-field-heading {
+  @apply text-base md:text-lg leading-6 flex justify-between items-center cursor-pointer font-semibold text-primary border-t border-border pt-4;
+}
+
+.single-product .add-to-cart-form .product-addon-container .addon-field-heading:first-child {
+  @apply border-t-0 pt-0;
+}
+
 .single-product .add-to-cart-form .product-addon-container .addon-field-title {
-  @apply text-foreground text-lg leading-7;
+  @apply text-foreground text-base md:text-lg leading-6;
 }
 
 .single-product .add-to-cart-form .product-addon-container .addon-field-description {
-  @apply text-lg text-foreground leading-7 font-normal;
+  @apply text-base md:text-lg text-foreground leading-6 font-normal;
 }
 
 .single-product .add-to-cart-form .product-addon-container .addon-field-options {
@@ -43,7 +54,7 @@
   .checkbox-group
   .addon-field-options
   .addon-option {
-  @apply p-0 border-none flex gap-2 justify-start items-center text-lg text-foreground;
+  @apply p-0 border-none flex gap-2 justify-start items-center text-base md:text-lg leading-6 text-foreground;
 }
 
 .single-product
@@ -69,7 +80,7 @@
 }
 
 .single-product .add-to-cart-form .addons-price-breakdown {
-  @apply flex flex-col gap-2 font-bold text-lg leading-6;
+  @apply flex flex-col gap-2 font-bold text-base md:text-lg leading-6;
 }
 
 .single-product .add-to-cart-form h3.addon-file-heading {
@@ -110,5 +121,5 @@
 }
 
 .single-product .add-to-cart-form .file-upload-group .file-upload-holder button {
-  @apply bg-muted px-4 py-3 text-foreground text-lg leading-7;
+  @apply bg-muted px-4 py-3 text-foreground text-base md:text-lg leading-6;
 }
