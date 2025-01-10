@@ -21,12 +21,12 @@ export const AddOnsInputMultiplier = ({ field, product }: TProps) => {
   const [, setFieldsValue] = formFields.value;
   const { addons } = useAddToCartContext();
   const [, setAddonItems] = addons;
-  const { id, name, required, adjustPrice, price, min, max } = field;
+  const { id, name, required, adjust_price, price, min, max } = field;
   const fieldName = `addon-${product.productId}-${field.position}`;
 
   let title = name;
 
-  if (adjustPrice) {
+  if (adjust_price) {
     title += ` (+${formatPriceWithCurrency(price, currentCountry)})`;
   }
 

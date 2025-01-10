@@ -31,6 +31,8 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
     buttonStrokeColor = '#000000',
     buttonFillColor = '#ffffff',
     isSingleProduct = false,
+    hideText = false,
+    textButton = 'Add to Wishlist',
   } = props;
 
   const isBgTransparent = shop?.layout?.productCards?.buttonTransparent && !isSingleProduct;
@@ -98,6 +100,7 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
         className={cn(props.classNames, {
           'bg-brand-wishlist-background': !isSingleProduct,
           'hover:bg-brand-wishlist-hover-background': !isSingleProduct,
+          'with-text': !hideText,
         })}
         onClick={() => {
           addProductToWishList({
@@ -110,9 +113,11 @@ export const WishListButton: React.FC<Wishlist.Props> = (props) => {
         onMouseOver={() => setIsWishlistHovering(true)}
         onMouseLeave={() => setIsWishlistHovering(false)}
       >
-        <span className="button-label hidden md:inline-block text-sm font-bold text-black/80">
-          Add to Wishlist
-        </span>
+        {!hideText && (
+          <span className="button-label hidden md:inline-block text-sm font-bold text-black/80">
+            {textButton}
+          </span>
+        )}
         {loading ? <Spinner className="text-primary" /> : heartIcon}
       </button>
     );

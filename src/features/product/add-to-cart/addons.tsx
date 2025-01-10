@@ -1,5 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
+import { Disclosure } from '@headlessui/react';
+import { FaMinus, FaPlus } from 'react-icons/fa';
+
 import { useProductContext } from '@src/context/product-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
 import { uniq } from 'lodash';
@@ -26,12 +29,19 @@ const MultiplierElement = dynamic(() =>
   import('@src/features/product/addons/input-multiplier').then((mod) => mod.AddOnsInputMultiplier)
 );
 
+const FileUploadElement = dynamic(() =>
+  import('@src/features/product/addons/file-upload').then((mod) => mod.AddOnsFileUpload)
+);
+
 export const AddToCartAddons = () => {
   const { product, fields } = useProductContext();
   const { addons } = useAddToCartContext();
+  const [headers, setHeaders] = useState<any[]>([]);
+  const [panels, setPanels] = useState<any[]>([]);
+
   const [, setAddonItems] = addons;
   const [, setRequiredFields] = fields.required;
-  const [, setFieldsValue] = fields.value;
+  const [fieldsValue, setFieldsValue] = fields.value;
 
   useEffect(() => {
     if (!product || !product.addons) return;
@@ -56,7 +66,7 @@ export const AddToCartAddons = () => {
         id: addon.id,
         name: addon.name,
         price: parseFloat(addon.price === '' ? '0' : addon.price),
-        priceType: addon.priceType,
+        priceType: addon.price_type,
         quantity: 0,
         isCalculated: false,
       });
@@ -67,9 +77,41 @@ export const AddToCartAddons = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const headers: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const panels: any[][] = [];
+    let iteration = -1;
+
+    if (!product || !product.addons) return;
+
+    product.addons.forEach((addon) => {
+      if (addon.type === 'heading') {
+        headers.push(addon);
+        iteration++;
+      } else {
+        if (panels[iteration] === undefined) {
+          panels[iteration] = [];
+        }
+        panels[iteration].push(addon);
+      }
+    });
+
+    console.log({
+      headers,
+      panels,
+    });
+
+    setHeaders(headers);
+    setPanels(panels);
+  }, [product]);
+
   if (!product || !product.addons) return null;
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
     setFieldsValue((prev) => {
       return {
@@ -79,57 +121,105 @@ export const AddToCartAddons = () => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderAddon = (addon: any, key: number) => {
+    switch (addon.type) {
+      case 'checkbox':
+        return (
+          <CheckboxElement
+            key={`addon-field-${key}`}
+            field={addon}
+            product={product}
+          />
+        );
+
+      case 'input_multiplier':
+        return (
+          <MultiplierElement
+            key={`addon-field-${key}`}
+            field={addon}
+            product={product}
+          />
+        );
+
+      case 'multiple_choice':
+        return (
+          <SelectElement
+            key={`addon-field-${key}`}
+            product={product}
+            field={addon}
+            onChange={onChange}
+          />
+        );
+
+      case 'custom_text':
+      case 'custom_textarea':
+        return (
+          <TextareaElement
+            key={`addon-field-${key}`}
+            field={addon}
+          />
+        );
+
+      case 'heading':
+        return (
+          <HeadingElement
+            key={`addon-field-${key}`}
+            heading="h3"
+            {...addon}
+          />
+        );
+
+      case 'file_upload':
+        return (
+          <FileUploadElement
+            key={`addon-field-${key}`}
+            field={addon}
+            product={product}
+            onChange={onChange}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="product-addon-container">
-      {product.addons?.map((addon, key) => {
-        switch (addon.type) {
-          case 'checkbox':
-            return (
-              <CheckboxElement
-                key={`addon-field-${key}`}
-                field={addon}
-                product={product}
-              />
-            );
-
-          case 'input_multiplier':
-            return (
-              <MultiplierElement
-                key={`addon-field-${key}`}
-                field={addon}
-                product={product}
-              />
-            );
-
-          case 'multiple_choice':
-            return (
-              <SelectElement
-                key={`addon-field-${key}`}
-                product={product}
-                field={addon}
-                onChange={onChange}
-              />
-            );
-
-          case 'custom_text':
-            return (
-              <TextareaElement
-                key={`addon-field-${key}`}
-                field={addon}
-                onChange={onChange}
-              />
-            );
-
-          case 'heading':
-            return (
-              <HeadingElement
-                key={`addon-field-${key}`}
-                heading="h3"
-                {...addon}
-              />
-            );
-        }
-      })}
+      {headers.map((header, key) => (
+        <Disclosure key={key}>
+          {({ open }) => (
+            <Fragment key={key}>
+              <Disclosure.Button
+                className="addon-header addon-field-heading"
+                as="h3"
+              >
+                {header.name}
+                <span className="accordion-button">
+                  {open ? (
+                    <FaMinus
+                      width="8"
+                      height="8"
+                    />
+                  ) : (
+                    <FaPlus
+                      width="8"
+                      height="8"
+                    />
+                  )}
+                </span>
+              </Disclosure.Button>
+              <Disclosure.Panel
+                as="div"
+                className="addon-panel"
+              >
+                {panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
+              </Disclosure.Panel>
+            </Fragment>
+          )}
+        </Disclosure>
+      ))}
       <AddOnsPriceBreakdown />
     </div>
   );

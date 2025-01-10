@@ -4,15 +4,17 @@ import { AddOnsTitle } from '@src/features/product/addons/title';
 
 type TProps = {
   field: ProductAddons;
-  onChange: (value: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export const AddOnsTextarea = ({ field, onChange }: TProps) => {
+export const AddOnsTextarea = ({ field }: TProps) => {
   return (
-    <div className="space-y-1">
+    <div className="addon-field-group">
       <AddOnsTitle field={field} />
       <AddOnsDescription field={field} />
-      <textarea className="w-full rounded-sm border-[#E7E7E7] border" />
+      <textarea
+        className="w-full rounded-sm border-[#E7E7E7] border"
+        placeholder={field.placeholder}
+      />
     </div>
   );
 };
