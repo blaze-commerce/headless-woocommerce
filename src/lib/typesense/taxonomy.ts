@@ -46,7 +46,7 @@ export const getCategoryPermalinks = async (): Promise<string[]> => {
       const parse = TaxonomyPermalink.safeParse(hit.document);
       if (parse.success && parse.data.permalink) {
         const permalink = parse.data.permalink;
-        permalinks.push(stripTrailingSlash(permalink));
+        permalinks.push(`${stripTrailingSlash(permalink)}/`);
       }
     });
 

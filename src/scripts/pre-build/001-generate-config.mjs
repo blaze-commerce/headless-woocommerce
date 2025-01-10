@@ -10,19 +10,11 @@ const configNames = [
   'site_logo',
   'stock_display_format',
   'currencies',
-  'homepage_layout',
   'homepage_slug',
   'shop_page_slug',
   'blog_page_slug',
-  'site_message_top_header',
+  'woocommerce_permalinks',
   'site_message',
-  'footer_content_before',
-  'footer_content_1',
-  'footer_content_2',
-  'footer_content_3',
-  'footer_content_4',
-  'footer_content_5',
-  'footer_content_after',
   'woocommerce_calc_taxes',
   'woocommerce_prices_include_tax',
   'woocommerce_tax_setup',
@@ -43,7 +35,6 @@ const configNames = [
   'business_reviews_bundle_settings',
   'reviews_plugin',
   'category_page_default_sort',
-  'font_family',
   'site_icon_url',
   'is_bundle_product_enabled',
 ];
@@ -196,6 +187,7 @@ export default async function execute(params) {
 
   const typesenseConfigs = await getTypesenseConfigs(client, NEXT_PUBLIC_STORE_ID);
 
+  console.log('typesenseConfigs', typesenseConfigs)
   try {
     settingsWithDefaults.header.logo.desktop.wpSrc = typesenseConfigs?.siteLogo?.value;
 
@@ -219,6 +211,12 @@ export default async function execute(params) {
       typesenseConfigs?.freeShippingThreshold?.value,
       {}
     );
+
+    settingsWithDefaults.woocommercePermalinks = parseJSON(
+      typesenseConfigs?.woocommercePermalinks?.value,
+      {}
+    );
+
     settingsWithDefaults.store.woocommerceCalcTaxes = maybeConvertToBool(
       typesenseConfigs?.woocommerceCalcTaxes?.value
     );
@@ -262,22 +260,8 @@ export default async function execute(params) {
 
     settingsWithDefaults.siteMessage = parseJSON(typesenseConfigs?.siteMessage?.value, []);
     settingsWithDefaults.regions = parseJSON(typesenseConfigs?.regions?.value, {});
-    settingsWithDefaults.homepageLayout = parseJSON(typesenseConfigs?.homepageLayout?.value, []);
     settingsWithDefaults.siteMessageTopHeader = parseJSON(
       typesenseConfigs?.siteMessageTopHeader?.value,
-      []
-    );
-    settingsWithDefaults.footerContentBefore = parseJSON(
-      typesenseConfigs?.footerContentBefore?.value,
-      []
-    );
-    settingsWithDefaults.footerContent1 = parseJSON(typesenseConfigs?.footerContent1?.value, []);
-    settingsWithDefaults.footerContent2 = parseJSON(typesenseConfigs?.footerContent2?.value, []);
-    settingsWithDefaults.footerContent3 = parseJSON(typesenseConfigs?.footerContent3?.value, []);
-    settingsWithDefaults.footerContent4 = parseJSON(typesenseConfigs?.footerContent4?.value, []);
-    settingsWithDefaults.footerContent5 = parseJSON(typesenseConfigs?.footerContent5?.value, []);
-    settingsWithDefaults.footerContentAfter = parseJSON(
-      typesenseConfigs?.footerContentAfter?.value,
       []
     );
 
