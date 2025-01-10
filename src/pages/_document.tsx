@@ -11,6 +11,7 @@ import Script from 'next/script';
 import { env } from '@src/lib/env';
 import { isDevelopmentEnvironment } from '@src/lib/helpers/helper';
 import * as fonts from '@public/fonts';
+import siteData from '@public/site.json';
 const fontClasses = Object.keys(fonts)
   .map((key) => fonts[key as keyof typeof fonts].variable)
   .filter(Boolean) // Ensure only defined variables are included
@@ -50,6 +51,12 @@ class BlazeCommerceDocument extends Document {
               id="klaviyo-script"
               src={`https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=${KLAVIYO_PUBLIC_KEY}`}
               strategy="beforeInteractive"
+            />
+          )}
+          {siteData.showShareToPinterestButton && (
+            <Script
+              id="pinterest-pin-it"
+              src="//assets.pinterest.com/js/pinit.js"
             />
           )}
         </body>

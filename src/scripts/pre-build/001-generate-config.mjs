@@ -37,6 +37,7 @@ const configNames = [
   'category_page_default_sort',
   'site_icon_url',
   'is_bundle_product_enabled',
+  'show_share_to_pinterest_button',
 ];
 
 const loadFile = (file) => {
@@ -187,12 +188,15 @@ export default async function execute(params) {
 
   const typesenseConfigs = await getTypesenseConfigs(client, NEXT_PUBLIC_STORE_ID);
 
-  console.log('typesenseConfigs', typesenseConfigs)
+  console.log('typesenseConfigs', typesenseConfigs);
   try {
     settingsWithDefaults.header.logo.desktop.wpSrc = typesenseConfigs?.siteLogo?.value;
 
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
+    settingsWithDefaults.showShareToPinterestButton = maybeConvertToBool(
+      typesenseConfigs?.showShareToPinterestButton?.value
+    );
     settingsWithDefaults.shopPageSlug = typesenseConfigs?.shopPageSlug?.value;
     settingsWithDefaults.blogPageSlug = typesenseConfigs?.blogPageSlug?.value;
     settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(
