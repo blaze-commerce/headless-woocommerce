@@ -156,9 +156,9 @@ export type ProductAddonsPriceType = 'flat_fee' | 'quantity_based' | 'percentage
 export type ProductAddons = {
   id: string;
   name: string;
-  titleFormat: 'label' | 'heading' | 'hide';
+  title_format: 'label' | 'heading' | 'hide';
   description: string;
-  descriptionEnable: boolean;
+  description_enable: boolean;
   type:
     | 'multiple_choice'
     | 'checkbox'
@@ -173,17 +173,23 @@ export type ProductAddons = {
   position: number;
   required: boolean;
   restrictions: number;
-  restrictionsType: 'any_text' | 'email' | 'only_letters' | 'only_numbers' | 'only_letters_numbers';
-  adjustPrice: boolean;
-  priceType: ProductAddonsPriceType;
+  restrictions_type:
+    | 'any_text'
+    | 'email'
+    | 'only_letters'
+    | 'only_numbers'
+    | 'only_letters_numbers';
+  adjust_price: boolean;
+  price_type: ProductAddonsPriceType;
   price: string;
   min: number;
   max: number;
+  placeholder?: string;
   options: {
     label: string;
     price: number;
     image: string;
-    priceType: ProductAddonsPriceType;
+    price_type: ProductAddonsPriceType;
   }[];
 };
 

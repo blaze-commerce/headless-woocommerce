@@ -7,7 +7,7 @@ type TProps = {
 };
 
 export const AddOnsTitle = ({ field, values, children }: TProps) => {
-  if (field.titleFormat === 'hide') return null;
+  if (field.title_format === 'hide') return null;
   return (
     <p className="addon-field-title">
       {!children && field.name} {children}

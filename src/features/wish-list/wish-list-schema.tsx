@@ -8,6 +8,8 @@ export type Props = {
   showIcon: boolean;
   isSingleProduct?: boolean;
   buttonFillColor?: string;
+  hideText?: boolean;
+  textButton?: boolean;
 } & (OpenProps | AddProps | RemoveProps) &
   ProductCards;
 

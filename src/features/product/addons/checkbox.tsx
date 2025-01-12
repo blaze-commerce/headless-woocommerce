@@ -17,7 +17,7 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
   const { id: addonId, name, required, options } = field;
   const { addons } = useAddToCartContext();
   const { fields: formFields } = useProductContext();
-  const [fieldsValue, setFieldsValue] = formFields.value;
+  const [, setFieldsValue] = formFields.value;
   const [, setAddonItems] = addons;
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -32,7 +32,12 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
             ...item,
             quantity: selected.length,
             isCalculated: selected.length > 0,
-            options: options.filter((option) => selected.includes(option.label)),
+            options: options
+              .filter((option) => selected.includes(option.label))
+              .map((option) => ({
+                ...option,
+                priceType: option.price_type,
+              })),
           };
         }
         return item;
