@@ -1,9 +1,11 @@
 import { BlockComponentProps } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
+import { useContentContext } from '@src/context/content-context';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 
 export const Group = ({ block }: BlockComponentProps) => {
+  const { type } = useContentContext();
   const { className } = block.attrs;
   const TagName = block.attrs?.tagName
     ? (block.attrs.tagName as keyof JSX.IntrinsicElements)
@@ -35,7 +37,10 @@ export const Group = ({ block }: BlockComponentProps) => {
         className
       )}
     >
-      <Content content={block.innerBlocks} />
+      <Content
+        type={type}
+        content={block.innerBlocks}
+      />
     </TagName>
   );
 };
