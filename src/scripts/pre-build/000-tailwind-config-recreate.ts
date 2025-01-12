@@ -1,19 +1,9 @@
 /* eslint-disable no-console */
 import * as fs from 'fs';
-import Color from 'color';
 import path from 'path';
 import theme from '@public/theme.json';
 import wptheme from '@public/wp-theme.json';
-
-const hexToHslValue = (hexColor: string): string => {
-  const color = Color(hexColor).hsl(); // Get the HSL object
-
-  const h = Math.round(color.hue()); // Hue
-  const s = Math.round(color.saturationl()); // Saturation
-  const l = Math.round(color.lightness()); // Lightness
-
-  return `${h} ${s}% ${l}%`;
-};
+import { hexToHslValue } from '@src/lib/helpers/color';
 
 const gridItemWidths = ['25', '33', '50', '66', '75', '100']; // this is what is provider by generate press block settins GRID ITEM WIDTH (%)
 const gridItemWidthsClasses = gridItemWidths

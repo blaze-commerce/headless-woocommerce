@@ -1,3 +1,5 @@
+import { parseLink } from '@src/lib/helpers/helper';
+
 const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
@@ -20,14 +22,7 @@ export const imageDataBlurUrl = (w: number, h: number) => {
 };
 
 export const parseImageLink = (htmlString: string): string | null => {
-  // Regular expression to match src attribute in img tag
-  const regex = /<a.*?href=["'](.*?)["']/;
-
-  // Match the regex pattern against the input HTML string
-  const match = htmlString.match(regex);
-
-  // If match is found, return the src value
-  return match && match.length > 1 ? match[1] : null;
+  return parseLink(htmlString);
 };
 
 export const parsetImageSrc = (htmlString: string): string | null => {

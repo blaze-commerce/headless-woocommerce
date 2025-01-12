@@ -273,6 +273,7 @@ export interface CoverAttributes {
   alt?: string;
   contentPosition?: string;
   customOverlayColor?: string;
+  overlayColor?: string;
   dimRatio?: number;
   id?: number;
   isDark?: boolean;

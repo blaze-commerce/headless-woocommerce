@@ -4,6 +4,8 @@ import { NextPage } from '@src/components/blocks/templates/products-widget/next-
 import { PrevPage } from '@src/components/blocks/templates/products-widget/prev-page';
 import { isBlockNameA } from '@src/lib/block';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { parseLink } from '@src/lib/helpers/helper';
+import Link from 'next/link';
 
 type IconBlockProps = {
   block: ParsedBlock;
@@ -29,7 +31,14 @@ export const IconBlock = ({ block }: IconBlockProps) => {
   if (isBlockNameA(block, 'MenuHamburger')) {
     return <Hamburger block={block} />;
   }
-
+  const link = parseLink(block.innerHTML);
   const svgContent = getSvgContent(block.innerHTML);
-  return <ReactHTMLParser html={svgContent} />;
+
+  return link ? (
+    <Link href={link}>
+      <ReactHTMLParser html={svgContent} />
+    </Link>
+  ) : (
+    <ReactHTMLParser html={svgContent} />
+  );
 };

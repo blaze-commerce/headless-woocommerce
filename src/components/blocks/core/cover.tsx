@@ -2,9 +2,11 @@ import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { Content } from '@src/components/blocks/content';
+import theme from '@public/theme.json';
 
 import Image from 'next/image';
 import { cn } from '@src/lib/helpers/helper';
+import { hexToHslArray, hexToHslValue, percentageToDecimal } from '@src/lib/helpers/color';
 
 type CoverProps = {
   block: ParsedBlock;
@@ -23,18 +25,37 @@ export const Cover = ({ block }: CoverProps) => {
   const attributes = block.attrs as BlockAttributes;
   const coverImageUrl = attributes.url;
 
+  const overlayColor = Object.keys(theme.colorVars).find(
+    (colorKey) => colorKey == `--${attributes.overlayColor}`
+  );
+
+  const colorVars = theme.colorVars as Record<string, string>;
+  const overlay = (overlayColor && colorVars[overlayColor]) || undefined;
+  const dimRatio = attributes.dimRatio && percentageToDecimal(attributes.dimRatio);
+
+  const backgroundColor = `hsla(${hexToHslValue(
+    overlay ? overlay : attributes.customOverlayColor ? attributes.customOverlayColor : '#ffffff',
+    ','
+  )},${dimRatio})`;
+
   if (!coverImageUrl) {
     return null;
   }
 
   return (
-    <div className={cn('relative isolate overflow-hidden', attributes.className)}>
+    <div className={cn('cover relative isolate overflow-hidden', attributes.className)}>
       <Image
         src={coverImageUrl}
         fill
         alt={attributes.alt ?? 'cover'}
         className="inset-0 -z-10 size-full object-cover h-full object-center !static"
       />
+      {attributes.isUserOverlayColor && (
+        <div
+          className="absolute top-0 left-0 w-full h-full"
+          style={{ backgroundColor }}
+        ></div>
+      )}
       <div className={cn('absolute w-full h-full top-0', parseCoverClass(block.innerHTML))}>
         <Content content={block.innerBlocks} />
       </div>

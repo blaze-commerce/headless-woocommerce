@@ -18,6 +18,7 @@ import { WooCommerceStyleRepresenter } from '@src/components/blocks/woocommerce/
 import path from 'path';
 import { parseImageClass } from '@src/lib/helpers/image';
 import { getPostBySlug } from '@src/lib/typesense/post';
+import Color from 'color';
 
 export const maybeDeleteFile = async (filePath: string) => {
   if (fs.existsSync(filePath)) {

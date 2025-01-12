@@ -380,3 +380,14 @@ export function formatPriceWithCurrency(price: number | string, currency: string
   const currencySymbol = getCurrencySymbol(currency);
   return `${currencySymbol}${numberFormat(price)}`;
 }
+
+export const parseLink = (htmlString: string): string | null => {
+  // Regular expression to match src attribute in img tag
+  const regex = /<a.*?href=["'](.*?)["']/;
+
+  // Match the regex pattern against the input HTML string
+  const match = htmlString.match(regex);
+
+  // If match is found, return the src value
+  return match && match.length > 1 ? match[1] : null;
+};
