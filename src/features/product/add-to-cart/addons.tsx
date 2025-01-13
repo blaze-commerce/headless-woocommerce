@@ -7,6 +7,7 @@ import { useProductContext } from '@src/context/product-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
 import { uniq } from 'lodash';
 import { TAddOnItem } from '@src/types/addToCart';
+import { ProductAddons as TProductAddons } from '@src/models/product/types';
 import { AddOnsPriceBreakdown } from '@src/features/product/addons/price-breakdown';
 
 const SelectElement = dynamic(() =>
@@ -25,6 +26,10 @@ const CheckboxElement = dynamic(() =>
   import('@src/features/product/addons/checkbox').then((mod) => mod.AddOnsCheckbox)
 );
 
+const RadioButtonElement = dynamic(() =>
+  import('@src/features/product/addons/radio-button').then((mod) => mod.AddOnsRadioButton)
+);
+
 const MultiplierElement = dynamic(() =>
   import('@src/features/product/addons/input-multiplier').then((mod) => mod.AddOnsInputMultiplier)
 );
@@ -36,8 +41,12 @@ const FileUploadElement = dynamic(() =>
 export const AddToCartAddons = () => {
   const { product, fields } = useProductContext();
   const { addons } = useAddToCartContext();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [headers, setHeaders] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [panels, setPanels] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [standAlone, setStandAlone] = useState<any[]>([]);
 
   const [, setAddonItems] = addons;
   const [, setRequiredFields] = fields.required;
@@ -69,7 +78,12 @@ export const AddToCartAddons = () => {
         priceType: addon.price_type,
         quantity: 0,
         isCalculated: false,
+        display: addon.display,
       });
+    });
+
+    console.log({
+      addons: product.addons,
     });
 
     // set addon items
@@ -78,6 +92,12 @@ export const AddToCartAddons = () => {
   }, [product]);
 
   useEffect(() => {
+    console.log({ fieldsValue });
+  }, [fieldsValue]);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const standAlone: any[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const headers: any[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,6 +107,9 @@ export const AddToCartAddons = () => {
     if (!product || !product.addons) return;
 
     product.addons.forEach((addon) => {
+      if (headers.length === 0 && addon.type !== 'heading') {
+        standAlone.push(addon);
+      }
       if (addon.type === 'heading') {
         headers.push(addon);
         iteration++;
@@ -98,13 +121,9 @@ export const AddToCartAddons = () => {
       }
     });
 
-    console.log({
-      headers,
-      panels,
-    });
-
     setHeaders(headers);
     setPanels(panels);
+    setStandAlone(standAlone);
   }, [product]);
 
   if (!product || !product.addons) return null;
@@ -121,8 +140,7 @@ export const AddToCartAddons = () => {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderAddon = (addon: any, key: number) => {
+  const renderAddon = (addon: TProductAddons, key: number) => {
     switch (addon.type) {
       case 'checkbox':
         return (
@@ -143,6 +161,16 @@ export const AddToCartAddons = () => {
         );
 
       case 'multiple_choice':
+        if (addon.display === 'radiobutton') {
+          return (
+            <RadioButtonElement
+              key={`addon-field-${key}`}
+              field={addon}
+              product={product}
+              onChange={onChange}
+            />
+          );
+        }
         return (
           <SelectElement
             key={`addon-field-${key}`}
@@ -187,39 +215,45 @@ export const AddToCartAddons = () => {
 
   return (
     <div className="product-addon-container">
-      {headers.map((header, key) => (
-        <Disclosure key={key}>
-          {({ open }) => (
-            <Fragment key={key}>
-              <Disclosure.Button
-                className="addon-header addon-field-heading"
-                as="h3"
-              >
-                {header.name}
-                <span className="accordion-button">
-                  {open ? (
-                    <FaMinus
-                      width="8"
-                      height="8"
-                    />
-                  ) : (
-                    <FaPlus
-                      width="8"
-                      height="8"
-                    />
-                  )}
-                </span>
-              </Disclosure.Button>
-              <Disclosure.Panel
-                as="div"
-                className="addon-panel"
-              >
-                {panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
-              </Disclosure.Panel>
-            </Fragment>
-          )}
-        </Disclosure>
-      ))}
+      {standAlone.length > 0 &&
+        standAlone.map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
+
+      {headers.length > 0 &&
+        headers.map((header, key) => (
+          <Disclosure key={key}>
+            {({ open }) => (
+              <Fragment key={key}>
+                <Disclosure.Button
+                  className="addon-header addon-field-heading"
+                  as="h3"
+                >
+                  {header.name}
+                  <span className="accordion-button">
+                    {open ? (
+                      <FaMinus
+                        width="8"
+                        height="8"
+                      />
+                    ) : (
+                      <FaPlus
+                        width="8"
+                        height="8"
+                      />
+                    )}
+                  </span>
+                </Disclosure.Button>
+                <Disclosure.Panel
+                  as="div"
+                  className="addon-panel"
+                >
+                  {typeof panels[key] !== 'undefined' &&
+                    panels[key].length > 0 &&
+                    panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
+                </Disclosure.Panel>
+              </Fragment>
+            )}
+          </Disclosure>
+        ))}
       <AddOnsPriceBreakdown />
     </div>
   );

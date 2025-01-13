@@ -41,11 +41,11 @@
 }
 
 .single-product .add-to-cart-form .product-addon-container .addon-field-options {
-  @apply flex gap-4;
+  @apply flex gap-4 flex-wrap;
 }
 
 .single-product .add-to-cart-form .product-addon-container .addon-field-options .addon-option {
-  @apply py-2 px-4 border-2 border-solid border-[#ddd] rounded-md cursor-pointer text-xs font-normal leading-6 text-[#333] min-w-[96px] text-center;
+  @apply py-2 px-4 border-2 border-solid border-[#ddd] cursor-pointer text-xs font-normal leading-6 text-[#333] text-center;
 }
 
 .single-product
@@ -62,7 +62,7 @@
   .product-addon-container
   .addon-field-options
   .addon-option.selected {
-  /* @apply; */
+  @apply border-foreground text-foreground;
 }
 
 .single-product .add-to-cart-form .product-addon-container .addon-field-options input {

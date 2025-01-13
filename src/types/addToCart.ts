@@ -5,6 +5,7 @@ export type TAddOnItemOption = {
   price: number;
   image: string;
   priceType: ProductAddonsPriceType;
+  value?: string;
 };
 
 export type TAddOnItem = {
@@ -15,4 +16,5 @@ export type TAddOnItem = {
   quantity: number;
   isCalculated: boolean;
   options?: TAddOnItemOption[];
+  display: string;
 };
