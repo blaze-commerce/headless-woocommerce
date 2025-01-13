@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import Counter from 'yet-another-react-lightbox/plugins/counter';
+import { GoZoomIn } from 'react-icons/go';
 import 'yet-another-react-lightbox/plugins/counter.css';
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
 import Video from 'yet-another-react-lightbox/plugins/video';
@@ -84,22 +85,9 @@ export const SlideImages = (props: Props) => {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="bg-white rounded-full p-[15px] shadow-[0_1px_9px_rgba(0,0,0,0.12)] w-12 h-12"
+        className="bg-white border border-foreground w-12 h-12 flex justify-center items-center"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="gray"
-          className="w-[18px] h-[18px]"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-          />
-        </svg>
+        <GoZoomIn className="w-6 h-6" />
       </button>
       <Lightbox
         open={open}

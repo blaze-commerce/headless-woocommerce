@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { decode } from 'html-entities';
 import { Fragment, ReactNode, useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
-import { HiX } from 'react-icons/hi';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 import dynamic from 'next/dynamic';
 
 import { DynamicIconLoader } from '@src/components/dynamic-icon-loader';
@@ -168,7 +168,7 @@ export const ProductDialogs = ({ type }: TProp) => {
         >
           <Dialog
             as="div"
-            className="relative z-10"
+            className="offcanvas-dialog"
             onClose={setOpen}
           >
             <Transition.Child
@@ -180,50 +180,40 @@ export const ProductDialogs = ({ type }: TProp) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+              <div className="transition-element" />
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-hidden">
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-[calc(100%-3rem)] md:max-w-full">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="transform transition ease-in-out duration-500 sm:duration-700"
-                    enterFrom="translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transform transition ease-in-out duration-500 sm:duration-700"
-                    leaveFrom="translate-x-0"
-                    leaveTo="translate-x-full"
-                  >
-                    <Dialog.Panel className="products-offcanvas pointer-events-auto w-screen max-w-[600px]">
-                      <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                        <div className="overflow-y-auto py-6 px-4 sm:px-6">
-                          <div className="flex items-end justify-end">
-                            <div className="flex h-7 items-center">
-                              <button
-                                type="button"
-                                className="button-offcanvas-close -m-2 p-2 text-gray-400 hover:text-gray-500"
-                                onClick={() => setOpen(false)}
-                              >
-                                <HiX
-                                  className="h-6 w-6"
-                                  aria-hidden="true"
-                                />
-                              </button>
-                            </div>
-                          </div>
+            <div className="offcanvas-content-holder position-right">
+              <Transition.Child
+                as={Fragment}
+                enter="transform transition ease-in-out duration-500 sm:duration-700"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transform transition ease-in-out duration-500 sm:duration-700"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="dialog-panel">
+                  <div className="flex items-end justify-end">
+                    <button
+                      type="button"
+                      className="button-offcanvas-close"
+                      onClick={() => setOpen(false)}
+                    >
+                      <IoIosCloseCircleOutline
+                        className="icon"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </div>
 
-                          <div className="">
-                            <div className="flow-root">
-                              <Tabs data={generateTabData()} />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
+                  <div className="">
+                    <div className="flow-root">
+                      <Tabs data={generateTabData()} />
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
             </div>
           </Dialog>
         </Transition.Root>
