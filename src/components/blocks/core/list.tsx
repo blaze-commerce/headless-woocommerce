@@ -15,7 +15,13 @@ export const List = ({ block }: ListProps) => {
 
   const attribute = block.attrs as BlockAttributes;
   return (
-    <ul className={cn(`_${attribute.uniqueId}`, attribute.className)}>
+    <ul
+      className={cn(
+        `_${attribute.uniqueId} list-inside`,
+        attribute.ordered ? 'list-decimal ' : 'list-disc',
+        attribute.className
+      )}
+    >
       <Content content={block.innerBlocks} />
     </ul>
   );

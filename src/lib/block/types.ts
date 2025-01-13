@@ -282,6 +282,10 @@ export interface CoverAttributes {
   url?: string;
 }
 
+export interface ListItemsAttributes {
+  ordered?: boolean;
+}
+
 export interface BlockAttributes
   extends BasicBlockAttributes,
     GridBlockAttributes,
@@ -302,7 +306,8 @@ export interface BlockAttributes
     BackgroundAttributes,
     PostDateAttributes,
     GroupAttributes,
-    CoverAttributes {
+    CoverAttributes,
+    ListItemsAttributes {
   variantRole?: string;
 
   textColor?: string;
