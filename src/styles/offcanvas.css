@@ -1,0 +1,27 @@
+.offcanvas-dialog {
+  @apply relative z-10;
+}
+
+.offcanvas-dialog .transition-element {
+  @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
+}
+
+.offcanvas-dialog .offcanvas-content-holder {
+  @apply fixed top-0 left-0 right-auto h-[100dvh] max-w-[calc(100%-3rem)] md:max-w-full;
+}
+
+.offcanvas-dialog .offcanvas-content-holder.position-right {
+  @apply left-auto right-0;
+}
+
+.offcanvas-dialog .offcanvas-content-holder .dialog-panel {
+  @apply flex flex-col overflow-y-scroll bg-white h-[100dvh] pointer-events-auto w-full md:w-screen max-w-[600px] p-6 gap-y-2;
+}
+
+.offcanvas-dialog .offcanvas-content-holder .dialog-panel .button-offcanvas-close {
+  @apply text-foreground hover:text-gray-500;
+}
+
+.offcanvas-dialog .offcanvas-content-holder .dialog-panel .button-offcanvas-close .icon {
+  @apply w-6 h-6;
+}
