@@ -2,7 +2,7 @@ import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import GliderComponent from 'react-glider';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 import { Image } from '@src/components/common/image';
 import { SlideImages } from '@src/features/product/slide-images';
@@ -204,31 +204,31 @@ export const Gallery: React.FC<Props> = (props) => {
         )}
         {renderOnSaleBadge()}
         {renderNewBadge()}
-        <div className="product-gallery-arrows absolute flex justify-between align-middle w-full h-full z-[7]">
+        <div className="product-gallery-arrows">
           <button
-            className={cn('relative ml-1', {
+            className={cn('arrow arrow-left', {
               invisible: index === 0,
             })}
             onClick={() => setSelectedImageIndex(index - 1)}
           >
             <span>
-              <FiChevronLeft />
+              <FaArrowLeft className="w-6 h-6" />
             </span>
           </button>
           <button
-            className={cn('relative mr-1', {
+            className={cn('arrow arrow-right', {
               invisible: index === lastIndex,
             })}
             onClick={() => setSelectedImageIndex(index + 1)}
           >
             <span>
-              <FiChevronRight />
+              <FaArrowRight className="w-6 h-6" />
             </span>
           </button>
         </div>
         {image?.src && zoomType === '2' && (
           <SlideImages
-            className="bottom-0"
+            className="top-0"
             images={images}
             imageIndex={index}
           />
@@ -334,19 +334,21 @@ export const Gallery: React.FC<Props> = (props) => {
   return (
     <Tab.Group
       as="div"
-      className="flex flex-col-reverse mb-5"
+      className="product-gallery"
       selectedIndex={selectedImageIndex}
       onChange={setSelectedImageIndex}
     >
-      {isGrid && images.length > 1 && <div className="hidden lg:block">{renderGridGallery()}</div>}
+      {isGrid && images.length > 1 && (
+        <div className="product-thumbnails grid-style">{renderGridGallery()}</div>
+      )}
 
       <div
-        className={cn('product-thumbnail lg:inline-grid', {
+        className={cn('product-thumbnails default', {
           'lg:hidden': images.length > 1 && isGrid,
         })}
       >
-        <div className="lg:hidden">{renderMobileMainImage()}</div>
-        <div className="hidden lg:block">
+        <div className="mobile-view">{renderMobileMainImage()}</div>
+        <div className="desktop-view">
           {renderDesktopMainImage()}
           {renderImageGallery()}
         </div>
