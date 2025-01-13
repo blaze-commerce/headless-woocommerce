@@ -60,11 +60,12 @@ export const BlogPosts = ({ block }: Props) => {
     getAttributeValue(htmlAttributes, 'data-month-format') ?? 'numeric';
   const blogDay: Day | string = getAttributeValue(htmlAttributes, 'data-day-format') ?? 'numeric';
   const blogDateFormat = getAttributeValue(htmlAttributes, 'data-date-format') ?? 'en-US';
-  const hasDateEnabled = getAttributeValue(htmlAttributes, 'data-date-enabled') === '1' ?? false;
+  const hasDateEnabled = (getAttributeValue(htmlAttributes, 'data-date-enabled') ?? '0') === '1';
   const hasDescriptionEnabled =
-    getAttributeValue(htmlAttributes, 'data-description-enabled') === '1' ?? false;
+    (getAttributeValue(htmlAttributes, 'data-description-enabled') ?? '0') === '1';
   const hasReadMoreEnabled =
-    getAttributeValue(htmlAttributes, 'data-read-more-enabled') === '1' ?? false;
+    (getAttributeValue(htmlAttributes, 'data-read-more-enabled') ?? '0') === '1';
+
   const cardClasses = getAttributeValue(htmlAttributes, 'data-card-class') ?? '';
   const imageContainerClasses =
     getAttributeValue(htmlAttributes, 'data-image-container-class') ?? '';
