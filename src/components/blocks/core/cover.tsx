@@ -1,4 +1,3 @@
-import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { Content } from '@src/components/blocks/content';
@@ -6,7 +5,8 @@ import theme from '@public/theme.json';
 
 import Image from 'next/image';
 import { cn } from '@src/lib/helpers/helper';
-import { hexToHslArray, hexToHslValue, percentageToDecimal } from '@src/lib/helpers/color';
+import { hexToHslValue, percentageToDecimal } from '@src/lib/helpers/color';
+import { useContentContext } from '@src/context/content-context';
 
 type CoverProps = {
   block: ParsedBlock;
@@ -18,6 +18,8 @@ const parseCoverClass = (htmlString: string): string => {
 };
 
 export const Cover = ({ block }: CoverProps) => {
+  const { type } = useContentContext();
+
   if ('core/cover' !== block.blockName) {
     return null;
   }
@@ -57,7 +59,10 @@ export const Cover = ({ block }: CoverProps) => {
         ></div>
       )}
       <div className={cn('absolute w-full h-full top-0', parseCoverClass(block.innerHTML))}>
-        <Content content={block.innerBlocks} />
+        <Content
+          type={type}
+          content={block.innerBlocks}
+        />
       </div>
     </div>
   );
