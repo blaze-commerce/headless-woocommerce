@@ -880,3 +880,18 @@ export const convertAttributes = (attrs: { htmlAttributes: HTMLAttributes }) => 
 
   return Object.assign({}, attrs, convertedHtmlAttrs);
 };
+
+export const findBlock = (blocks: ParsedBlock[], blockName: string) => {
+  if (!blocks) return null;
+  let matchedBlock: ParsedBlock | null = null;
+  blocks.forEach((block) => {
+    const name = get(block, 'attrs.metadata.name');
+    if (name === blockName) {
+      matchedBlock = block;
+    } else if (block.innerBlocks) {
+      matchedBlock = findBlock(block.innerBlocks, blockName);
+    }
+  });
+
+  return matchedBlock;
+};

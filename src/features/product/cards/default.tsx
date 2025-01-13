@@ -201,7 +201,7 @@ export const DefaultProductCard = (props: Props) => {
           layout={layout}
           link={productLink}
         />
-        {showCategory && <CardProductCategory product={parsedProduct} />}
+        {/* {showCategory && <CardProductCategory product={parsedProduct} />} */}
         <CardRating
           product={parsedProduct}
           detailsAlignment={detailsAlignment}

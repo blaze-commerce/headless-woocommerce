@@ -26,6 +26,7 @@ import { ITSPaginationInfo, ITSTaxonomyProductQueryVars } from '@src/lib/typesen
 import { stripSlashes } from '@src/lib/helpers/helper';
 import { getPageParams } from '@src/lib/helpers';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
+import { ParsedBlock } from '@src/components/blocks';
 
 export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { settings } = useSiteContext();
@@ -396,6 +397,7 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
           productCount={tsPaginationInfo.totalFound}
           applyFilter={applyFilter}
           onSortChange={onSortChange}
+          blocks={props.blocks as ParsedBlock[]}
         >
           {productsData.length > 0 ? (
             <>

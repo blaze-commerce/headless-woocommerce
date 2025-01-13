@@ -1,5 +1,5 @@
 import { Dictionary } from '@reduxjs/toolkit';
-import { isArray, isEmpty, reduce } from 'lodash';
+import { isArray, isEmpty, merge, reduce } from 'lodash';
 import { GetStaticProps } from 'next';
 
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
@@ -18,6 +18,11 @@ import TSTaxonomy, {
   getTaxonomyPopularProducts,
 } from '@src/lib/typesense/taxonomy';
 import { ITSTaxonomyProductQueryVars, MetaData } from '@src/lib/typesense/types';
+import { addIds } from '@src/scripts/utils';
+import { parse } from '@wordpress/block-serialization-default-parser';
+import { ParsedBlock, processBlockData } from '@src/components/blocks';
+
+import { categoryTemplate } from '@src/lib/category-template';
 
 TaxonomyItemPage.getLayout = defaultLayout;
 
@@ -147,5 +152,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
       notFound: true,
     };
   }
+
+  const blocks = addIds(parse(categoryTemplate()) as ParsedBlock[]);
+  merge(data, {
+    props: { blocks: await Promise.all(blocks.map((block) => processBlockData(block))) },
+  });
   return data;
 };

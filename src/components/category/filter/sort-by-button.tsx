@@ -16,7 +16,7 @@ export const SortByButton = (props: TProps) => {
         className="button-sort-by "
       >
         <ReactHTMLParser html={selectedSortOption?.label || 'Sort by'} />
-        <ChevronDown />
+        {/* <ChevronDown /> */}
       </button>
     </div>
   );

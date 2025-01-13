@@ -17,7 +17,7 @@ export const ProductRating = ({ stats }: ProductReviews) => {
       ratingColor = '#BFB49A';
       break;
     case 'woocommerce_native_reviews':
-      ratingColor = '#ffb600';
+      ratingColor = '#5A768E';
       break;
   }
 

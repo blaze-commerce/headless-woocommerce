@@ -35,6 +35,7 @@ export const TaxonomyItemPage: NextPageWithLayout<ITaxonomyContentProps, Props> 
     showPerfectGiftHelper,
     topDescription,
     searchQuery,
+    blocks,
   } = props;
 
   const memoizedTaxonomyContent = useMemo(
@@ -55,6 +56,7 @@ export const TaxonomyItemPage: NextPageWithLayout<ITaxonomyContentProps, Props> 
         showBanner={true}
         pagedUrl={true}
         showBreadCrumbs={true}
+        blocks={blocks}
       />
     ),
     [
@@ -69,6 +71,7 @@ export const TaxonomyItemPage: NextPageWithLayout<ITaxonomyContentProps, Props> 
       taxonomyData,
       searchQuery,
       subCategories,
+      blocks,
     ]
   );
 

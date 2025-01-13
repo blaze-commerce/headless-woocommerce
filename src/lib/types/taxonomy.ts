@@ -6,6 +6,7 @@ import { ContentBlock } from '@src/types';
 import { IProduct } from '@src/lib/types/product';
 import { ITSImage } from '../typesense/types';
 import { ITSProductQueryResponse, ITSTaxonomy } from '../typesense/types';
+import { ParsedBlock } from '@src/components/blocks';
 
 export interface IFilterOptionData {
   label: string;
@@ -153,6 +154,7 @@ export interface ITaxonomyContentProps {
   showBreadCrumbs?: boolean;
   showBanner?: boolean;
   pagedUrl?: boolean;
+  blocks?: ParsedBlock[];
 }
 
 export interface IQueryVars {

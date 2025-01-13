@@ -19,6 +19,8 @@ import { MobileFilterSortButtons } from '@src/components/category/filter/mobile-
 import { MobileActiveFilters } from '@src/components/category/filter/mobile-active-filters';
 import { SidebarFilter } from '@src/components/category/filter/sidebar-filter';
 import { FilterToggleButton } from '@src/components/category/filter/filter-toggle';
+import { ParsedBlock } from '@src/components/blocks';
+import { findBlock } from '@src/lib/block';
 
 type Props = {
   pageNo: number;
@@ -26,6 +28,7 @@ type Props = {
   applyFilter: () => void;
   onSortChange: (_e: { target: { value: string } }) => void;
   children: React.ReactNode;
+  blocks: ParsedBlock[];
 };
 
 export const Filter: React.FC<Props> = (props) => {
@@ -191,6 +194,61 @@ export const Filter: React.FC<Props> = (props) => {
     );
   };
 
+  const blk = findBlock(props.blocks, 'ProductGrid');
+
+  const renderBlocks = (blocks: ParsedBlock[]) => {
+    return blocks.map((block) => {
+      switch (true) {
+        case block.blockName === 'woocommerce/filter-wrapper' &&
+          block.attrs.filterType === 'attribute-filter': {
+          return <FilterToggleButton handleFilterByClicked={handleFilterByClicked} />;
+        }
+        case block.blockName === 'woocommerce/filter-wrapper' &&
+          block.attrs.filterType === 'active-filters': {
+          return (
+            <div className="active-filters">
+              <ActiveFilters {...layout?.activeFilters} />
+              {isFilterSet && (
+                <button
+                  onClick={resetFilterAction}
+                  className="clear-button-holder"
+                >
+                  <span className="text-sm">Clear all</span>
+                </button>
+              )}
+            </div>
+          );
+        }
+        case block.blockName === 'woocommerce/catalog-sorting': {
+          return (
+            <div className={block.attrs.className}>
+              <SortByButton
+                setSortByOpen={setSortByOpen}
+                selectedSortOption={selectedSortOption}
+              />
+            </div>
+          );
+        }
+        case block.blockName === 'woocommerce/product-results-count': {
+          return (
+            <ResultCount
+              pageNo={pageNo}
+              productCount={productCount}
+            />
+          );
+        }
+        case block.blockName === 'core/query' &&
+          block.attrs.namespace === 'woocommerce/product-query': {
+          return <div className="product-grid-container">{props.children}</div>;
+        }
+        case block.blockName === 'core/group':
+        default: {
+          return <div className={block.attrs.className}>{renderBlocks(block.innerBlocks)}</div>;
+        }
+      }
+    });
+  };
+
   return (
     <>
       <Modal
@@ -215,7 +273,8 @@ export const Filter: React.FC<Props> = (props) => {
           isFilterSet={isFilterSet}
         />
       </div>
-      <div className="product-archive-container container">
+
+      <div className="container">
         <Modal
           open={filterOpen}
           setOpen={setFilterOpen}
@@ -226,43 +285,14 @@ export const Filter: React.FC<Props> = (props) => {
             resetFilterAction={resetFilterAction}
           />
         </Modal>
-        <aside className="product-archive-filter-desktop">
+        {/* <FilterToggleButton handleFilterByClicked={handleFilterByClicked} /> */}
+        {/* <aside className="product-archive-filter-desktop">
           <SidebarFilter
             applyFilterClicked={applyFilterClicked}
             resetFilterAction={resetFilterAction}
           />
-        </aside>
-        <div className="product-archive-display">
-          <div className="product-filter-and-sort">
-            {layout?.productFilters === '2' && (
-              <>
-                <FilterToggleButton handleFilterByClicked={handleFilterByClicked} />
-                <ResultCount
-                  pageNo={pageNo}
-                  productCount={productCount}
-                />
-              </>
-            )}
-            <div className="active-filters">
-              <ActiveFilters {...layout?.activeFilters} />
-              {isFilterSet && (
-                <button
-                  onClick={resetFilterAction}
-                  className="clear-button-holder"
-                >
-                  <span className="text-sm">Clear all</span>
-                </button>
-              )}
-            </div>
-            {shop?.layout?.productFilters != '1' && (
-              <SortByButton
-                setSortByOpen={setSortByOpen}
-                selectedSortOption={selectedSortOption}
-              />
-            )}
-          </div>
-          {renderProductGrid()}
-        </div>
+        </aside> */}
+        <div className="product-archive-display">{renderBlocks(props.blocks)}</div>
       </div>
     </>
   );
