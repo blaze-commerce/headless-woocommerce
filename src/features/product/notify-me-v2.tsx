@@ -87,7 +87,7 @@ export const NotifyMeWhenAvailableV2 = (props: Props) => {
           )}
         </div>
         <input
-          type="hidden"
+          type="text"
           name="subscriber_name"
           value={formData.subscriber_name}
           disabled={loading}
