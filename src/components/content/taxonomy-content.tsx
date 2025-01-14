@@ -397,7 +397,6 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
           productCount={tsPaginationInfo.totalFound}
           applyFilter={applyFilter}
           onSortChange={onSortChange}
-          blocks={props.blocks as ParsedBlock[]}
         >
           {productsData.length > 0 ? (
             <>

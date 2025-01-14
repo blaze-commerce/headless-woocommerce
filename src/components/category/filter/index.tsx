@@ -21,6 +21,7 @@ import { SidebarFilter } from '@src/components/category/filter/sidebar-filter';
 import { FilterToggleButton } from '@src/components/category/filter/filter-toggle';
 import { ParsedBlock } from '@src/components/blocks';
 import { findBlock } from '@src/lib/block';
+import taxonomyProductCatBlocks from '@public/taxonomy-product-cat.json';
 
 type Props = {
   pageNo: number;
@@ -28,7 +29,6 @@ type Props = {
   applyFilter: () => void;
   onSortChange: (_e: { target: { value: string } }) => void;
   children: React.ReactNode;
-  blocks: ParsedBlock[];
 };
 
 export const Filter: React.FC<Props> = (props) => {
@@ -194,8 +194,6 @@ export const Filter: React.FC<Props> = (props) => {
     );
   };
 
-  const blk = findBlock(props.blocks, 'ProductGrid');
-
   const renderBlocks = (blocks: ParsedBlock[]) => {
     return blocks.map((block) => {
       switch (true) {
@@ -292,7 +290,7 @@ export const Filter: React.FC<Props> = (props) => {
             resetFilterAction={resetFilterAction}
           />
         </aside> */}
-        <div className="product-archive-display">{renderBlocks(props.blocks)}</div>
+        <div className="product-archive-display">{renderBlocks(taxonomyProductCatBlocks)}</div>
       </div>
     </>
   );

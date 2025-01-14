@@ -17,6 +17,7 @@ import { Product, ProductTypesenseResponse } from '@src/models/product';
 import { cn } from '@src/lib/helpers/helper';
 import type { ProductCards } from '@src/models/settings/shop';
 import { GliderMethods } from 'react-glider/dist/types';
+import productCards from '@public/product-cards.json';
 
 const CardGalleryThumbnail = dynamic(() =>
   import('@src/features/product/card-elements/slideshow-thumbnail').then(
@@ -127,6 +128,91 @@ export const DefaultProductCard = (props: Props) => {
     isOnSale = !!find(product.variations, ['onSale', true]);
   }
 
+  const renderProductCardsFromTemplate = () => {
+    const productCardTemplate = productCards[0];
+    return productCardTemplate.innerBlocks.map((block) => {
+      switch (block.blockName) {
+        case 'woocommerce/product-image': {
+          return (
+            <div className="product-header">
+              <CardImage
+                product={parsedProduct}
+                imageClassNames={cn(props.imageClassNames, block.attrs.className)}
+                productFilters={props.productFilters}
+                productColumns={props.productColumns}
+                showWishlistButton={showWishlistButton}
+                showImageVariant={showImageVariant}
+              />
+              {showBadge && (
+                <div className="product-badges">
+                  {isOnSale && (
+                    <CardSaleBadge
+                      badgeType={saleBadgeType}
+                      badgeColor={saleBadgeColor}
+                    />
+                  )}
+                  <CardNewBadge
+                    product={parsedProduct}
+                    badgeType={newBadgeType}
+                    badgeColor={newBadgeColor}
+                  />
+                  <CardItemsLeftBadge
+                    product={parsedProduct}
+                    hasItemsLeftBadge={true}
+                  />
+                </div>
+              )}
+
+              {showWishlistButton && (
+                <CardWishlishButton
+                  product={product}
+                  hasItemsLeftBadge={true}
+                />
+              )}
+
+              {product.isOutOfStock && <CardOutOfStock />}
+            </div>
+          );
+        }
+        case 'core/post-title': {
+          return (
+            <CardTitle
+              product={parsedProduct}
+              handleMouseEnter={handleMouseEnter}
+              layout={layout}
+              link={productLink}
+              className={block.attrs.className}
+            />
+          );
+        }
+        case 'woocommerce/product-price': {
+          return (
+            <CardPrice
+              product={parsedProduct}
+              currency={currentCurrency}
+              isTaxExclusive={settings?.isTaxExclusive}
+              className={cn('!text-base !font-normal flex-wrap', block.attrs.className, {
+                'justify-left': detailsAlignment === 'left',
+                'justify-center': detailsAlignment === 'center',
+              })}
+            />
+          );
+        }
+        case 'woocommerce/product-rating': {
+          return (
+            <CardRating
+              product={parsedProduct}
+              detailsAlignment={detailsAlignment}
+              showRating={showRating}
+            />
+          );
+        }
+        default:
+          return null;
+      }
+    });
+  };
+
   return (
     <div
       key={product.id}
@@ -150,44 +236,7 @@ export const DefaultProductCard = (props: Props) => {
         padding: `${props?.imagePadding}px`,
       }}
     >
-      <div className="product-header">
-        <CardImage
-          product={parsedProduct}
-          imageClassNames={props.imageClassNames}
-          productFilters={props.productFilters}
-          productColumns={props.productColumns}
-          showWishlistButton={showWishlistButton}
-          showImageVariant={showImageVariant}
-        />
-        {showBadge && (
-          <div className="product-badges">
-            {isOnSale && (
-              <CardSaleBadge
-                badgeType={saleBadgeType}
-                badgeColor={saleBadgeColor}
-              />
-            )}
-            <CardNewBadge
-              product={parsedProduct}
-              badgeType={newBadgeType}
-              badgeColor={newBadgeColor}
-            />
-            <CardItemsLeftBadge
-              product={parsedProduct}
-              hasItemsLeftBadge={true}
-            />
-          </div>
-        )}
-
-        {showWishlistButton && (
-          <CardWishlishButton
-            product={product}
-            hasItemsLeftBadge={true}
-          />
-        )}
-
-        {product.isOutOfStock && <CardOutOfStock />}
-      </div>
+      {renderProductCardsFromTemplate()}
       <CardDiscountLabel
         showLabel={props.showDiscountLabel as boolean}
         discount={props.discountPercent as string}
@@ -195,18 +244,8 @@ export const DefaultProductCard = (props: Props) => {
       />
       <div className={`product-card-label text-${detailsAlignment}`}>
         <CardLabel product={parsedProduct} />
-        <CardTitle
-          product={parsedProduct}
-          handleMouseEnter={handleMouseEnter}
-          layout={layout}
-          link={productLink}
-        />
+
         {/* {showCategory && <CardProductCategory product={parsedProduct} />} */}
-        <CardRating
-          product={parsedProduct}
-          detailsAlignment={detailsAlignment}
-          showRating={showRating}
-        />
         {showVariants && product.hasVariations && (
           <CardGalleryThumbnail
             product={product}
@@ -215,15 +254,6 @@ export const DefaultProductCard = (props: Props) => {
           />
         )}
 
-        <CardPrice
-          product={parsedProduct}
-          currency={currentCurrency}
-          isTaxExclusive={settings?.isTaxExclusive}
-          className={cn('!text-base !font-normal flex-wrap', {
-            'justify-left': detailsAlignment === 'left',
-            'justify-center': detailsAlignment === 'center',
-          })}
-        />
         {/* {renderAvailableOptions()} */}
       </div>
       <div className="add-to-cart-container">

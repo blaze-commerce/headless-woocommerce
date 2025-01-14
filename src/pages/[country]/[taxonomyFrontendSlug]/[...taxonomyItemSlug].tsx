@@ -18,11 +18,6 @@ import TSTaxonomy, {
   getTaxonomyPopularProducts,
 } from '@src/lib/typesense/taxonomy';
 import { ITSTaxonomyProductQueryVars, MetaData } from '@src/lib/typesense/types';
-import { addIds } from '@src/scripts/utils';
-import { parse } from '@wordpress/block-serialization-default-parser';
-import { ParsedBlock, processBlockData } from '@src/components/blocks';
-
-import { categoryTemplate } from '@src/lib/category-template';
 
 TaxonomyItemPage.getLayout = defaultLayout;
 
@@ -153,9 +148,5 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   }
 
-  const blocks = addIds(parse(categoryTemplate()) as ParsedBlock[]);
-  merge(data, {
-    props: { blocks: await Promise.all(blocks.map((block) => processBlockData(block))) },
-  });
   return data;
 };

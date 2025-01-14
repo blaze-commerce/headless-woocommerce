@@ -154,7 +154,6 @@ export interface ITaxonomyContentProps {
   showBreadCrumbs?: boolean;
   showBanner?: boolean;
   pagedUrl?: boolean;
-  blocks?: ParsedBlock[];
 }
 
 export interface IQueryVars {

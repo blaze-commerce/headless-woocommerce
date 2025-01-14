@@ -92,6 +92,10 @@ const processTemplatesStyles = async () => {
       key: 'site-header',
       file: 'header.json',
     },
+    {
+      key: 'site-template-product-cards',
+      file: 'product-cards.json',
+    },
   ];
 
   const templateStyles = await Promise.all(
