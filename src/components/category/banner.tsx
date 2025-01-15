@@ -7,7 +7,7 @@ import { ICategoryBanner } from '@src/lib/types/taxonomy';
 import { cn } from '@src/lib/helpers/helper';
 
 export const Banner = (props: ICategoryBanner) => {
-  const { sourceUrl, name, subtitle } = props;
+  const { className, sourceUrl, name, subtitle } = props;
   const { settings } = useSiteContext();
   const { shop } = settings as Settings;
 
@@ -32,7 +32,7 @@ export const Banner = (props: ICategoryBanner) => {
 
   return (
     <div
-      className={cn({
+      className={cn(className, {
         'w-screen': !sourceUrl || shop?.layout?.banner === '2',
       })}
     >

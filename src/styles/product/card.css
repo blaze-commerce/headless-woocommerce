@@ -157,4 +157,23 @@
     p-2 md:p-4 text-sm md:text-lg md:leading-6 rounded-md border w-full uppercase
     bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text;
 }
+
+.product-card .product-header .product-badges .badge {
+  background-color: #5a768e;
+  border-radius: 0;
+  font-weight: 500;
+}
+
+.wishlist-button-holder {
+  top: unset !important;
+  bottom: 0.5rem;
+}
+
+.product-card .product-header .wishlist-button-holder svg {
+  stroke: #040711;
+}
+
+.product-card .product-image-holder {
+  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 247px);
+}
 /** END | Product Card */

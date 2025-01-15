@@ -41,6 +41,7 @@ export interface IFilterOptions {
 }
 
 export interface ICategoryBanner {
+  className?: string;
   sourceUrl: string;
   name: string;
   description?: string;

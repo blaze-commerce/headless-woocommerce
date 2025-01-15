@@ -199,7 +199,12 @@ export const Filter: React.FC<Props> = (props) => {
       switch (true) {
         case block.blockName === 'woocommerce/filter-wrapper' &&
           block.attrs.filterType === 'attribute-filter': {
-          return <FilterToggleButton handleFilterByClicked={handleFilterByClicked} />;
+          return (
+            <FilterToggleButton
+              className={block.attrs.className}
+              handleFilterByClicked={handleFilterByClicked}
+            />
+          );
         }
         case block.blockName === 'woocommerce/filter-wrapper' &&
           block.attrs.filterType === 'active-filters': {
@@ -247,6 +252,10 @@ export const Filter: React.FC<Props> = (props) => {
     });
   };
 
+  const productGridBlocks: ParsedBlock[] = [
+    findBlock(taxonomyProductCatBlocks, 'ProductGrid') as ParsedBlock,
+  ];
+
   return (
     <>
       <Modal
@@ -272,7 +281,7 @@ export const Filter: React.FC<Props> = (props) => {
         />
       </div>
 
-      <div className="container">
+      <div>
         <Modal
           open={filterOpen}
           setOpen={setFilterOpen}
@@ -290,7 +299,7 @@ export const Filter: React.FC<Props> = (props) => {
             resetFilterAction={resetFilterAction}
           />
         </aside> */}
-        <div className="product-archive-display">{renderBlocks(taxonomyProductCatBlocks)}</div>
+        <div className="product-archive-display">{renderBlocks(productGridBlocks)}</div>
       </div>
     </>
   );

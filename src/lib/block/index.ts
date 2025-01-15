@@ -881,17 +881,18 @@ export const convertAttributes = (attrs: { htmlAttributes: HTMLAttributes }) => 
   return Object.assign({}, attrs, convertedHtmlAttrs);
 };
 
-export const findBlock = (blocks: ParsedBlock[], blockName: string) => {
-  if (!blocks) return null;
-  let matchedBlock: ParsedBlock | null = null;
-  blocks.forEach((block) => {
+export const findBlock = (blocks: ParsedBlock[], blockName: string): ParsedBlock | undefined => {
+  if (!blocks) return undefined;
+  for (const block of blocks) {
     const name = get(block, 'attrs.metadata.name');
     if (name === blockName) {
-      matchedBlock = block;
+      return block;
     } else if (block.innerBlocks) {
-      matchedBlock = findBlock(block.innerBlocks, blockName);
+      const matchedBlock = findBlock(block.innerBlocks, blockName);
+      if (matchedBlock) {
+        return matchedBlock;
+      }
     }
-  });
-
-  return matchedBlock;
+  }
+  return undefined;
 };

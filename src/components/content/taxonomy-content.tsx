@@ -27,6 +27,7 @@ import { stripSlashes } from '@src/lib/helpers/helper';
 import { getPageParams } from '@src/lib/helpers';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
 import { ParsedBlock } from '@src/components/blocks';
+import taxonomyProductCatBlocks from '@public/taxonomy-product-cat.json';
 
 export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { settings } = useSiteContext();
@@ -368,60 +369,81 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
     ));
   }, [transformedProducts, productFilters, productColumns, layout]);
 
+  const renderBlocks = (blocks: ParsedBlock[]) => {
+    return blocks.map((block) => {
+      switch (true) {
+        case block.blockName === 'woocommerce/breadcrumbs': {
+          return (
+            <BreadCrumbs
+              className={block.attrs.className}
+              separator="&gt;"
+              crumbs={props?.taxonomyData?.breadcrumbs}
+            />
+          );
+        }
+        case block.blockName === 'core/query-title': {
+          return (
+            <Banner
+              {...props.hero}
+              className={block.attrs.className}
+              style={bannerStyle}
+            />
+          );
+        }
+        case block.blockName === 'core/group' && block.attrs.metadata?.name === 'ProductGrid': {
+          return (
+            <div className="container">
+              <Filter
+                pageNo={tsPaginationInfo.page}
+                productCount={tsPaginationInfo.totalFound}
+                applyFilter={applyFilter}
+                onSortChange={onSortChange}
+              >
+                {productsData.length > 0 ? (
+                  <>
+                    <ProductGrid productColumns={productColumns}>{productCards}</ProductGrid>
+                    {loading && (
+                      <SkeletonCategory
+                        productColumns={productColumns}
+                        productCount={layout?.productCount}
+                      />
+                    )}
+
+                    {shoulShowLoadMore && !loading && (
+                      <LoadMoreButton loadMoreItems={loadMoreItems} />
+                    )}
+                  </>
+                ) : (
+                  <p>No products found</p>
+                )}
+                {layout?.productFilters === '2' && (
+                  <div className="mt-4 flex items-center justify-center">
+                    <ResultCount
+                      pageNo={tsPaginationInfo.page}
+                      productCount={tsPaginationInfo.totalFound}
+                    />
+                  </div>
+                )}
+              </Filter>
+            </div>
+          );
+        }
+        case block.blockName === 'core/group':
+        default: {
+          return <div className={block.attrs.className}>{renderBlocks(block.innerBlocks)}</div>;
+        }
+      }
+    });
+  };
+
   const shoulShowLoadMore = !isEmpty(tsPaginationInfo) && tsPaginationInfo.nextPage > 0;
   return (
     <>
       {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
       <LoadingModal isOpen={loading} />
-      <header>
-        <div className="container">
-          {props.showBreadCrumbs && showBreadCrumbs && (
-            <BreadCrumbs
-              className=""
-              separator="&gt;"
-              crumbs={props?.taxonomyData?.breadcrumbs}
-            />
-          )}
-          {props.showBanner && (
-            <Banner
-              {...props.hero}
-              style={bannerStyle}
-            />
-          )}
-        </div>
-      </header>
+      {renderBlocks(taxonomyProductCatBlocks)}
 
       <div className="container">
-        <Filter
-          pageNo={tsPaginationInfo.page}
-          productCount={tsPaginationInfo.totalFound}
-          applyFilter={applyFilter}
-          onSortChange={onSortChange}
-        >
-          {productsData.length > 0 ? (
-            <>
-              <ProductGrid productColumns={productColumns}>{productCards}</ProductGrid>
-              {loading && (
-                <SkeletonCategory
-                  productColumns={productColumns}
-                  productCount={layout?.productCount}
-                />
-              )}
-
-              {shoulShowLoadMore && !loading && <LoadMoreButton loadMoreItems={loadMoreItems} />}
-            </>
-          ) : (
-            <p>No products found</p>
-          )}
-          {layout?.productFilters === '2' && (
-            <div className="mt-4 flex items-center justify-center">
-              <ResultCount
-                pageNo={tsPaginationInfo.page}
-                productCount={tsPaginationInfo.totalFound}
-              />
-            </div>
-          )}
-        </Filter>
         <div className="py-10 category-description">
           <Description description={props.taxonomyDescription} />
         </div>
