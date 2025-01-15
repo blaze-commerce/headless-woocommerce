@@ -293,11 +293,10 @@
   "showFreeShippingBanner": false,
   "showFreeShippingMinicartComponent": false,
   "regions": {
-    "AU": [
-      "AU"
-    ]
+    "AU": ["AU"]
   },
   "homepageSlug": "home",
   "categoryPageDefaultSort": "{\"sort_option\":\"sort_0\"}",
-  "showVariantAsSeparateProductCards": false
+  "showVariantAsSeparateProductCards": false,
+  "showShareToPinterestButton": false
 }

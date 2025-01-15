@@ -2,6 +2,7 @@ import { find } from 'lodash';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import siteData from '@public/site.json';
 import { useEffectOnce, useIntersectionObserver } from 'usehooks-ts';
 
 import { CardRating } from '@src/features/product/card-elements/rating';
@@ -17,6 +18,7 @@ import { Product, ProductTypesenseResponse } from '@src/models/product';
 import { cn } from '@src/lib/helpers/helper';
 import type { ProductCards } from '@src/models/settings/shop';
 import { GliderMethods } from 'react-glider/dist/types';
+import { PinterestSaveButton } from '@src/features/pinterest-save-button';
 
 const CardGalleryThumbnail = dynamic(() =>
   import('@src/features/product/card-elements/slideshow-thumbnail').then(
@@ -92,6 +94,7 @@ export const DefaultProductCard = (props: Props) => {
   const productLink = seoUrlParser(product?.permalink || '');
   const { currentCurrency, settings, currentCountry } = useSiteContext();
   const [showImageVariant, setShowImageVariant] = useState<string>('');
+  const [hovered, setHovered] = useState(false);
   // const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -150,7 +153,11 @@ export const DefaultProductCard = (props: Props) => {
         padding: `${props?.imagePadding}px`,
       }}
     >
-      <div className="product-header">
+      <div
+        className="product-header"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
         <CardImage
           product={parsedProduct}
           imageClassNames={props.imageClassNames}
@@ -161,6 +168,9 @@ export const DefaultProductCard = (props: Props) => {
         />
         {showBadge && (
           <div className="product-badges">
+            {siteData.showShareToPinterestButton && hovered && (
+              <PinterestSaveButton src={parsedProduct?.thumbnail?.src} />
+            )}
             {isOnSale && (
               <CardSaleBadge
                 badgeType={saleBadgeType}
