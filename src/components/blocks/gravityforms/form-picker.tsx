@@ -13,6 +13,11 @@ export const FormPicker = ({ block }: FormProps) => {
 
   const { loading, data: formData } = useGetForm(attribute.formId as string);
 
+  if (!formData) {
+    console.error('Could not get gravity form data', formData);
+    return null;
+  }
+
   if (loading) {
     return (
       <div className="group relative animate-pulse">
