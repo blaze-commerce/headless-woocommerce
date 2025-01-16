@@ -1,6 +1,7 @@
 import { BlockComponentProps, ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
 import { MiniCartContainer } from '@src/components/blocks/woocommerce/mini-cart/mini-cart-container';
+import { NoCartItemsContainer } from '@src/components/blocks/woocommerce/mini-cart/no-cart-items-container';
 import { FreeShippingProgress } from '@src/components/free-shipping-progress';
 import { useContentContext } from '@src/context/content-context';
 import { getBlockName } from '@src/lib/block';
@@ -10,6 +11,7 @@ import { cn } from '@src/lib/helpers/helper';
 export const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
   FreeShippingProgress: FreeShippingProgress,
+  NoCartItemsContainer: NoCartItemsContainer,
 };
 
 export const Group = ({ block }: BlockComponentProps) => {
