@@ -8,7 +8,7 @@ import { getBlockName } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 
-export const placeHolderBlocks = {
+const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
   FreeShippingProgress: FreeShippingProgress,
   NoCartItemsContainer: NoCartItemsContainer,
