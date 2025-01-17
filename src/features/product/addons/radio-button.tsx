@@ -46,7 +46,7 @@ export const AddOnsRadioButton = ({ field, product, onChange }: TProps) => {
               <input
                 type="radio"
                 id={`${prefix}-${key}`}
-                name={`${prefix}`}
+                name={`addon-${product.productId}-${field.id}`}
                 value={option.label}
                 className={prefix}
                 onChange={handleChange}

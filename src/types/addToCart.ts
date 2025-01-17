@@ -17,4 +17,5 @@ export type TAddOnItem = {
   isCalculated: boolean;
   options?: TAddOnItemOption[];
   display: string;
+  className?: string;
 };

@@ -14,14 +14,14 @@ type TProps = {
 };
 
 export const AddOnsCheckbox = ({ field, product }: TProps) => {
-  const { id: addonId, name, required, options } = field;
+  const { id: addonId, name, required, options, classNames = [] } = field;
   const { addons } = useAddToCartContext();
   const { fields: formFields } = useProductContext();
   const [, setFieldsValue] = formFields.value;
   const [, setAddonItems] = addons;
   const [selected, setSelected] = useState<string[]>([]);
 
-  const fieldName = `addon-${product.productId}-${field.position}`;
+  const fieldName = `addon-${product.productId}-${field.id}`;
 
   useEffect(() => {
     // later we need to improve to calculate price by its option
@@ -58,27 +58,29 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
     <div
       className={cn('addon-field-group checkbox-group', {
         required: required,
+        selected: selected.length > 0,
+        [classNames.join(' ')]: classNames.length > 0,
       })}
     >
       <AddOnsTitle field={field} />
       <AddOnsDescription field={field} />
       <div className="addon-field-options">
-        {options?.map((option, key) => {
+        {options?.map((option) => {
           const prefix = sanitizeTitle(`addon-${name}`);
           return (
             <label
-              htmlFor={`${prefix}-${key}`}
-              key={`${prefix}-${key}`}
+              htmlFor={`${prefix}-${addonId}`}
+              key={`${prefix}-${addonId}`}
               className={cn('addon-option', {
                 selected: selected.includes(option.label),
               })}
             >
               <input
                 type="checkbox"
-                id={`${prefix}-${key}`}
-                name={`${prefix}[]`}
+                id={`${prefix}-${addonId}`}
+                name={`${fieldName}[]`}
                 value={option.label}
-                className={prefix}
+                className={`${prefix} field-${field.id}`}
                 onChange={(e) => {
                   if (e.target.checked) {
                     setSelected((prev) => [...prev, option.label]);

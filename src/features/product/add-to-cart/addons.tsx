@@ -2,10 +2,10 @@ import { useEffect, useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { Disclosure } from '@headlessui/react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
+import { uniq } from 'lodash';
 
 import { useProductContext } from '@src/context/product-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
-import { uniq } from 'lodash';
 import { TAddOnItem } from '@src/types/addToCart';
 import { ProductAddons as TProductAddons } from '@src/models/product/types';
 import { AddOnsPriceBreakdown } from '@src/features/product/addons/price-breakdown';
@@ -47,6 +47,7 @@ export const AddToCartAddons = () => {
   const [panels, setPanels] = useState<any[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [standAlone, setStandAlone] = useState<any[]>([]);
+  const [checkboxes, setCheckboxes] = useState<any[]>([]);
 
   const [, setAddonItems] = addons;
   const [, setRequiredFields] = fields.required;
@@ -82,18 +83,9 @@ export const AddToCartAddons = () => {
       });
     });
 
-    console.log({
-      addons: product.addons,
-    });
-
     // set addon items
     setAddonItems(items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product]);
-
-  useEffect(() => {
-    console.log({ fieldsValue });
-  }, [fieldsValue]);
+  }, [product, setRequiredFields, setAddonItems]);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,18 +98,41 @@ export const AddToCartAddons = () => {
 
     if (!product || !product.addons) return;
 
+    let afterHeader = false;
+
     product.addons.forEach((addon) => {
+      addon.classNames = addon.classNames || [];
+
       if (headers.length === 0 && addon.type !== 'heading') {
         standAlone.push(addon);
       }
+
       if (addon.type === 'heading') {
         headers.push(addon);
+        afterHeader = true;
         iteration++;
       } else {
         if (panels[iteration] === undefined) {
           panels[iteration] = [];
         }
+
+        if (afterHeader && addon.type === 'checkbox') {
+          setCheckboxes((prev) => {
+            if (!prev.includes(addon.id)) {
+              return [...prev, addon.id];
+            }
+            return prev;
+          });
+        }
+
+        if (!afterHeader && !addon.classNames.includes('custom-field')) {
+          addon.classNames.push('custom-field');
+          console.log({ name: addon.name, classNames: addon.classNames });
+        }
+
         panels[iteration].push(addon);
+
+        afterHeader = false;
       }
     });
 
@@ -125,6 +140,38 @@ export const AddToCartAddons = () => {
     setPanels(panels);
     setStandAlone(standAlone);
   }, [product]);
+
+  // useEffect(() => {
+  //   console.log({ panels });
+  // }, [panels]);
+
+  useEffect(() => {
+    if (!product) return;
+
+    if (!product.addons) return;
+
+    // console.log({ checkboxes, fieldsValue });
+
+    // loop chexkboxes and then find in the fieldsValue if it has value
+
+    checkboxes.forEach((checkbox) => {
+      const selected = fieldsValue[`addon-${product.productId}-${checkbox}`] as string[];
+
+      const theClassName = `field-${checkbox}`;
+
+      const parent = document.querySelector(`.${theClassName}`);
+      const grandParent = parent?.parentElement?.parentElement?.parentElement?.parentElement;
+
+      if (grandParent) {
+        // check if selected has length
+        if (selected.length > 0) {
+          grandParent.classList.add('custom-active');
+        } else {
+          grandParent.classList.remove('custom-active');
+        }
+      }
+    });
+  }, [fieldsValue, checkboxes, product, panels]);
 
   if (!product || !product.addons) return null;
 
@@ -186,6 +233,7 @@ export const AddToCartAddons = () => {
           <TextareaElement
             key={`addon-field-${key}`}
             field={addon}
+            product={product}
           />
         );
 
@@ -216,7 +264,7 @@ export const AddToCartAddons = () => {
   return (
     <div className="product-addon-container">
       {standAlone.length > 0 &&
-        standAlone.map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
+        standAlone.map((addon: TProductAddons, key: number) => renderAddon(addon, key))}
 
       {headers.length > 0 &&
         headers.map((header, key) => (
@@ -248,7 +296,9 @@ export const AddToCartAddons = () => {
                 >
                   {typeof panels[key] !== 'undefined' &&
                     panels[key].length > 0 &&
-                    panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
+                    panels[key].map((addon: TProductAddons, key: number) =>
+                      renderAddon(addon, key)
+                    )}
                 </Disclosure.Panel>
               </Fragment>
             )}

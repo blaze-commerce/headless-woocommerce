@@ -123,3 +123,11 @@
 .single-product .add-to-cart-form .file-upload-group .file-upload-holder button {
   @apply bg-muted px-4 py-3 text-foreground text-base md:text-lg leading-6;
 }
+
+.single-product .add-to-cart-form .addon-panel .custom-field {
+  @apply !hidden;
+}
+
+.single-product .add-to-cart-form .addon-panel.custom-active .custom-field {
+  @apply !flex;
+}
