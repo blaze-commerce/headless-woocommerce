@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useAddToCartContext } from '@src/context/add-to-cart-context';
-import { useProductContext } from '@src/context/product-context';
+import { useState } from 'react';
 import { cn } from '@src/lib/helpers/helper';
 import { ProductAddons } from '@src/models/product/types';
 import { Product } from '@src/models/product';
@@ -15,7 +13,7 @@ type TProps = {
 };
 
 export const AddOnsRadioButton = ({ field, product, onChange }: TProps) => {
-  const { name, required, options } = field;
+  const { name, required, options, classNames = [] } = field;
   const [selected, setSelected] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +26,7 @@ export const AddOnsRadioButton = ({ field, product, onChange }: TProps) => {
     <div
       className={cn('addon-field-group radio-group', {
         required: required,
+        [classNames?.join(' ')]: classNames?.length > 0,
       })}
     >
       <AddOnsTitle field={field} />
