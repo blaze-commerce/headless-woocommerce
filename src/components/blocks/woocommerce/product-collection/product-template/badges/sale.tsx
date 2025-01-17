@@ -32,8 +32,6 @@ export const WooCommerceProductTemplateCardSaleBadge = ({
 
   const attributes = block.attrs as BlockAttributes;
   return (
-    <div className={attributes.className ? attributes.className : 'badge sale-badge'}>
-      Sale {type}
-    </div>
+    <div className={attributes.className ? attributes.className : 'badge sale-badge'}>Sale</div>
   );
 };
