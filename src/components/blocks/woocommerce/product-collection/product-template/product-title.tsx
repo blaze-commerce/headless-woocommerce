@@ -4,6 +4,9 @@ import { getHeadingTag } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 import { Product } from '@src/models/product';
+import { RawLink } from '@src/components/common/raw-link';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { seoUrlParser } from '@src/components/page-seo';
 
 type WooCommerceProductNameTemplateProps = {
   block: ParsedBlock;
@@ -24,6 +27,17 @@ export const WooCommerceProductNameTemplate = ({ block }: WooCommerceProductName
 
   const { level, className } = attribute;
   const TagName = getHeadingTag(level as number);
+  const productLink = seoUrlParser(product?.permalink || '');
 
-  return <TagName className={cn('product-name', className)}>{product.name}</TagName>;
+  return (
+    <TagName className={cn('product-name', className)}>
+      <RawLink href={productLink}>
+        <span
+          aria-hidden="true"
+          className=" absolute inset-x-auto inset-y-5 z-[8] cursor-pointer"
+        />
+        <ReactHTMLParser html={product.name as string} />
+      </RawLink>
+    </TagName>
+  );
 };
