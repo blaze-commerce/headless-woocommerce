@@ -5,6 +5,7 @@ import { usePostContext } from '@src/context/post-context';
 import { BlockAttributes } from '@src/lib/block/types';
 import { ProductTitle } from '@src/components/blocks/woocommerce/product-title';
 import { cn } from '@src/lib/helpers/helper';
+import { WooCommerceProductNameTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template/product-title';
 
 export const PostTitle = ({ block }: BlockComponentProps) => {
   const { post } = usePostContext();
@@ -48,10 +49,17 @@ export const PostTitle = ({ block }: BlockComponentProps) => {
       TagName = 'h1'; //
   }
 
+  if (
+    attribute.__woocommerceNamespace &&
+    attribute.__woocommerceNamespace === 'woocommerce/product-collection/product-title'
+  ) {
+    return <WooCommerceProductNameTemplate block={block} />;
+  }
+
   return (
     <TagName className={cn(block?.id, 'post-title', className)}>
-      {block.attrs?.__woocommerceNamespace &&
-      block.attrs?.__woocommerceNamespace === 'woocommerce/product-query/product-title' ? (
+      {attribute?.__woocommerceNamespace &&
+      attribute?.__woocommerceNamespace === 'woocommerce/product-query/product-title' ? (
         <ProductTitle />
       ) : (
         title
