@@ -2,21 +2,22 @@ import { ProductAddons } from '@src/models/product/types';
 import { AddOnsDescription } from '@src/features/product/addons/description';
 import { AddOnsTitle } from '@src/features/product/addons/title';
 import { Product } from '@src/models/product';
-import { sanitizeTitle } from '@src/lib/helpers/helper';
+import { cn, sanitizeTitle } from '@src/lib/helpers/helper';
 
 type TProps = {
   product: Product;
   field: ProductAddons;
+  className?: string;
   onChange: (_value: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export const AddOnsSelect = ({ product, field, onChange }: TProps) => {
+export const AddOnsSelect = ({ product, field, onChange, className }: TProps) => {
   return (
-    <>
+    <div className={cn('addon-field-group select-field', className)}>
       <AddOnsTitle field={field} />
       <AddOnsDescription field={field} />
       <select
-        name={`addon-${product.productId}-${field.position + 1}`}
+        name={`addon-${product.productId}-${field.id}`}
         className="w-full"
         onChange={onChange}
       >
@@ -33,6 +34,6 @@ export const AddOnsSelect = ({ product, field, onChange }: TProps) => {
           );
         })}
       </select>
-    </>
+    </div>
   );
 };

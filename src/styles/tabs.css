@@ -3,7 +3,7 @@
 }
 
 .tab-header .tab-item {
-  @apply w-full text-lg leading-8 text-foreground font-medium box-border border-b-4;
+  @apply w-full text-sm md:text-lg leading-8 text-foreground font-medium box-border border-b-4;
 }
 
 .tab-header .tab-item.active {
