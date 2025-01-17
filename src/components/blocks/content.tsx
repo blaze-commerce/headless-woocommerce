@@ -3,10 +3,11 @@ import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parse
 import { BlockName, ParsedBlock as NewParsedBlock, blocks } from '@src/components/blocks';
 import { ContentContextProvider } from '@src/context/content-context';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { Product } from '@src/models/product';
 
-export type ContentPropTypes = 'page' | 'post' | 'mini-cart';
+export type ContentPropTypes = 'page' | 'post' | 'mini-cart' | 'products' | 'product';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ContentGlobalDataType = any;
+export type ContentGlobalDataType = any | Product[] | undefined;
 
 type ContentProps = {
   content: string | ParsedBlock[];

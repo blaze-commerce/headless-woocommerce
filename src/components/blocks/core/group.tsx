@@ -2,6 +2,7 @@ import { BlockComponentProps, ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
 import { MiniCartContainer } from '@src/components/blocks/woocommerce/mini-cart/mini-cart-container';
 import { NoCartItemsContainer } from '@src/components/blocks/woocommerce/mini-cart/no-cart-items-container';
+import { WooCommerceProductTemplateCardSaleBadge } from '@src/components/blocks/woocommerce/product-collection/product-template/badges/sale';
 import { FreeShippingProgress } from '@src/components/free-shipping-progress';
 import { useContentContext } from '@src/context/content-context';
 import { getBlockName } from '@src/lib/block';
@@ -12,10 +13,11 @@ const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
   FreeShippingProgress: FreeShippingProgress,
   NoCartItemsContainer: NoCartItemsContainer,
+  CardSaleBadge: WooCommerceProductTemplateCardSaleBadge,
 };
 
 export const Group = ({ block }: BlockComponentProps) => {
-  const { type } = useContentContext();
+  const { type, data } = useContentContext();
   if ('core/group' !== block.blockName) {
     return null;
   }
@@ -58,6 +60,7 @@ export const Group = ({ block }: BlockComponentProps) => {
       <Content
         type={type}
         content={block.innerBlocks}
+        globalData={data}
       />
     </TagName>
   );

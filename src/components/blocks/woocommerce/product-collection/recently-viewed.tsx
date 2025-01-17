@@ -1,6 +1,8 @@
 import { ParsedBlock } from '@src/components/blocks';
+import { Content } from '@src/components/blocks/content';
 import { getBlockName } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
+import { useFetchRecentlyViewedProducts } from '@src/lib/hooks';
 
 type RecentlyViewedProductCollectionProps = {
   block: ParsedBlock;
@@ -9,16 +11,26 @@ type RecentlyViewedProductCollectionProps = {
 export const RecentlyViewedProductCollection = ({
   block,
 }: RecentlyViewedProductCollectionProps) => {
+  const { data: recentlyViewedProducts, loading: fetchingRecentlyViewedProducts } =
+    useFetchRecentlyViewedProducts();
+
   const blockName = getBlockName(block);
-  if ('RecentlyViewedProducts' !== blockName) {
+  if (
+    'RecentlyViewedProducts' !== blockName ||
+    fetchingRecentlyViewedProducts ||
+    !recentlyViewedProducts
+  ) {
     return null;
   }
+
   const attributes = block.attrs as BlockAttributes;
   return (
     <div className={attributes.className}>
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
+      <Content
+        type="products"
+        globalData={recentlyViewedProducts}
+        content={block.innerBlocks}
+      />
     </div>
   );
 };
