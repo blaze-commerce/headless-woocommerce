@@ -177,7 +177,6 @@ export const CardImage = (props: ICardImage) => {
       <RawLink
         href={productLink}
         title={product.name}
-        className="jvl-test"
       >
         <figure>
           {imgError &&
