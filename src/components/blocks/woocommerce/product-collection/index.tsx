@@ -1,5 +1,6 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
+import { WishlistProductCollection } from '@src/components/blocks/woocommerce/product-collection/wishlist';
 import { getBlockName } from '@src/lib/block';
 
 type WooCommerceProductCollectionProps = {
@@ -8,6 +9,7 @@ type WooCommerceProductCollectionProps = {
 
 const placeHolderBlocks = {
   RecentlyViewedProducts: RecentlyViewedProductCollection,
+  WishlistProducts: WishlistProductCollection,
 };
 
 export const WooCommerceProductCollection = ({ block }: WooCommerceProductCollectionProps) => {
