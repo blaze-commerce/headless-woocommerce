@@ -3,6 +3,7 @@ import { Content } from '@src/components/blocks/content';
 import { MiniCartContainer } from '@src/components/blocks/woocommerce/mini-cart/mini-cart-container';
 import { NoCartItemsContainer } from '@src/components/blocks/woocommerce/mini-cart/no-cart-items-container';
 import { WooCommerceProductTemplateCardSaleBadge } from '@src/components/blocks/woocommerce/product-collection/product-template/badges/sale';
+import { WooCommerceProductRatingIconsTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template/product-rating-icons';
 import { FreeShippingProgress } from '@src/components/free-shipping-progress';
 import { useContentContext } from '@src/context/content-context';
 import { getBlockName } from '@src/lib/block';
@@ -14,6 +15,7 @@ const placeHolderBlocks = {
   FreeShippingProgress: FreeShippingProgress,
   NoCartItemsContainer: NoCartItemsContainer,
   CardSaleBadge: WooCommerceProductTemplateCardSaleBadge,
+  ProductRatingIcons: WooCommerceProductRatingIconsTemplate,
 };
 
 export const Group = ({ block }: BlockComponentProps) => {

@@ -1,6 +1,7 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { SearchTerm } from '@src/components/blocks/search/search-term';
 import { CartItemsCount } from '@src/components/blocks/woocommerce/mini-cart/cart-items-count';
+import { WooCommerceProductReviewCountTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template/product-review-count';
 import { getBlockName, isBlockNameA } from '@src/lib/block';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import React from 'react';
@@ -12,6 +13,7 @@ type ParagraphProps = {
 const placeHolderBlocks = {
   SearchTerm: SearchTerm,
   CartItemsCount: CartItemsCount,
+  ProductReviewsCount: WooCommerceProductReviewCountTemplate,
 };
 
 export const Paragraph = ({ block }: ParagraphProps) => {
