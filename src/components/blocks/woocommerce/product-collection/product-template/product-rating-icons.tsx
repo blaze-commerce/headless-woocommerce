@@ -14,6 +14,7 @@ import { ProductMetaData } from '@src/models/product/types';
 import { getProductRatingStats } from '@src/lib/helpers/product';
 import { round } from 'lodash';
 import { IconBlock } from '@src/components/blocks/outermost/IconBlock';
+import { getGroupClasses } from '@src/components/blocks/core/group';
 
 type WooCommerceProductRatingIconsTemplateProps = {
   block: ParsedBlock;
@@ -33,8 +34,6 @@ export const WooCommerceProductRatingIconsTemplate = ({
   }
 
   const product = data as Product;
-  const attribute = block.attrs as BlockAttributes;
-
   // ProductRatingIcons inner blocks MUST have the 3 icons in the following order:
   const [emptyStar, halfStar, fullStar] = block.innerBlocks;
 
@@ -44,8 +43,10 @@ export const WooCommerceProductRatingIconsTemplate = ({
   const steps = round(stats.rating, 0);
   const remainingStars = 5 - steps;
 
+  const groupClasses = getGroupClasses(block);
+
   return (
-    <div className={attribute.className}>
+    <div className={groupClasses}>
       {steps >= 0 &&
         [...new Array(steps)].map((_rate, index) => {
           const star = rating - index;

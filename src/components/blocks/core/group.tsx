@@ -18,6 +18,30 @@ const placeHolderBlocks = {
   ProductRatingIcons: WooCommerceProductRatingIconsTemplate,
 };
 
+export const getGroupClasses = (block: ParsedBlock) => {
+  const attributes = block.attrs as BlockAttributes;
+  const groupType = attributes.layout?.type;
+  const justifyContent = attributes.layout?.justifyContent;
+  const orientation = attributes.layout?.orientation;
+
+  const justifyContentClasses = {
+    center: 'justify-center',
+    left: 'justify-start',
+    right: 'justify-end',
+    'space-between': 'justify-between',
+  };
+
+  return cn(
+    block?.id,
+    'core-group',
+    groupType == 'flex' && 'flex',
+    groupType == 'grid' && 'grid',
+    justifyContent && justifyContentClasses[justifyContent],
+    orientation == 'vertical' && 'flex-col',
+    attributes.className
+  );
+};
+
 export const Group = ({ block }: BlockComponentProps) => {
   const { type, data } = useContentContext();
   if ('core/group' !== block.blockName) {
@@ -35,30 +59,8 @@ export const Group = ({ block }: BlockComponentProps) => {
     return <GroupBlock block={block as ParsedBlock} />;
   }
 
-  const attributes = block.attrs as BlockAttributes;
-  const groupType = attributes.layout?.type;
-  const justifyContent = attributes.layout?.justifyContent;
-  const orientation = attributes.layout?.orientation;
-
-  const justifyContentClasses = {
-    center: 'justify-center',
-    left: 'justify-start',
-    right: 'justify-end',
-    'space-between': 'justify-between',
-  };
-
   return (
-    <TagName
-      className={cn(
-        block?.id,
-        'core-group',
-        groupType == 'flex' && 'flex',
-        groupType == 'grid' && 'grid',
-        justifyContent && justifyContentClasses[justifyContent],
-        orientation == 'vertical' && 'flex-col',
-        className
-      )}
-    >
+    <TagName className={getGroupClasses(block)}>
       <Content
         type={type}
         content={block.innerBlocks}

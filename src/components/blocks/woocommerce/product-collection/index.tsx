@@ -2,7 +2,7 @@ import { ParsedBlock } from '@src/components/blocks';
 import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
 import { getBlockName } from '@src/lib/block';
 
-type WooCommerceProductCollection = {
+type WooCommerceProductCollectionProps = {
   block: ParsedBlock;
 };
 
@@ -10,7 +10,7 @@ const placeHolderBlocks = {
   RecentlyViewedProducts: RecentlyViewedProductCollection,
 };
 
-export const WooCommerceProductCollection = ({ block }: WooCommerceProductCollection) => {
+export const WooCommerceProductCollection = ({ block }: WooCommerceProductCollectionProps) => {
   if ('woocommerce/product-collection' !== block.blockName) {
     return null;
   }
