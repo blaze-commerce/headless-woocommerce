@@ -1,6 +1,7 @@
 import { BlockComponentProps, ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
 import { MiniCartContainer } from '@src/components/blocks/woocommerce/mini-cart/mini-cart-container';
+import { WishlistContainer } from '@src/components/blocks/wish-list/wishlist-container';
 import { NoCartItemsContainer } from '@src/components/blocks/woocommerce/mini-cart/no-cart-items-container';
 import { WooCommerceProductTemplateCardSaleBadge } from '@src/components/blocks/woocommerce/product-collection/product-template/badges/sale';
 import { WooCommerceProductRatingIconsTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template/product-rating-icons';
@@ -9,13 +10,19 @@ import { useContentContext } from '@src/context/content-context';
 import { getBlockName } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
+import { NoWishlistContainer } from '@src/components/blocks/wish-list/no-wishlist-container';
+import { WishlistSignUp } from '@src/components/blocks/wish-list/wishlist-sign-up';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
+  WishlistContainer: WishlistContainer,
   FreeShippingProgress: FreeShippingProgress,
   NoCartItemsContainer: NoCartItemsContainer,
+  NoWishlistContainer: NoWishlistContainer,
   CardSaleBadge: WooCommerceProductTemplateCardSaleBadge,
   ProductRatingIcons: WooCommerceProductRatingIconsTemplate,
+  WishlistSignUp: WishlistSignUp,
+  WishlistSignUpButton: WishlistSignUp,
 };
 
 export const getGroupClasses = (block: ParsedBlock) => {
