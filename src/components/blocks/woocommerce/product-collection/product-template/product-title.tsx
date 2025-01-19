@@ -29,19 +29,13 @@ export const WooCommerceProductNameTemplate = ({ block }: WooCommerceProductName
 
   if ('product-cart-item' === type) {
     const cartItem = data as ProductCartItem;
-    const isCartItemTypeComposite = cartItem.cartItemType === 'CompositeCartItem';
     const productType = cartItem.type.toLowerCase();
-    const isSimple = productType === 'simple';
-
-    const isCompositeChildren = isSimple && isCartItemTypeComposite;
 
     return (
-      <TagName className={cn('product-name', className)}>
+      <TagName className={cn(`product-name ${productType}`, className)}>
         <RawLink
           href={`/product/${cartItem.slug}`}
-          className={cn('text-base font-bold font-secondary', {
-            'text-primary': !isCompositeChildren,
-          })}
+          className={cn('text-base font-bold font-secondary')}
         >
           <ReactHTMLParser html={cartItem.name as string} />
         </RawLink>

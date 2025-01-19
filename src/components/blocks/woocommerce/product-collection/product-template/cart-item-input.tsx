@@ -59,7 +59,7 @@ export const CartItemInput = ({ block }: CartItemInputProps) => {
           updateQuantity(cartItem.cartKey, newQuantity);
         }}
         className={cn(
-          'w-9 h-[45px] px-2 text-center border-x border-y-0 outline-none flex items-center justify-center border-gray-200',
+          'w-9 h-10 px-2 text-center border-x border-y-0 outline-none flex items-center justify-center border-gray-200',
           attributes.className
         )}
       />

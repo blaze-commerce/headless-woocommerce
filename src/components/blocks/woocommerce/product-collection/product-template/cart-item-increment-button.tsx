@@ -52,7 +52,7 @@ export const CartItemIncrementButton = ({ block }: CartItemIncrementButtonProps)
     return (
       <button
         className={cn(
-          'minicart-item-control decrement cursor-pointer flex items-center justify-center text-xl w-9 h-[45px]',
+          'minicart-item-control decrement cursor-pointer flex items-center justify-center text-xl w-9 h-10',
           attributes.className
         )}
         onClick={() => {

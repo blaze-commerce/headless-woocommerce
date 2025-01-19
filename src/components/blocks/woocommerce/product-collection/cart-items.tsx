@@ -11,7 +11,6 @@ type CartItemsProductCollectionProps = {
 
 export const CartItemsProductCollection = ({ block }: CartItemsProductCollectionProps) => {
   const { cart } = useSiteContext();
-  console.log('cart', cart);
   const blockName = getBlockName(block);
   if ('CartItems' !== blockName || !cart) {
     return null;

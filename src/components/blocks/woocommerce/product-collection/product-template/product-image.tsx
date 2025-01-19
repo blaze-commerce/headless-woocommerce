@@ -59,12 +59,7 @@ export const WooCommerceProductTemplateImage = ({
     }
 
     return (
-      <div
-        className={cn(
-          'w-[94px] h-[94px] flex-shrink-0 overflow-hidden border border-gray-200 rounded-md',
-          attributes.className
-        )}
-      >
+      <div className={cn('w-[94px] h-[94px] flex-shrink-0 overflow-hidden', attributes.className)}>
         <a href={'/product/' + cartItem.slug}>
           <Image
             src={cartItem.image.sourceUrl}

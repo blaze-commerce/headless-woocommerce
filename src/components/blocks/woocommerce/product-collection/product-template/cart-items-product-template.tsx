@@ -27,19 +27,16 @@ export const CartItemsProductTemplate = ({ block }: CartItemsProductTemplateProp
       const isCartItemTypeComposite = cartItem.cartItemType === 'CompositeCartItem';
       const productType = cartItem.type.toLowerCase();
       const isSimple = productType === 'simple';
-      const isComposite = productType === 'composite';
 
       const isCompositeChildren = isSimple && isCartItemTypeComposite;
-      const isCompositeParent = isComposite && isCartItemTypeComposite;
 
       return (
         <div
           key={cartItem.productId}
           className={cn(
-            'flex w-full pb-4 items-start',
+            'flex w-full items-start py-[22px]',
             {
               '-mt-5 flex-wrap': isCompositeChildren,
-              'border-b': !isCompositeChildren && !isCompositeParent,
               'space-x-4': !isCompositeChildren,
             },
             attributes.className
