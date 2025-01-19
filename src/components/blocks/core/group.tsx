@@ -55,7 +55,6 @@ export const Group = ({ block }: BlockComponentProps) => {
     return null;
   }
 
-  const { className } = block.attrs;
   const TagName = block.attrs?.tagName
     ? (block.attrs.tagName as keyof JSX.IntrinsicElements)
     : ('div' as keyof JSX.IntrinsicElements);

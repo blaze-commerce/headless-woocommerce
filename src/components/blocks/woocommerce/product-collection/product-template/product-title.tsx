@@ -7,6 +7,7 @@ import { Product } from '@src/models/product';
 import { RawLink } from '@src/components/common/raw-link';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { seoUrlParser } from '@src/components/page-seo';
+import { ProductCartItem } from '@src/lib/hooks/cart';
 
 type WooCommerceProductNameTemplateProps = {
   block: ParsedBlock;
@@ -14,11 +15,9 @@ type WooCommerceProductNameTemplateProps = {
 
 export const WooCommerceProductNameTemplate = ({ block }: WooCommerceProductNameTemplateProps) => {
   const { type, data } = useContentContext();
-  if ('core/post-title' !== block.blockName || !data || 'product' !== type) {
+  if ('core/post-title' !== block.blockName || !data) {
     return null;
   }
-
-  const product = data as Product;
 
   const attribute = block.attrs as BlockAttributes;
   if (attribute.__woocommerceNamespace !== 'woocommerce/product-collection/product-title') {
@@ -27,6 +26,35 @@ export const WooCommerceProductNameTemplate = ({ block }: WooCommerceProductName
 
   const { level, className } = attribute;
   const TagName = getHeadingTag(level as number);
+
+  if ('product-cart-item' === type) {
+    const cartItem = data as ProductCartItem;
+    const isCartItemTypeComposite = cartItem.cartItemType === 'CompositeCartItem';
+    const productType = cartItem.type.toLowerCase();
+    const isSimple = productType === 'simple';
+
+    const isCompositeChildren = isSimple && isCartItemTypeComposite;
+
+    return (
+      <TagName className={cn('product-name', className)}>
+        <RawLink
+          href={`/product/${cartItem.slug}`}
+          className={cn('text-base font-bold font-secondary', {
+            'text-primary': !isCompositeChildren,
+          })}
+        >
+          <ReactHTMLParser html={cartItem.name as string} />
+        </RawLink>
+      </TagName>
+    );
+  }
+
+  if ('product' !== type) {
+    return null;
+  }
+
+  // Below are the default component when type is product
+  const product = data as Product;
   const productLink = seoUrlParser(product?.permalink || '');
 
   return (

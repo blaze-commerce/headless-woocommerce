@@ -1,8 +1,7 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
-import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
+import { CartItemsProductTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-items-product-template';
 import { useContentContext } from '@src/context/content-context';
-import { getBlockName } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
@@ -44,6 +43,10 @@ export const WooCommerceProductTemplate = ({ block }: WooCommerceProductTemplate
           />
         </div>
       ));
+  }
+
+  if ('product-cart-items' === type) {
+    return <CartItemsProductTemplate block={block} />;
   }
 
   //@TODO Handle the default product collection

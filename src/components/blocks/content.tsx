@@ -4,10 +4,24 @@ import { BlockName, ParsedBlock as NewParsedBlock, blocks } from '@src/component
 import { ContentContextProvider } from '@src/context/content-context';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { Product } from '@src/models/product';
+import { ProductCartItem } from '@src/lib/hooks/cart';
 
-export type ContentPropTypes = 'page' | 'post' | 'mini-cart' | 'products' | 'product' | 'wishlist';
+export type ContentPropTypes =
+  | 'page'
+  | 'post'
+  | 'mini-cart'
+  | 'products'
+  | 'product'
+  | 'wishlist'
+  | 'product-cart-items'
+  | 'product-cart-item';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ContentGlobalDataType = any | Product[] | undefined;
+export type ContentGlobalDataType =
+  | any
+  | undefined
+  | Product[]
+  | ProductCartItem
+  | ProductCartItem[];
 
 type ContentProps = {
   content: string | ParsedBlock[];
