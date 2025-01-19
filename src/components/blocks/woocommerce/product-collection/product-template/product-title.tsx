@@ -8,6 +8,7 @@ import { RawLink } from '@src/components/common/raw-link';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { seoUrlParser } from '@src/components/page-seo';
 import { ProductCartItem } from '@src/lib/hooks/cart';
+import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
 
 type WooCommerceProductNameTemplateProps = {
   block: ParsedBlock;
@@ -28,7 +29,7 @@ export const WooCommerceProductNameTemplate = ({ block }: WooCommerceProductName
   const TagName = getHeadingTag(level as number);
 
   if ('product-cart-item' === type) {
-    const cartItem = data as ProductCartItem;
+    const { cartItem } = data as CartItemGlobalProps;
     const productType = cartItem.type.toLowerCase();
 
     return (

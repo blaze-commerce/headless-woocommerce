@@ -1,5 +1,6 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
+import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
 import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
 import { useContentContext } from '@src/context/content-context';
 import { CardImage } from '@src/features/product/card-elements/image';
@@ -37,7 +38,18 @@ export const WooCommerceProductTemplateImage = ({
   }
 
   if ('product-cart-item' === type) {
-    const cartItem = data as ProductCartItem;
+    const { cartItem, loading } = data as CartItemGlobalProps;
+
+    if (loading) {
+      return (
+        <div
+          className={cn(
+            'w-[94px] h-[94px] flex-shrink-0 overflow-hidden bg-gray-300',
+            attributes.className
+          )}
+        ></div>
+      );
+    }
     const isCartItemTypeComposite = cartItem.cartItemType === 'CompositeCartItem';
     const productType = cartItem.type.toLowerCase();
     const isSimple = productType === 'simple';

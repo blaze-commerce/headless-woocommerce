@@ -5,6 +5,7 @@ import { ContentContextProvider } from '@src/context/content-context';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { Product } from '@src/models/product';
 import { ProductCartItem } from '@src/lib/hooks/cart';
+import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
 
 export type ContentPropTypes =
   | 'page'
@@ -20,8 +21,8 @@ export type ContentGlobalDataType =
   | any
   | undefined
   | Product[]
-  | ProductCartItem
-  | ProductCartItem[];
+  | ProductCartItem[]
+  | CartItemGlobalProps;
 
 type ContentProps = {
   content: string | ParsedBlock[];

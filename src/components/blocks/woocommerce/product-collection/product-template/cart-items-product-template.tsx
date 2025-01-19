@@ -1,13 +1,7 @@
 import { ParsedBlock } from '@src/components/blocks';
-import { Content } from '@src/components/blocks/content';
-import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
+import { CartItem } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
 import { useContentContext } from '@src/context/content-context';
-import { getBlockName } from '@src/lib/block';
-import { BlockAttributes } from '@src/lib/block/types';
-import { cn } from '@src/lib/helpers/helper';
-import { transformProductsForDisplay } from '@src/lib/helpers/product';
 import { ProductCartItem } from '@src/lib/hooks/cart';
-import { Product } from '@src/models/product';
 
 type CartItemsProductTemplateProps = {
   block: ParsedBlock;
@@ -21,34 +15,13 @@ export const CartItemsProductTemplate = ({ block }: CartItemsProductTemplateProp
 
   if ('product-cart-items' === type) {
     const cartItems = data as ProductCartItem[];
-    const attributes = block.attrs as BlockAttributes;
-
     return cartItems.map((cartItem, index: number) => {
-      const isCartItemTypeComposite = cartItem.cartItemType === 'CompositeCartItem';
-      const productType = cartItem.type.toLowerCase();
-      const isSimple = productType === 'simple';
-
-      const isCompositeChildren = isSimple && isCartItemTypeComposite;
-
       return (
-        <div
-          key={cartItem.productId}
-          className={cn(
-            'flex w-full items-start py-[22px]',
-            {
-              '-mt-5 flex-wrap': isCompositeChildren,
-              'space-x-4': !isCompositeChildren,
-            },
-            attributes.className
-          )}
-        >
-          <Content
-            key={index}
-            type="product-cart-item"
-            globalData={cartItem}
-            content={block.innerBlocks}
-          />
-        </div>
+        <CartItem
+          key={index}
+          cartItem={cartItem}
+          block={block}
+        />
       );
     });
   }

@@ -4,8 +4,8 @@ import { NextPage } from '@src/components/blocks/templates/products-widget/next-
 import { PrevPage } from '@src/components/blocks/templates/products-widget/prev-page';
 import { WishlistCloseButton } from '@src/components/blocks/wish-list/wishlist-close-button';
 import { MiniCartCloseButton } from '@src/components/blocks/woocommerce/mini-cart/mini-cart-close-button';
-import { RemoveCartItemButton } from '@src/components/blocks/woocommerce/mini-cart/remove-cart-item';
-import { getBlockName, isBlockNameA } from '@src/lib/block';
+import { RemoveCartItemButton } from '@src/components/blocks/woocommerce/product-collection/product-template/remove-cart-item';
+import { getBlockName } from '@src/lib/block';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { parseLink } from '@src/lib/helpers/helper';
 import Link from 'next/link';

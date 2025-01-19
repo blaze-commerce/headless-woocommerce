@@ -3,7 +3,6 @@ import { Content } from '@src/components/blocks/content';
 import { useSiteContext } from '@src/context/site-context';
 import { getBlockName } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
-import { useFetchRecentlyViewedProducts } from '@src/lib/hooks';
 
 type CartItemsProductCollectionProps = {
   block: ParsedBlock;

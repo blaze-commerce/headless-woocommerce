@@ -1,4 +1,5 @@
 import { ParsedBlock } from '@src/components/blocks';
+import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
 import { useContentContext } from '@src/context/content-context';
 import { useSiteContext } from '@src/context/site-context';
 import { BlockAttributes } from '@src/lib/block/types';
@@ -23,7 +24,7 @@ export const WooCommerceProductSalePriceTemplate = ({
   const attribute = block.attrs as BlockAttributes;
 
   if ('product-cart-item' === type) {
-    const cartItem = data as ProductCartItem;
+    const { cartItem } = data as CartItemGlobalProps;
     if (!cartItem.onSale) {
       return null;
     }

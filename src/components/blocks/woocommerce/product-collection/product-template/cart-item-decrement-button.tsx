@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { ParsedBlock } from '@src/components/blocks';
+import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
 import { useContentContext } from '@src/context/content-context';
 import { useSiteContext } from '@src/context/site-context';
 import { getBlockName } from '@src/lib/block';
@@ -14,41 +15,18 @@ type CartItemDecrementButtonProps = {
 
 export const CartItemDecrementButton = ({ block }: CartItemDecrementButtonProps) => {
   const { type, data } = useContentContext();
-  const { setCartUpdating, fetchCart } = useSiteContext();
-
   const blockName = getBlockName(block);
-
-  const [updateCartQuantity] = useMutation(UPDATE_CART_ITEM_QUANTITY, {
-    onCompleted: () => {
-      // Update cart data in React Context.
-      fetchCart();
-      setCartUpdating(false);
-    },
-  });
-
   if ('CartItemDecrementButton' !== blockName || !data) {
     return null;
   }
 
-  const updateQuantity = (key: string, value: number) => {
-    updateCartQuantity({
-      variables: {
-        input: {
-          items: [
-            {
-              key: key,
-              quantity: value,
-            },
-          ],
-        },
-      },
-    });
-  };
-
   const attributes = block.attrs as BlockAttributes;
 
   if ('product-cart-item' === type) {
-    const cartItem = data as ProductCartItem;
+    const { cartItem, updateCartItemQuantity, loading } = data as CartItemGlobalProps;
+    if (loading) {
+      return <div className="flex items-center justify-center text-xl w-9 h-10 bg-gray-300"></div>;
+    }
     return (
       <button
         className={cn(
@@ -57,10 +35,8 @@ export const CartItemDecrementButton = ({ block }: CartItemDecrementButtonProps)
         )}
         onClick={() => {
           const quantity = parseInt(cartItem.qty);
-          if (quantity > 1) {
-            const newQuantity = quantity - 1;
-            updateQuantity(cartItem.cartKey, newQuantity);
-          }
+          const newQuantity = quantity - 1;
+          updateCartItemQuantity(cartItem.cartKey, newQuantity);
         }}
       >
         -
