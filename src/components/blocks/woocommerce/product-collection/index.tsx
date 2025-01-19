@@ -1,5 +1,6 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { CartItemsProductCollection } from '@src/components/blocks/woocommerce/product-collection/cart-items';
+import { CartItemsProductRecommendation } from '@src/components/blocks/woocommerce/product-collection/cart-items-product-recommendation';
 import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
 import { WishlistProductCollection } from '@src/components/blocks/woocommerce/product-collection/wishlist';
 import { getBlockName } from '@src/lib/block';
@@ -12,6 +13,7 @@ const placeHolderBlocks = {
   RecentlyViewedProducts: RecentlyViewedProductCollection,
   WishlistProducts: WishlistProductCollection,
   CartItems: CartItemsProductCollection,
+  CartItemsProductRecommendation: CartItemsProductRecommendation,
 };
 
 export const WooCommerceProductCollection = ({ block }: WooCommerceProductCollectionProps) => {

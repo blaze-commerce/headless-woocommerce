@@ -16,7 +16,7 @@ export const WishlistProductCollection = ({ block }: WishlistProductCollectionPr
   const { loading, data } = useFetchProducts(Object.keys(wishList).map(Number));
 
   const blockName = getBlockName(block);
-  if ('WishlistProducts' !== blockName || loading || !data) {
+  if ('WishlistProducts' !== blockName || loading || !data || data.length === 0) {
     return null;
   }
 

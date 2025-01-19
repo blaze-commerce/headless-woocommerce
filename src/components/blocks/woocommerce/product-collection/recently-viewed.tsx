@@ -18,7 +18,8 @@ export const RecentlyViewedProductCollection = ({
   if (
     'RecentlyViewedProducts' !== blockName ||
     fetchingRecentlyViewedProducts ||
-    !recentlyViewedProducts
+    !recentlyViewedProducts ||
+    recentlyViewedProducts.length === 0
   ) {
     return null;
   }

@@ -12,6 +12,9 @@ import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 import { NoWishlistContainer } from '@src/components/blocks/wish-list/no-wishlist-container';
 import { WishlistSignUp } from '@src/components/blocks/wish-list/wishlist-sign-up';
+import { CartItemDecrementButton } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item-decrement-button';
+import { CartItemIncrementButton } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item-increment-button';
+import { CartItemInput } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item-input';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
@@ -23,6 +26,9 @@ const placeHolderBlocks = {
   ProductRatingIcons: WooCommerceProductRatingIconsTemplate,
   WishlistSignUp: WishlistSignUp,
   WishlistSignUpButton: WishlistSignUp,
+  CartItemDecrementButton: CartItemDecrementButton,
+  CartItemIncrementButton: CartItemIncrementButton,
+  CartItemInput: CartItemInput,
 };
 
 export const getGroupClasses = (block: ParsedBlock) => {
