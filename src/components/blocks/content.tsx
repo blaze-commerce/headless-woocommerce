@@ -5,7 +5,7 @@ import { ContentContextProvider } from '@src/context/content-context';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { Product } from '@src/models/product';
 
-export type ContentPropTypes = 'page' | 'post' | 'mini-cart' | 'products' | 'product';
+export type ContentPropTypes = 'page' | 'post' | 'mini-cart' | 'products' | 'product' | 'wishlist';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContentGlobalDataType = any | Product[] | undefined;
 
