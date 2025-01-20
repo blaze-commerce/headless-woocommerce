@@ -15,6 +15,12 @@ import { WishlistSignUp } from '@src/components/blocks/wish-list/wishlist-sign-u
 import { CartItemDecrementButton } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item-decrement-button';
 import { CartItemIncrementButton } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item-increment-button';
 import { CartItemInput } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item-input';
+import { CouponCodeFormContainer } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-code-form-container';
+import { CouponFormAccordion } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-accordion';
+import { CouponFormAccordionIcons } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-accordion-icons';
+import { CouponForm } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form';
+import { CouponFormInput } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-input';
+import { CouponFormApplyButton } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-applly-button';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
@@ -29,6 +35,12 @@ const placeHolderBlocks = {
   CartItemDecrementButton: CartItemDecrementButton,
   CartItemIncrementButton: CartItemIncrementButton,
   CartItemInput: CartItemInput,
+  CouponCodeFormContainer: CouponCodeFormContainer,
+  CouponForm: CouponForm,
+  CouponFormAccordion: CouponFormAccordion,
+  CouponFormAccordionIcons: CouponFormAccordionIcons,
+  CouponFormInput: CouponFormInput,
+  CouponFormApplyButton: CouponFormApplyButton,
 };
 
 export const getGroupClasses = (block: ParsedBlock) => {

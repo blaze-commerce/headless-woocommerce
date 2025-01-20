@@ -15,7 +15,8 @@ export type ContentPropTypes =
   | 'product'
   | 'wishlist'
   | 'product-cart-items'
-  | 'product-cart-item';
+  | 'product-cart-item'
+  | 'coupon-form';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContentGlobalDataType =
   | any

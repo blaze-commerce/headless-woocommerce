@@ -62,7 +62,6 @@ export const CartItem = ({ cartItem, block }: CartItemProps) => {
   const isLoading = loading || isRemoving || fetchingCart;
 
   const updateCartItemQuantity = (key: string, value: number) => {
-    console.log('updateCartItemQuantity', key, value);
     updateCartQuantity({
       variables: {
         input: {
