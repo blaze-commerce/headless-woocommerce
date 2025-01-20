@@ -8,6 +8,7 @@ import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import React from 'react';
 import { CartDiscountTotal } from '@src/components/blocks/woocommerce/mini-cart/cart-discount-total';
 import { CartSubTotal } from '@src/components/blocks/woocommerce/mini-cart/cart-subtotal';
+import { ProceedToCheckoutButton } from '@src/components/blocks/woocommerce/mini-cart/proceed-to-checkout-button';
 
 type ParagraphProps = {
   block: ParsedBlock;
@@ -20,6 +21,7 @@ const placeHolderBlocks = {
   ProductReviewsCount: WooCommerceProductReviewCountTemplate,
   CartDiscountTotal: CartDiscountTotal,
   CartSubTotal: CartSubTotal,
+  ProceedToCheckoutButton: ProceedToCheckoutButton,
 };
 
 export const Paragraph = ({ block }: ParagraphProps) => {
