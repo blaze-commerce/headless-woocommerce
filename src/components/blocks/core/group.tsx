@@ -23,6 +23,7 @@ import { CouponFormInput } from '@src/components/blocks/woocommerce/mini-cart/co
 import { CouponFormApplyButton } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-applly-button';
 import { HasCartItemsContainer } from '@src/components/blocks/woocommerce/mini-cart/has-cart-items-container';
 import { CouponFormError } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-error';
+import { CartDiscountContainer } from '@src/components/blocks/woocommerce/mini-cart/cart-discount-container';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
@@ -45,6 +46,7 @@ const placeHolderBlocks = {
   CouponFormInput: CouponFormInput,
   CouponFormApplyButton: CouponFormApplyButton,
   CouponFormError: CouponFormError,
+  CartDiscountContainer: CartDiscountContainer,
 };
 
 export const getGroupClasses = (block: ParsedBlock) => {
