@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-import { Transition } from '@headlessui/react';
 import { ParsedBlock } from '@src/components/blocks';
 import { getBlockName } from '@src/lib/block';
 import { Content } from '@src/components/blocks/content';
@@ -8,19 +6,19 @@ import { cn } from '@src/lib/helpers/helper';
 import { useSiteContext } from '@src/context/site-context';
 import { useContentContext } from '@src/context/content-context';
 
-type NoCartItemsContainerProps = {
+type HasCartItemsContainerProps = {
   block: ParsedBlock;
 };
 
-export const NoCartItemsContainer = ({ block }: NoCartItemsContainerProps) => {
+export const HasCartItemsContainer = ({ block }: HasCartItemsContainerProps) => {
   const { cart } = useSiteContext();
   const { type, data } = useContentContext();
   const blockName = getBlockName(block);
-  if ('NoCartItemsContainer' !== blockName && block.innerBlocks) {
+  if ('HasCartItemsContainer' !== blockName && block.innerBlocks) {
     return null;
   }
   const hasCartItems = cart !== null && cart?.products?.length > 0 ? true : false;
-  if (hasCartItems) {
+  if (!hasCartItems) {
     return null;
   }
   const attributes = block.attrs as BlockAttributes;

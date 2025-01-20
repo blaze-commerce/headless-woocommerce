@@ -21,12 +21,15 @@ import { CouponFormAccordionIcons } from '@src/components/blocks/woocommerce/min
 import { CouponForm } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form';
 import { CouponFormInput } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-input';
 import { CouponFormApplyButton } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-applly-button';
+import { HasCartItemsContainer } from '@src/components/blocks/woocommerce/mini-cart/has-cart-items-container';
+import { CouponFormError } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-error';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
   WishlistContainer: WishlistContainer,
   FreeShippingProgress: FreeShippingProgress,
   NoCartItemsContainer: NoCartItemsContainer,
+  HasCartItemsContainer: HasCartItemsContainer,
   NoWishlistContainer: NoWishlistContainer,
   CardSaleBadge: WooCommerceProductTemplateCardSaleBadge,
   ProductRatingIcons: WooCommerceProductRatingIconsTemplate,
@@ -41,6 +44,7 @@ const placeHolderBlocks = {
   CouponFormAccordionIcons: CouponFormAccordionIcons,
   CouponFormInput: CouponFormInput,
   CouponFormApplyButton: CouponFormApplyButton,
+  CouponFormError: CouponFormError,
 };
 
 export const getGroupClasses = (block: ParsedBlock) => {
