@@ -25,7 +25,6 @@ export const RemoveCartItemButton = ({ block }: RemoveCartItemButtonProps) => {
   return (
     <button
       type="button"
-      className="btn-remove-item-from-cart"
       onClick={() => removeCartItem(cartItem.cartKey)}
     >
       <ReactHTMLParser html={svgContent} />

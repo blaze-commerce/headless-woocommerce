@@ -22,6 +22,8 @@ export type CartItemGlobalProps = {
 };
 
 export const CartItem = ({ cartItem, block }: CartItemProps) => {
+  const { fetchingCart } = useSiteContext();
+
   const attributes = block.attrs as BlockAttributes;
 
   const isCartItemTypeComposite = cartItem.cartItemType === 'CompositeCartItem';
@@ -57,7 +59,7 @@ export const CartItem = ({ cartItem, block }: CartItemProps) => {
     },
   });
 
-  const isLoading = loading || isRemoving;
+  const isLoading = loading || isRemoving || fetchingCart;
 
   const updateCartItemQuantity = (key: string, value: number) => {
     console.log('updateCartItemQuantity', key, value);
@@ -88,7 +90,6 @@ export const CartItem = ({ cartItem, block }: CartItemProps) => {
         'flex w-full items-start py-[22px]',
         {
           '-mt-5 flex-wrap': isCompositeChildren,
-          'space-x-4': !isCompositeChildren,
           'animate-pulse': isLoading,
         },
         attributes.className
