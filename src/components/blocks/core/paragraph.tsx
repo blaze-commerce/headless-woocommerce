@@ -9,6 +9,7 @@ import React from 'react';
 import { CartDiscountTotal } from '@src/components/blocks/woocommerce/mini-cart/cart-discount-total';
 import { CartSubTotal } from '@src/components/blocks/woocommerce/mini-cart/cart-subtotal';
 import { ProceedToCheckoutButton } from '@src/components/blocks/woocommerce/mini-cart/proceed-to-checkout-button';
+import { CouponFormApplyButton } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-applly-button';
 
 type ParagraphProps = {
   block: ParsedBlock;
@@ -22,6 +23,7 @@ const placeHolderBlocks = {
   CartDiscountTotal: CartDiscountTotal,
   CartSubTotal: CartSubTotal,
   ProceedToCheckoutButton: ProceedToCheckoutButton,
+  CouponFormApplyButton: CouponFormApplyButton,
 };
 
 export const Paragraph = ({ block }: ParagraphProps) => {

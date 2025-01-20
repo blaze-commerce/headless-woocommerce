@@ -10,6 +10,7 @@ import { cn } from '@src/lib/helpers/helper';
 type CouponFormApplyButtonProps = {
   block: ParsedBlock;
 };
+
 export const CouponFormApplyButton = ({ block }: CouponFormApplyButtonProps) => {
   const { type, data } = useContentContext();
 
@@ -17,6 +18,8 @@ export const CouponFormApplyButton = ({ block }: CouponFormApplyButtonProps) => 
   if ('CouponFormApplyButton' !== blockName || !data || 'coupon-form' !== type) {
     return null;
   }
+
+  const plainText = block.innerHTML.replace(/<[^>]+>/g, '').trim();
 
   const couponForm = data as CouponCodeFormGlobalProps;
   const { applyCoupon, loading } = couponForm;
@@ -27,14 +30,14 @@ export const CouponFormApplyButton = ({ block }: CouponFormApplyButtonProps) => 
       onClick={applyCoupon}
       disabled={loading}
       className={cn(
-        'border border-black/20 hover:border-secondary bg-background text-black/80 hover:bg-secondary hover:text-secondary-foreground  rounded-md w-full py-2 mt-2 text-center text-sm font-bold leading-normal h-10',
+        'border border-black/20 hover:border-secondary bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground w-full py-2 mt-2 text-center text-sm font-bold leading-normal ',
         {
           'opacity-50': loading,
         },
         attributes.className
       )}
     >
-      Apply Coupon
+      {plainText}
     </button>
   );
 };

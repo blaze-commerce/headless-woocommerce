@@ -44,7 +44,6 @@ const placeHolderBlocks = {
   CouponFormAccordion: CouponFormAccordion,
   CouponFormAccordionIcons: CouponFormAccordionIcons,
   CouponFormInput: CouponFormInput,
-  CouponFormApplyButton: CouponFormApplyButton,
   CouponFormError: CouponFormError,
   CartDiscountContainer: CartDiscountContainer,
 };
