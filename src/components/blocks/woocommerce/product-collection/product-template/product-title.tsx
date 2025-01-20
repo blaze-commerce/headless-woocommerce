@@ -29,7 +29,10 @@ export const WooCommerceProductNameTemplate = ({ block }: WooCommerceProductName
   const TagName = getHeadingTag(level as number);
 
   if ('product-cart-item' === type) {
-    const { cartItem } = data as CartItemGlobalProps;
+    const { cartItem, loading } = data as CartItemGlobalProps;
+    if (loading) {
+      return <div className={cn('w-full h-8 bg-gray-300')}></div>;
+    }
     const productType = cartItem.type.toLowerCase();
 
     return (

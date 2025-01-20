@@ -24,7 +24,10 @@ export const WooCommerceProductPriceTemplate = ({
   const attribute = block.attrs as BlockAttributes;
 
   if ('product-cart-item' === type) {
-    const { cartItem } = data as CartItemGlobalProps;
+    const { cartItem, loading } = data as CartItemGlobalProps;
+    if (loading) {
+      return <div className="w-28 h-4 bg-gray-300"></div>;
+    }
     return (
       <span
         className={cn(

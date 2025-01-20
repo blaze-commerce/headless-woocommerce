@@ -16,7 +16,10 @@ export const RemoveCartItemButton = ({ block }: RemoveCartItemButtonProps) => {
     return null;
   }
 
-  const { cartItem, removeCartItem } = data as CartItemGlobalProps;
+  const { cartItem, removeCartItem, loading } = data as CartItemGlobalProps;
+  if (loading) {
+    return <div className="w-6 h-6 bg-gray-300 rounded-full"></div>;
+  }
   const svgContent = getSvgContent(block.innerHTML);
 
   return (
