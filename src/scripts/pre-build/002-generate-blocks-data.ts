@@ -40,18 +40,7 @@ const processPostAndPageStyles = async () => {
     })
   );
 
-  const postStyles = await Promise.all(
-    postSlugs.map(async (slug: string) => {
-      const data = await generatePostJsonDataBySlug(slug);
-      if (data.blocks) {
-        return cssContentParser(data.blocks);
-      }
-
-      return ''; // If no blocks, return an empty string
-    })
-  );
-
-  return pageStyles.join('') + postStyles.join('');
+  return pageStyles.join('');
 };
 
 /**
