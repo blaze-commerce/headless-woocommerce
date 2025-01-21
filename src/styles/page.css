@@ -1,0 +1,3 @@
+.page p a {
+  @apply underline;
+}
