@@ -49,6 +49,7 @@ cart${currency ? `(currency: "${currency}")` : ''} {
             }
             sku
             ... on SimpleProduct {
+              regularPrice
               price(format: RAW)
               stockQuantity
             }

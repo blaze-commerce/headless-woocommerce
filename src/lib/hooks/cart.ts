@@ -28,7 +28,9 @@ export type ProductCartItem = {
   cartKey: string;
   name: string;
   qty: string;
+  onSale: boolean;
   stockQuantity?: number;
+  regularPrice: number;
   price: number;
   totalPrice: string;
   total: string;
@@ -141,6 +143,8 @@ export const getFormattedCart = (data: any): FormattedCart => {
       cartKey,
       name: givenProduct?.name ?? '',
       qty: givenProducts?.[i]?.quantity,
+      onSale: givenProduct?.onSale ?? false,
+      regularPrice: givenProduct?.regularPrice,
       price,
       totalPrice: givenProducts?.[i]?.total ?? '',
       total: givenProducts?.[i]?.total ?? '',

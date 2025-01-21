@@ -35,6 +35,9 @@ import { Cover } from '@src/components/blocks/core/cover';
 import { Group } from '@src/components/blocks/core/group';
 import { productsWidgetDataHandler } from '@src/components/blocks/woocommerce/products-widgets';
 import { getBlockName } from '@src/lib/block';
+import { WooCommerceProductTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template';
+import { WooCommerceProductTemplateImage } from '@src/components/blocks/woocommerce/product-collection/product-template/product-image';
+import { WooCommerceProductCollection } from '@src/components/blocks/woocommerce/product-collection';
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -146,6 +149,9 @@ export const blocks = {
   'woocommerce/product-sku': WooCommerceProductSKU,
   'woocommerce/product-details': WooCommerceProductDetails,
   'woocommerce/related-products': WooCommerceRelatedProducts,
+  'woocommerce/product-collection': WooCommerceProductCollection,
+  'woocommerce/product-template': WooCommerceProductTemplate,
+  'woocommerce/product-image': WooCommerceProductTemplateImage,
   'core/post-featured-image': PostFeaturedImage,
   'core/post-excerpt': PostExcerpt,
   'core/post-content': PostContent,

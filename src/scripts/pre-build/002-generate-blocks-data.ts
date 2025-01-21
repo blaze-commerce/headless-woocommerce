@@ -92,6 +92,14 @@ const processTemplatesStyles = async () => {
       key: 'site-header',
       file: 'header.json',
     },
+    {
+      key: 'site-wp-custom-template-mini-cart',
+      file: 'minicart.json',
+    },
+    {
+      key: 'site-wp-custom-template-wish-list-sidebar',
+      file: 'wishlist.json',
+    },
   ];
 
   const templateStyles = await Promise.all(
