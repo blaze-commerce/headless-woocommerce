@@ -22,10 +22,11 @@ import siteData from '@public/site.json';
 
 const MAX_RETRIES = 5;
 const BATCH_SIZE = 1000;
+const TIMEOUT = 60000; // Increase timeout duration to 60 seconds
 
 async function fetchWithRetry(key: string, retries = 0): Promise<ParsedBlock[]> {
   try {
-    const contentBlocks = await SiteInfo.find(key);
+    const contentBlocks = await SiteInfo.find(key, { timeout: TIMEOUT });
     const parsedData = SiteInfoSchema.safeParse(contentBlocks);
 
     if (parsedData.success) {

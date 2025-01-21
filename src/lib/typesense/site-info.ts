@@ -9,7 +9,10 @@ type SiteInfoTypesenseResponse = {
 };
 
 export class SiteInfo {
-  static async find(name: string): Promise<SiteInfoTypesenseResponse | undefined> {
+  static async find(
+    name: string,
+    _p0: { timeout: number }
+  ): Promise<SiteInfoTypesenseResponse | undefined> {
     const response = await getTypesenseClient()
       .collections<SiteInfoTypesenseResponse>(`site_info-${NEXT_PUBLIC_STORE_ID}`)
       .documents()
