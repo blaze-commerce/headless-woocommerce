@@ -17,7 +17,7 @@ export const CartDiscountContainer = ({ block }: CartDiscountContainerProps) => 
     return null;
   }
 
-  const shouldShow = parseInt(cart.discountTotal || '', 10) > 0;
+  const shouldShow = parseInt(cart.discountTotal?.toString() || '', 10) > 0;
   if (!shouldShow) {
     return null;
   }
