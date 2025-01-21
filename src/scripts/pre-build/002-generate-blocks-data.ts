@@ -20,6 +20,44 @@ import { getPageSlugs } from '@src/lib/typesense/page';
 import postSlugs from '@public/post-slugs.json';
 import siteData from '@public/site.json';
 
+const MAX_RETRIES = 5;
+
+async function fetchWithRetry(key: string, retries = 0): Promise<ParsedBlock[]> {
+  try {
+    const contentBlocks = await SiteInfo.find(key);
+    const parsedData = SiteInfoSchema.safeParse(contentBlocks);
+
+    if (parsedData.success) {
+      const parsedValue = parseJSON(parsedData?.data?.value);
+      let stringBlocks = '';
+
+      if (parsedValue) {
+        parsedValue.forEach((block: any) => {
+          if (block.blockId === 'gutenbergBlocks') {
+            Object.keys(block.metaData).forEach((key) => {
+              stringBlocks += block.metaData[key].content;
+            });
+          }
+        });
+
+        return addIds(parse(stringBlocks) as NewParsedBlock[]);
+      } else {
+        return addIds(parse(parsedData.data.value) as NewParsedBlock[]);
+      }
+    }
+  } catch (error) {
+    if ((error as any).code === 'ECONNABORTED' && retries < MAX_RETRIES) {
+      console.log(`Request failed due to timeout. Retrying... (${retries + 1}/${MAX_RETRIES})`);
+      await new Promise((resolve) => setTimeout(resolve, 100 * Math.pow(2, retries)));
+      return fetchWithRetry(key, retries + 1);
+    } else {
+      throw error;
+    }
+  }
+
+  return [];
+}
+
 /**
  * This process the post and pages styles blocks
  *
@@ -60,72 +98,28 @@ const processPostAndPageStyles = async () => {
  */
 const processTemplatesStyles = async () => {
   const templateData = [
-    {
-      key: 'site-footer',
-      file: 'footer.json',
-    },
-    {
-      key: 'site-single',
-      file: 'single-post.json',
-    },
-    {
-      key: 'site-single-product',
-      file: 'single-product.json',
-    },
-    {
-      key: 'site-page',
-      file: 'page.json',
-    },
-    {
-      key: 'site-single-product',
-      file: 'single-product.json',
-    },
-    {
-      key: 'site-archive-product',
-      file: 'archive-product.json',
-    },
-    {
-      key: 'site-taxonomy-product_cat',
-      file: 'taxonomy-product-cat.json',
-    },
-    {
-      key: 'site-header',
-      file: 'header.json',
-    },
+    { key: 'site-footer', file: 'footer.json' },
+    { key: 'site-single', file: 'single-post.json' },
+    { key: 'site-single-product', file: 'single-product.json' },
+    { key: 'site-page', file: 'page.json' },
+    { key: 'site-single-product', file: 'single-product.json' },
+    { key: 'site-archive-product', file: 'archive-product.json' },
+    { key: 'site-taxonomy-product_cat', file: 'taxonomy-product-cat.json' },
+    { key: 'site-header', file: 'header.json' },
   ];
 
   const templateStyles = await Promise.all(
     templateData.map(async (data) => {
-      let parsedContent: ParsedBlock[] = [];
       const { key, file } = data;
-      const contentBlocks = await SiteInfo.find(key);
-
-      const parsedData = SiteInfoSchema.safeParse(contentBlocks);
-
-      if (parsedData.success) {
-        parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
-        const parsedValue = parseJSON(parsedData?.data?.value);
-        if (parsedValue) {
-          let stringBlocks = '';
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          parsedValue?.forEach((block: any) => {
-            if (block.blockId === 'gutenbergBlocks') {
-              Object.keys(block.metaData).forEach((key) => {
-                stringBlocks += block.metaData[key].content;
-              });
-            }
-          });
-
-          parsedContent = addIds(parse(stringBlocks) as NewParsedBlock[]);
-        } else {
-          parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
-        }
-      }
+      const parsedContent = await fetchWithRetry(key);
 
       const fullFilePath = path.join(process.cwd(), 'public', file);
+      await maybeCreateDir(path.dirname(fullFilePath));
       fs.writeFileSync(fullFilePath, JSON.stringify(parsedContent), {
         encoding: 'utf-8',
       });
+
+      console.log(`File ${file} created successfully!`);
 
       return cssContentParser(parsedContent as NewParsedBlock[]);
     })
