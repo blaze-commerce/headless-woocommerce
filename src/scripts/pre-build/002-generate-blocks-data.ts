@@ -21,6 +21,7 @@ import postSlugs from '@public/post-slugs.json';
 import siteData from '@public/site.json';
 
 const MAX_RETRIES = 5;
+const BATCH_SIZE = 1000;
 const TIMEOUT = 60000; // Increase timeout duration to 60 seconds
 
 async function fetchWithRetry(key: string, retries = 0): Promise<ParsedBlock[]> {
@@ -52,12 +53,21 @@ async function fetchWithRetry(key: string, retries = 0): Promise<ParsedBlock[]> 
       await new Promise((resolve) => setTimeout(resolve, 100 * Math.pow(2, retries)));
       return fetchWithRetry(key, retries + 1);
     } else {
-      console.error(`Failed to fetch data for key: ${key}`, error);
       throw error;
     }
   }
 
   return [];
+}
+
+async function fetchAllWithRetry(keys: string[]): Promise<ParsedBlock[]> {
+  const results: ParsedBlock[] = [];
+  for (let i = 0; i < keys.length; i += BATCH_SIZE) {
+    const batchKeys = keys.slice(i, i + BATCH_SIZE);
+    const batchResults = await Promise.all(batchKeys.map((key) => fetchWithRetry(key)));
+    results.push(...batchResults.flat());
+  }
+  return results;
 }
 
 /**
