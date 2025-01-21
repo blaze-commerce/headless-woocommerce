@@ -16,10 +16,6 @@ export const Footer = () => {
       style={footer?.customColors?.enabled ? footerStyle : {}}
     >
       <Content content={FOOTER_DATA} />
-      <div className="flex justify-between">
-        <p>2l3k4jl23</p>
-        <p>2l3k4jl23</p>
-      </div>
     </footer>
   );
 };
