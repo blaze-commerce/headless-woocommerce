@@ -12,7 +12,6 @@ import {
   generateJsonDataBySlug,
   generatePostJsonDataBySlug,
   maybeCreateDir,
-  parseJSON,
 } from '@src/scripts/utils';
 import { ParsedBlock as NewParsedBlock } from '@src/components/blocks';
 import { getPageSlugs } from '@src/lib/typesense/page';
@@ -21,124 +20,82 @@ import postSlugs from '@public/post-slugs.json';
 import siteData from '@public/site.json';
 
 /**
- * This process the post and pages styles blocks
- *
- * @returns String tailwind css class styles
+ * Helper to process items in chunks
  */
-const processPostAndPageStyles = async () => {
+const processInChunks = async <T>(
+  items: T[],
+  chunkSize: number,
+  processor: (item: T) => Promise<string>
+): Promise<string[]> => {
+  const results: string[] = [];
+  for (let i = 0; i < items.length; i += chunkSize) {
+    const chunk = items.slice(i, i + chunkSize);
+    const chunkResults = await Promise.all(chunk.map(processor));
+    results.push(...chunkResults);
+  }
+  return results;
+};
+
+/**
+ * Process post and page styles to generate Tailwind CSS classes
+ */
+const processPostAndPageStyles = async (): Promise<string> => {
   const pageSlugs = await getPageSlugs();
   pageSlugs.push(siteData.blogPageSlug);
 
-  const pageStyles = await Promise.all(
-    pageSlugs.map(async (slug: string) => {
-      const data = await generateJsonDataBySlug(slug);
-      if (data.blocks) {
-        return cssContentParser(data.blocks);
-      }
+  const pageStyles = await processInChunks(pageSlugs, 5, async (slug) => {
+    const data = await generateJsonDataBySlug(slug);
+    return data.blocks ? cssContentParser(data.blocks) : '';
+  });
 
-      return ''; // If no blocks, return an empty string
-    })
-  );
-
-  const postStyles = await Promise.all(
-    postSlugs.map(async (slug: string) => {
-      const data = await generatePostJsonDataBySlug(slug);
-      if (data.blocks) {
-        return cssContentParser(data.blocks);
-      }
-
-      return ''; // If no blocks, return an empty string
-    })
-  );
+  const postStyles = await processInChunks(postSlugs, 5, async (slug) => {
+    const data = await generatePostJsonDataBySlug(slug);
+    return data.blocks ? cssContentParser(data.blocks) : '';
+  });
 
   return pageStyles.join('') + postStyles.join('');
 };
 
 /**
- * This Process the template styles that comes from gutenberg
- * @returns string tailwind css styles
+ * Process template styles from Gutenberg templates
  */
-const processTemplatesStyles = async () => {
+const processTemplatesStyles = async (): Promise<string> => {
   const templateData = [
-    {
-      key: 'site-footer',
-      file: 'footer.json',
-    },
-    {
-      key: 'site-single',
-      file: 'single-post.json',
-    },
-    {
-      key: 'site-single-product',
-      file: 'single-product.json',
-    },
-    {
-      key: 'site-page',
-      file: 'page.json',
-    },
-    {
-      key: 'site-single-product',
-      file: 'single-product.json',
-    },
-    {
-      key: 'site-archive-product',
-      file: 'archive-product.json',
-    },
-    {
-      key: 'site-taxonomy-product_cat',
-      file: 'taxonomy-product-cat.json',
-    },
-    {
-      key: 'site-header',
-      file: 'header.json',
-    },
+    { key: 'site-footer', file: 'footer.json' },
+    { key: 'site-single', file: 'single-post.json' },
+    { key: 'site-single-product', file: 'single-product.json' },
+    { key: 'site-page', file: 'page.json' },
+    { key: 'site-archive-product', file: 'archive-product.json' },
+    { key: 'site-taxonomy-product_cat', file: 'taxonomy-product-cat.json' },
+    { key: 'site-header', file: 'header.json' },
   ];
 
-  const templateStyles = await Promise.all(
-    templateData.map(async (data) => {
-      let parsedContent: ParsedBlock[] = [];
-      const { key, file } = data;
-      const contentBlocks = await SiteInfo.find(key);
+  const templateStyles = await processInChunks(templateData, 3, async ({ key, file }) => {
+    const contentBlocks = await SiteInfo.find(key);
+    const parsedData = SiteInfoSchema.safeParse(contentBlocks);
 
-      const parsedData = SiteInfoSchema.safeParse(contentBlocks);
+    let parsedContent: ParsedBlock[] = [];
+    if (parsedData.success) {
+      parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
+    }
 
-      if (parsedData.success) {
-        parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
-        const parsedValue = parseJSON(parsedData?.data?.value);
-        if (parsedValue) {
-          let stringBlocks = '';
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          parsedValue?.forEach((block: any) => {
-            if (block.blockId === 'gutenbergBlocks') {
-              Object.keys(block.metaData).forEach((key) => {
-                stringBlocks += block.metaData[key].content;
-              });
-            }
-          });
+    const fullFilePath = path.join(process.cwd(), 'public', file);
+    fs.writeFileSync(fullFilePath, JSON.stringify(parsedContent), { encoding: 'utf-8' });
 
-          parsedContent = addIds(parse(stringBlocks) as NewParsedBlock[]);
-        } else {
-          parsedContent = addIds(parse(parsedData.data.value) as NewParsedBlock[]);
-        }
-      }
-
-      const fullFilePath = path.join(process.cwd(), 'public', file);
-      fs.writeFileSync(fullFilePath, JSON.stringify(parsedContent), {
-        encoding: 'utf-8',
-      });
-
-      return cssContentParser(parsedContent as NewParsedBlock[]);
-    })
-  );
+    return cssContentParser(parsedContent as NewParsedBlock[]);
+  });
 
   return templateStyles.join('');
 };
 
-export default async function execute() {
+/**
+ * Main function to execute the entire process
+ */
+const execute = async () => {
   await maybeCreateDir('public/page');
   await maybeCreateDir('public/post');
-  let cssStyles = '';
 
+  let cssStyles = '';
   cssStyles += await processTemplatesStyles();
   cssStyles += await processPostAndPageStyles();
 
@@ -152,4 +109,6 @@ export default async function execute() {
       console.log('CSS file created successfully!');
     }
   });
-}
+};
+
+export default execute;
