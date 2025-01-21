@@ -21,6 +21,7 @@ import postSlugs from '@public/post-slugs.json';
 import siteData from '@public/site.json';
 
 const MAX_RETRIES = 5;
+const BATCH_SIZE = 1000;
 
 async function fetchWithRetry(key: string, retries = 0): Promise<ParsedBlock[]> {
   try {
@@ -56,6 +57,16 @@ async function fetchWithRetry(key: string, retries = 0): Promise<ParsedBlock[]> 
   }
 
   return [];
+}
+
+async function fetchAllWithRetry(keys: string[]): Promise<ParsedBlock[]> {
+  const results: ParsedBlock[] = [];
+  for (let i = 0; i < keys.length; i += BATCH_SIZE) {
+    const batchKeys = keys.slice(i, i + BATCH_SIZE);
+    const batchResults = await Promise.all(batchKeys.map((key) => fetchWithRetry(key)));
+    results.push(...batchResults.flat());
+  }
+  return results;
 }
 
 /**
