@@ -64,10 +64,15 @@ export const getGroupClasses = (block: ParsedBlock) => {
   return cn(
     block?.id,
     'core-group',
-    groupType == 'flex' && 'flex',
-    groupType == 'grid' && 'grid',
-    justifyContent && justifyContentClasses[justifyContent],
-    orientation == 'vertical' && 'flex-col',
+    {
+      flex: groupType == 'flex',
+      grid: groupType == 'grid',
+      'justify-center': justifyContent == 'center',
+      'justify-start': justifyContent == 'left',
+      'justify-end': justifyContent == 'right',
+      'justify-between': justifyContent == 'space-between',
+      'flex-col': orientation == 'vertical',
+    },
     attributes.className
   );
 };
