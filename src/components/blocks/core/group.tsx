@@ -54,13 +54,6 @@ export const getGroupClasses = (block: ParsedBlock) => {
   const justifyContent = attributes.layout?.justifyContent;
   const orientation = attributes.layout?.orientation;
 
-  const justifyContentClasses = {
-    center: 'justify-center',
-    left: 'justify-start',
-    right: 'justify-end',
-    'space-between': 'justify-between',
-  };
-
   return cn(
     block?.id,
     'core-group',
