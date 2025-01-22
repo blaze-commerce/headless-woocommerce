@@ -41,8 +41,6 @@ export const ProductPrice: React.FC<Props> = ({ id, className }) => {
     return <div className={cn('price ', className)}>Free</div>;
   }
 
-  console.log({ category: product.categoriesArray });
-
   return (
     <>
       <div className={cn('price-container', id, className)}>
