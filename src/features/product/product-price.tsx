@@ -41,6 +41,8 @@ export const ProductPrice: React.FC<Props> = ({ id, className }) => {
     return <div className={cn('price ', className)}>Free</div>;
   }
 
+  console.log({ category: product.categoriesArray });
+
   return (
     <>
       <div className={cn('price-container', id, className)}>
@@ -69,6 +71,21 @@ export const ProductPrice: React.FC<Props> = ({ id, className }) => {
       </div>
 
       {product.discountRules && <DiscountRules />}
+      {product?.categoriesArray?.includes('patches') && (
+        <>
+          <p>
+            Customization available with a minimum order of 25 patches. Contact us at{' '}
+            <a
+              href="mailto:support@squadronnostalgia.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              support@squadronnostalgia.com
+            </a>{' '}
+            for details
+          </p>
+        </>
+      )}
     </>
   );
 };
