@@ -90,7 +90,7 @@ const renderBasicImage = (props: any) => {
             !imgHoverError,
           'p-4 lg:p-7': imgError,
           '!opacity-100': showImageVariant === '',
-          '!opacity-0': showImageVariant !== '',
+          // '!opacity-0': showImageVariant !== '',
         })}
         onError={() => {
           setImgError(true);
@@ -177,7 +177,6 @@ export const CardImage = (props: ICardImage) => {
       <RawLink
         href={productLink}
         title={product.name}
-        className="jvl-test"
       >
         <figure>
           {imgError &&
