@@ -15,15 +15,17 @@ export const CartItemsProductTemplate = ({ block }: CartItemsProductTemplateProp
 
   if ('product-cart-items' === type) {
     const cartItems = data as ProductCartItem[];
-    return cartItems.map((cartItem, index: number) => {
-      return (
-        <CartItem
-          key={index}
-          cartItem={cartItem}
-          block={block}
-        />
-      );
-    });
+    if (cartItems.length === 0) {
+      return null;
+    }
+
+    return cartItems.map((cartItem, index: number) => (
+      <CartItem
+        key={index}
+        cartItem={cartItem}
+        block={block}
+      />
+    ));
   }
 
   //@TODO Handle the default product collection
