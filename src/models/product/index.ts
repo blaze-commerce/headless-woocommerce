@@ -359,6 +359,10 @@ export class Product {
     return this.taxonomies?.filter((tax) => tax.type === 'product_cat');
   }
 
+  get categoriesArray() {
+    return this.categories?.map((tax) => tax.slug);
+  }
+
   get isNew() {
     // TODO: add logic for new
     return false;
