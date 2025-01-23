@@ -24,7 +24,7 @@ export const CouponForm = ({ block }: CouponFormProps) => {
 
   const attributes = block.attrs as BlockAttributes;
   return (
-    <div className={cn('border-t py-4 w-full', attributes.className)}>
+    <div className={cn('border-t py-4 w-full space-y-2', attributes.className)}>
       <Content
         type="coupon-form"
         globalData={couponForm}

@@ -10,6 +10,8 @@ import { CartDiscountTotal } from '@src/components/blocks/woocommerce/mini-cart/
 import { CartSubTotal } from '@src/components/blocks/woocommerce/mini-cart/cart-subtotal';
 import { ProceedToCheckoutButton } from '@src/components/blocks/woocommerce/mini-cart/proceed-to-checkout-button';
 import { CouponFormApplyButton } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-applly-button';
+import { AppliedCouponName } from '@src/components/blocks/woocommerce/mini-cart/applied-coupon-name';
+import { AppliedCartDiscountTotal } from '@src/components/blocks/woocommerce/mini-cart/applied-cart-discount-total';
 
 type ParagraphProps = {
   block: ParsedBlock;
@@ -24,6 +26,8 @@ const placeHolderBlocks = {
   CartSubTotal: CartSubTotal,
   ProceedToCheckoutButton: ProceedToCheckoutButton,
   CouponFormApplyButton: CouponFormApplyButton,
+  AppliedCouponName: AppliedCouponName,
+  AppliedCartDiscountTotal: AppliedCartDiscountTotal,
 };
 
 export const Paragraph = ({ block }: ParagraphProps) => {

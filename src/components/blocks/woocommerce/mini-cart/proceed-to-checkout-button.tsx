@@ -1,12 +1,12 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { useSiteContext } from '@src/context/site-context';
 import { getBlockName } from '@src/lib/block';
-import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
 type ProceedToCheckoutButtonProps = {
   block: ParsedBlock;
 };
 export const ProceedToCheckoutButton = ({ block }: ProceedToCheckoutButtonProps) => {
+  const { cartUpdating } = useSiteContext();
   const blockName = getBlockName(block);
   if ('ProceedToCheckoutButton' !== blockName) {
     return null;
@@ -14,6 +14,9 @@ export const ProceedToCheckoutButton = ({ block }: ProceedToCheckoutButtonProps)
 
   const plainText = block.innerHTML.replace(/<[^>]+>/g, '').trim();
   const attributes = block.attrs as BlockAttributes;
+  if (cartUpdating) {
+    return <div className="animate-pulse  w-full h-14 bg-gray-300"></div>;
+  }
 
   return (
     <a

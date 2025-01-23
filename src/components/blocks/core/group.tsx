@@ -25,6 +25,7 @@ import { HasCartItemsContainer } from '@src/components/blocks/woocommerce/mini-c
 import { CouponFormError } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-form-error';
 import { CartDiscountContainer } from '@src/components/blocks/woocommerce/mini-cart/cart-discount-container';
 import { ProductGrid } from '@src/components/blocks/woocommerce/product-collection/product-grid';
+import { AppliedCartDiscountContainer } from '@src/components/blocks/woocommerce/mini-cart/applied-cart-discount-container';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
@@ -47,6 +48,7 @@ const placeHolderBlocks = {
   CouponFormInput: CouponFormInput,
   CouponFormError: CouponFormError,
   CartDiscountContainer: CartDiscountContainer,
+  AppliedCartDiscountContainer: AppliedCartDiscountContainer,
   ProductGrid: ProductGrid,
 };
 

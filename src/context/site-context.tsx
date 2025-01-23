@@ -209,6 +209,8 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
     }
   );
 
+  useEffect(() => setCartUpdating(loading), [loading]);
+
   useUpdateEffect(() => {
     if (true === miniCartOpen && false === loading) {
       track.viewCart(cart);
