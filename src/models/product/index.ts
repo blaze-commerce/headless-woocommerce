@@ -708,8 +708,6 @@ export class Product {
   get discountRules(): null | ProductDiscountRule {
     if (!this.metaData?.discountRule?.advanced_discount_message) return null;
 
-    console.log({ discountRule: this.metaData.discountRule });
-
     const discountMessage = JSON.parse(this.metaData.discountRule.advanced_discount_message);
     const discountAdjustment = JSON.parse(this.metaData.discountRule.bulk_adjustments);
 
