@@ -11,11 +11,11 @@
 }
 
 .single-product .product-gallery .product-thumbnails .mobile-view {
-  @apply lg:hidden;
+  @apply hidden;
 }
 
 .single-product .product-gallery .product-thumbnails .desktop-view {
-  @apply hidden lg:block;
+  @apply block;
 }
 
 .single-product .product-gallery .product-gallery-arrows {

@@ -11,7 +11,7 @@ export const AddOnsDescription = ({ field }: TProps) => {
   return (
     <p className="addon-field-description">
       <ReactHTMLParser html={field.description} />
-      {field.title_format === 'hide' && field.required && (
+      {field.title_format === 'hide' && field.required === true && (
         <sup className="text-red-600 font-semibold">*</sup>
       )}
     </p>
