@@ -66,7 +66,6 @@ export const RealWooCommerceProductCollection = ({ block }: { block: ParsedBlock
   const { width } = useWindowSize();
   const queryResponse = JSON.parse(block.componentProps) as ITSProductQueryResponse;
 
-  console.log('queryResponse', queryResponse);
   const perPage = queryResponse.queryVars.perPage;
   const [tsQueryVars, setTsQueryVars] = useState(queryResponse.queryVars);
   const cachedTsQueryVars = useMemo(() => tsQueryVars, [tsQueryVars]);
