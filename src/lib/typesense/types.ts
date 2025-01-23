@@ -257,6 +257,7 @@ export interface ITSTaxonomy {
 export interface ITSTaxonomyProductQueryVars {
   taxonomySlug?: string;
   termSlug?: string;
+  termIds?: number[];
   page?: number;
   perPage?: number;
   sortBy?: string;

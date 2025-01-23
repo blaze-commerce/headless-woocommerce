@@ -38,6 +38,7 @@ import { getBlockName } from '@src/lib/block';
 import { WooCommerceProductTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template';
 import { WooCommerceProductTemplateImage } from '@src/components/blocks/woocommerce/product-collection/product-template/product-image';
 import { WooCommerceProductCollection } from '@src/components/blocks/woocommerce/product-collection';
+import { wooCommerceProductCollectionDataHandler } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -183,6 +184,7 @@ export const blockDataHandler = {
   ProductsWidget: productsWidgetDataHandler,
   'generateblocks/container': innerBlocksDataHandler,
   'core/group': innerBlocksDataHandler,
+  'woocommerce/product-collection': wooCommerceProductCollectionDataHandler,
 };
 
 export type BlockDataHandler = keyof typeof blockDataHandler;

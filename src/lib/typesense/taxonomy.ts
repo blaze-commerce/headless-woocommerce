@@ -176,6 +176,10 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     filterByArr.push('taxonomies.slug:=[`' + queryVars.termSlug + '`]');
   }
 
+  if (typeof queryVars.termIds !== 'undefined' && !isEmpty(queryVars.termIds)) {
+    filterByArr.push('taxonomies.termId:=[`' + queryVars.termIds.join('`,`') + '`]');
+  }
+
   if (typeof queryVars.nameAndTypes !== 'undefined' && !isEmpty(queryVars.nameAndTypes)) {
     //	Sample query
     // 	taxonomies.nameAndType:=[`For Women|shop-by`,`Farewell|occasion`]
