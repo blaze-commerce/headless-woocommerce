@@ -6,6 +6,7 @@ import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { Product } from '@src/models/product';
 import { CouponCode, ProductCartItem } from '@src/lib/hooks/cart';
 import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
+import { RealWooCommerceProductCollectionQueryResponse } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
 
 export type ContentPropTypes =
   | 'page'
@@ -17,7 +18,8 @@ export type ContentPropTypes =
   | 'product-cart-items'
   | 'product-cart-item'
   | 'coupon-form'
-  | 'coupon-code';
+  | 'coupon-code'
+  | 'products-query-response';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContentGlobalDataType =
   | any
@@ -25,7 +27,8 @@ export type ContentGlobalDataType =
   | Product[]
   | ProductCartItem[]
   | CartItemGlobalProps
-  | CouponCode;
+  | CouponCode
+  | RealWooCommerceProductCollectionQueryResponse;
 
 type ContentProps = {
   content: string | ParsedBlock[];

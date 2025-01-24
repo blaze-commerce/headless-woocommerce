@@ -1,5 +1,6 @@
 import { ParsedBlock } from '@src/components/blocks';
 import { Content } from '@src/components/blocks/content';
+import { RealWooCommerceProductCollectionQueryResponse } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
 import { useContentContext } from '@src/context/content-context';
 import { useSiteContext } from '@src/context/site-context';
 import { getBlockName } from '@src/lib/block';
@@ -21,8 +22,12 @@ export const ProductGrid = ({ block }: ProductGridProps) => {
 
   const attributes = block.attrs as BlockAttributes;
 
-  if ('products' === type) {
-    const products = data as Product[];
+  if ('products' === type || 'products-query-response' === type) {
+    const products: Product[] =
+      type === 'products'
+        ? (data as Product[])
+        : (data as RealWooCommerceProductCollectionQueryResponse).products;
+
     const productsForDisplay = transformProductsForDisplay(products);
 
     return (
