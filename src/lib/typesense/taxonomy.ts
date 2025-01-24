@@ -18,7 +18,11 @@ import { ProductPaths, TaxonomyPaths } from '@src/types';
 import { isEmpty, reduce } from 'lodash';
 import regionalSettings from 'public/region.json';
 import siteSettings from 'public/site.json';
-import { SearchResponse, SearchResponseFacetCountSchema } from 'typesense/lib/Typesense/Documents';
+import {
+  SearchResponse,
+  SearchResponseFacetCountSchema,
+  SearchResponseHit,
+} from 'typesense/lib/Typesense/Documents';
 import { getProductTypesForDisplay, getVariations } from '@src/lib/typesense/product';
 import { getCurrencies } from '@src/lib/helpers';
 import { getAllCurrencies, getDefaultCurrency } from '@src/lib/helpers/country';
@@ -889,8 +893,8 @@ export const buildStaticPathParams = async (page: number) => {
 
   if (typeof results.hits !== 'undefined' && results.hits) {
     const index = 'permalink';
-    results.hits.map((doc: { document: { [key: string]: string } }) => {
-      const permalink = doc.document[index];
+    results.hits.map((doc: SearchResponseHit<{ [key: string]: any }>) => {
+      const permalink = doc.document.permalink;
       //exclude link if it has ?product_type= on it
       if (!permalink.includes('?product_type=')) {
         let productEndpoint = doc.document['permalink'];
@@ -968,7 +972,7 @@ const getTaxonomiesPageData = async (page: number, category: string) => {
   const taxonomySlug = taxonomyUrlSlugToWpTaxonomySlug(category);
 
   if (typeof results.hits !== 'undefined' && results.hits) {
-    results.hits.map((doc: { document: { [key: string]: string & ITSImage } }) => {
+    (results.hits as SearchResponseHit<{ [key: string]: string & ITSImage }>[]).map((doc) => {
       const permalink = doc.document['permalink'];
       const thumbnail = doc.document['thumbnail'];
       const name = doc.document['name'];
