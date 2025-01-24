@@ -40,18 +40,7 @@ const processPostAndPageStyles = async () => {
     })
   );
 
-  const postStyles = await Promise.all(
-    postSlugs.map(async (slug: string) => {
-      const data = await generatePostJsonDataBySlug(slug);
-      if (data.blocks) {
-        return cssContentParser(data.blocks);
-      }
-
-      return ''; // If no blocks, return an empty string
-    })
-  );
-
-  return pageStyles.join('') + postStyles.join('');
+  return pageStyles.join('');
 };
 
 /**
@@ -95,6 +84,14 @@ const processTemplatesStyles = async () => {
     {
       key: 'site-template-product-cards',
       file: 'product-cards.json',
+    },
+    {
+      key: 'site-wp-custom-template-mini-cart',
+      file: 'minicart.json',
+    },
+    {
+      key: 'site-wp-custom-template-wish-list-sidebar',
+      file: 'wishlist.json',
     },
   ];
 

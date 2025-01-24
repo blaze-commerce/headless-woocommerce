@@ -3,13 +3,40 @@ import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parse
 import { BlockName, ParsedBlock as NewParsedBlock, blocks } from '@src/components/blocks';
 import { ContentContextProvider } from '@src/context/content-context';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { Product } from '@src/models/product';
+import { CouponCode, ProductCartItem } from '@src/lib/hooks/cart';
+import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
+import { RealWooCommerceProductCollectionQueryResponse } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
+
+export type ContentPropTypes =
+  | 'page'
+  | 'post'
+  | 'mini-cart'
+  | 'products'
+  | 'product'
+  | 'wishlist'
+  | 'product-cart-items'
+  | 'product-cart-item'
+  | 'coupon-form'
+  | 'coupon-code'
+  | 'products-query-response';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ContentGlobalDataType =
+  | any
+  | undefined
+  | Product[]
+  | ProductCartItem[]
+  | CartItemGlobalProps
+  | CouponCode
+  | RealWooCommerceProductCollectionQueryResponse;
 
 type ContentProps = {
   content: string | ParsedBlock[];
-  type?: 'page' | 'post';
+  type?: ContentPropTypes;
+  globalData?: ContentGlobalDataType;
 };
 
-export const Content = ({ content, type }: ContentProps) => {
+export const Content = ({ content, type, globalData }: ContentProps) => {
   const parsedContent = typeof content === 'string' ? parse(content) : content;
 
   if (!parsedContent) {
@@ -18,7 +45,10 @@ export const Content = ({ content, type }: ContentProps) => {
 
   return (
     <>
-      <ContentContextProvider type={type}>
+      <ContentContextProvider
+        type={type}
+        data={globalData}
+      >
         {parsedContent.map((block, index) => {
           const BlockComponent = blocks[block.blockName as BlockName];
           if (!BlockComponent || typeof BlockComponent === 'undefined') {

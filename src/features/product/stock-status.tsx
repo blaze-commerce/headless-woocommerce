@@ -1,4 +1,4 @@
-import { LuCheckCircle2 } from 'react-icons/lu';
+import { FaCheckCircle } from 'react-icons/fa';
 
 import { Product } from '@src/models/product';
 import { Settings } from '@src/models/settings';
@@ -30,7 +30,7 @@ export const StockStatus: React.FC<Props> = ({ product, settings }) => {
       statusMarkup = (
         <span className="instock">
           {settings?.product?.layout?.stockIcon?.enabled && (
-            <LuCheckCircle2
+            <FaCheckCircle
               className="inline-block mr-2"
               size="18"
             />

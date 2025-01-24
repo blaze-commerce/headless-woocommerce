@@ -64,7 +64,7 @@
 }
 
 .product-card .product-image-holder {
-  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center aspect-h-1 rounded-lg bg-transparent object-cover border;
+  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center bg-transparent object-cover;
 }
 
 .product-card .product-image-holder .wishlist-button {
@@ -84,7 +84,7 @@
 }
 
 .product-card .product-image-holder img {
-  @apply object-contain object-center w-full h-full;
+  @apply object-cover object-center w-full h-full;
 }
 
 .product-card .product-variant-image-holder {
@@ -153,12 +153,10 @@
 }
 
 .product-card .add-to-cart-container .add-to-cart-button {
-  @apply flex justify-center items-center gap-2
-    p-2 md:p-4 text-sm md:text-lg md:leading-6 rounded-md border w-full uppercase
-    bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text;
+  @apply flex justify-center items-center gap-2 p-2 md:p-4 text-sm md:text-lg md:leading-6 rounded-md border w-full uppercase bg-brand-button-background hover:bg-brand-hover-button-background text-brand-button-text hover:text-brand-hover-button-text;
 }
 
-.product-card .product-header .product-badges .badge {
+/* .product-card .product-header .product-badges .badge {
   background-color: #5a768e;
   border-radius: 0;
   font-weight: 500;
@@ -175,5 +173,5 @@
 
 .product-card .product-image-holder {
   padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 247px);
-}
+} */
 /** END | Product Card */

@@ -1,3 +1,4 @@
+import { cn } from '@src/lib/helpers/helper';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import React from 'react';
@@ -35,7 +36,7 @@ export const Input: React.FC<Props> = ({
 
   return (
     <div
-      className={cx('relative flex', {
+      className={cn('relative flex', {
         'flex-col': !inline,
       })}
     >

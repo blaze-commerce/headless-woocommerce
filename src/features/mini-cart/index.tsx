@@ -14,6 +14,9 @@ import { numberFormat } from '@src/lib/helpers/product';
 import { cn, getCurrencySymbol } from '@src/lib/helpers/helper';
 import { WishListRecentlyViewed } from '@src/features/wish-list/wish-list-recently-viewed';
 import { Recommendation } from '@src/features/mini-cart/recommendation';
+import { Content } from '@src/components/blocks/content';
+
+import miniCartBlocks from '@public/minicart.json';
 
 const ViewCartLoadingIndicator = () => {
   return (
@@ -93,124 +96,10 @@ export const MiniCart = () => {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-[calc(100%-3rem)] md:max-w-full pl-10">
-              <Transition.Child
-                as={Fragment}
-                enter="transform transition ease-in-out duration-500 sm:duration-700"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-500 sm:duration-700"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
-              >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-[349px]">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="overflow-y-auto py-7 px-4 sm:px-7">
-                      <div className="flex items-start justify-between border-b pb-4">
-                        <Dialog.Title className="font-bold text-black/90 text-2xl font-secondary">
-                          Your Cart ({cart?.products?.length || 0})
-                        </Dialog.Title>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            className="button-close-minicart w-7 h-7 -m-2 p-2 text-white hover:bg-black/90 rounded-full bg-black/50 flex items-center justify-center "
-                            onClick={() => setOpen(false)}
-                          >
-                            <HiX
-                              className="h-6 w-6"
-                              aria-hidden="true"
-                            />
-                          </button>
-                        </div>
-                      </div>
-
-                      <FreeShippingProgress />
-
-                      {!hasCartItems && !fetchingCart && (
-                        <p className="text-left text-base font-normal text-black/50 my-3">
-                          There are no items in your cart.
-                        </p>
-                      )}
-
-                      <div className="mt-8">
-                        <div className="flow-root">
-                          {hasCartItems && (
-                            <ul
-                              role="list"
-                              className="-my-4 minicart-items"
-                            >
-                              {cart.products.map((cartItem, i: number) => {
-                                return (
-                                  <li
-                                    key={i}
-                                    className="flex py-4 flex-wrap"
-                                  >
-                                    <MiniCartItem cartItem={cartItem} />
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          )}
-
-                          {fetchingCart && (
-                            <ul
-                              role="list"
-                              className="-my-4"
-                            >
-                              <li className="py-4">
-                                <MiniCartItemSkeleton />
-                              </li>
-                            </ul>
-                          )}
-                        </div>
-                        <Recommendation />
-                      </div>
-                    </div>
-                    {hasCartItems && <CouponCode />}
-
-                    {hasCartItems && (
-                      <div className="pb-6 px-4 sm:px-6 space-y-4">
-                        <AppliedCoupon appliedCoupons={cart.appliedCoupons} />
-                        {parseInt(cart.feeTotal || '', 10) > 0 && (
-                          <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray">
-                            <p>Discount:</p>
-                            <p className="subtotal">
-                              {getCurrencySymbol(currentCurrency)}
-                              {cart.feeTotal}
-                            </p>
-                          </div>
-                        )}
-
-                        <div className="flex text-black/80 justify-between text-base border-t font-bold border-y-brand-second-gray pt-2">
-                          <p>Subtotal:</p>
-                          <p className="subtotal">
-                            {getCurrencySymbol(currentCurrency)}
-                            {numberFormat(Number(subtotalDisplay))}
-                          </p>
-                        </div>
-                        <div className="text-sm leading-6">
-                          * Shipping and tax are calculated after the shipping step is completed.
-                        </div>
-                        {/* <div className="flex text-brand-primary justify-between text-lg font-bold">
-                          <p>Total:</p>
-                          <p>{numberFormat(parseFloat(cart.total || '0'))}</p>
-                        </div> */}
-                        <div className="mt-6">
-                          {isClient && (cartUpdating || fetchingCart) ? (
-                            <ViewCartLoadingIndicator />
-                          ) : (
-                            <ProceedToCheckoutButton
-                              backgroundColor={settings?.buttonColor?.background as string}
-                              textColor={settings?.buttonColor?.text as string}
-                            />
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+            <Content
+              type="mini-cart"
+              content={miniCartBlocks}
+            />
           </div>
         </div>
       </Dialog>

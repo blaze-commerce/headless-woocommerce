@@ -286,6 +286,22 @@ export interface ListItemsAttributes {
   ordered?: boolean;
 }
 
+export type WoocommerceStockStatus = 'instock' | 'outofstock' | 'onbackorder';
+export interface WooCommerceProductCollectionAttributes {
+  query?: {
+    taxQuery: {
+      product_cat: number[];
+    };
+    woocommerceOnSale: boolean;
+    perPage: number;
+    woocommerceStockStatus: WoocommerceStockStatus[];
+    search: string;
+    order: 'asc' | 'desc';
+    orderBy: 'title' | 'date' | 'price' | 'sales' | 'rating' | 'menu_order' | 'random';
+    featured?: boolean;
+  };
+}
+
 export interface BlockAttributes
   extends BasicBlockAttributes,
     GridBlockAttributes,
@@ -307,7 +323,8 @@ export interface BlockAttributes
     PostDateAttributes,
     GroupAttributes,
     CoverAttributes,
-    ListItemsAttributes {
+    ListItemsAttributes,
+    WooCommerceProductCollectionAttributes {
   variantRole?: string;
 
   textColor?: string;

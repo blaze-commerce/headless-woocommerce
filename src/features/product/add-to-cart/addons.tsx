@@ -2,11 +2,12 @@ import { useEffect, useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { Disclosure } from '@headlessui/react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
+import { uniq } from 'lodash';
 
 import { useProductContext } from '@src/context/product-context';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
-import { uniq } from 'lodash';
 import { TAddOnItem } from '@src/types/addToCart';
+import { ProductAddons as TProductAddons } from '@src/models/product/types';
 import { AddOnsPriceBreakdown } from '@src/features/product/addons/price-breakdown';
 
 const SelectElement = dynamic(() =>
@@ -25,6 +26,10 @@ const CheckboxElement = dynamic(() =>
   import('@src/features/product/addons/checkbox').then((mod) => mod.AddOnsCheckbox)
 );
 
+const RadioButtonElement = dynamic(() =>
+  import('@src/features/product/addons/radio-button').then((mod) => mod.AddOnsRadioButton)
+);
+
 const MultiplierElement = dynamic(() =>
   import('@src/features/product/addons/input-multiplier').then((mod) => mod.AddOnsInputMultiplier)
 );
@@ -36,8 +41,13 @@ const FileUploadElement = dynamic(() =>
 export const AddToCartAddons = () => {
   const { product, fields } = useProductContext();
   const { addons } = useAddToCartContext();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [headers, setHeaders] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [panels, setPanels] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [standAlone, setStandAlone] = useState<any[]>([]);
+  const [checkboxes, setCheckboxes] = useState<any[]>([]);
 
   const [, setAddonItems] = addons;
   const [, setRequiredFields] = fields.required;
@@ -69,15 +79,17 @@ export const AddToCartAddons = () => {
         priceType: addon.price_type,
         quantity: 0,
         isCalculated: false,
+        display: addon.display,
       });
     });
 
     // set addon items
     setAddonItems(items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product]);
+  }, [product, setRequiredFields, setAddonItems]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const standAlone: any[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const headers: any[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,26 +98,80 @@ export const AddToCartAddons = () => {
 
     if (!product || !product.addons) return;
 
+    let afterHeader = false;
+
     product.addons.forEach((addon) => {
+      addon.classNames = addon.classNames || [];
+
+      if (headers.length === 0 && addon.type !== 'heading') {
+        standAlone.push(addon);
+      }
+
       if (addon.type === 'heading') {
         headers.push(addon);
+        afterHeader = true;
         iteration++;
       } else {
         if (panels[iteration] === undefined) {
           panels[iteration] = [];
         }
-        panels[iteration].push(addon);
-      }
-    });
 
-    console.log({
-      headers,
-      panels,
+        if (afterHeader && addon.type === 'checkbox') {
+          setCheckboxes((prev) => {
+            if (!prev.includes(addon.id)) {
+              return [...prev, addon.id];
+            }
+            return prev;
+          });
+        }
+
+        if (!afterHeader && !addon.classNames.includes('custom-field')) {
+          addon.classNames.push('custom-field');
+          console.log({ name: addon.name, classNames: addon.classNames });
+        }
+
+        panels[iteration].push(addon);
+
+        afterHeader = false;
+      }
     });
 
     setHeaders(headers);
     setPanels(panels);
+    setStandAlone(standAlone);
   }, [product]);
+
+  // useEffect(() => {
+  //   console.log({ panels });
+  // }, [panels]);
+
+  useEffect(() => {
+    if (!product) return;
+
+    if (!product.addons) return;
+
+    // console.log({ checkboxes, fieldsValue });
+
+    // loop chexkboxes and then find in the fieldsValue if it has value
+
+    checkboxes.forEach((checkbox) => {
+      const selected = fieldsValue[`addon-${product.productId}-${checkbox}`] as string[];
+
+      const theClassName = `field-${checkbox}`;
+
+      const parent = document.querySelector(`.${theClassName}`);
+      const grandParent = parent?.parentElement?.parentElement?.parentElement?.parentElement;
+
+      if (grandParent) {
+        // check if selected has length
+        if (selected.length > 0) {
+          grandParent.classList.add('custom-active');
+        } else {
+          grandParent.classList.remove('custom-active');
+        }
+      }
+    });
+  }, [fieldsValue, checkboxes, product, panels]);
 
   if (!product || !product.addons) return null;
 
@@ -121,8 +187,7 @@ export const AddToCartAddons = () => {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderAddon = (addon: any, key: number) => {
+  const renderAddon = (addon: TProductAddons, key: number) => {
     switch (addon.type) {
       case 'checkbox':
         return (
@@ -143,6 +208,16 @@ export const AddToCartAddons = () => {
         );
 
       case 'multiple_choice':
+        if (addon.display === 'radiobutton') {
+          return (
+            <RadioButtonElement
+              key={`addon-field-${key}`}
+              field={addon}
+              product={product}
+              onChange={onChange}
+            />
+          );
+        }
         return (
           <SelectElement
             key={`addon-field-${key}`}
@@ -158,6 +233,7 @@ export const AddToCartAddons = () => {
           <TextareaElement
             key={`addon-field-${key}`}
             field={addon}
+            product={product}
           />
         );
 
@@ -187,39 +263,47 @@ export const AddToCartAddons = () => {
 
   return (
     <div className="product-addon-container">
-      {headers.map((header, key) => (
-        <Disclosure key={key}>
-          {({ open }) => (
-            <Fragment key={key}>
-              <Disclosure.Button
-                className="addon-header addon-field-heading"
-                as="h3"
-              >
-                {header.name}
-                <span className="accordion-button">
-                  {open ? (
-                    <FaMinus
-                      width="8"
-                      height="8"
-                    />
-                  ) : (
-                    <FaPlus
-                      width="8"
-                      height="8"
-                    />
-                  )}
-                </span>
-              </Disclosure.Button>
-              <Disclosure.Panel
-                as="div"
-                className="addon-panel"
-              >
-                {panels[key].map((addon: TAddOnItem, key: number) => renderAddon(addon, key))}
-              </Disclosure.Panel>
-            </Fragment>
-          )}
-        </Disclosure>
-      ))}
+      {standAlone.length > 0 &&
+        standAlone.map((addon: TProductAddons, key: number) => renderAddon(addon, key))}
+
+      {headers.length > 0 &&
+        headers.map((header, key) => (
+          <Disclosure key={key}>
+            {({ open }) => (
+              <Fragment key={key}>
+                <Disclosure.Button
+                  className="addon-header addon-field-heading"
+                  as="h3"
+                >
+                  {header.name}
+                  <span className="accordion-button">
+                    {open ? (
+                      <FaMinus
+                        width="8"
+                        height="8"
+                      />
+                    ) : (
+                      <FaPlus
+                        width="8"
+                        height="8"
+                      />
+                    )}
+                  </span>
+                </Disclosure.Button>
+                <Disclosure.Panel
+                  as="div"
+                  className="addon-panel"
+                >
+                  {typeof panels[key] !== 'undefined' &&
+                    panels[key].length > 0 &&
+                    panels[key].map((addon: TProductAddons, key: number) =>
+                      renderAddon(addon, key)
+                    )}
+                </Disclosure.Panel>
+              </Fragment>
+            )}
+          </Disclosure>
+        ))}
       <AddOnsPriceBreakdown />
     </div>
   );

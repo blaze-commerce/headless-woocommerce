@@ -12,6 +12,7 @@ import { ChevronDown } from '@src/components/svg/chevron-down';
 import { NormalSubMenu } from '@src/components/blocks/maxmegamenu/normal-sub-menu';
 import { IconBlock } from '@src/components/blocks/outermost/IconBlock';
 import { convertAttributes } from '@src/lib/block';
+import React from 'react';
 
 export const Navigation = ({ block }: BlockComponentProps) => {
   const [linkHovered, setLinkHovered] = useState(false);
@@ -57,10 +58,12 @@ export const Navigation = ({ block }: BlockComponentProps) => {
               $color={(color as string) || '#fff'}
               $hoverColor={(color as string) || '#fff'}
             >
-              {iconBlock && <IconBlock block={iconBlock} />}
-              <ReactHTMLParser html={item.title || ''} />
+              <React.Fragment>
+                {iconBlock && <IconBlock block={iconBlock} />}
+                <ReactHTMLParser html={item.title || ''} />
 
-              {hasChevronDownIcon && hasChildMenus && <ChevronDown />}
+                {hasChevronDownIcon === true && hasChildMenus === true && <ChevronDown />}
+              </React.Fragment>
             </MenuLink>
 
             {hasChildMenus && (

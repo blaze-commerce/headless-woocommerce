@@ -896,3 +896,9 @@ export const findBlock = (blocks: ParsedBlock[], blockName: string): ParsedBlock
   }
   return undefined;
 };
+
+export const getHeadingTag = (level: number): keyof JSX.IntrinsicElements => {
+  const validLevels = [1, 2, 3, 4, 5, 6];
+  const selectedLevel = validLevels.includes(level) ? level : 6;
+  return `h${selectedLevel}` as keyof JSX.IntrinsicElements;
+};

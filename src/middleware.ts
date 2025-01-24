@@ -90,6 +90,12 @@ export async function middleware(req: NextRequest) {
     return response;
   }
 
+  if (req.nextUrl.pathname.startsWith('/shop')) {
+    // Handle /shop page separately
+    req.nextUrl.pathname = `/${currentCountry}/shop`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
+
   if (req.nextUrl.pathname.startsWith(siteData.woocommercePermalinks.product_base)) {
     const pathName = req.nextUrl.pathname;
     req.nextUrl.pathname = `/${currentCountry}${pathName}`;

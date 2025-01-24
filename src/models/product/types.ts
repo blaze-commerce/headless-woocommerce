@@ -191,6 +191,7 @@ export type ProductAddons = {
     image: string;
     price_type: ProductAddonsPriceType;
   }[];
+  classNames?: string[];
 };
 
 export type ProductDiscountRuleRange = {

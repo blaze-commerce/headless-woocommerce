@@ -13,6 +13,7 @@ type TProps = {
 };
 
 export const AddOnsFileUpload = ({ field, product, onChange }: TProps) => {
+  const { classNames = [] } = field;
   const [fileName, setFileName] = useState<string>('');
   const [hasFilled, setHasFilled] = useState<boolean>(false);
   const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -38,6 +39,7 @@ export const AddOnsFileUpload = ({ field, product, onChange }: TProps) => {
     <div
       className={cn('addon-field-group file-upload-group', {
         'has-file': hasFilled,
+        [classNames.join(' ')]: classNames.length > 0,
       })}
     >
       <AddOnsTitle field={field} />
@@ -62,8 +64,8 @@ export const AddOnsFileUpload = ({ field, product, onChange }: TProps) => {
         </button>
         <input
           type="file"
-          id={`addon-${product.productId}-${field.position}`}
-          name={`addon-${product.productId}-${field.position}`}
+          id={`addon-${product.productId}-${field.id}`}
+          name={`addon-${product.productId}-${field.id}`}
           ref={hiddenFileInput}
           onChange={handleFileChange}
           className="hidden"

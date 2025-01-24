@@ -114,13 +114,13 @@ export const getPostSlugs = async (): Promise<string[]> => {
   // Fetch first page
   const initialResults = await fetchPageSlugs(1);
 
-  // Calculate total remaining pages
-  const totalRemainingPages = Math.ceil(initialResults.found / perPage);
+  // // Calculate total remaining pages
+  // const totalRemainingPages = Math.ceil(initialResults.found / perPage);
 
-  // Fetch remaining pages
-  for (let i = 2; i <= totalRemainingPages; i++) {
-    await fetchPageSlugs(i);
-  }
+  // // Fetch remaining pages
+  // for (let i = 2; i <= totalRemainingPages; i++) {
+  //   await fetchPageSlugs(i);
+  // }
 
   return slugs;
 };
