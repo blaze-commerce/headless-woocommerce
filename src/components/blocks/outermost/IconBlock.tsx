@@ -2,6 +2,7 @@ import { ParsedBlock } from '@src/components/blocks';
 import { Hamburger } from '@src/components/blocks/maxmegamenu/hamburger';
 import { NextPage } from '@src/components/blocks/templates/products-widget/next-page';
 import { PrevPage } from '@src/components/blocks/templates/products-widget/prev-page';
+import { AddToWishlistButton } from '@src/components/blocks/wish-list/add-to-wishlist-button';
 import { WishlistCloseButton } from '@src/components/blocks/wish-list/wishlist-close-button';
 import { MiniCartCloseButton } from '@src/components/blocks/woocommerce/mini-cart/mini-cart-close-button';
 import { RemoveCartItemButton } from '@src/components/blocks/woocommerce/product-collection/product-template/remove-cart-item';
@@ -24,6 +25,7 @@ const placeHolderBlocks = {
   MenuHamburger: Hamburger,
   CloseMiniCartButton: MiniCartCloseButton,
   WishlistCloseButton: WishlistCloseButton,
+  AddToWishlistButton: AddToWishlistButton,
   RemoveCartItem: RemoveCartItemButton,
 };
 

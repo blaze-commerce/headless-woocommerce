@@ -1,7 +1,5 @@
 import { useSiteContext } from '@src/context/site-context';
-import { HamburgerIcon } from '@src/components/svg/hamburger';
-import { BlockComponentProps, ParsedBlock } from '@src/components/blocks';
-import { find } from 'lodash';
+import { ParsedBlock } from '@src/components/blocks';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
 import React from 'react';

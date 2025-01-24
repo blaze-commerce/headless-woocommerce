@@ -31,7 +31,7 @@ export const ProductCollectionPaginationDots = ({ block }: { block: ParsedBlock 
     data: queryData,
   } = queryResponse;
 
-  const dotsCount = Math.min(queryData?.pageInfo?.totalPages, MAX_DOTS);
+  const dotsCount = Math.min(queryData?.pageInfo?.totalPages ?? 0, MAX_DOTS);
 
   // Since there is no active and inactive dot then no need to show anything
   if (!activeDot || !inActiveDot) {

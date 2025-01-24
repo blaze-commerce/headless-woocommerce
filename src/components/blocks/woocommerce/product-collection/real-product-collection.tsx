@@ -19,7 +19,7 @@ export type RealWooCommerceProductCollectionQueryResponse = {
     ITSTaxonomyProductQueryVars,
     React.Dispatch<React.SetStateAction<ITSTaxonomyProductQueryVars>>
   ];
-  data: ITSProductQueryResponse;
+  data?: ITSProductQueryResponse;
 };
 
 export const wooCommerceProductCollectionDataHandler = async (
