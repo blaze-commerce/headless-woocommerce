@@ -28,6 +28,9 @@ import { getPageParams } from '@src/lib/helpers';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
 import { ParsedBlock } from '@src/components/blocks';
 import taxonomyProductCatBlocks from '@public/taxonomy-product-cat.json';
+import { Content } from '@src/components/blocks/content';
+import { BlockAttributes } from '@src/lib/block/types';
+import { RealWooCommerceProductCollectionQueryResponse } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
 
 export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { settings } = useSiteContext();
@@ -326,48 +329,9 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   useUpdateEffect(applyFilter, [selectedAvailabilityFilter]);
   useUpdateEffect(applyFilter, [selectedRefinedSelection]);
 
-  const loadMoreItems = () => {
-    setTsQueryVars((prevProps: ITSTaxonomyProductQueryVars) => {
-      if (tsPaginationInfo.nextPage) {
-        const newProps: ITSTaxonomyProductQueryVars = {
-          ...prevProps,
-          page: tsPaginationInfo.nextPage,
-          appendProducts: true,
-        };
-
-        return newProps;
-      }
-
-      return prevProps;
-    });
-  };
-
   const bannerStyle = {
     marginTop: shop?.layout?.bannerMarginTop ? `${shop?.layout?.bannerMarginTop}px` : '0px',
   };
-
-  const transformedProducts = useMemo(
-    () => transformProductsForDisplay(productsData),
-    [productsData]
-  );
-
-  const productCards = useMemo(() => {
-    return transformedProducts.map((product, index) => (
-      <ProductCard
-        key={product.id} // Use a unique key based on product id
-        product={product}
-        productFilters={productFilters}
-        productColumns={productColumns}
-        showRating={true}
-        {...layout?.productCards}
-        showWishlistButton={true}
-        saleBadgeColor="#393939"
-        saleBadgeType={4}
-        showCategory={true}
-        hasAddToCart={false}
-      />
-    ));
-  }, [transformedProducts, productFilters, productColumns, layout]);
 
   const renderBlocks = (blocks: ParsedBlock[]) => {
     return blocks.map((block) => {
@@ -390,7 +354,18 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
             />
           );
         }
-        case block.blockName === 'core/group' && block.attrs.metadata?.name === 'ProductGrid': {
+        case block.blockName === 'woocommerce/product-collection': {
+          const attributes = block.attrs as BlockAttributes;
+
+          const globalData: RealWooCommerceProductCollectionQueryResponse = {
+            block: block,
+            loading,
+            products: productsData,
+            isFetched,
+            queryState: [tsQueryVars, setTsQueryVars],
+            data,
+          };
+
           return (
             <div className="container">
               <Filter
@@ -399,31 +374,13 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
                 applyFilter={applyFilter}
                 onSortChange={onSortChange}
               >
-                {productsData.length > 0 ? (
-                  <>
-                    <ProductGrid productColumns={productColumns}>{productCards}</ProductGrid>
-                    {loading && (
-                      <SkeletonCategory
-                        productColumns={productColumns}
-                        productCount={layout?.productCount}
-                      />
-                    )}
-
-                    {shoulShowLoadMore && !loading && (
-                      <LoadMoreButton loadMoreItems={loadMoreItems} />
-                    )}
-                  </>
-                ) : (
-                  <p>No products found</p>
-                )}
-                {layout?.productFilters === '2' && (
-                  <div className="mt-4 flex items-center justify-center">
-                    <ResultCount
-                      pageNo={tsPaginationInfo.page}
-                      productCount={tsPaginationInfo.totalFound}
-                    />
-                  </div>
-                )}
+                <div className={attributes.className}>
+                  <Content
+                    type="products-query-response"
+                    globalData={globalData}
+                    content={block.innerBlocks}
+                  />
+                </div>
               </Filter>
             </div>
           );
@@ -436,12 +393,12 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
     });
   };
 
-  const shoulShowLoadMore = !isEmpty(tsPaginationInfo) && tsPaginationInfo.nextPage > 0;
   return (
     <>
       {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
       <LoadingModal isOpen={loading} />
-      {renderBlocks(taxonomyProductCatBlocks)}
+
+      {renderBlocks(taxonomyProductCatBlocks as ParsedBlock[])}
 
       <div className="container">
         <div className="py-10 category-description">

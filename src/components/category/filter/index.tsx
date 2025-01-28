@@ -194,68 +194,6 @@ export const Filter: React.FC<Props> = (props) => {
     );
   };
 
-  const renderBlocks = (blocks: ParsedBlock[]) => {
-    return blocks.map((block) => {
-      switch (true) {
-        case block.blockName === 'woocommerce/filter-wrapper' &&
-          block.attrs.filterType === 'attribute-filter': {
-          return (
-            <FilterToggleButton
-              className={block.attrs.className}
-              handleFilterByClicked={handleFilterByClicked}
-            />
-          );
-        }
-        case block.blockName === 'woocommerce/filter-wrapper' &&
-          block.attrs.filterType === 'active-filters': {
-          return (
-            <div className="active-filters">
-              <ActiveFilters {...layout?.activeFilters} />
-              {isFilterSet && (
-                <button
-                  onClick={resetFilterAction}
-                  className="clear-button-holder"
-                >
-                  <span className="text-sm">Clear all</span>
-                </button>
-              )}
-            </div>
-          );
-        }
-        case block.blockName === 'woocommerce/catalog-sorting': {
-          return (
-            <div className={block.attrs.className}>
-              <SortByButton
-                setSortByOpen={setSortByOpen}
-                selectedSortOption={selectedSortOption}
-              />
-            </div>
-          );
-        }
-        case block.blockName === 'woocommerce/product-results-count': {
-          return (
-            <ResultCount
-              pageNo={pageNo}
-              productCount={productCount}
-            />
-          );
-        }
-        case block.blockName === 'core/query' &&
-          block.attrs.namespace === 'woocommerce/product-query': {
-          return <div className="product-grid-container">{props.children}</div>;
-        }
-        case block.blockName === 'core/group':
-        default: {
-          return <div className={block.attrs.className}>{renderBlocks(block.innerBlocks)}</div>;
-        }
-      }
-    });
-  };
-
-  const productGridBlocks: ParsedBlock[] = [
-    findBlock(taxonomyProductCatBlocks, 'ProductGrid') as ParsedBlock,
-  ];
-
   return (
     <>
       <Modal
@@ -299,7 +237,7 @@ export const Filter: React.FC<Props> = (props) => {
             resetFilterAction={resetFilterAction}
           />
         </aside> */}
-        <div className="product-archive-display">{renderBlocks(productGridBlocks)}</div>
+        {props.children}
       </div>
     </>
   );
