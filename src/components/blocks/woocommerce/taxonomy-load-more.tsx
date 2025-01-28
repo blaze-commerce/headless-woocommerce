@@ -28,13 +28,14 @@ export const TaxonomyLoadMore = ({ block }: { block: ParsedBlock }) => {
 
   const shoulShowLoadMore = !isEmpty(pageInfo) && pageInfo.nextPage > 0;
 
-  return (
-    shoulShowLoadMore &&
-    !loading && (
+  if (shoulShowLoadMore && !loading) {
+    return (
       <LoadMoreButton
         className={block.attrs.className}
         loadMoreItems={loadMoreItems}
       />
-    )
-  );
+    );
+  }
+
+  return null;
 };
