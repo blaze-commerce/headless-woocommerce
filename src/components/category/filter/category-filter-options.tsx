@@ -66,7 +66,7 @@ export const CategoryFilterOptions = (props: Props) => {
   };
 
   return (
-    <div className="option">
+    <div className="option py-2 flex items-center gap-3">
       <input
         id={uId}
         name={name}

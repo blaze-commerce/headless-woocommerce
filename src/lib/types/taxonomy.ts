@@ -6,6 +6,7 @@ import { ContentBlock } from '@src/types';
 import { IProduct } from '@src/lib/types/product';
 import { ITSImage } from '../typesense/types';
 import { ITSProductQueryResponse, ITSTaxonomy } from '../typesense/types';
+import { ParsedBlock } from '@src/components/blocks';
 
 export interface IFilterOptionData {
   label: string;
@@ -40,6 +41,7 @@ export interface IFilterOptions {
 }
 
 export interface ICategoryBanner {
+  className?: string;
   sourceUrl: string;
   name: string;
   description?: string;

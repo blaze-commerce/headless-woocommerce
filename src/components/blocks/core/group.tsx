@@ -27,6 +27,8 @@ import { CartDiscountContainer } from '@src/components/blocks/woocommerce/mini-c
 import { ProductGrid } from '@src/components/blocks/woocommerce/product-collection/product-grid';
 import { AppliedCartDiscountContainer } from '@src/components/blocks/woocommerce/mini-cart/applied-cart-discount-container';
 import { ProductCollectionPaginationDots } from '@src/components/blocks/woocommerce/product-collection/pagination-dots';
+import { SaveToPinterest } from '@src/components/blocks/woocommerce/product-collection/product-template/badges/save-to-pinterest';
+import { TaxonomyLoadMore } from '@src/components/blocks/woocommerce/taxonomy-load-more';
 
 const placeHolderBlocks = {
   MiniCartContainer: MiniCartContainer,
@@ -36,6 +38,8 @@ const placeHolderBlocks = {
   HasCartItemsContainer: HasCartItemsContainer,
   NoWishlistContainer: NoWishlistContainer,
   CardSaleBadge: WooCommerceProductTemplateCardSaleBadge,
+  SaveToPinterest,
+  ProductCardsLoadMore: TaxonomyLoadMore,
   ProductRatingIcons: WooCommerceProductRatingIconsTemplate,
   WishlistSignUp: WishlistSignUp,
   WishlistSignUpButton: WishlistSignUp,
