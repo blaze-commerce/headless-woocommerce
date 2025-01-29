@@ -43,6 +43,7 @@ import { TaxonomyFilterToggle } from '@src/components/blocks/woocommerce/taxonom
 import { TaxonomyCatalogSorting } from '@src/components/blocks/woocommerce/taxonomy-catalog-sorting';
 import { TaxonomyResultsCount } from '@src/components/blocks/woocommerce/taxonomy-results-count';
 import { ProductAddToCartButton } from '@src/components/blocks/woocommerce/product-collection/product-template/product-add-to-cart-button';
+import { Table } from '@src/components/blocks/core/table';
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -118,6 +119,7 @@ export type BlockComponentProps = {
  * Below are the blocks we currently support that is parseable by our codebase
  */
 export const blocks = {
+  'core/table': Table,
   'core/column': Column,
   'core/columns': Columns,
   'core/embed': Embed,
