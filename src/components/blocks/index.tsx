@@ -39,6 +39,7 @@ import { WooCommerceProductTemplate } from '@src/components/blocks/woocommerce/p
 import { WooCommerceProductTemplateImage } from '@src/components/blocks/woocommerce/product-collection/product-template/product-image';
 import { WooCommerceProductCollection } from '@src/components/blocks/woocommerce/product-collection';
 import { wooCommerceProductCollectionDataHandler } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
+import { Table } from '@src/components/blocks/core/table';
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -114,6 +115,7 @@ export type BlockComponentProps = {
  * Below are the blocks we currently support that is parseable by our codebase
  */
 export const blocks = {
+  'core/table': Table,
   'core/column': Column,
   'core/columns': Columns,
   'core/embed': Embed,
