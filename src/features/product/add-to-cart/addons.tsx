@@ -47,6 +47,7 @@ export const AddToCartAddons = () => {
   const [panels, setPanels] = useState<any[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [standAlone, setStandAlone] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [checkboxes, setCheckboxes] = useState<any[]>([]);
 
   const [, setAddonItems] = addons;
@@ -127,7 +128,6 @@ export const AddToCartAddons = () => {
 
         if (!afterHeader && !addon.classNames.includes('custom-field')) {
           addon.classNames.push('custom-field');
-          console.log({ name: addon.name, classNames: addon.classNames });
         }
 
         panels[iteration].push(addon);

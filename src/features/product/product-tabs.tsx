@@ -69,7 +69,7 @@ export const ProductTabs = ({ style, className }: TProductTabs) => {
     tabData.push(
       ...product.additionalTabs.map((tab) => {
         return {
-          title: tab.title,
+          title: tab.title + 'asdasd',
           content: <ReactHTMLParser html={tab.content as string} />,
           isOpen: false,
         };
@@ -84,6 +84,8 @@ export const ProductTabs = ({ style, className }: TProductTabs) => {
       tabData.push(reviewsTab);
     }
   }
+
+  console.log({ tabData });
 
   switch (style) {
     case ACCORDION_TYPE:
