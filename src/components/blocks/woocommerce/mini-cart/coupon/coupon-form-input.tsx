@@ -1,7 +1,5 @@
 import { ParsedBlock } from '@src/components/blocks';
-import { Content } from '@src/components/blocks/content';
 import { CouponCodeFormGlobalProps } from '@src/components/blocks/woocommerce/mini-cart/coupon/coupon-code-form-container';
-import { Input } from '@src/components/form/Input';
 import { useContentContext } from '@src/context/content-context';
 import { useSiteContext } from '@src/context/site-context';
 import { getBlockName } from '@src/lib/block';
@@ -12,6 +10,7 @@ type CouponFormInputProps = {
 };
 export const CouponFormInput = ({ block }: CouponFormInputProps) => {
   const { type, data } = useContentContext();
+  const { cartUpdating } = useSiteContext();
 
   const blockName = getBlockName(block);
   if ('CouponFormInput' !== blockName || !data || 'coupon-form' !== type) {
@@ -21,7 +20,9 @@ export const CouponFormInput = ({ block }: CouponFormInputProps) => {
   const couponForm = data as CouponCodeFormGlobalProps;
   const [couponCode, setCouponCode] = couponForm.inputState;
   const attributes = block.attrs as BlockAttributes;
-
+  if (cartUpdating) {
+    return <div className="animate-pulse  w-full h-10 bg-gray-300"></div>;
+  }
   return (
     <input
       className={cn('border border-black/10 rounded-md p-2 w-full', attributes.className)}

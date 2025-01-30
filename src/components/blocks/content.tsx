@@ -4,8 +4,9 @@ import { BlockName, ParsedBlock as NewParsedBlock, blocks } from '@src/component
 import { ContentContextProvider } from '@src/context/content-context';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { Product } from '@src/models/product';
-import { ProductCartItem } from '@src/lib/hooks/cart';
+import { CouponCode, ProductCartItem } from '@src/lib/hooks/cart';
 import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
+import { RealWooCommerceProductCollectionQueryResponse } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
 
 export type ContentPropTypes =
   | 'page'
@@ -16,14 +17,18 @@ export type ContentPropTypes =
   | 'wishlist'
   | 'product-cart-items'
   | 'product-cart-item'
-  | 'coupon-form';
+  | 'coupon-form'
+  | 'coupon-code'
+  | 'products-query-response';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContentGlobalDataType =
   | any
   | undefined
   | Product[]
   | ProductCartItem[]
-  | CartItemGlobalProps;
+  | CartItemGlobalProps
+  | CouponCode
+  | RealWooCommerceProductCollectionQueryResponse;
 
 type ContentProps = {
   content: string | ParsedBlock[];

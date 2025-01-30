@@ -62,6 +62,7 @@ export const CartItem = ({ cartItem, block }: CartItemProps) => {
   const isLoading = loading || isRemoving || fetchingCart;
 
   const updateCartItemQuantity = (key: string, value: number) => {
+    setCartUpdating(true);
     updateCartQuantity({
       variables: {
         input: {
@@ -77,6 +78,7 @@ export const CartItem = ({ cartItem, block }: CartItemProps) => {
   };
 
   const removeCartItem = (cartKey: string) => {
+    setCartUpdating(true);
     removeItemFromCart({
       variables: { cartKey: cartKey },
     });

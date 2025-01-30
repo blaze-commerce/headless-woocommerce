@@ -11,6 +11,7 @@ import { useSiteContext } from '@src/context/site-context';
 import { ContentBlock, ContentBlockMetaData } from '@src/types';
 import TSProduct from '@src/lib/typesense/product';
 import { AttributeFilter } from '@src/components/category/filter/attribute-filter';
+import { SubCategoryGroupedFilter } from '@src/components/blocks/sub-category-grouped-filter';
 import { isObject } from 'lodash';
 
 type Props = {
@@ -53,6 +54,8 @@ export const FilterOptionBlocks = ({ blocks, baseCountry }: Props) => {
       case 'subCategoryFilters':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
         return <SubCategoryFilter {...metaData} />;
+      case 'subCategoryFiltersGrouped':
+        return <SubCategoryGroupedFilter content={content} />;
       case 'brandsFilters':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
         return <BrandsFilter {...metaData} />;

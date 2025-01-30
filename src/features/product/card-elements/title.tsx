@@ -7,6 +7,7 @@ interface ICardTitle {
   handleMouseEnter: () => void;
   layout: string;
   link: string;
+  className?: string;
 }
 
 export const CardTitle = (props: ICardTitle) => {
@@ -14,7 +15,7 @@ export const CardTitle = (props: ICardTitle) => {
   return (
     <h3
       onMouseEnter={handleMouseEnter}
-      className={'product-title'}
+      className={`product-title ${props.className}`}
     >
       <RawLink href={link}>
         <span

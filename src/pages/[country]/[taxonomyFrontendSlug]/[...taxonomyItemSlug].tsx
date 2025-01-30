@@ -1,5 +1,5 @@
 import { Dictionary } from '@reduxjs/toolkit';
-import { isArray, isEmpty, reduce } from 'lodash';
+import { isArray, isEmpty, merge, reduce } from 'lodash';
 import { GetStaticProps } from 'next';
 
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
@@ -147,5 +147,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       notFound: true,
     };
   }
+
   return data;
 };

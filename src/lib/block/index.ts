@@ -881,6 +881,22 @@ export const convertAttributes = (attrs: { htmlAttributes: HTMLAttributes }) => 
   return Object.assign({}, attrs, convertedHtmlAttrs);
 };
 
+export const findBlock = (blocks: ParsedBlock[], blockName: string): ParsedBlock | undefined => {
+  if (!blocks) return undefined;
+  for (const block of blocks) {
+    const name = get(block, 'attrs.metadata.name');
+    if (name === blockName) {
+      return block;
+    } else if (block.innerBlocks) {
+      const matchedBlock = findBlock(block.innerBlocks, blockName);
+      if (matchedBlock) {
+        return matchedBlock;
+      }
+    }
+  }
+  return undefined;
+};
+
 export const getHeadingTag = (level: number): keyof JSX.IntrinsicElements => {
   const validLevels = [1, 2, 3, 4, 5, 6];
   const selectedLevel = validLevels.includes(level) ? level : 6;

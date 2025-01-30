@@ -38,6 +38,12 @@ import { getBlockName } from '@src/lib/block';
 import { WooCommerceProductTemplate } from '@src/components/blocks/woocommerce/product-collection/product-template';
 import { WooCommerceProductTemplateImage } from '@src/components/blocks/woocommerce/product-collection/product-template/product-image';
 import { WooCommerceProductCollection } from '@src/components/blocks/woocommerce/product-collection';
+import { wooCommerceProductCollectionDataHandler } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
+import { TaxonomyFilterToggle } from '@src/components/blocks/woocommerce/taxonomy-filter-toggle';
+import { TaxonomyCatalogSorting } from '@src/components/blocks/woocommerce/taxonomy-catalog-sorting';
+import { TaxonomyResultsCount } from '@src/components/blocks/woocommerce/taxonomy-results-count';
+import { ProductAddToCartButton } from '@src/components/blocks/woocommerce/product-collection/product-template/product-add-to-cart-button';
+import { Table } from '@src/components/blocks/core/table';
 
 const PostTerms = dynamic(() =>
   import('@src/components/blocks/core/post-terms').then((mod) => mod.PostTerms)
@@ -113,6 +119,7 @@ export type BlockComponentProps = {
  * Below are the blocks we currently support that is parseable by our codebase
  */
 export const blocks = {
+  'core/table': Table,
   'core/column': Column,
   'core/columns': Columns,
   'core/embed': Embed,
@@ -162,6 +169,10 @@ export const blocks = {
   'outermost/icon-block': IconBlock,
   'yoast-seo/breadcrumbs': Breadcrumbs,
   'core/cover': Cover,
+  'woocommerce/filter-wrapper': TaxonomyFilterToggle,
+  'woocommerce/catalog-sorting': TaxonomyCatalogSorting,
+  'woocommerce/product-results-count': TaxonomyResultsCount,
+  'woocommerce/product-button': ProductAddToCartButton,
 };
 
 // Define type alias for block names
@@ -183,6 +194,7 @@ export const blockDataHandler = {
   ProductsWidget: productsWidgetDataHandler,
   'generateblocks/container': innerBlocksDataHandler,
   'core/group': innerBlocksDataHandler,
+  'woocommerce/product-collection': wooCommerceProductCollectionDataHandler,
 };
 
 export type BlockDataHandler = keyof typeof blockDataHandler;

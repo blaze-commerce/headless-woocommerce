@@ -121,7 +121,8 @@ export async function middleware(req: NextRequest) {
   modifiedPathName = stripSlashes(modifiedPathName);
 
   if (modifiedPathName === siteData.shopPageSlug) {
-    return NextResponse.redirect(new URL('/shop/', req.url));
+    req.nextUrl.pathname = `/${currentCountry}/shop`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   if (modifiedPathName === siteData.blogPageSlug) {

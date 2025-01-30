@@ -82,6 +82,10 @@ const processTemplatesStyles = async () => {
       file: 'header.json',
     },
     {
+      key: 'site-template-product-cards',
+      file: 'product-cards.json',
+    },
+    {
       key: 'site-wp-custom-template-mini-cart',
       file: 'minicart.json',
     },

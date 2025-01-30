@@ -21,7 +21,7 @@ export const WooCommerceProductTemplate = ({ block }: WooCommerceProductTemplate
     const attributes = block.attrs as BlockAttributes;
     return (
       <div
-        className={cn('product-card', `product-${product.id}`, attributes.className, {
+        className={cn('product-card gap-3', `product-${product.id}`, attributes.className, {
           'is-variable': product.hasVariations,
           'is-simple': product.isSimple,
           'is-on-sale': product.isOnSale,

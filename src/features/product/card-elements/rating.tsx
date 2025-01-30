@@ -11,9 +11,10 @@ type ICardRating = {
   product: Product;
   detailsAlignment: string;
   showRating?: boolean;
+  className?: string;
 };
 
-export const CardRating = ({ product, detailsAlignment, showRating }: ICardRating) => {
+export const CardRating = ({ product, detailsAlignment, showRating, className }: ICardRating) => {
   const { settings } = useSiteContext();
   const { store } = settings as Settings;
 
@@ -24,7 +25,7 @@ export const CardRating = ({ product, detailsAlignment, showRating }: ICardRatin
   const { wooProductReviews } = metaData as ProductMetaData;
 
   return (
-    <div className={cn('product-rating', `justify-${detailsAlignment}`)}>
+    <div className={cn('product-rating', `justify-${detailsAlignment}`, className)}>
       {reviewService === 'judge.me' && <ProductRating stats={judgemeReviews as Stats} />}
       {reviewService === 'yotpo' && <ProductRating stats={yotpoReviews as Stats} />}
       {reviewService === 'woocommerce_native_reviews' && (

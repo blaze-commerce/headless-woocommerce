@@ -11,7 +11,7 @@ import { getCurrencySymbol } from '@src/lib/helpers/helper';
 type Props = Pick<FormattedCart, 'appliedCoupons'>;
 
 export const AppliedCoupon: React.FC<Props> = ({ appliedCoupons }: Props) => {
-  const { fetchCart, currentCurrency } = useSiteContext();
+  const { fetchCart, currentCurrency, setCartUpdating } = useSiteContext();
   const [, setError] = useState('');
 
   const [removeCoupon, { loading: removeCouponLoading }] = useMutation(REMOVE_COUPONS, {
@@ -27,6 +27,7 @@ export const AppliedCoupon: React.FC<Props> = ({ appliedCoupons }: Props) => {
 
   const handleRemoveCoupon = (code: string) => {
     if (removeCouponLoading) return;
+    setCartUpdating(true);
     removeCoupon({
       variables: {
         input: {
