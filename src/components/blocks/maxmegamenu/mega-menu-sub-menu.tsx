@@ -26,7 +26,7 @@ export const MegaMenuSubMenu: React.FC<Props> = ({ items, attributes, originalIt
     <MegaMenuSubMenuWrapper
       $mainNavigationBackgroundColor={attributes.submenuContainerBackgroundColor}
       $padding={attributes.submenuContainerPadding}
-      className={cn('mega-menu mega-menu-sub-menu-wrapper inset-x-0', {
+      className={cn('mega-menu mega-menu-sub-menu-wrapper inset-x-0 flex-col', {
         'w-full': !!attributes.submenuFullWidth,
       })}
     >

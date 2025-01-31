@@ -9,7 +9,6 @@ import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import type { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/block';
 import { v4 } from 'uuid';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
-import { useIntersectionObserver } from 'usehooks-ts';
 import { cn } from '@src/lib/helpers/helper';
 
 type Props = {
