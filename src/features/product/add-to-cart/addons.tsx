@@ -141,16 +141,10 @@ export const AddToCartAddons = () => {
     setStandAlone(standAlone);
   }, [product]);
 
-  // useEffect(() => {
-  //   console.log({ panels });
-  // }, [panels]);
-
   useEffect(() => {
     if (!product) return;
 
     if (!product.addons) return;
-
-    // console.log({ checkboxes, fieldsValue });
 
     // loop chexkboxes and then find in the fieldsValue if it has value
 
@@ -223,7 +217,6 @@ export const AddToCartAddons = () => {
             key={`addon-field-${key}`}
             product={product}
             field={addon}
-            onChange={onChange}
           />
         );
 
@@ -252,7 +245,6 @@ export const AddToCartAddons = () => {
             key={`addon-field-${key}`}
             field={addon}
             product={product}
-            onChange={onChange}
           />
         );
 

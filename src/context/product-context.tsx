@@ -247,10 +247,6 @@ export const ProductContextProvider: React.FC<{
     }
   }, [outOfStockStatus]);
 
-  useEffect(() => {
-    console.log({ fieldsValue });
-  }, [fieldsValue]);
-
   const onAttributeSelect = (attribute: string, value: string) => {
     const newAttributes = {
       ...selectedAttributes,

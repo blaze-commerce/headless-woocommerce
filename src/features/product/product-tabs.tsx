@@ -85,8 +85,6 @@ export const ProductTabs = ({ style, className }: TProductTabs) => {
     }
   }
 
-  console.log({ tabData });
-
   switch (style) {
     case ACCORDION_TYPE:
       return (

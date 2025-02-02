@@ -96,18 +96,6 @@
   @apply h-36;
 }
 
-.single-product .add-to-cart-form .product-addon-container .file-upload-group ~ .file-upload-group {
-  @apply hidden;
-}
-
-.single-product
-  .add-to-cart-form
-  .product-addon-container
-  .file-upload-group.has-file
-  + .file-upload-group {
-  @apply !flex;
-}
-
 .single-product .add-to-cart-form .file-upload-group .file-upload-holder {
   @apply flex border-muted rounded-sm border;
 }
@@ -129,5 +117,17 @@
 }
 
 .single-product .add-to-cart-form .addon-panel.custom-active .custom-field {
+  @apply !flex;
+}
+
+.single-product .add-to-cart-form .product-addon-container .file-upload-group ~ .file-upload-group {
+  @apply !hidden;
+}
+
+.single-product
+  .add-to-cart-form
+  .product-addon-container
+  .file-upload-group.has-file
+  + .file-upload-group {
   @apply !flex;
 }

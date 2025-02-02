@@ -15,12 +15,11 @@ type TProps = {
 export const AddOnsFileUpload = ({ field, product }: TProps) => {
   const { fields } = useProductContext();
   const { classNames = [] } = field;
+  const [, setFieldsValue] = fields.value;
   const [fileName, setFileName] = useState<string>('');
   const [hasFilled, setHasFilled] = useState<boolean>(false);
   const [binaryFile, setBinaryFile] = useState<string | ArrayBuffer | null | undefined>(null);
   const hiddenFileInput = useRef<HTMLInputElement>(null);
-
-  const [, setFieldsValue] = fields.value;
 
   useEffect(() => {
     const key = hiddenFileInput.current?.name;
@@ -37,6 +36,7 @@ export const AddOnsFileUpload = ({ field, product }: TProps) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const theFile = event.target.files && event.target.files[0];
+
     if (event.target.files && theFile) {
       setFileName(event.target.files[0].name);
       setHasFilled(true);
@@ -47,6 +47,8 @@ export const AddOnsFileUpload = ({ field, product }: TProps) => {
         const binaryStr = e.target?.result;
         setBinaryFile(binaryStr);
       };
+
+      reader.readAsArrayBuffer(theFile);
     }
   };
 
