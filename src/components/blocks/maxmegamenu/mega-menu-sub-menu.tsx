@@ -34,7 +34,7 @@ export const MegaMenuSubMenu: React.FC<Props> = ({ items, attributes, originalIt
         return (
           <div
             key={`item-row-${rowIndex}`}
-            className="mega-menu-row w-full"
+            className={cn('mega-menu-row w-full', itemRow.meta.class)}
             role="mega-menu-row"
           >
             {itemRow.columns.map((column, columnIndex) => {
