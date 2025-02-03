@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAddToCartContext } from '@src/context/add-to-cart-context';
 import { useProductContext } from '@src/context/product-context';
 import { cn } from '@src/lib/helpers/helper';
@@ -33,7 +33,7 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
             quantity: selected.length,
             isCalculated: selected.length > 0,
             options: options
-              .filter((option) => selected.includes(option.label))
+              .filter((option) => selected.includes(sanitizeTitle(option.label)))
               .map((option) => ({
                 ...option,
                 priceType: option.price_type,
@@ -67,25 +67,26 @@ export const AddOnsCheckbox = ({ field, product }: TProps) => {
       <div className="addon-field-options">
         {options?.map((option) => {
           const prefix = sanitizeTitle(`addon-${name}`);
+          const optionValue = sanitizeTitle(option.label);
           return (
             <label
               htmlFor={`${prefix}-${addonId}`}
               key={`${prefix}-${addonId}`}
               className={cn('addon-option', {
-                selected: selected.includes(option.label),
+                selected: selected.includes(optionValue),
               })}
             >
               <input
                 type="checkbox"
                 id={`${prefix}-${addonId}`}
                 name={`${fieldName}[]`}
-                value={option.label}
+                value={optionValue}
                 className={`${prefix} field-${field.id}`}
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setSelected((prev) => [...prev, option.label]);
+                    setSelected((prev) => [...prev, optionValue]);
                   } else {
-                    setSelected((prev) => prev.filter((item) => item !== option.label));
+                    setSelected((prev) => prev.filter((item) => item !== optionValue));
                   }
                 }}
               />

@@ -120,7 +120,7 @@ export const getProductStaticProps = async (slug: string) => {
         link: information_2.link ? information_2.link : '',
       },
       {
-        title: information_3.title ? information_3.title : 'Warrenty',
+        title: information_3.title ? information_3.title : 'Warranty',
         icon: information_3.icon ? information_3.icon : '',
         content: information_3.content ? information_3.content : '',
         link: information_3.link ? information_3.link : '',

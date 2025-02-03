@@ -312,6 +312,7 @@ export const ProductContextProvider: React.FC<{
       quantity,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const extraData: any = {};
 
     if ((product.hasVariations || product.isGiftCard) && matchedVariant && matchedVariant.id) {

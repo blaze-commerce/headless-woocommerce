@@ -8,10 +8,12 @@ export const AddOnsPriceBreakdown = () => {
   const {
     product,
     state: { matchedVariant },
+    fields,
   } = useProductContext();
   const { addons } = useAddToCartContext();
   const [items] = addons;
   const [optionalFee, setOptionalFee] = useState<number>(0);
+  const [fieldsValue] = fields.value;
   let productPrice = 0.0;
 
   const calculateOptionalCost = useCallback(() => {
@@ -36,7 +38,7 @@ export const AddOnsPriceBreakdown = () => {
 
   useEffect(() => {
     setOptionalFee(calculateOptionalCost());
-  }, [calculateOptionalCost, setOptionalFee]);
+  }, [calculateOptionalCost, setOptionalFee, fieldsValue]);
 
   if (product?.stockStatus === 'outofstock') return null;
 

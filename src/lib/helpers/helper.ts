@@ -367,9 +367,9 @@ export const sanitizeTitle = (text: string): string => {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+    .replace(/[^a-z0-9\s-]/g, '') // Remove non-alphanumeric characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
 };
 
 export function formatPriceWithCurrency(price: number | string, currency: string) {

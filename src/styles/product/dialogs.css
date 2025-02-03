@@ -1,9 +1,9 @@
 .single-product .product-dialogs {
-  @apply flex md:items-center justify-between border-b pb-6 mb-6;
+  @apply flex md:items-center justify-between md:border-b pb-6 mb-6;
 }
 
 .single-product .product-dialogs.horizontal {
-  @apply flex-row;
+  @apply flex-col gap-y-6 md:flex-row md:gap-y-0;
 }
 
 .single-product .product-dialogs.vertical {
@@ -11,11 +11,15 @@
 }
 
 .single-product .product-dialogs a {
-  @apply cursor-pointer font-normal text-foreground flex gap-2 align-middle w-1/4 justify-center items-center leading-6 text-sm border-r border-border;
+  @apply md:border-r md:border-b-0 border-border border-b
+  pl-6 pb-6 md:pb-0 md:pl-0
+  w-full md:w-1/4
+  justify-start md:justify-center
+  cursor-pointer font-normal text-foreground flex gap-2 align-middle items-center leading-6 text-sm;
 }
 
 .single-product .product-dialogs a:last-child {
-  @apply border-0;
+  @apply md:border-0;
 }
 
 .single-product .product-dialogs svg {

@@ -47,6 +47,7 @@ export const AddToCartAddons = () => {
   const [panels, setPanels] = useState<any[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [standAlone, setStandAlone] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [checkboxes, setCheckboxes] = useState<any[]>([]);
 
   const [, setAddonItems] = addons;
@@ -127,7 +128,6 @@ export const AddToCartAddons = () => {
 
         if (!afterHeader && !addon.classNames.includes('custom-field')) {
           addon.classNames.push('custom-field');
-          console.log({ name: addon.name, classNames: addon.classNames });
         }
 
         panels[iteration].push(addon);
@@ -141,16 +141,10 @@ export const AddToCartAddons = () => {
     setStandAlone(standAlone);
   }, [product]);
 
-  // useEffect(() => {
-  //   console.log({ panels });
-  // }, [panels]);
-
   useEffect(() => {
     if (!product) return;
 
     if (!product.addons) return;
-
-    // console.log({ checkboxes, fieldsValue });
 
     // loop chexkboxes and then find in the fieldsValue if it has value
 
@@ -223,7 +217,6 @@ export const AddToCartAddons = () => {
             key={`addon-field-${key}`}
             product={product}
             field={addon}
-            onChange={onChange}
           />
         );
 
@@ -252,7 +245,6 @@ export const AddToCartAddons = () => {
             key={`addon-field-${key}`}
             field={addon}
             product={product}
-            onChange={onChange}
           />
         );
 
