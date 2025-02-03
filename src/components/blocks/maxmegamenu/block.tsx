@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { createPortal } from 'react-dom';
 import { isMobile } from 'react-device-detect';
 import { filter } from 'lodash';
@@ -15,12 +14,13 @@ import {
 } from '@src/components/blocks/maxmegamenu/styled-components';
 import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import { MobileMenuListItem } from '@src/components/blocks/maxmegamenu/mobile-menu-list-item';
-import { Overlay } from '@src/components/overlay';
 
 import { getMenuById } from '@src/lib/helpers/menu';
 import { useSiteContext } from '@src/context/site-context';
 import { cn } from '@src/lib/helpers/helper';
 import { NormalSubMenu } from '@src/components/blocks/maxmegamenu/normal-sub-menu';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
+import { isBlockNameA } from '@src/lib/block';
 
 export const MAXMEGAMENU_BLOCK_NAME = 'maxmegamenu/location';
 
@@ -59,16 +59,15 @@ export type MaxMegaMenuAttributes = Partial<{
   submenuContainerPadding: BoxControlProps;
   submenuLinkMargin: BoxControlProps;
   submenuLinkPadding: BoxControlProps;
+  submenuClasses: string;
 }>;
 
 export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
   const { asPath } = useRouter();
-  const { setShowMenu, showMenu } = useSiteContext();
   const [linkHovered, setLinkHovered] = useState(false);
 
   useEffect(() => {
     setLinkHovered(false);
-    setShowMenu(false);
   }, [asPath]);
 
   if (MAXMEGAMENU_BLOCK_NAME !== block.blockName) {
@@ -86,96 +85,87 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
 
   const mainMenuItems = filter(mainMenu.items, (item) => !!item.title);
 
+  if (isBlockNameA(block, 'MobileMaxMegaMenu')) {
+    return (
+      <Menu className="relative overlaywats">
+        {Object.values(mainMenuItems).map((menuItem, index) => (
+          <MobileMenuListItem
+            key={`${menuItem.url}-${index}`}
+            menuItem={menuItem}
+            attributes={attributes}
+            originalItems={mainMenu.items}
+          />
+        ))}
+      </Menu>
+    );
+  }
+
   return (
     <>
-      {!isMobile && (
-        <MenuWrapper
-          className={cn(`nav flex w-full ${attributes.className}`, {
-            hovered: linkHovered,
-            'justify-center': attributes.menuCentered,
+      <MenuWrapper
+        className={cn(`nav hidden lg:flex w-full h-full ${attributes.className}`, {
+          hovered: linkHovered,
+          'justify-center': attributes.menuCentered,
+        })}
+        $attrs={attributes}
+      >
+        <Menu
+          $isCentered={attributes.menuCentered}
+          $isFullWidth={attributes.menuFullWidth}
+          $menuMaxWidth={attributes.menuMaxWidth}
+          className={cn('flex items-center', {
+            'w-full': attributes.submenuFullWidth,
+            relative: !attributes.menuFullWidth,
           })}
-          $attrs={attributes}
         >
-          <Menu
-            $isCentered={attributes.menuCentered}
-            $isFullWidth={attributes.menuFullWidth}
-            $menuMaxWidth={attributes.menuMaxWidth}
-            className={cn('flex items-center relative', {
-              'w-full': attributes.submenuFullWidth,
-            })}
-          >
-            {Object.values(mainMenuItems).map((item) => {
-              const childMenus = item.children || [];
-              const hasChildMenus = childMenus.length > 0 || false;
-              const isMegaMenu = !!childMenus.find((menu) => menu.type === 'megamenu');
+          {Object.values(mainMenuItems).map((item, index) => {
+            const childMenus = item.children || [];
+            const hasChildMenus = childMenus.length > 0 || false;
+            const isMegaMenu = !!childMenus.find((menu) => menu.type === 'megamenu');
 
-              return (
-                <MenuListItem
-                  key={item?.url}
-                  $attrs={attributes}
-                  className="nav-item flex items-center"
-                  onMouseEnter={() => setLinkHovered(true)}
-                  onMouseLeave={() => setLinkHovered(false)}
+            return (
+              <MenuListItem
+                key={`${item?.url}-${index}`}
+                $attrs={attributes}
+                className="nav-item flex items-center h-full"
+                onMouseEnter={() => setLinkHovered(true)}
+                onMouseLeave={() => setLinkHovered(false)}
+              >
+                <MenuLink
+                  $padding={attributes.menuLinkPadding}
+                  $color={attributes.menuLinkColor}
+                  $backgroundColor={attributes.menuLinkBackgroundColor}
+                  $fontWeight={attributes.fontWeight}
+                  $letterCase={attributes.letterCase}
+                  $hoverColor={attributes.menuLinkHoverColor}
+                  $hoverBackgroundColor={attributes.menuLinkHoverBackgroundColor}
+                  $fontSize={attributes.fontSize ? attributes.fontSize : 14}
+                  className="flex cursor-pointer items-center gap-2.5 rounded"
+                  href={item.url}
                 >
-                  <MenuLink
-                    $padding={attributes.menuLinkPadding}
-                    $color={attributes.menuLinkColor}
-                    $backgroundColor={attributes.menuLinkBackgroundColor}
-                    $fontWeight={attributes.fontWeight}
-                    $letterCase={attributes.letterCase}
-                    $hoverColor={attributes.menuLinkHoverColor}
-                    $hoverBackgroundColor={attributes.menuLinkHoverBackgroundColor}
-                    className="flex cursor-pointer items-center gap-2.5"
-                    href={item.url}
-                  >
-                    {HTMLReactParser(item.title || '')}
+                  <ReactHTMLParser html={item.title || ''} />
 
-                    {hasChildMenus && <ChevronDown />}
-                  </MenuLink>
+                  {hasChildMenus && <ChevronDown />}
+                </MenuLink>
 
-                  {hasChildMenus && isMegaMenu && (
-                    <MegaMenuSubMenu
-                      items={childMenus}
-                      originalItems={mainMenu.items}
-                      attributes={attributes}
-                    />
-                  )}
-                  {hasChildMenus && !isMegaMenu && (
-                    <NormalSubMenu
-                      items={childMenus}
-                      attributes={attributes}
-                    />
-                  )}
-                </MenuListItem>
-              );
-            })}
-          </Menu>
-        </MenuWrapper>
-      )}
-
-      {typeof window !== 'undefined' &&
-        createPortal(
-          <Overlay
-            isShowing={showMenu}
-            setIsShowing={setShowMenu}
-            style={{
-              backgroundColor: attributes.mainNavigationBackgroundColor || '#fff',
-            }}
-            baseTextColor={attributes.mobileMenuLinkColor}
-          >
-            <Menu className="relative overlaywats">
-              {Object.values(mainMenuItems).map((menuItem) => (
-                <MobileMenuListItem
-                  key={menuItem.url}
-                  menuItem={menuItem}
-                  attributes={attributes}
-                  originalItems={mainMenu.items}
-                />
-              ))}
-            </Menu>
-          </Overlay>,
-          document.body
-        )}
+                {hasChildMenus && isMegaMenu && (
+                  <MegaMenuSubMenu
+                    items={childMenus}
+                    originalItems={mainMenu.items}
+                    attributes={attributes}
+                  />
+                )}
+                {hasChildMenus && !isMegaMenu && (
+                  <NormalSubMenu
+                    items={childMenus}
+                    attributes={attributes}
+                  />
+                )}
+              </MenuListItem>
+            );
+          })}
+        </Menu>
+      </MenuWrapper>
     </>
   );
 };

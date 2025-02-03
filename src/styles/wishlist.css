@@ -1,0 +1,15 @@
+.wishlist.wishlist-dialog {
+  @apply relative z-20;
+}
+
+.wishlist.wishlist-dialog .overlay {
+  @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
+}
+
+.wishlist.wishlist-dialog .product-card figure {
+  @apply lg:w-full lg:!h-48;
+}
+
+.wishlist.wishlist-dialog .product-card .add-to-cart-container .add-to-cart-button {
+  @apply text-xs p-1;
+}

@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
-import HTMLReactParser from 'html-react-parser';
 import { Disclosure } from '@headlessui/react';
 import { useProductContext } from '@src/context/product-context';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 import { ProductVariationBundle } from '@src/models/product/types';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type TProductVariableBundle = {
   bundleId: number;
@@ -72,7 +72,9 @@ export const ProductVariableBundle = ({
               <div className="space-y-4">
                 {title && <h3 className="text-contrast-3 text-base md:text-2xl">{title}</h3>}
                 {description && (
-                  <div className="!mt-0 text-sm md:text-base">{HTMLReactParser(description)}</div>
+                  <div className="!mt-0 text-sm md:text-base">
+                    <ReactHTMLParser html={description} />
+                  </div>
                 )}
                 <div>
                   <span className="text-contrast-2 text-sm md:text-base font-semibold">
@@ -121,7 +123,7 @@ export const ProductVariableBundle = ({
                     </span>
                   </div>
                   <div className="text-sm md:text-base">
-                    {HTMLReactParser(selectedDescription.description)}
+                    <ReactHTMLParser html={selectedDescription.description} />
                   </div>
                 </>
               )}

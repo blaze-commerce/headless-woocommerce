@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { AvailabilityFilter } from '@components/blocks/availability-filter';
 import { BrandsFilter } from '@components/blocks/brands-filter';
 import { CategoryFilter } from '@components/blocks/category-filter';
@@ -10,15 +11,15 @@ import { useSiteContext } from '@src/context/site-context';
 import { ContentBlock, ContentBlockMetaData } from '@src/types';
 import TSProduct from '@src/lib/typesense/product';
 import { AttributeFilter } from '@src/components/category/filter/attribute-filter';
+import { SubCategoryGroupedFilter } from '@src/components/blocks/sub-category-grouped-filter';
 import { isObject } from 'lodash';
 
 type Props = {
   blocks?: ContentBlock[];
   baseCountry: string;
-  className?: string;
 };
 
-export const FilterOptionBlocks = ({ blocks, baseCountry, className }: Props) => {
+export const FilterOptionBlocks = ({ blocks, baseCountry }: Props) => {
   const { currentCountry } = useSiteContext();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const generateData = (metaData: ContentBlockMetaData[]): any => {
@@ -31,7 +32,10 @@ export const FilterOptionBlocks = ({ blocks, baseCountry, className }: Props) =>
 
   const generateContent = (content: ContentBlock) => {
     let metaData;
-    switch (content.blockId) {
+
+    const blockId = content.blockId;
+
+    switch (blockId) {
       case 'text':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
         return <Text {...metaData} />;
@@ -45,16 +49,25 @@ export const FilterOptionBlocks = ({ blocks, baseCountry, className }: Props) =>
         metaData = content.metaData.map((meta: ContentBlockMetaData) => {
           return isObject(meta) ? Object.values(meta)[0] : meta;
         });
+
         return <CategoryFilter filters={metaData} />;
       case 'subCategoryFilters':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
         return <SubCategoryFilter {...metaData} />;
+      case 'subCategoryFiltersGrouped':
+        return <SubCategoryGroupedFilter content={content} />;
       case 'brandsFilters':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
         return <BrandsFilter {...metaData} />;
       case 'availabilityFilters':
         metaData = TSProduct.generateMetaDataObject(content.metaData, currentCountry, baseCountry);
-        return <AvailabilityFilter {...metaData} />;
+        return (
+          <AvailabilityFilter
+            {...metaData}
+            enableDisclosure={true}
+            defaultShow={true}
+          />
+        );
       case 'refinedSelection':
         metaData = generateData(content.metaData as ContentBlockMetaData[]);
         return <RefinedSelection filters={metaData} />;
@@ -68,10 +81,12 @@ export const FilterOptionBlocks = ({ blocks, baseCountry, className }: Props) =>
   if (!blocks) return null;
 
   return (
-    <div className={className}>
+    <>
       {blocks.map((block, index) => (
-        <div key={`${block.blockId}-${block.position}-${index}`}>{generateContent(block)}</div>
+        <Fragment key={`${block.blockId}-${block.position}-${index}`}>
+          {generateContent(block)}
+        </Fragment>
       ))}
-    </div>
+    </>
   );
 };

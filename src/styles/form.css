@@ -1,0 +1,42 @@
+.gf-form {
+  @apply flex flex-col gap-2.5;
+}
+
+.gfield {
+  @apply w-full flex flex-col justify-between;
+}
+
+.gfield label {
+  @apply text-base font-semibold;
+}
+
+.gfield input {
+  @apply rounded-sm;
+}
+
+.gf-form button[type='submit'] {
+  @apply bg-primary text-primary-foreground rounded-sm px-4 py-3;
+}
+
+.gf-form button[type='submit']:hover {
+  @apply bg-secondary text-secondary-foreground;
+}
+
+.gf-form button[type='submit']:disabled {
+  @apply bg-muted text-muted-foreground;
+}
+
+/*
+@TODO: Custom code, need to find a way to remove this here and transfer it to somewhere else
+*/
+.gfield label {
+  @apply hidden;
+}
+
+.gfield input {
+  @apply h-10 text-xs font-secondary;
+}
+
+.gf-form button[type='submit'] {
+  @apply uppercase font-secondary;
+}

@@ -1,9 +1,9 @@
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
-import classNames from 'classnames';
+import { cn } from '@src/lib/helpers/helper';
 import { find, includes, isEmpty, reduce, uniq } from 'lodash';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import { CategoryFilterOptions } from '@src/components/category/filter/category-filter-options';
@@ -11,17 +11,26 @@ import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { CategoryFilterProps } from '@src/lib/types/filters';
 import { IFilterOptionData } from '@src/lib/types/taxonomy';
 
-export const CategoryFilter = ({ filters }: CategoryFilterProps) => {
+export const CategoryFilter = (props: CategoryFilterProps) => {
+  const { filters, enableDisclosure = true, defaultShow = true } = props;
   const taxonomyCtx = useTaxonomyContext();
   const { query } = useRouter();
   const [disclosureOpen, setDisclosureOpen] = taxonomyCtx.categoryFilter;
   const [isMoreOptionsOpen, setIsMoreOptionsOpen] = useState(false);
   const [categoryQueryState] = taxonomyCtx.queryVarsCategoryData;
 
+  useEffect(() => {
+    if (!enableDisclosure) setDisclosureOpen(true);
+    if (enableDisclosure) setDisclosureOpen(defaultShow);
+  }, [enableDisclosure, setDisclosureOpen, defaultShow]);
+
+  if (!taxonomyCtx?.tsFetchedData?.taxonomyFilterOptions) return null;
+
   return (
-    <div className="flex flex-col">
+    <>
       {filters?.map((filterItem) => {
         const { classes, title, filterSlug } = filterItem;
+
         const slugData = filterSlug?.split(',');
 
         if (isEmpty(slugData)) return null;
@@ -61,26 +70,31 @@ export const CategoryFilter = ({ filters }: CategoryFilterProps) => {
 
         return (
           <>
-            <Disclosure defaultOpen={disclosureOpen}>
+            <Disclosure
+              defaultOpen={disclosureOpen}
+              as="div"
+              className={'filter-widget'}
+            >
               {({ open }) => (
-                <div className="">
+                <>
                   <Disclosure.Button
                     onClick={() => setDisclosureOpen((prev) => !prev)}
-                    className="flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 py-5"
+                    className={cn('filter-widget-header', {
+                      'cursor-pointer': enableDisclosure,
+                    })}
+                    disabled={!enableDisclosure}
+                    as="h3"
                   >
-                    <span
-                      className={classNames('uppercase text-black text-base font-normal', classes)}
-                    >
-                      {title}
-                    </span>
+                    <span className={cn('filter-widget-title', classes)}>{title}</span>
                     <ChevronUpIcon
-                      className={classNames('h-5 w-5 text-[#3F3F46]', {
-                        'rotate-180 transform': !open,
+                      className={cn('open-filter', {
+                        open: !open,
+                        hidden: !enableDisclosure,
                       })}
                     />
                   </Disclosure.Button>
-                  <Disclosure.Panel className="text-sm text-gray-500 pb-5">
-                    <fieldset className="border-t border-brand-second-gray py-5">
+                  <Disclosure.Panel className="filter-widget-content">
+                    <fieldset className="fieldset">
                       {restructureFilterOptions
                         ?.slice(0, 5)
                         .map((option) => renderFilterOptions(option))}
@@ -88,23 +102,23 @@ export const CategoryFilter = ({ filters }: CategoryFilterProps) => {
                         restructureFilterOptions
                           ?.slice(5)
                           .map((option) => renderFilterOptions(option))}
-                      {restructureFilterOptions.length > 5 && !isMoreOptionsOpen && (
-                        <button
-                          type="button"
-                          className="mt-2.5 text-xs font-normal text-[#0A0A0A]"
-                          onClick={() => setIsMoreOptionsOpen(true)}
-                        >
-                          + {restructureFilterOptions.length - 5} more
-                        </button>
-                      )}
                     </fieldset>
+                    {restructureFilterOptions.length > 5 && !isMoreOptionsOpen && (
+                      <button
+                        type="button"
+                        className="more-options"
+                        onClick={() => setIsMoreOptionsOpen(true)}
+                      >
+                        show more + {restructureFilterOptions.length - 5}
+                      </button>
+                    )}
                   </Disclosure.Panel>
-                </div>
+                </>
               )}
             </Disclosure>
           </>
         );
       })}
-    </div>
+    </>
   );
 };

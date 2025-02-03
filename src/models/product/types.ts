@@ -1,7 +1,8 @@
 import { Product } from '@src/models/product';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
+import { from } from '@apollo/client';
 
-export type ObjectData = { [key: string]: string | number | boolean };
+export type ObjectData = Record<string, unknown>;
 
 export type ProductStocStatuses = 'instock' | 'outofstock';
 
@@ -13,6 +14,7 @@ export type ProductTaxonomy = {
   url: string;
   type: string;
   breadcrumbs?: ITSBreadcrumbs[];
+  componentType?: string;
   parentTerm?: string;
   slug?: string;
   nameAndType?: string;
@@ -55,6 +57,12 @@ export type Attribute = {
   name: string;
   label: string;
   options: AttributeOptions[];
+  slug: string;
+  type?: string;
+};
+
+export type ImageAttributes = {
+  [key: string]: Image;
 };
 
 export type Attributes = Attribute[];
@@ -146,10 +154,11 @@ export type ProductBundleConfiguration = {
 export type ProductAddonsPriceType = 'flat_fee' | 'quantity_based' | 'percentage_based';
 
 export type ProductAddons = {
+  id: string;
   name: string;
-  titleFormat: 'label' | 'heading' | 'hide';
+  title_format: 'label' | 'heading' | 'hide';
   description: string;
-  descriptionEnable: boolean;
+  description_enable: boolean;
   type:
     | 'multiple_choice'
     | 'checkbox'
@@ -164,17 +173,43 @@ export type ProductAddons = {
   position: number;
   required: boolean;
   restrictions: number;
-  restrictionsType: 'any_text' | 'email' | 'only_letters' | 'only_numbers' | 'only_letters_numbers';
-  adjustPrice: boolean;
-  priceType: ProductAddonsPriceType;
-  price: number;
+  restrictions_type:
+    | 'any_text'
+    | 'email'
+    | 'only_letters'
+    | 'only_numbers'
+    | 'only_letters_numbers';
+  adjust_price: boolean;
+  price_type: ProductAddonsPriceType;
+  price: string;
   min: number;
   max: number;
-  id: number;
+  placeholder?: string;
   options: {
     label: string;
     price: number;
     image: string;
-    priceType: ProductAddonsPriceType;
+    price_type: ProductAddonsPriceType;
   }[];
+  classNames?: string[];
+};
+
+export type ProductDiscountRuleRange = {
+  from: number;
+  to: number;
+  type: 'percentage' | 'fixed';
+  value: number;
+  label: string;
+};
+
+export type ProductDiscountRule = {
+  message: {
+    display: boolean;
+    badgeBackgroundColor: string;
+    badgeTextColor: string;
+  };
+  adjustment: {
+    operator: 'product_cumulative' | 'percentage' | 'fixed'; // need to fix this later
+    ranges: ProductDiscountRuleRange[];
+  };
 };

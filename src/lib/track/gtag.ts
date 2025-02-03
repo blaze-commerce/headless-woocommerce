@@ -2,8 +2,8 @@ import TagManager from 'react-gtm-module';
 
 import { AddToCartItemResponse } from '@src/lib/actions/add-to-cart/types';
 import { FormattedCart, ProductCartItem } from '@src/lib/hooks/cart';
-import { getBaseCurrency } from '@src/lib/track';
 import { Product } from '@src/models/product';
+import { getDefaultCurrency } from '@src/lib/helpers/country';
 
 type EventItemProps = {
   item_id: string;
@@ -41,7 +41,7 @@ type EventDataLayerProps =
   | LoginEvenDataLayerProps;
 
 const triggerTagManagerDataLayer = (dataLayer: EventDataLayerProps) => {
-  const currency = getBaseCurrency();
+  const currency = getDefaultCurrency();
   TagManager.dataLayer({
     dataLayer: {
       currency,
@@ -66,7 +66,7 @@ const addToCart = (cartItem: AddToCartItemResponse) => {
 };
 
 const addToWishList = (product: Product) => {
-  const currency = getBaseCurrency();
+  const currency = getDefaultCurrency();
   const value = product.currencyPrice(currency);
   triggerTagManagerDataLayer({
     event: 'add_to_wishlist',
@@ -124,7 +124,7 @@ const viewCart = (cart: FormattedCart) => {
 };
 
 const viewItem = (product: Product) => {
-  const currency = getBaseCurrency();
+  const currency = getDefaultCurrency();
   const value = product.currencyPrice(currency);
 
   triggerTagManagerDataLayer({
@@ -140,7 +140,7 @@ const viewItem = (product: Product) => {
 };
 
 const viewItemList = (product: Product) => {
-  const currency = getBaseCurrency();
+  const currency = getDefaultCurrency();
   const value = product.currencyPrice(currency);
   triggerTagManagerDataLayer({
     event: 'view_item_list',

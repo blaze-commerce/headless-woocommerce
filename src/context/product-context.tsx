@@ -1,6 +1,6 @@
 import { ApolloError, useMutation, useQuery } from '@apollo/client';
 import { Dictionary } from '@reduxjs/toolkit';
-import { cloneDeep, difference, isEmpty } from 'lodash';
+import { cloneDeep, difference, isEmpty, pickBy, startsWith } from 'lodash';
 import { useRouter } from 'next/router';
 import React, {
   Dispatch,
@@ -82,7 +82,7 @@ type ProductState = {
     error?: ApolloError;
   };
   selectedAttributes: Dictionary<string>;
-  matchedVariant?: Product;
+  matchedVariant?: Product | false;
   compositeComponents?: CompositeProductComponent[];
   selectedCompositeComponents: SelectedCompositeComponent;
   hasLoaded: boolean;
@@ -188,8 +188,9 @@ export const ProductContextProvider: React.FC<{
   };
   customer: ProductReviews;
 }> = ({ children, product, additionalData, linkedProducts, customer }) => {
+  const { currentCurrency } = useSiteContext();
   const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string }>({});
-  const [matchedVariant, setMatchedVariant] = useState<Product>();
+  const [matchedVariant, setMatchedVariant] = useState<Product | undefined | false>(undefined);
   const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
   const [selectedCompositeComponents, setSelectedCompositeComponents] =
     useState<SelectedCompositeComponent>({});
@@ -205,7 +206,7 @@ export const ProductContextProvider: React.FC<{
   const [selectedBundle, setSelectedBundle] = useState<ObjectData>({});
   const [requiredFields, setRequiredFields] = useState<string[]>([]);
   const [fieldsValue, setFieldsValue] = useState<ObjectData>({});
-  const [disableAddToCart, setDisableAddToCart] = useState(false);
+  const [disableAddToCart, setDisableAddToCart] = useState(!product.purchasable);
   const [outOfStockStatus, setOutOfStockStatus] = useState(false);
   const [giftProductId, setGiftProductId] = useState<number>(0);
 
@@ -226,38 +227,20 @@ export const ProductContextProvider: React.FC<{
     const variation = product.variations?.find((variation) =>
       Object.keys(attributes).every((key) => {
         const variationAttr = JSON.parse(JSON.stringify(variation.attributes));
+
         return (
           variation.attributes &&
           typeof variationAttr === 'object' &&
           key in variationAttr &&
-          variationAttr[key] === attributes[key]
+          (variationAttr[key] === attributes[key] || variationAttr[key] === '')
         );
       })
     );
     return variation;
   };
 
-  useEffect(() => {
-    if (requiredFields.length === 0) {
-      setDisableAddToCart(false);
-    } else {
-      // find key with empty value in fieldsValue
-      const missingFields = requiredFields.filter((field) => !fieldsValue[field]);
-
-      // check if missingFields is in requiredFields
-
-      if (missingFields.length > 0) {
-        setDisableAddToCart(true);
-
-        // make sure to disable add to cart if product is out of stock
-      } else if (!outOfStockStatus) {
-        setDisableAddToCart(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldsValue]);
-
-  // disable add to cart if product is out of stock ( inculudes bundle or addons )
+  // disable add to cart if product is out of stock ( includes bundle or addons )
+  // @TODO need to refactor this because this should be in the product class checking if the product is purchasable or not
   useEffect(() => {
     if (outOfStockStatus) {
       setDisableAddToCart(true);
@@ -273,6 +256,7 @@ export const ProductContextProvider: React.FC<{
     if (value === '') {
       delete newAttributes[attribute];
     }
+
     setSelectedAttributes(newAttributes);
 
     const missingFields = difference(product.requiredAttributes, Object.keys(newAttributes));
@@ -280,10 +264,27 @@ export const ProductContextProvider: React.FC<{
       setMatchedVariant(undefined);
       return;
     }
-
     const matchedVariant = findVariationByAttribute(newAttributes);
 
+    if (typeof matchedVariant === 'undefined' || !matchedVariant.purchasable) {
+      // Disable add to cart since there is no matching variant found.
+      setMatchedVariant(false);
+      setDisableAddToCart(true);
+
+      return;
+    }
+
     setMatchedVariant(matchedVariant);
+
+    if (matchedVariant && matchedVariant.purchasable) {
+      let allowAddToCart = true;
+      if (matchedVariant.currencyPrice(currentCurrency) <= 0) {
+        allowAddToCart = false;
+      }
+      setDisableAddToCart(!allowAddToCart);
+    } else {
+      setDisableAddToCart(true);
+    }
   };
 
   const {
@@ -311,13 +312,28 @@ export const ProductContextProvider: React.FC<{
       quantity,
     };
 
-    if ((product.hasVariations || product.isGiftCard) && matchedVariant?.id) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const extraData: any = {};
+
+    if ((product.hasVariations || product.isGiftCard) && matchedVariant && matchedVariant.id) {
       inputVariables.variationId = parseInt(matchedVariant.id);
+
+      if (Object.keys(selectedAttributes).length > 0) {
+        inputVariables.variation = [];
+        Object.keys(selectedAttributes).forEach((key) => {
+          inputVariables.variation.push({
+            attributeName: key.replace('attribute_', ''),
+            attributeValue: selectedAttributes[key],
+          });
+        });
+      }
     }
 
     // bundle product
     if (product.hasBundle) {
-      inputVariables.extraData = `{"woolessGraphqlRequest":${JSON.stringify(selectedBundle)}}`;
+      extraData.woolessGraphqlRequest = pickBy(fieldsValue, (_obj, key) =>
+        startsWith(key, 'bundle')
+      );
     }
 
     // gift card product
@@ -325,15 +341,17 @@ export const ProductContextProvider: React.FC<{
       inputVariables.variationId = giftProductId;
 
       if (!isEmpty(giftCardInput)) {
-        const giftCardFormValues: GiftCardInput = {};
-
         for (const inputKey in giftCardInput) {
-          giftCardFormValues[GIFT_CARD_FORM_FIELD_KEYS[inputKey]] = giftCardInput[inputKey];
+          extraData[GIFT_CARD_FORM_FIELD_KEYS[inputKey]] = giftCardInput[inputKey];
         }
-
-        inputVariables.extraData = `${JSON.stringify(giftCardFormValues)}`;
       }
     }
+
+    if (product.hasAddons()) {
+      extraData.graphqlAddons = pickBy(fieldsValue, (_obj, key) => startsWith(key, 'addon'));
+    }
+
+    inputVariables.extraData = JSON.stringify(extraData);
 
     return inputVariables;
   };

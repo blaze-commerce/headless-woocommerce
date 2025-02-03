@@ -1,0 +1,141 @@
+@import 'product/gallery.css';
+@import 'product/popup.css';
+@import 'product/slider.css';
+@import 'product/card.css';
+@import 'product/accordion.css';
+@import 'product/ni-variation-table.css';
+@import 'product/tabs.css';
+@import 'product/addon.css';
+@import 'product/add-to-cart.css';
+@import 'product/gift.css';
+@import 'product/notify-me.css';
+@import 'product/dialogs.css';
+@import 'product/price.css';
+
+.single-product {
+  @apply font-secondary;
+}
+
+.single-product > .core-group > .core-columns {
+  @apply flex flex-col xl:flex-row;
+}
+
+/** Default style for single product page */
+
+.single-product .stock-status {
+  @apply text-sm;
+}
+
+.single-product.out-of-stock .hide-if-out-of-stock,
+.single-product.simple-product .hide-if-simple-product {
+  @apply !hidden;
+}
+
+.single-product .stock-status .instock {
+  @apply text-[#009E10];
+}
+
+.single-product .stock-status .outofstock {
+  @apply text-red-600;
+}
+
+.single-product .product-meta .core-group {
+  @apply flex;
+}
+
+.single-product .add-to-cart-form {
+  @apply flex flex-col gap-4;
+}
+
+.single-product .add-to-cart-form .product-variant-container {
+  @apply flex flex-col gap-4;
+}
+
+/** Variant Select */
+
+.single-product .add-to-cart-form .product-variant-container .product-variant-select {
+  @apply flex flex-col md:flex-row items-start md:items-center gap-4;
+}
+
+.single-product .add-to-cart-form .product-variant-container .product-variant-select label {
+  @apply md:w-1/3 text-sm leading-6 font-bold;
+}
+
+.single-product .add-to-cart-form .product-variant-container .product-variant-select select {
+  @apply w-full;
+}
+
+.single-product .add-to-cart-form .variable-product-price-matched {
+  @apply border-t border-solid border-[#ddd] pt-4;
+}
+
+.single-product .product-unavailable-message {
+  @apply flex items-center gap-4 justify-center bg-[#f9f8f8] border-accent-3 border-t-2 py-2 px-4 text-xs leading-6 font-primary;
+}
+
+/** Add to Cart - Wishlist Button */
+
+.single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button {
+  @apply cursor-pointer flex justify-center items-center gap-4 rounded-md px-4 border-border border hover:border-2 hover:border-black disabled:text-muted-foreground disabled:bg-muted disabled:hover:border disabled:hover:border-border;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button.with-text {
+  @apply w-12 md:w-auto lg:w-72;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .wishlist-button span {
+  @apply hidden lg:block;
+}
+
+/** Product Meta */
+
+.single-product .product-meta {
+  @apply w-full;
+}
+
+.single-product .product-meta .product-sku .product-sku__label {
+  @apply font-bold;
+}
+
+.single-product .product-meta .post-term .post-term__label {
+  @apply font-bold;
+}
+
+.single-product .product-popup-info {
+  @apply p-3 h-auto;
+}
+
+.single-product .product-popup-info .button-open {
+  @apply text-[#ed0000] text-xs;
+}
+
+.single-product .product-installment {
+  @apply flex flex-col font-normal text-xs text-[#6F6F6F] gap-2;
+}
+
+.single-product .product-installment .provider {
+  @apply flex items-center gap-2;
+}
+
+.single-product .product-installment .provider svg {
+  @apply w-auto;
+}
+
+.single-product .product-installment a {
+  @apply underline text-blue-500;
+}
+
+/* Product Quantity */
+.quantity {
+  @apply flex border border-[#C0C0C0] items-center;
+}
+
+.quantity-control {
+  @apply cursor-pointer w-6 text-xl text-black h-11;
+}
+
+.quantity-input {
+  @apply w-10 px-2 text-center border-y-0 outline-none border-inherit bg-transparent text-black text-base font-normal h-full;
+}
+
+/* End Product Quantity */

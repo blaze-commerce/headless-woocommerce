@@ -1,15 +1,18 @@
-import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
+import { cn } from '@src/lib/helpers/helper';
+import dynamic from 'next/dynamic';
 
-import { WishListIcon } from '@src/features/wish-list/wish-list-icon';
 import { EmailIcon } from '@src/components/svg/email';
 import { useSiteContext } from '@src/context/site-context';
 import { Product } from '@src/models/product';
-import { Settings } from '@src/models/settings';
 import { ProductSettings } from '@src/models/settings/product';
 import { ProductNotifierProps } from '@src/pages/api/instocknotifier/subscribe';
 import { useProductNotifier } from '@src/lib/hooks';
+
+const WishlistButton = dynamic(() =>
+  import('@src/features/wish-list/wish-list-button').then((mod) => mod.WishListButton)
+);
 
 type Props = {
   product: Product;
@@ -17,7 +20,10 @@ type Props = {
 
 export const NotifyMeWhenAvailable = (props: Props) => {
   const { settings } = useSiteContext();
-  const { store } = settings as Settings;
+  const { product } = props;
+  const { layout } = settings?.product as ProductSettings;
+  const isAddToWishlistEnabled = false;
+
   const [formData, setFormData] = useState<ProductNotifierProps>({
     subscriber_name: '',
     email: '',
@@ -39,6 +45,7 @@ export const NotifyMeWhenAvailable = (props: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const response = await subscribeProductNotification(formData);
   };
 
@@ -47,33 +54,12 @@ export const NotifyMeWhenAvailable = (props: Props) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const renderWishlistButton = () => {
-    const { layout } = settings?.product as ProductSettings;
-
-    return (
-      <WishListIcon
-        action="add"
-        showIcon={true}
-        product={props.product}
-        classNames={classNames(
-          'cursor-pointer group/wishlist flex justify-center items-center  w-1/12',
-          {
-            'rounded-sm': layout?.wishlist?.buttonType === '1',
-            'rounded-full border': layout?.wishlist?.buttonType === '2',
-            'shadow-[0_4px_8px_rgba(0,0,0,0.1)]': layout?.wishlist?.buttonType === '2',
-          }
-        )}
-        buttonBgColor={layout?.wishlist?.backgroundColor}
-        buttonHoverBackgroundColor={layout?.wishlist?.backgroundHoverColor}
-        buttonStrokeColor={layout?.wishlist?.iconColor}
-        isSingleProduct={true}
-      />
-    );
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col space-y-3 my-3">
+    <form
+      onSubmit={handleSubmit}
+      className="button-container notify-me-form"
+    >
+      <div className="button-wrapper">
         {!isEmpty(data?.message) && isEmpty(error?.message) && (
           <p className="text-green-500 font-medium">{data?.message}</p>
         )}
@@ -81,11 +67,27 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           <p className="text-red-600 font-medium">{error?.message}</p>
         )}
 
-        <div className="inline-flex justify-between space-x-2">
-          <div className="w-full  bg-brand-primary text-white h-11 rounded-sm flex justify-center items-center p-1 gap-1 uppercase ">
-            <EmailIcon fillColor={'rgb(255 255 255)'} /> Email me when available
+        <div className="header">
+          <div className="notify-me-title">
+            Email me when available <EmailIcon fillColor={'rgb(255 255 255)'} />
           </div>
-          {store?.wishlist?.enabled && renderWishlistButton()}
+          {isAddToWishlistEnabled && (
+            <WishlistButton
+              action="add"
+              showIcon={true}
+              product={product}
+              classNames={cn('wishlist-button', {
+                'rounded-sm': layout?.wishlist?.buttonType === '1',
+                'rounded-full border': layout?.wishlist?.buttonType === '2',
+                'shadow-[0_4px_8px_rgba(0,0,0,0.1)]': layout?.wishlist?.buttonType === '2',
+              })}
+              buttonBgColor={'#fff'}
+              buttonHoverBackgroundColor={settings?.wishlistColor.hoverBackground}
+              buttonStrokeColor={settings?.wishlistColor.iconStroke}
+              buttonFillColor={settings?.wishlistColor.iconFill}
+              isSingleProduct={true}
+            />
+          )}
         </div>
         <input
           type="text"
@@ -94,7 +96,7 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           disabled={loading}
           onChange={handleChange}
           placeholder="Your Name"
-          className="border-brand-primary hover:shadow-md rounded-sm focus:ring-brand-primary focus:border-brand-primary focus:outline-none"
+          className="input-field"
         />
         <input
           type="email"
@@ -103,12 +105,12 @@ export const NotifyMeWhenAvailable = (props: Props) => {
           disabled={loading}
           onChange={handleChange}
           placeholder="Email address"
-          className="border-brand-primary hover:shadow-md rounded-sm focus:ring-brand-primary focus:border-brand-primary focus:outline-none"
+          className="input-field"
         />
 
         <button
           type="submit"
-          className="border border-[#585858] rounded-sm h-10 uppercase"
+          className="submit-button"
           disabled={loading}
         >
           {loading ? 'Loading..' : 'Submit'}

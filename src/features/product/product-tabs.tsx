@@ -1,17 +1,26 @@
-import parse from 'html-react-parser';
-import { isMobile } from 'react-device-detect';
+import dynamic from 'next/dynamic';
+import { isArray } from 'lodash';
 
-import { Tabs } from '@src/components/tabs';
-import { Accordion } from '@src/components/accordion';
-import Review from '@src/features/product/reviews';
+import { cn } from '@src/lib/helpers/helper';
 import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { ACCORDION_TYPE } from '@src/lib/helpers/constants';
 import { ProductSettings } from '@src/models/settings/product';
 import { useReviewsCount } from '@src/lib/hooks';
-import { isArray } from 'lodash';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
-export const ProductTabs = () => {
+const Accordion = dynamic(() => import('@src/components/accordion').then((mod) => mod.Accordion));
+
+const Tabs = dynamic(() => import('@src/components/tabs').then((mod) => mod.Tabs));
+
+const Review = dynamic(() => import('@src/features/product/reviews'));
+
+type TProductTabs = {
+  style?: 'accordion' | 'tabs';
+  className?: string;
+};
+
+export const ProductTabs = ({ style, className }: TProductTabs) => {
   const { product, additionalData } = useProductContext();
   const { settings } = useSiteContext();
   const { layout } = settings?.product as ProductSettings;
@@ -44,7 +53,7 @@ export const ProductTabs = () => {
       <>
         {description.content}
         <p className="block h-10"></p>
-        {parse(settings?.product?.descriptionAfterContent as string)}
+        <ReactHTMLParser html={settings?.product?.descriptionAfterContent as string} />
       </>
     );
   }
@@ -60,8 +69,8 @@ export const ProductTabs = () => {
     tabData.push(
       ...product.additionalTabs.map((tab) => {
         return {
-          title: tab.title,
-          content: parse(tab.content as string),
+          title: tab.title + 'asdasd',
+          content: <ReactHTMLParser html={tab.content as string} />,
           isOpen: false,
         };
       })
@@ -76,22 +85,32 @@ export const ProductTabs = () => {
     }
   }
 
-  switch (settings?.product?.layout.productTabs) {
+  switch (style) {
     case ACCORDION_TYPE:
       return (
-        <Accordion
-          data={tabData}
-          tabTitleStyle={{
-            fontWeight: settings?.product?.font?.tabs?.weight,
-            fontSize: settings?.product?.font?.tabs?.size,
-          }}
-          titleClassname="text-base md:text-2xl"
-          contentClassname="text-sm md:text-lg"
-          tabsCase={settings?.product?.layout?.tabsCase}
-        />
+        <div className={cn(className, 'product-accordion-information')}>
+          <Accordion
+            data={tabData}
+            tabTitleStyle={{
+              fontWeight: settings?.product?.font?.tabs?.weight,
+              fontSize: settings?.product?.font?.tabs?.size,
+            }}
+            titleClassname="text-lg md:text-2xl"
+            contentClassname="text-base md:text-lg leading-6"
+            tabsCase={settings?.product?.layout?.tabsCase}
+          />
+        </div>
       );
 
     default:
-      return <Tabs data={tabData} />;
+      return (
+        <div className={cn(className, 'product-tab-accordion')}>
+          <Tabs data={tabData} />
+        </div>
+      );
   }
+};
+
+ProductTabs.defaultProps = {
+  style: 'accordion',
 };

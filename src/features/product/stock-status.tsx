@@ -1,4 +1,4 @@
-import { LuCheckCircle2 } from 'react-icons/lu';
+import { FaCheckCircle } from 'react-icons/fa';
 
 import { Product } from '@src/models/product';
 import { Settings } from '@src/models/settings';
@@ -28,9 +28,9 @@ export const StockStatus: React.FC<Props> = ({ product, settings }) => {
   switch (product?.stockStatus) {
     case 'instock':
       statusMarkup = (
-        <span className="text-[#009E10]">
+        <span className="instock">
           {settings?.product?.layout?.stockIcon?.enabled && (
-            <LuCheckCircle2
+            <FaCheckCircle
               className="inline-block mr-2"
               size="18"
             />
@@ -41,12 +41,12 @@ export const StockStatus: React.FC<Props> = ({ product, settings }) => {
       break;
     case 'outofstock':
       statusMarkup = (
-        <strong className="text-red-600">
+        <strong className="outofstock">
           {settings?.shop?.options?.outOfStockMessage ?? 'OUT OF STOCK'}
         </strong>
       );
       if (product.isNotifyBackorder) {
-        statusMarkup = <strong className="text-red-600">Available on backorder</strong>;
+        statusMarkup = <strong className="outofstock">Available on backorder</strong>;
       }
 
       if (product.isAllowedBackorder) {
@@ -58,5 +58,5 @@ export const StockStatus: React.FC<Props> = ({ product, settings }) => {
       break;
   }
 
-  return <div className="stock-status text-sm mb-2.5">{statusMarkup}</div>;
+  return <div className="stock-status">{statusMarkup}</div>;
 };

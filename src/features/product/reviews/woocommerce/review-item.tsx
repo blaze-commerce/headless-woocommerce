@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import HTMLReactParser from 'html-react-parser';
 
 import { ThumbsUpIcon, ThumbsDownIcon } from '@src/components/svg/vote';
 
 import { Rating } from '@src/features/product/rating';
+import React from 'react';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 type Props = {
   cardStyle: string;
   author?: string;
@@ -77,7 +78,7 @@ export const WooCommerceReviewItem = ({
                   alt="review-image"
                 />
               ))}
-            {HTMLReactParser(content as string)}
+            <ReactHTMLParser html={content as string} />
           </div>
         </div>
         {!hideFooter && (

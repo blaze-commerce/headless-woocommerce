@@ -1,5 +1,5 @@
 import { env } from '@src/lib/env';
-import { getBaseCurrency } from '@src/lib/track';
+import { getDefaultCurrency } from '@src/lib/helpers/country';
 import { Product } from '@src/models/product';
 const { NEXT_PUBLIC_LIVE_URL } = env();
 
@@ -31,7 +31,7 @@ const triggerEvent = (callback: Callback) => {
 
 const viewItem = (product: Product) => {
   triggerEvent(() => {
-    const currency = getBaseCurrency();
+    const currency = getDefaultCurrency();
     const productLink = `${NEXT_PUBLIC_LIVE_URL}/${product?.permalink}`;
     const item: Productitem = {
       ProductName: product.name as string,

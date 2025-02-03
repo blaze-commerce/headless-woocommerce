@@ -1,6 +1,5 @@
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
-
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Settings } from '@src/models/settings';
@@ -49,12 +48,11 @@ export const ResultCount = (props: Props) => {
   return (
     <>
       {(pathIndex[1] !== 'brand' || isFilterSet || isSortByChanged) && (
-        <p
-          className="text-base font-normal text-center leading-6"
-          style={resultCountStyle ? resultCountStyle : {}}
-        >
-          {loadedResult !== 0 && `1 - ${loadedResult} out of ${productCount}`}
-        </p>
+        <>
+          <div className="result-count">
+            Showing {loadedResult !== 0 && `1 - ${loadedResult} of ${productCount}`}
+          </div>
+        </>
       )}
     </>
   );

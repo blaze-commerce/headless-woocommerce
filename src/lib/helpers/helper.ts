@@ -1,12 +1,11 @@
 import axios from 'axios';
 import clsx, { ClassValue } from 'clsx';
-import { find, isEmpty, sortBy } from 'lodash';
+import { find } from 'lodash';
 import { parse } from 'node-html-parser';
 import { twMerge } from 'tailwind-merge';
 
 import { Image, ProductPrice } from '@src/models/product/types';
 import { imageExtensions } from '@src/lib/constants/image';
-import { ProductTypesenseResponse } from '@src/models/product';
 import regionSettings from '@public/region.json';
 import { numberFormat } from '@src/lib/helpers/product';
 
@@ -190,19 +189,20 @@ export const isDollar = (currency: string) => {
 };
 
 export const getCurrencySymbol = (currency: string) => {
-  const matchedCurrency = find(regionSettings, ['currency', currency]);
+  const matchedCurrency = regionSettings.find((item) => item.currency === currency);
   return matchedCurrency?.symbol || '$';
 };
 
 export const removeCurrencySymbol = (currency: string, price: string) => {
   const symbol = getCurrencySymbol(currency);
-  return numberFormat(parseFloat(price.replace(symbol, '')));
+  const regex = new RegExp(`\\${symbol}`, 'g');
+  return numberFormat(parseFloat(price.replace(regex, '').replace(/,/g, '')));
 };
 
 const priceOrder = ['symbol', 'price'];
 
 export const formatPrice = (price: ProductPrice = {}, currency: string) => {
-  const matchedCurrency = find(regionSettings, ['currency', currency]);
+  const matchedCurrency = regionSettings.find((item) => item.currency === currency);
   const percision =
     (typeof matchedCurrency?.precision === 'string'
       ? parseInt(matchedCurrency?.precision)
@@ -267,7 +267,7 @@ export const parseJsonValue = (value: string) => {
 
 export const splitStringToArray = (baseValue: string, otherValue: string) => {
   try {
-    if (isEmpty(otherValue)) return baseValue.split(',').map((item) => parseInt(item));
+    if (!otherValue) return baseValue.split(',').map((item) => parseInt(item));
     return otherValue.split(',').map((item) => parseInt(item));
   } catch (error) {
     return [];
@@ -367,7 +367,27 @@ export const sanitizeTitle = (text: string): string => {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+    .replace(/[^a-z0-9\s-]/g, '') // Remove non-alphanumeric characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
+};
+
+export function formatPriceWithCurrency(price: number | string, currency: string) {
+  // convert string or number price to currency format
+
+  if (typeof price === 'string') price = parseFloat(price);
+
+  const currencySymbol = getCurrencySymbol(currency);
+  return `${currencySymbol}${numberFormat(price)}`;
+}
+
+export const parseLink = (htmlString: string): string | null => {
+  // Regular expression to match src attribute in img tag
+  const regex = /<a.*?href=["'](.*?)["']/;
+
+  // Match the regex pattern against the input HTML string
+  const match = htmlString.match(regex);
+
+  // If match is found, return the src value
+  return match && match.length > 1 ? match[1] : null;
 };

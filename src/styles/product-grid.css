@@ -1,0 +1,11 @@
+.product-grid {
+  @apply grid grid-cols-2 gap-4 md:grid-cols-3;
+}
+
+.product-grid.column-4 {
+  @apply xl:grid-cols-4;
+}
+
+.produt-grid.column-5 {
+  @apply xl:grid-cols-5;
+}

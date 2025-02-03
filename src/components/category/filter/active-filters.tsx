@@ -1,10 +1,10 @@
-import parse from 'html-react-parser';
 import { isEmpty, remove } from 'lodash';
 import React from 'react';
 
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { cn } from '@src/lib/helpers/helper';
 import { IFilterOptionData } from '@src/lib/types/taxonomy';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type ActiveFilterProps = {
   backgroundColor?: string;
@@ -21,28 +21,21 @@ type Props = {
 const ActiveFilter: React.FC<Props> = ({
   label,
   onRemove,
-  backgroundColor,
   color,
   borderColor,
   isRoundedBorder,
 }) => {
   return (
     <span
-      className={cn(
-        'min-h-[30px] inline-flex items-center py-0.5 pl-2.5 pr-1 mr-1 text-xs leading-4',
-        isRoundedBorder && 'rounded-full',
-        borderColor && 'border'
-      )}
-      style={{ backgroundColor, color, borderColor }}
+      className={cn('filter-label', isRoundedBorder && 'rounded-full', borderColor && 'border')}
     >
-      {parse(label)}
+      <ReactHTMLParser html={label} />
       <button
         type="button"
-        className="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-white  hover:text-brand-primary focus:bg-brand-primary focus:text-white focus:outline-none"
+        className="remove-filter"
         onClick={onRemove}
       >
         <svg
-          className="h-2 w-2"
           stroke={`${color}`}
           fill="none"
           viewBox="0 0 8 8"
@@ -108,7 +101,7 @@ export const ActiveFilters = (props: ActiveFilterProps) => {
   };
 
   return (
-    <div className="flex items-center text-center">
+    <>
       {!isEmpty(attributeState) &&
         (attributeState as IFilterOptionData[])?.map((option) => {
           return (
@@ -224,6 +217,6 @@ export const ActiveFilters = (props: ActiveFilterProps) => {
             </>
           );
         })}
-    </div>
+    </>
   );
 };

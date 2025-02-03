@@ -26,6 +26,10 @@ export const SiteLogo = ({ block }: BlockComponentProps) => {
   const matchedHeight = heightRegex.exec(attributes.className || '');
   const height = parseInt(last(matchedHeight) || '') || 60;
 
+  if (!header?.logo?.desktop.src) {
+    return null;
+  }
+
   return (
     <PrefetchLink
       unstyled

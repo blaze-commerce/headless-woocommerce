@@ -16,41 +16,40 @@ const ImageVariant = dynamic(() =>
 );
 
 export const Variant = () => {
-  const { product, additionalData } = useProductContext();
+  const { product } = useProductContext();
 
   const availableAttributes = product?.getAvailableAttributes();
 
-  const renderVariant = (attribute: Attribute, key: Number) => {
-    switch (additionalData?.attributeDisplayType[attribute.name]) {
-      case 'boxed':
-        return (
-          <BoxedVariant
-            attribute={attribute}
-            key={`boxed-variant-${key}`}
-          />
-        );
-      case 'image':
-        return (
-          <ImageVariant
-            attribute={attribute}
-            key={`image-variant-${key}`}
-          />
-        );
-      default:
-        return (
-          <SelectVariant
-            attribute={attribute}
-            key={`select-variant-${key}`}
-          />
-        );
-    }
-  };
+  if (!availableAttributes || Object.keys(availableAttributes).length === 0) return null;
 
   return (
-    <div>
-      {availableAttributes?.map((attribute: Attribute, key: Number) =>
-        renderVariant(attribute, key)
-      )}
+    <div className="product-variant-container">
+      {availableAttributes?.map((attribute: Attribute, key: Number) => {
+        switch (attribute.type) {
+          case 'boxed':
+          case 'button':
+            return (
+              <BoxedVariant
+                attribute={attribute}
+                key={`boxed-variant-${key}`}
+              />
+            );
+          case 'image':
+            return (
+              <ImageVariant
+                attribute={attribute}
+                key={`image-variant-${key}`}
+              />
+            );
+          default:
+            return (
+              <SelectVariant
+                attribute={attribute}
+                key={`select-variant-${key}`}
+              />
+            );
+        }
+      })}
     </div>
   );
 };

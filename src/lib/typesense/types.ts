@@ -14,22 +14,37 @@ export interface ITSImage {
   title?: string;
 }
 
+export interface ITSAuthor {
+  id: string;
+  displayName: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface ITSBreadcrumb {
+  title: string;
+  url?: string; // The `url` property is optional as not all items may have it
+}
+
 export interface ITSPage {
-  id?: string;
-  name?: string;
-  permalink?: string;
+  id: string;
+  name: string;
+  permalink: string;
   thumbnail?: {
     altText: string;
     src: string;
     title: string;
   };
-  seoFullHead?: string;
-  slug?: string;
-  type?: string;
-  updatedAt?: number;
-  createdAt?: number;
-  content?: string;
-  rawContent?: string;
+  seoFullHead: string;
+  slug: string;
+  type: string;
+  updatedAt: number;
+  createdAt: number;
+  content: string;
+  rawContent: string;
+  author: ITSAuthor | null;
+  template: string;
+  breadcrumbs: ITSBreadcrumb[];
 }
 
 // To parse this data:
@@ -242,6 +257,7 @@ export interface ITSTaxonomy {
 export interface ITSTaxonomyProductQueryVars {
   taxonomySlug?: string;
   termSlug?: string;
+  termIds?: number[];
   page?: number;
   perPage?: number;
   sortBy?: string;
@@ -249,6 +265,7 @@ export interface ITSTaxonomyProductQueryVars {
   priceFilter?: string;
   appendProducts?: boolean;
   onSale?: string | null;
+  isFeatured?: string | null;
   searchQuery?: string | null;
   childAndParentTerm?: string[];
   newThreshold?: string;
@@ -263,8 +280,11 @@ export interface ITSPaginationInfo {
   totalFound: number;
   totalPages: number;
   nextPage: number;
+  previousPage: number;
   page: number;
   perPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }
 
 export interface ITSFilterOption {

@@ -1,22 +1,18 @@
 import cx from 'classnames';
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty, uniqueId } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import GliderComponent from 'react-glider';
-import { v4 } from 'uuid';
 
 import { Rating } from '@src/features/product/rating';
 import { ArrowRoundLeft } from '@components/svg/arrow-round-left';
 import { ArrowRoundRight } from '@components/svg/arrow-round-right';
-import { PrefetchLink } from '@src/components/common/prefetch-link';
-import { useHomeContext } from '@src/context/home-context';
 import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { Store } from '@src/models/settings/store';
-import { YotpoReviews } from '@src/lib/types/reviews';
 import { cn } from '@src/lib/helpers/helper';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type TestimonialItems = {
   author: string;
@@ -77,7 +73,9 @@ const ReviewItem = (review: TestimonialItems) => {
           </div>
           {content && (
             <div className="w-full">
-              <p className={contentClassNames}>{HTMLReactParser(content)}</p>
+              <p className={contentClassNames}>
+                <ReactHTMLParser html={content} />
+              </p>
             </div>
           )}
         </div>

@@ -1,0 +1,30 @@
+/** Product Accordion */
+.single-product .product-accordion-information .accordion-holder {
+  @apply w-full;
+}
+
+.single-product .product-accordion-information .accordion-holder:first-of-type {
+  @apply border-t;
+}
+
+.single-product .product-accordion-information .accordion-holder:last-of-type {
+  @apply border-b;
+}
+
+.single-product .product-accordion-information .accordion-title {
+  @apply relative w-full py-4 flex justify-between items-center text-left text-black font-medium cursor-pointer;
+}
+
+.single-product .product-accordion-information .accordion-title[data-headlessui-state=''] {
+  @apply border-b;
+}
+
+.single-product
+  .product-accordion-information
+  .accordion-holder:last-of-type
+  .accordion-title[data-headlessui-state=''] {
+  @apply border-none;
+}
+
+.single-product .product-accordion-information .accordion-title .accordion-button {
+}

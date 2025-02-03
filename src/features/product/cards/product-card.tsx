@@ -1,5 +1,4 @@
 import { decode } from 'html-entities';
-import HTMLReactParser from 'html-react-parser';
 import { find, isEmpty, max, min } from 'lodash';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -9,7 +8,8 @@ import { Image } from '@src/components/common/image';
 import { RawLink } from '@src/components/common/raw-link';
 import { ProductRating } from '@src/features/product/product-rating';
 import { seoUrlParser } from '@src/components/page-seo';
-import { WishListIcon, WishListActions } from '@src/features/wish-list/wish-list-icon';
+import { WishListIcon } from '@src/features/wish-list/wish-list-icon';
+import * as WishListAction from '@src/features/wish-list/wish-list-schema';
 import { AddToCartButton } from '@src/components/button/add-to-cart-button';
 import { ProductPrice as Price } from '@src/features/product/product-price';
 import { useSiteContext } from '@src/context/site-context';
@@ -25,6 +25,7 @@ import { cn, isImage, isLightColor } from '@src/lib/helpers/helper';
 import { useWishListStorage } from '@src/lib/hooks';
 import TSThumbnail from '@src/lib/typesense/image';
 import type { ProductCards } from '@src/models/settings/shop';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 interface Props extends ProductCards {
   product: Product;
@@ -196,7 +197,7 @@ export const ProductCard = (props: Props) => {
   };
 
   const renderProductLabel = () => {
-    return HTMLReactParser(decode(product?.metaData?.productLabel as string));
+    return <ReactHTMLParser html={decode(product?.metaData?.productLabel as string)} />;
   };
 
   const renderProductCardTitle = () => {
@@ -215,7 +216,7 @@ export const ProductCard = (props: Props) => {
             aria-hidden="true"
             className=" absolute inset-0 z-[8] cursor-pointer"
           />
-          {HTMLReactParser(product.name as string)}
+          <ReactHTMLParser html={product.name as string} />
         </RawLink>
       </div>
     );
@@ -255,7 +256,7 @@ export const ProductCard = (props: Props) => {
 
   const renderWishlistButton = () => {
     const { showWishlistButton, hasItemsLeftBadge, wishlistButtonType = 1 } = props;
-    const action: WishListActions = 'add';
+    const action: WishListAction.Actions = 'add';
     const shouldShowWishListIcon = settings?.store?.wishlist?.enabled;
 
     if (inWishList && settings?.store?.wishlist?.enabled) {

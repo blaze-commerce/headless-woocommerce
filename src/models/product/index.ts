@@ -1,28 +1,32 @@
-import parse from 'html-react-parser';
 import { find, isArray, isEmpty, map } from 'lodash';
 import sanitizeHtml from 'sanitize-html';
 
 import { Reviews, Stats } from '@models/product/reviews';
 import type {
+  Attribute,
   Attributes,
+  AttributeOptions,
   Image,
+  ImageAttributes,
   ProductMetaData,
   ProductPrice,
   ProductStocStatuses,
   ProductTabs,
   ProductTaxonomy,
   ProductBundleConfiguration,
-  Variation,
   ProductAddons,
+  ProductDiscountRule,
+  ProductDiscountRuleRange,
 } from '@models/product/types';
 import { AccordionItem } from '@src/components/accordion';
 import { MAX_QUERY_LIMIT, WoolessTypesense } from '@src/lib/typesense';
 import { GIFT_CARD_TYPE } from '@src/lib/constants/giftcards';
 import { formatTextWithNewline } from '@src/lib/helpers/helper';
 import { ProductElement, Settings, Store } from '@src/lib/typesense/types';
-import { getVariations, transformToProduct, transformToProducts } from '@src/lib/typesense/product';
+import { getProductTypesForDisplay, transformToProducts } from '@src/lib/typesense/product';
 import { PRODUCT_TYPES } from '@src/lib/constants/product';
-import { Store as TStoreSetting } from '@src/models/settings/store';
+import { htmlParser } from '@src/lib/block/react-html-parser';
+import { isImage } from '@src/lib/helpers/helper';
 
 export type ProductBackorderStatus = 'yes' | 'no' | 'notify';
 
@@ -169,7 +173,7 @@ export class Product {
     this.upsellProducts = props.upsellProducts || [];
     this.defaultAttributes = props.defaultAttributes;
     this.deliveryInformation = props.deliveryInformation;
-    this.description = sanitizeHtml(props.description || '');
+    this.description = props.description || '';
     this.favouriteLinks = props.favouriteLinks;
     this.favouriteNames = props.favouriteNames;
     this.galleryImages = [];
@@ -227,32 +231,32 @@ export class Product {
     this.bundle = props.bundle;
   }
 
+  get purchasableVariations() {
+    if (!this.variations) {
+      return [];
+    }
+
+    return this.variations?.filter((variation) => variation.purchasable);
+  }
+
   getAvailableAttributes() {
     const availableAttributes: Attributes = [];
     if (this.variations) {
-      const variationAttributes = this.variations.reduce((accumulator, variation) => {
-        if ('instock' === variation.stockStatus || 'yes' === variation.backorder) {
-          const attributes = JSON.parse(JSON.stringify(variation.attributes));
-          accumulator.push(attributes);
-        }
-
-        return accumulator;
-      }, [] as Variation['attributes'][]);
-
       if (!isArray(this.attributes)) {
         return [];
       }
 
-      return this.attributes?.map((attribute) => {
-        const attributeSlugs = variationAttributes.map((attr) => attr[attribute.name]);
-        const filteredOptions = attribute.options.filter((option) =>
-          attributeSlugs.includes(option.slug)
+      const currentAttributes: Attribute[] = this.attributes?.map((attribute) => {
+        const sortedOptions = (attribute.options as AttributeOptions[]).sort((a, b) =>
+          a.label.localeCompare(b.label)
         );
         return {
           ...attribute,
-          options: filteredOptions,
+          options: sortedOptions,
         };
       });
+
+      return currentAttributes;
     }
 
     return availableAttributes;
@@ -328,14 +332,18 @@ export class Product {
   }
 
   static async findOneRaw({ slug }: ProductQuery): Promise<ProductTypesenseResponse> {
-    const response = await WoolessTypesense.product.documents().search({
+    const productTypeArgs = getProductTypesForDisplay().join('`,`');
+    const searchArgs = {
       q: '*',
-      facet_by: 'slug,status',
-      query_by: 'slug,status',
-      filter_by: 'slug:=[`' + slug + '`] && status:=[`publish`]',
-    });
+      facet_by: 'slug,status,productType',
+      query_by: 'slug,status,productType',
+      filter_by: `slug:=[\`${slug}\`] && status:=[\`publish\`] && productType:=[\`${productTypeArgs}\`]`,
+    };
+
+    const response = await WoolessTypesense.product.documents().search(searchArgs);
 
     const products = await transformToProducts(response);
+
     return !isEmpty(products[0]) ? products[0] : {};
   }
 
@@ -351,12 +359,20 @@ export class Product {
     return this.taxonomies?.filter((tax) => tax.type === 'product_cat');
   }
 
+  get categoriesArray() {
+    return this.categories?.map((tax) => tax.slug);
+  }
+
   get isNew() {
     // TODO: add logic for new
     return false;
   }
 
   get isOutOfStock() {
+    if (this.productType === 'variable') {
+      return this.stockStatus === 'outofstock';
+    }
+
     return (
       (this.stockQuantity == null || this.stockQuantity < 1) && this.stockStatus === 'outofstock'
     );
@@ -369,7 +385,11 @@ export class Product {
     return this.stockQuantity;
   }
 
-  get shouldShowAddToCart() {
+  get purchasable() {
+    if (this.productType === 'variable') {
+      return false;
+    }
+
     if (!this.isOutOfStock) {
       return true;
     }
@@ -397,7 +417,9 @@ export class Product {
     const returnedTabs = [
       {
         title: 'Description',
-        content: parse(formatTextWithNewline(this.description || this?.shortDescription || '')),
+        content: htmlParser(
+          formatTextWithNewline(this.description || this?.shortDescription || '')
+        ),
         isOpen: true,
         location: '',
       },
@@ -406,13 +428,17 @@ export class Product {
     this.additionalTabs?.forEach((tab) => {
       returnedTabs.push({
         title: tab.title,
-        content: parse(sanitizeHtml(tab.content)),
+        content: htmlParser(sanitizeHtml(tab.content)),
         isOpen: Boolean(tab.isOpen),
         location: tab.location,
       });
     });
 
     return returnedTabs;
+  }
+
+  get isSimple() {
+    return this.productType === 'simple';
   }
 
   get hasVariations() {
@@ -510,9 +536,11 @@ export class Product {
   }
 
   get variantImageSrc() {
-    return this.variations?.map((variation) => {
+    const variantImages = this.variations?.map((variation) => {
       return { ...variation.attributes, ...variation.thumbnail };
     });
+
+    return variantImages;
   }
 
   hasSameMinMaxPrice(currency: string) {
@@ -548,6 +576,10 @@ export class Product {
   }
 
   isFree(currency: string) {
+    if (this.isGiftCard) {
+      return;
+    }
+
     if (this.productType === 'bundle') {
       return typeof this.getBundlePrice === 'undefined' || this.getBundlePrice[currency] === 0;
     }
@@ -586,5 +618,124 @@ export class Product {
     }
 
     return false;
+  }
+
+  get variableImages(): null | ImageAttributes {
+    if (this.productType !== 'variable') return null;
+
+    if (!this?.variations || this?.variations?.length === 0) return null;
+
+    const images: ImageAttributes = {};
+
+    this.purchasableVariations.forEach((variation) => {
+      if (variation.attributes) {
+        const key = `${variation.id}`;
+        if (!images[key] && variation.thumbnail) {
+          images[key] = variation.thumbnail;
+        }
+      }
+    });
+
+    return images;
+  }
+
+  hasVariableImages(): boolean {
+    if (!this.variableImages) return false;
+
+    return Object.keys(this.variableImages).length > 1;
+  }
+
+  get mainImage(): Image {
+    if (this.productType !== 'variable') {
+      return this.thumbnail as Image;
+    }
+
+    const imageVariants = this.variableImages;
+
+    if (!imageVariants) {
+      return this.thumbnail as Image;
+    }
+
+    const keys = Object.keys(imageVariants);
+
+    if (keys.length === 0) {
+      return this.thumbnail as Image;
+    }
+
+    return imageVariants[keys[0]] as Image;
+  }
+
+  get secondaryImage(): Image | undefined {
+    if (this.productType !== 'variable') {
+      const mainImage = this.mainImage;
+      const galleryImages = this.galleryImages;
+
+      if (typeof galleryImages === 'undefined' || isEmpty(galleryImages[0])) {
+        return undefined;
+      }
+
+      return isImage(galleryImages, mainImage?.src);
+    }
+  }
+
+  get classes(): string[] {
+    const classes: string[] = [];
+
+    if (this.hasVariations) classes.push('has-variation');
+
+    if (this.isComposite) classes.push('composite');
+
+    if (this.isGiftCard) classes.push('gift-card');
+
+    if (this.isSimple) classes.push('simple');
+
+    if (this.hasBundle) classes.push('bundle');
+
+    return classes;
+  }
+
+  get giftCardPrice(): ProductPrice[] | null {
+    if (!this.isGiftCard) return null;
+
+    if (this.metaData?.giftCard && this.metaData.giftCard?.allowCustomAmount) {
+      const { min, max } = this.metaData.giftCard;
+      return [min, max];
+    }
+
+    return null;
+  }
+
+  get discountRules(): null | ProductDiscountRule {
+    if (!this.metaData?.discountRule?.advanced_discount_message) return null;
+
+    const discountMessage = JSON.parse(this.metaData.discountRule.advanced_discount_message);
+    const discountAdjustment = JSON.parse(this.metaData.discountRule.bulk_adjustments);
+
+    const adjustmentRules: ProductDiscountRuleRange[] = [];
+
+    Object.keys(discountAdjustment.ranges).forEach((key) => {
+      const { from, to, type, value, label } = discountAdjustment.ranges[key];
+      adjustmentRules.push({
+        from: parseInt(from),
+        to: to === '' ? 0 : parseInt(to),
+        type,
+        value: parseInt(value),
+        label,
+      });
+    });
+
+    const rule: ProductDiscountRule = {
+      message: {
+        display: Boolean(discountMessage?.display),
+        badgeBackgroundColor: discountMessage?.badge_color_picker || '',
+        badgeTextColor: discountMessage?.badge_text_color_picker || '',
+      },
+      adjustment: {
+        operator: discountAdjustment?.operator || 'percentage',
+        ranges: adjustmentRules,
+      },
+    };
+
+    return rule;
   }
 }

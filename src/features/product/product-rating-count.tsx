@@ -4,8 +4,14 @@ import { ProductRating } from '@src/features/product/product-rating';
 import { Settings } from '@src/models/settings';
 import { Store } from '@src/models/settings/store';
 import { Stats } from '@src/models/product/reviews';
+import { cn } from '@src/lib/helpers/helper';
 
-export const ProductRatingCount = () => {
+type TProp = {
+  id?: string;
+  className?: string;
+};
+
+export const ProductRatingCount = ({ id, className }: TProp) => {
   const { product } = useProductContext();
   const { settings } = useSiteContext();
   const { store } = settings as Settings;
@@ -16,7 +22,7 @@ export const ProductRatingCount = () => {
   const { judgemeReviews, yotpoReviews, metaData } = product;
 
   return (
-    <div className="flex items-center space-x-2 z-[7]">
+    <div className={cn(id, className, 'product-rating')}>
       {reviewService === 'judge.me' && (
         <a href="#review-tab">
           <ProductRating stats={judgemeReviews as Stats} />

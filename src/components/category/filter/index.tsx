@@ -1,24 +1,27 @@
-import { Disclosure } from '@headlessui/react';
-import { ChevronUpIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { isEmpty } from 'lodash';
-import { useEffect, useState } from 'react';
-import { useIsomorphicLayoutEffect } from 'usehooks-ts';
+import { useEffect } from 'react';
 
 import { ResultCount } from '@src/components/category/filter/result-count';
-import { FilterOptionBlocks } from '@components/filter-option-blocks';
+
 import { ActiveFilters } from '@src/components/category/filter/active-filters';
 import { Modal } from '@src/components/category/filter/modal';
 import { SortByOptions } from '@src/components/category/filter/sort-by-options';
-import { PriceRangeSlider } from '@src/features/product/range/price-range-slider';
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Settings } from '@src/models/settings';
 import { Shop } from '@src/models/settings/shop';
 import TSTaxonomy from '@src/lib/typesense/taxonomy';
-import { cn } from '@src/lib/helpers/helper';
-import { FunnelIcon } from '@src/components/svg/icons/funnel';
 import { useRouter } from 'next/router';
 import { FilterIcon } from '@src/components/svg/filter';
+
+import { SortByButton } from '@src/components/category/filter/sort-by-button';
+import { MobileFilterSortButtons } from '@src/components/category/filter/mobile-filter-sort-buttons';
+import { MobileActiveFilters } from '@src/components/category/filter/mobile-active-filters';
+import { SidebarFilter } from '@src/components/category/filter/sidebar-filter';
+import { FilterToggleButton } from '@src/components/category/filter/filter-toggle';
+import { ParsedBlock } from '@src/components/blocks';
+import { findBlock } from '@src/lib/block';
+import taxonomyProductCatBlocks from '@public/taxonomy-product-cat.json';
 
 type Props = {
   pageNo: number;
@@ -32,16 +35,32 @@ export const Filter: React.FC<Props> = (props) => {
   const { pageNo, productCount, applyFilter, onSortChange } = props;
   const taxonomyCtx = useTaxonomyContext();
   const { settings, currentCountry, currentCurrency } = useSiteContext();
-  const { shop, store } = settings as Settings;
+  const { shop } = settings as Settings;
+  const { layout } = shop as Shop;
   const router = useRouter();
 
   const [filterOpen, setFilterOpen] = taxonomyCtx.slideOverFilter;
   const [sortByOpen, setSortByOpen] = taxonomyCtx.slideOverSort;
-  const [disclosureOpen, setDisclosureOpen] = useState(true);
 
-  const [selectedSortOption] = taxonomyCtx.sortByState;
+  const [selectedSortOption, setSelectedSortOption] = taxonomyCtx.sortByState;
 
-  const [productsData] = taxonomyCtx.productsResults;
+  useEffect(() => {
+    const sortValue = localStorage.getItem('sortValue') as string;
+
+    if (!sortValue || sortValue === '') return;
+
+    const { label, value } = JSON.parse(sortValue as string);
+
+    if (label && value) {
+      setSelectedSortOption({
+        label,
+        value,
+      });
+
+      onSortChange({ target: { value } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFilterByClicked = () => {
     setFilterOpen(!filterOpen);
@@ -91,6 +110,7 @@ export const Filter: React.FC<Props> = (props) => {
     return () => {
       router.events.off('routeChangeComplete', resetFilterAction);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.events]);
 
   const isFilterSet = !isEmpty(
@@ -104,21 +124,6 @@ export const Filter: React.FC<Props> = (props) => {
       taxonomyCtx.attributeFilter[2]
   );
 
-  const renderSortByButton = () => {
-    return (
-      <div className="group/sortby">
-        <button
-          onClick={() => {
-            setSortByOpen((prev) => !prev);
-          }}
-          className="button-sort-by hidden lg:flex bg-[#FAF6F2] group-hover/sortby:bg-[#2563EB] text-[#111111] group-hover/sortby:text-white border border-[#111111] group-hover/sortby:border-[#2563EB] rounded-[4px] py-3.5 px-4 text-xs font-normal leading-6 justify-center items-center gap-2.5 h-10 uppercase "
-        >
-          {selectedSortOption?.label || 'Sort by'}
-        </button>
-      </div>
-    );
-  };
-
   const renderProductGrid = () => {
     const { layout } = shop as Shop;
     return (
@@ -126,23 +131,10 @@ export const Filter: React.FC<Props> = (props) => {
         {layout?.productFilters == '1' ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             <form className="hidden lg:block">
-              {renderFilterOptions()}
-
-              <div className="w-full border-b border-brand-second-gray mb-4 pb-4">
-                <PriceRangeSlider
-                  disclosureProp={taxonomyCtx.priceFilter}
-                  min={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                  max={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                />
-              </div>
+              <SidebarFilter
+                applyFilterClicked={applyFilterClicked}
+                resetFilterAction={resetFilterAction}
+              />
 
               <button
                 className="hidden mt-3 w-full border border-black mb-2 p-2.5"
@@ -159,58 +151,27 @@ export const Filter: React.FC<Props> = (props) => {
             </form>
             <div className="mt-4 lg:col-span-3">
               <div className="mb-4 w-full flex justify-between items-center">
+                <FilterToggleButton handleFilterByClicked={handleFilterByClicked} />
                 <ResultCount
                   pageNo={pageNo}
                   productCount={productCount}
                 />
-                {renderSortByButton()}
+                <SortByButton
+                  setSortByOpen={setSortByOpen}
+                  selectedSortOption={selectedSortOption}
+                />
               </div>
               {props.children}
             </div>
           </div>
         ) : (
-          <div className="mt-4 lg:col-span-3">{props.children}</div>
+          <div className="product-grid-container">{props.children}</div>
         )}
       </>
-    );
-  };
-
-  const renderResultCount = () => {
-    const { layout } = shop as Shop;
-    return (
-      <>
-        {layout?.productFilters === '2' && (
-          <div className="mt-4 flex items-center">
-            <ResultCount
-              pageNo={pageNo}
-              productCount={productCount}
-            />
-          </div>
-        )}
-      </>
-    );
-  };
-
-  const renderActiveFilters = () => {
-    const { layout } = shop as Shop;
-    return (
-      <div className="flex-1 flex gap-x-6 items-center">
-        <ActiveFilters {...layout?.activeFilters} />
-        {isFilterSet && (
-          <button
-            onClick={resetFilterAction}
-            className="flex items-center gap-1.5"
-          >
-            <span className="text-sm">CLEAR ALL</span>
-            <XMarkIcon className="w-5 h-5" />
-          </button>
-        )}
-      </div>
     );
   };
 
   const renderFilterBy = () => {
-    const { layout } = shop as Shop;
     return (
       <div className="group/filter">
         {layout.productFilters == '1' ? (
@@ -233,125 +194,8 @@ export const Filter: React.FC<Props> = (props) => {
     );
   };
 
-  const renderPriceRangeSlider = () => {
-    const { colors, shop } = settings as Settings;
-    return (
-      <div className="border-t border-brand-second-gray">
-        <Disclosure defaultOpen={disclosureOpen}>
-          {({ open }) => (
-            <>
-              <Disclosure.Button
-                onClick={() => setDisclosureOpen((prev) => !prev)}
-                className="flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 py-5"
-              >
-                <span className={'uppercase text-base font-semibold text-[#191E34]'}>Price</span>
-                <ChevronUpIcon
-                  className={`${!open && 'rotate-180 transform'} h-5 w-5 text-[#3F3F46]`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="text-sm text-gray-500 pb-5">
-                <PriceRangeSlider
-                  disclosureProp={taxonomyCtx.priceFilter}
-                  color={shop?.layout?.priceRangeSlider?.color ?? colors?.background?.primary}
-                  min={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.minValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                  max={Math.trunc(
-                    taxonomyCtx?.tsFetchedData?.priceRangeAmount?.maxValue?.[
-                      currentCurrency
-                    ] as number
-                  )}
-                />
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      </div>
-    );
-  };
-
-  const renderFilterOptions = () => {
-    return (
-      <FilterOptionBlocks
-        blocks={taxonomyCtx.filterOptionContent}
-        baseCountry={currentCountry}
-      />
-    );
-  };
-
-  const renderMobileFilterButtons = () => {
-    return (
-      <div
-        className={cn('flex xl:hidden lg:hidden sticky py-3.5 border-y', {
-          'mt-4': !store?.breadcrumbMobile?.enabled,
-        })}
-      >
-        <button
-          onClick={handleFilterByClicked}
-          className="rounded-l-[4px] bg-[#FAF6F2] flex flex-1 uppercase  text-[#111111] group-hover/filter:text-white border border-[#111111] py-3 text-sm leading-3 font-normal justify-center items-center gap-3 border-r-0"
-        >
-          Filter <FilterIcon fillColor="#111111" />
-        </button>
-        <button
-          onClick={handleSortByClicked}
-          className="rounded-r-[4px] bg-[#FAF6F2] flex-1 uppercase  text-[#111111] group-hover/filter:text-white border border-[#111111] py-3 text-sm leading-3 font-normal"
-        >
-          Sort By:
-        </button>
-      </div>
-    );
-  };
-
-  const renderMobileActiveFilters = () => {
-    const { layout } = shop as Shop;
-    return (
-      <>
-        {isFilterSet && (
-          <div className="mt-3.5 flex items-center justify-between lg:hidden pb-3 border-b border-stone-200">
-            <div>
-              <ActiveFilters {...layout?.activeFilters} />
-            </div>
-            <div>
-              <button onClick={resetFilterAction}>
-                <span className="flex items-center gap-x-2.5 text-sm">
-                  CLEAR ALL
-                  <XMarkIcon className="w-5 h-5" />
-                </span>
-              </button>
-            </div>
-          </div>
-        )}
-      </>
-    );
-  };
-
   return (
     <>
-      <Modal
-        open={filterOpen}
-        setOpen={setFilterOpen}
-        position="left"
-        name="FILTER BY"
-      >
-        {renderFilterOptions()}
-
-        {renderPriceRangeSlider()}
-
-        <button
-          className="hidden mt-3 w-full border border-black mb-2 p-2.5"
-          onClick={applyFilterClicked}
-        >
-          APPLY
-        </button>
-        <button
-          onClick={resetFilterAction}
-          className="hidden w-full border border-black mb-2 p-2.5"
-        >
-          RESET
-        </button>
-      </Modal>
       <Modal
         open={sortByOpen}
         setOpen={setSortByOpen}
@@ -364,18 +208,37 @@ export const Filter: React.FC<Props> = (props) => {
           onSortChange={onSortChange}
         />
       </Modal>
-
-      {renderMobileFilterButtons()}
-
-      {renderMobileActiveFilters()}
-
-      <div className="hidden lg:flex items-center justify-between gap-x-3.5 gap-y-10 border-y border-[#C0C0C0] py-3">
-        {renderFilterBy()}
-        {renderActiveFilters()}
-        {shop?.layout?.productFilters != '1' && renderSortByButton()}
+      <div className="product-archive-filter-mobile">
+        <MobileFilterSortButtons
+          handleFilterByClicked={handleFilterByClicked}
+          handleSortByClicked={handleSortByClicked}
+        />
+        <MobileActiveFilters
+          resetFilterAction={resetFilterAction}
+          isFilterSet={isFilterSet}
+        />
       </div>
-      {renderResultCount()}
-      {renderProductGrid()}
+
+      <div>
+        <Modal
+          open={filterOpen}
+          setOpen={setFilterOpen}
+          position="left"
+        >
+          <SidebarFilter
+            applyFilterClicked={applyFilterClicked}
+            resetFilterAction={resetFilterAction}
+          />
+        </Modal>
+        {/* <FilterToggleButton handleFilterByClicked={handleFilterByClicked} /> */}
+        {/* <aside className="product-archive-filter-desktop">
+          <SidebarFilter
+            applyFilterClicked={applyFilterClicked}
+            resetFilterAction={resetFilterAction}
+          />
+        </aside> */}
+        {props.children}
+      </div>
     </>
   );
 };

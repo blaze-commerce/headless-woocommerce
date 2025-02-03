@@ -21,8 +21,26 @@ import { ImageGlider } from '@src/components/blocks/wooless/image-glider';
 import { BlogPosts } from '@src/components/blocks/wooless/blog-posts';
 import { PopoverSearchBlock } from '@src/components/blocks/popover-search';
 import { Search } from '@src/components/blocks/fibosearch/search';
+import { useContentContext } from '@src/context/content-context';
+import { SearchInput } from '@src/components/blocks/search/input';
+import { SearchResultContainer } from '@src/components/blocks/search/search-result-container';
+import { SearchHitsContainer } from '@src/components/blocks/search/hits-container';
+import { SearchCategoryIndex } from '@src/components/blocks/search/category-index';
+import { SearchCategoryHits } from '@src/components/blocks/search/category-hits';
+import { SearchBlogIndex } from '@src/components/blocks/search/blog-index';
+import { SearchBlogHits } from '@src/components/blocks/search/blog-hits';
+import { SearchProductHits } from '@src/components/blocks/search/product-hits';
+import { SearchProductIndex } from '@src/components/blocks/search/product-index';
+import { MaxMegaMenuOverlay } from '@src/components/blocks/maxmegamenu/overlay';
+import { Products } from '@src/components/blocks/woocommerce/products';
+import { ProductsWidget } from '@src/components/blocks/woocommerce/products-widgets';
+import { Postlist, RecentPost } from '@src/components/blocks/wooless/post';
+import { Navigation } from '@src/components/blocks/core/navigation';
+import { ProductsWidgetPaginationDots } from '@src/components/blocks/templates/products-widget/pagination-dots';
 
 export const Container = ({ block }: BlockComponentProps) => {
+  const { type } = useContentContext();
+
   // we just make sure that the block name is correct and innterblocks is not empty otherwise
   if ('generateblocks/container' !== block.blockName && !block.innerBlocks) {
     return null;
@@ -119,6 +137,70 @@ export const Container = ({ block }: BlockComponentProps) => {
     return <Search block={block} />;
   }
 
+  if (isBlockA(block, 'SearchInput')) {
+    return <SearchInput block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchResultContainer')) {
+    return <SearchResultContainer block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchHitsContainer')) {
+    return <SearchHitsContainer block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchCategoryIndex')) {
+    return <SearchCategoryIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchCategoryHits')) {
+    return <SearchCategoryHits block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchBlogIndex')) {
+    return <SearchBlogIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchBlogHits')) {
+    return <SearchBlogHits block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchProductIndex')) {
+    return <SearchProductIndex block={block} />;
+  }
+
+  if (isBlockA(block, 'SearchProductHits')) {
+    return <SearchProductHits block={block} />;
+  }
+
+  if (isBlockA(block, 'MaxMegaMenuOverlay')) {
+    return <MaxMegaMenuOverlay block={block} />;
+  }
+
+  if (isBlockA(block, 'Products')) {
+    return <Products block={block} />;
+  }
+
+  if (isBlockA(block, 'ProductsWidget')) {
+    return <ProductsWidget block={block} />;
+  }
+
+  if (isBlockA(block, 'ProductsWidgetPaginationDots')) {
+    return <ProductsWidgetPaginationDots block={block} />;
+  }
+
+  if (isBlockA(block, 'PostList')) {
+    return <Postlist block={block} />;
+  }
+
+  if (isBlockA(block, 'RecentPost')) {
+    return <RecentPost block={block} />;
+  }
+
+  if (isBlockA(block, 'SimpleNavigation')) {
+    return <Navigation block={block} />;
+  }
+
   const attribute = block.attrs as BlockAttributes;
   return (
     <div
@@ -128,7 +210,10 @@ export const Container = ({ block }: BlockComponentProps) => {
       )}
       style={(attribute.borders as React.CSSProperties) || {}}
     >
-      <Content content={block.innerBlocks} />
+      <Content
+        type={type}
+        content={block.innerBlocks}
+      />
     </div>
   );
 };

@@ -65,7 +65,6 @@ export const WishListItems = () => {
                 product={product}
                 {...layout?.productCards}
                 hasAddToCart={options.showAddToCartButton}
-                imageClassNames="lg:h-[257.848px]"
               />
             );
           })}

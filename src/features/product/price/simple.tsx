@@ -21,32 +21,18 @@ export const SimplePrice = ({ product, isTaxExclusive }: TSimplePrice) => {
   }
 
   if (isTaxExclusive) {
-    renderedResult.push(
-      <span
-        className={cn('simple-price', {
-          'font-semibold text-base md:text-lg': isOnSale && salePrice,
-        })}
-      >
-        {formatPrice(product.metaData?.priceWithTax, currency)}
-      </span>
-    );
+    renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
   } else {
     renderedResult.push(
-      <span
-        className={cn('simple-price', {
-          'font-semibold text-base md:text-lg': isOnSale && salePrice,
-        })}
-      >
-        {formatPrice(price, currency)}
-      </span>
+      <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
     );
   }
 
   return (
-    <>
+    <span className="simple-product-price">
       {renderedResult.map((price, i) => {
         return <Fragment key={`simple-product-price-${i}`}>{price}</Fragment>;
       })}
-    </>
+    </span>
   );
 };

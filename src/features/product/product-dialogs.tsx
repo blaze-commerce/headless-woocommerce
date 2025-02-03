@@ -1,9 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { decode } from 'html-entities';
-import HTMLReactParser from 'html-react-parser';
 import { Fragment, ReactNode, useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
-import { HiX } from 'react-icons/hi';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 import dynamic from 'next/dynamic';
 
 import { DynamicIconLoader } from '@src/components/dynamic-icon-loader';
@@ -17,8 +16,8 @@ const CalculateShipping = dynamic(() =>
   import('@src/features/product/calculate-shipping').then((mod) => mod.CalculateShipping)
 );
 
-import { cn } from '@src/lib/helpers/helper';
 import { ProductDialog } from '@src/models/product/types';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export type DialogItem = {
   content?: string | ReactNode;
@@ -30,9 +29,13 @@ export type DialogItem = {
   link?: string;
 };
 
+type TProp = {
+  type?: 'horizontal' | 'vertical';
+};
+
 type Data = DialogItem[];
 
-export const ProductDialogs = () => {
+export const ProductDialogs = ({ type }: TProp) => {
   const { settings, calculateShipping } = useSiteContext();
   const {
     additionalData,
@@ -62,7 +65,7 @@ export const ProductDialogs = () => {
     const calculateList = {
       enabled: true,
       key: 'calculateShipping',
-      title: 'Calculate Shipping',
+      title: 'Shipping',
       content: (
         <CalculateShipping
           products={[currentProduct]}
@@ -127,8 +130,8 @@ export const ProductDialogs = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center justify-start gap-4 lg:gap-16 py-2">
-        {listData.map((item, index) => (
+      <div className={`product-dialogs ${type}`}>
+        {listData.map((item) => (
           <a
             href={item.link ? item.link : '#'}
             key={item.key}
@@ -139,16 +142,6 @@ export const ProductDialogs = () => {
                 e.preventDefault();
               }
             }}
-            className={cn(
-              'cursor-pointer font-normal leading-none text-brand-font flex gap-2 border-[#e5e7eb]',
-              {
-                'pl-1.5':
-                  product?.metaData?.productLabel && settings?.isAdditionalWarningMessageEnabled,
-                'pb-2 md:pb-0 border-b md:border-none': index === 0,
-                'border-b pb-2 md:pb-0 md:border-b-0 md:border-l md:pl-4': index !== 0,
-                'border-b-0 md:border-l pb-0 md:pl-4': index === listData.length - 1,
-              }
-            )}
             style={dialogLinkIconStyle}
           >
             {!!item.icon && item.icon}
@@ -164,7 +157,7 @@ export const ProductDialogs = () => {
       {product?.metaData?.productLabel && settings?.isAdditionalWarningMessageEnabled && (
         <div className="additional-warning-message flex flex-row items-center space-x-3 border border-red-500 pl-1.5">
           <FaInfoCircle className="fill-red-500" />
-          {HTMLReactParser(decode(product?.metaData?.productLabel as string))}
+          <ReactHTMLParser html={decode(product?.metaData?.productLabel as string)} />
         </div>
       )}
 
@@ -175,7 +168,7 @@ export const ProductDialogs = () => {
         >
           <Dialog
             as="div"
-            className="relative z-10"
+            className="offcanvas-dialog"
             onClose={setOpen}
           >
             <Transition.Child
@@ -187,54 +180,48 @@ export const ProductDialogs = () => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+              <div className="transition-element" />
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-hidden">
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="transform transition ease-in-out duration-500 sm:duration-700"
-                    enterFrom="translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transform transition ease-in-out duration-500 sm:duration-700"
-                    leaveFrom="translate-x-0"
-                    leaveTo="translate-x-full"
-                  >
-                    <Dialog.Panel className="products-offcanvas pointer-events-auto w-screen max-w-[600px]">
-                      <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                        <div className="overflow-y-auto py-6 px-4 sm:px-6">
-                          <div className="flex items-end justify-end">
-                            <div className="flex h-7 items-center">
-                              <button
-                                type="button"
-                                className="button-offcanvas-close -m-2 p-2 text-gray-400 hover:text-gray-500"
-                                onClick={() => setOpen(false)}
-                              >
-                                <HiX
-                                  className="h-6 w-6"
-                                  aria-hidden="true"
-                                />
-                              </button>
-                            </div>
-                          </div>
+            <div className="offcanvas-content-holder position-right">
+              <Transition.Child
+                as={Fragment}
+                enter="transform transition ease-in-out duration-500 sm:duration-700"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transform transition ease-in-out duration-500 sm:duration-700"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="dialog-panel">
+                  <div className="flex items-end justify-end">
+                    <button
+                      type="button"
+                      className="button-offcanvas-close"
+                      onClick={() => setOpen(false)}
+                    >
+                      <IoIosCloseCircleOutline
+                        className="icon"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </div>
 
-                          <div className="">
-                            <div className="flow-root">
-                              <Tabs data={generateTabData()} />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
+                  <div className="">
+                    <div className="flow-root">
+                      <Tabs data={generateTabData()} />
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
             </div>
           </Dialog>
         </Transition.Root>
       )}
     </>
   );
+};
+
+ProductDialogs.defaultProps = {
+  type: 'horizontal',
 };

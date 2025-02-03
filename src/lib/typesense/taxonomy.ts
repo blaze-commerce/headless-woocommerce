@@ -18,14 +18,18 @@ import { ProductPaths, TaxonomyPaths } from '@src/types';
 import { isEmpty, reduce } from 'lodash';
 import regionalSettings from 'public/region.json';
 import siteSettings from 'public/site.json';
-import { SearchResponse, SearchResponseFacetCountSchema } from 'typesense/lib/Typesense/Documents';
+import {
+  SearchResponse,
+  SearchResponseFacetCountSchema,
+  SearchResponseHit,
+} from 'typesense/lib/Typesense/Documents';
 import { getProductTypesForDisplay, getVariations } from '@src/lib/typesense/product';
 import { getCurrencies } from '@src/lib/helpers';
 import { getAllCurrencies, getDefaultCurrency } from '@src/lib/helpers/country';
 
 export const getCategoryPermalinks = async (): Promise<string[]> => {
   const permalinks: string[] = [];
-  const perPage = 250;
+  const perPage = 100;
 
   const fetchPermalinks = async (page: number) => {
     const searchParameters = {
@@ -46,8 +50,7 @@ export const getCategoryPermalinks = async (): Promise<string[]> => {
       const parse = TaxonomyPermalink.safeParse(hit.document);
       if (parse.success && parse.data.permalink) {
         const permalink = parse.data.permalink;
-        permalinks.push(permalink);
-        permalinks.push(stripTrailingSlash(permalink));
+        permalinks.push(`${stripTrailingSlash(permalink)}/`);
       }
     });
 
@@ -86,32 +89,32 @@ interface IPriceFilterOptions {
   };
 }
 const sortOptions = (currency = regionalSettings?.[0]?.currency || 'AUD') => [
+  // {
+  //   label: '<label>Sort by:</label> None',
+  //   value: 'menuOrder:asc',
+  // },
   {
-    label: 'Sort By None',
-    value: 'menuOrder:asc',
-  },
-  {
-    label: 'Sort by popularity',
+    label: '<label>Sort by:</label> Popularity',
     value: 'totalSales:desc',
   },
   {
-    label: 'Sort by latest',
+    label: '<label>Sort by:</label> Latest',
     value: 'publishedAt:desc',
   },
   {
-    label: 'Sort by price: low to high',
+    label: '<label>Sort by price:</label> low to high',
     value: `price.${currency}:asc`,
   },
   {
-    label: 'Sort by price: high to low',
+    label: '<label>Sort by price:</label> high to low',
     value: `price.${currency}:desc`,
   },
   {
-    label: 'Sort by alphabetical A-Z',
+    label: '<label>Sort by</label> Alphabetical A-Z',
     value: 'name:asc',
   },
   {
-    label: 'Sort by alphabetical Z-A',
+    label: '<label>Sort by</label> Alphabetical Z-A',
     value: 'name:desc',
   },
 ];
@@ -177,6 +180,10 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     filterByArr.push('taxonomies.slug:=[`' + queryVars.termSlug + '`]');
   }
 
+  if (typeof queryVars.termIds !== 'undefined' && !isEmpty(queryVars.termIds)) {
+    filterByArr.push('taxonomies.termId:=[`' + queryVars.termIds.join('`,`') + '`]');
+  }
+
   if (typeof queryVars.nameAndTypes !== 'undefined' && !isEmpty(queryVars.nameAndTypes)) {
     //	Sample query
     // 	taxonomies.nameAndType:=[`For Women|shop-by`,`Farewell|occasion`]
@@ -203,6 +210,10 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     filterByArr.push(`onSale:=[${queryVars.onSale}]`);
   }
 
+  if (typeof queryVars.isFeatured !== 'undefined') {
+    filterByArr.push(`isFeatured:=[${queryVars.isFeatured}]`);
+  }
+
   if (typeof queryVars.newThreshold !== 'undefined') {
     filterByArr.push(`daysPassed:=[0..${queryVars.newThreshold}]`);
   }
@@ -212,10 +223,15 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
   }
 
   if (!isEmpty(queryVars.categoryFilter)) {
-    const newCategoryFilter = queryVars.categoryFilter?.split(', ');
+    const newCategoryFilter = queryVars.categoryFilter?.split('|, ');
+    newCategoryFilter?.map((queryFilter, key) => {
+      let filter = `taxonomies.filters:=[\`${queryFilter}\`]`;
 
-    newCategoryFilter?.map((queryFilter) => {
-      filterByOrLogic.push(`taxonomies.filters:=[\`${queryFilter}\`]`);
+      // if key is not the last item, add | on the last filter value
+      if (key !== newCategoryFilter.length - 1) {
+        filter += '|';
+      }
+      filterByOrLogic.push(`${filter}`);
     });
   }
 
@@ -258,7 +274,7 @@ const generateSearchParams = (queryVars: ITSTaxonomyProductQueryVars) => {
     max_facet_values: 200,
     sort_by: `stockStatus:asc,${queryVars.sortBy}`, // Default sortby totalSales desc
     include_fields:
-      'permalink,thumbnail,name,onSale,stockStatus,regularPrice,price,sku,salePrice,galleryImages,createdAt,stockQuantity,productType,id,judgemeReviews,publishedAt,daysPassed,yotpoReviews,variations,metaData',
+      'permalink,attributes,thumbnail,name,onSale,stockStatus,regularPrice,price,sku,salePrice,galleryImages,createdAt,stockQuantity,productType,id,judgemeReviews,publishedAt,daysPassed,yotpoReviews,variations,metaData,taxonomies',
   };
 
   const hasRefinedSelection = !isEmpty(filterByRefinedSelection);
@@ -388,9 +404,8 @@ export const getDefaultSortBy = () => {
   let defaultSortOption = 0;
   let splitSortValue;
 
-  if (!isEmpty(defaultSortValue)) {
+  if (!isEmpty(defaultSortValue?.sort_option)) {
     splitSortValue = defaultSortValue?.sort_option?.split('_');
-
     if (splitSortValue[1]) {
       defaultSortOption = +splitSortValue[1];
     }
@@ -443,6 +458,7 @@ const getPriceFilterOptions = (facetData: SearchResponseFacetCountSchema<{}>[] |
   if (typeof facetData !== 'undefined' && typeof facetData[3] !== 'undefined') {
     const priceOptions: IFilterOptionData[] = [];
     const defaultCurrency = getDefaultCurrency();
+
     facetData[3].counts.map((item) => {
       const priceOption: IFilterOptionData = {
         label: priceFilterOptions[item.value].label,
@@ -557,7 +573,7 @@ const getBrandsFilterOptions = (facetData: SearchResponseFacetCountSchema<{}>[] 
         thumbnailSrc,
       };
 
-      if (type === 'product_brand') {
+      if (type === 'product_brand' || type === 'product_brands') {
         result.push(itemData);
       }
 
@@ -705,7 +721,7 @@ const getMulticurrencyPriceMinMaxValue = (
   const currencies = getAllCurrencies();
 
   const minValue = initializeCurrencyObject(currencies);
-  const maxValue = minValue;
+  const maxValue = { ...minValue };
 
   if (typeof facetData === 'undefined') {
     return { minValue, maxValue };
@@ -713,8 +729,10 @@ const getMulticurrencyPriceMinMaxValue = (
 
   currencies.forEach((currency) => {
     const currencyData = filterFacetDataByCurrency(facetData, currency);
+
     if (currencyData.length > 0 && currencyData[0]) {
       const { min, max } = currencyData[0].stats;
+
       if (min) {
         minValue[currency] = min;
       }
@@ -777,6 +795,7 @@ const generateProductQueryResponse = async (
 
   const priceRangeAmount = getMulticurrencyPriceMinMaxValue(results.facet_counts);
 
+  const previousPage = nextPage - 2;
   return {
     products: found,
     queryVars,
@@ -784,8 +803,11 @@ const generateProductQueryResponse = async (
       totalFound: results.found,
       totalPages,
       nextPage,
+      previousPage: previousPage,
       page: queryVars.page as number,
       perPage: queryVars.perPage as number,
+      hasNextPage: nextPage > 0 ? true : false,
+      hasPreviousPage: previousPage <= 0 ? false : true,
     },
     taxonomyFilterOptions,
     priceFilter,
@@ -810,6 +832,7 @@ export const getProducts = async (
   queryVars: ITSTaxonomyProductQueryVars
 ): Promise<ITSProductQueryResponse> => {
   const searchParameters = generateSearchParams(queryVars);
+
   const results = await getProductDocument().search(searchParameters);
   return await generateProductQueryResponse(queryVars, results);
 };
@@ -870,8 +893,8 @@ export const buildStaticPathParams = async (page: number) => {
 
   if (typeof results.hits !== 'undefined' && results.hits) {
     const index = 'permalink';
-    results.hits.map((doc: { document: { [key: string]: string } }) => {
-      const permalink = doc.document[index];
+    results.hits.map((doc: SearchResponseHit<{ [key: string]: any }>) => {
+      const permalink = doc.document.permalink;
       //exclude link if it has ?product_type= on it
       if (!permalink.includes('?product_type=')) {
         let productEndpoint = doc.document['permalink'];
@@ -949,7 +972,7 @@ const getTaxonomiesPageData = async (page: number, category: string) => {
   const taxonomySlug = taxonomyUrlSlugToWpTaxonomySlug(category);
 
   if (typeof results.hits !== 'undefined' && results.hits) {
-    results.hits.map((doc: { document: { [key: string]: string & ITSImage } }) => {
+    (results.hits as SearchResponseHit<{ [key: string]: string & ITSImage }>[]).map((doc) => {
       const permalink = doc.document['permalink'];
       const thumbnail = doc.document['thumbnail'];
       const name = doc.document['name'];

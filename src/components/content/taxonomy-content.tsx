@@ -1,7 +1,7 @@
 import cleanDeep from 'clean-deep';
 import { isArray, isEmpty, map } from 'lodash';
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'usehooks-ts';
 
 import { PageSeo } from '@src/components/page-seo';
@@ -13,34 +13,31 @@ import { LoadingModal } from '@src/components/common/loading-modal';
 import { BreadCrumbs } from '@src/features/product/breadcrumbs';
 import { DefaultProductCard as ProductCard } from '@src/features/product/cards/default';
 import { SkeletonCategory } from '@src/components/skeletons/skeleton-category';
-import { CategoryList } from '@src/components/blocks/category-list';
 import { LoadMoreButton } from '@src/components/category/load-more-button';
 import { ProductGrid } from '@src/features/product/grids/product-grid';
 import { useSiteContext } from '@src/context/site-context';
 import { useTaxonomyContext } from '@src/context/taxonomy-context';
 import { Product } from '@src/models/product';
 import { Settings } from '@src/models/settings';
-import { Header } from '@src/models/settings/header';
 import { Shop } from '@src/models/settings/shop';
-import { Store } from '@src/models/settings/store';
-import { SubCategory } from '@src/schemas/taxonomy-schema';
 import { useFetchTsTaxonomyProducts } from '@src/lib/hooks';
 import { IFilterOptionData, ITaxonomyContentProps } from '@src/lib/types/taxonomy';
 import { ITSPaginationInfo, ITSTaxonomyProductQueryVars } from '@src/lib/typesense/types';
 import { stripSlashes } from '@src/lib/helpers/helper';
 import { getPageParams } from '@src/lib/helpers';
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
+import { ParsedBlock } from '@src/components/blocks';
+import taxonomyProductCatBlocks from '@public/taxonomy-product-cat.json';
+import { Content } from '@src/components/blocks/content';
+import { BlockAttributes } from '@src/lib/block/types';
+import { RealWooCommerceProductCollectionQueryResponse } from '@src/components/blocks/woocommerce/product-collection/real-product-collection';
 
 export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { settings } = useSiteContext();
-  const { shop, header, store } = settings as Settings;
+  const { shop } = settings as Settings;
 
   const { layout } = shop as Shop;
-  const { productCards, productFilters, productColumns = '3' } = layout;
-
-  const { breadcrumb = '/' } = store as Store;
-
-  const { wishlist } = (header as Header).options;
+  const { productFilters, productColumns = '3' } = layout;
 
   const taxonomyCtx = useTaxonomyContext();
 
@@ -72,7 +69,6 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   const { loading, data, isFetched } = useFetchTsTaxonomyProducts(cachedTsQueryVars);
 
   const searchQuery = props.searchQuery;
-  const isCategoryListEnabled = shop?.options?.showCategoryListing && isEmpty(searchQuery);
   const showBreadCrumbs = !searchQuery || searchQuery === '*';
 
   const router = useRouter();
@@ -142,6 +138,18 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
       });
     }
   }, [router.query.onsale]);
+
+  useEffect(() => {
+    if (router.query.featured === 'true') {
+      setTsQueryVars((prevProps: ITSTaxonomyProductQueryVars) => {
+        const newProps: ITSTaxonomyProductQueryVars = {
+          ...prevProps,
+          isFeatured: 'true',
+        };
+        return newProps;
+      });
+    }
+  }, [router.query.featured]);
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
@@ -321,105 +329,82 @@ export const TaxonomyContent = (props: ITaxonomyContentProps) => {
   useUpdateEffect(applyFilter, [selectedAvailabilityFilter]);
   useUpdateEffect(applyFilter, [selectedRefinedSelection]);
 
-  const loadMoreItems = () => {
-    setTsQueryVars((prevProps: ITSTaxonomyProductQueryVars) => {
-      if (tsPaginationInfo.nextPage) {
-        const newProps: ITSTaxonomyProductQueryVars = {
-          ...prevProps,
-          page: tsPaginationInfo.nextPage,
-          appendProducts: true,
-        };
+  const bannerStyle = {
+    marginTop: shop?.layout?.bannerMarginTop ? `${shop?.layout?.bannerMarginTop}px` : '0px',
+  };
 
-        return newProps;
+  const renderBlocks = (blocks: ParsedBlock[]) => {
+    return blocks.map((block) => {
+      switch (true) {
+        case block.blockName === 'woocommerce/breadcrumbs': {
+          return (
+            <BreadCrumbs
+              className={block.attrs.className}
+              separator="&gt;"
+              crumbs={props?.taxonomyData?.breadcrumbs}
+            />
+          );
+        }
+        case block.blockName === 'core/query-title': {
+          return (
+            <Banner
+              {...props.hero}
+              className={block.attrs.className}
+              style={bannerStyle}
+            />
+          );
+        }
+        case block.blockName === 'woocommerce/product-collection': {
+          const attributes = block.attrs as BlockAttributes;
+
+          const globalData: RealWooCommerceProductCollectionQueryResponse = {
+            block: block,
+            loading,
+            products: productsData,
+            isFetched,
+            queryState: [tsQueryVars, setTsQueryVars],
+            data,
+          };
+
+          return (
+            <div className="container">
+              <Filter
+                pageNo={tsPaginationInfo.page}
+                productCount={tsPaginationInfo.totalFound}
+                applyFilter={applyFilter}
+                onSortChange={onSortChange}
+              >
+                <div className={attributes.className}>
+                  <Content
+                    type="products-query-response"
+                    globalData={globalData}
+                    content={block.innerBlocks}
+                  />
+                </div>
+              </Filter>
+            </div>
+          );
+        }
+        case block.blockName === 'core/group':
+        default: {
+          return <div className={block.attrs.className}>{renderBlocks(block.innerBlocks)}</div>;
+        }
       }
-
-      return prevProps;
     });
   };
 
-  const bannerStyle = {
-    marginTop: `${shop?.layout?.bannerMarginTop}px` ?? '0px',
-  };
-
-  const shoulShowLoadMore = !isEmpty(tsPaginationInfo) && tsPaginationInfo.nextPage > 0;
   return (
     <>
       {props.fullHead && <PageSeo seoFullHead={props.fullHead} />}
-      <main className="max-w-[1478px] mx-auto block">
-        <LoadingModal isOpen={loading} />
+      <LoadingModal isOpen={loading} />
 
-        {props.showBreadCrumbs && showBreadCrumbs && (
-          <BreadCrumbs
-            className="flex mt-5"
-            separator={breadcrumb}
-            crumbs={props?.taxonomyData?.breadcrumbs}
-          />
-        )}
+      {renderBlocks(taxonomyProductCatBlocks as ParsedBlock[])}
 
-        {props.showBanner && (
-          <Banner
-            {...props.hero}
-            style={bannerStyle}
-          />
-        )}
-
-        <div className="container">
-          {isCategoryListEnabled && props.subCategories && (
-            <CategoryList subCategories={props.subCategories as SubCategory[]} />
-          )}
-
-          <Filter
-            pageNo={tsPaginationInfo.page}
-            productCount={tsPaginationInfo.totalFound}
-            applyFilter={applyFilter}
-            onSortChange={onSortChange}
-          >
-            {productsData.length > 0 ? (
-              <Fragment>
-                <div className="mx-0">
-                  <ProductGrid productColumns={productColumns}>
-                    {transformProductsForDisplay(productsData).map((product, index: number) => (
-                      <ProductCard
-                        key={index}
-                        product={product}
-                        productFilters={productFilters}
-                        productColumns={productColumns}
-                        showWishlistButton={wishlist?.enabled}
-                        {...productCards}
-                        hasAddToCart={productCards?.hasAddToCart}
-                      />
-                    ))}
-                  </ProductGrid>
-                </div>
-                {loading && (
-                  <div className="mx-0">
-                    <SkeletonCategory
-                      productColumns={productColumns}
-                      productCount={layout?.productCount}
-                    />
-                  </div>
-                )}
-
-                {shoulShowLoadMore && <LoadMoreButton loadMoreItems={loadMoreItems} />}
-              </Fragment>
-            ) : (
-              <p>No products found</p>
-            )}
-
-            {layout?.productFilters === '2' && (
-              <div className="mt-4 flex items-center justify-center">
-                <ResultCount
-                  pageNo={tsPaginationInfo.page}
-                  productCount={tsPaginationInfo.totalFound}
-                />
-              </div>
-            )}
-          </Filter>
-          <div className="py-10 category-description">
-            <Description description={props.taxonomyDescription} />
-          </div>
+      <div className="container">
+        <div className="py-10 category-description">
+          <Description description={props.taxonomyDescription} />
         </div>
-      </main>
+      </div>
     </>
   );
 };

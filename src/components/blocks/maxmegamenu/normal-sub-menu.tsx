@@ -1,7 +1,4 @@
-import HTMLReactParser from 'html-react-parser';
-import React from 'react';
-import { filter } from 'lodash';
-
+import React, { useRef } from 'react';
 import { MegaMenu as MegaMenuType, TypesenseMenuItem } from '@src/lib/helpers/menu';
 import {
   MegaMenuSubMenuColumn,
@@ -10,9 +7,9 @@ import {
 } from '@src/components/blocks/maxmegamenu/styled-components';
 import { MenuLink } from '@src/components/blocks/maxmegamenu/menu-link';
 import type { MaxMegaMenuAttributes } from '@src/components/blocks/maxmegamenu/block';
-
+import { v4 } from 'uuid';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { cn } from '@src/lib/helpers/helper';
-import { NormalMenu } from '@src/components/blocks/maxmegamenu/normal-menu';
 
 type Props = {
   attributes: MaxMegaMenuAttributes;
@@ -21,30 +18,35 @@ type Props = {
 };
 
 export const NormalSubMenu: React.FC<Props> = ({ items, attributes }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
   return (
     <MegaMenuSubMenuWrapper
       $mainNavigationBackgroundColor={attributes.submenuContainerBackgroundColor}
       $padding={attributes.submenuContainerPadding}
-      className="mega-menu flex-col"
+      className="mega-menu normal-sub-menu-wrapper flex-col w-max"
+      ref={ref}
     >
-      {items?.map((menuItem, menuItemIndex) => (
-        <MenuListItem key={`item-normal-${menuItemIndex}`}>
-          <MenuLink
-            $padding={attributes.submenuLinkPadding}
-            $color={attributes.submenuLinkColor}
-            $colorSm={attributes.mobileSubmenuLinkColor}
-            $hoverColor={attributes.submenuLinkHoverColor}
-            $backgroundColor={attributes.submenuLinkBackgroundColor}
-            $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
-            $fontWeight={attributes.fontWeight}
-            $letterCase={attributes.letterCase}
-            className="flex cursor-pointer items-center"
-            href={menuItem.url}
-          >
-            {HTMLReactParser(menuItem.title || '')}
-          </MenuLink>
-        </MenuListItem>
-      ))}
+      <ul>
+        {items?.map((menuItem, menuItemIndex) => (
+          <MenuListItem key={`item-normal-${menuItemIndex}-${v4()}`}>
+            <MenuLink
+              $padding={attributes.submenuLinkPadding}
+              $color={attributes.submenuLinkColor}
+              $colorSm={attributes.mobileSubmenuLinkColor}
+              $hoverColor={attributes.submenuLinkHoverColor}
+              $backgroundColor={attributes.submenuLinkBackgroundColor}
+              $hoverBackgroundColor={attributes.submenuLinkHoverBackgroundColor}
+              $fontWeight={attributes.fontWeight}
+              $letterCase={attributes.letterCase}
+              className={cn('flex cursor-pointer items-center rounded', attributes.submenuClasses)}
+              href={menuItem.url}
+            >
+              <ReactHTMLParser html={menuItem.title || ''} />
+            </MenuLink>
+          </MenuListItem>
+        ))}
+      </ul>
     </MegaMenuSubMenuWrapper>
   );
 };

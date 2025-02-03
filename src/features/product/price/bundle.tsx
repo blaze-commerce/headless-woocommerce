@@ -22,33 +22,23 @@ export const BundlePrice = ({ product, isTaxExclusive }: TBundlePrice) => {
 
   if (isTaxExclusive) {
     renderedResult.push(
-      <span
-        className={cn('bundle-price', {
-          'font-semibold text-base md:text-lg': isOnSale && salePrice,
-        })}
-      >
-        {formatPrice(product.metaData?.priceWithTax, currency)}
-      </span>
+      <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
     );
   } else if (product.bundleHasSameMinMaxPrice(currency)) {
     renderedResult.push(
-      <span
-        className={cn('bundle-price', {
-          'font-semibold text-base md:text-lg': isOnSale && salePrice,
-        })}
-      >
-        {formatPrice(product.bundle?.minPrice, currency)}
-      </span>
+      <span className="price">{formatPrice(product.bundle?.minPrice, currency)}</span>
     );
   } else {
-    renderedResult.push(<span>From {formatPrice(product.bundle?.minPrice, currency)}</span>);
+    renderedResult.push(
+      <span className="price">From {formatPrice(product.bundle?.minPrice, currency)}</span>
+    );
   }
 
   return (
-    <>
+    <span className="bundle-product-price">
       {renderedResult.map((price, i) => {
         return <Fragment key={`bundle-product-price-${i}`}>{price}</Fragment>;
       })}
-    </>
+    </span>
   );
 };

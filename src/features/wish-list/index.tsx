@@ -1,12 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect } from 'react';
-import { HiX } from 'react-icons/hi';
-
-import { WishListItems } from '@src/features/wish-list/wish-list-items';
-import { WishListRecentlyViewed } from '@src/features/wish-list/wish-list-recently-viewed';
-import { font } from '@public/fonts';
 import { useSiteContext } from '@src/context/site-context';
+import { Content } from '@src/components/blocks/content';
+
+import wishlistBlocks from '@public/wishlist.json';
 
 // @TODO Check if the wishilist feature is turned on
 
@@ -35,7 +33,7 @@ export const WishList = () => {
     >
       <Dialog
         as="div"
-        className={`${font.variable} font-sans relative z-20`}
+        className="wishlist wishlist-dialog"
         onClose={setOpen}
       >
         <Transition.Child
@@ -52,48 +50,10 @@ export const WishList = () => {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-              <Transition.Child
-                as={Fragment}
-                enter="transform transition ease-in-out duration-500 sm:duration-700"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-500 sm:duration-700"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
-              >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-[429px]">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="overflow-y-auto py-5 px-4 sm:px-5">
-                      <div className="flex items-center al justify-between border-b pb-4">
-                        <Dialog.Title className="font-bold text-black text-base uppercase">
-                          WISHLIST
-                        </Dialog.Title>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            className="button-close-minicart -m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() => setOpen(false)}
-                          >
-                            <HiX
-                              className="h-6 w-6"
-                              aria-hidden="true"
-                            />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="">
-                        <div className="flow-root">
-                          <WishListItems />
-                          <WishListRecentlyViewed />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+            <Content
+              type="mini-cart"
+              content={wishlistBlocks}
+            />
           </div>
         </div>
       </Dialog>

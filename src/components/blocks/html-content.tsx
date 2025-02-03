@@ -1,6 +1,6 @@
 import { Dictionary } from '@reduxjs/toolkit';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { default as classNames, default as cx } from 'classnames';
-import HTMLReactParser from 'html-react-parser';
 
 type Props = {
   classes: string;
@@ -53,7 +53,7 @@ export const HtmlContent = ({ classes, text, config }: Props) => {
         style={config?.style}
         styleColor={config?.styleColor}
       >
-        {HTMLReactParser(text)}
+        <ReactHTMLParser html={text} />
       </Wrapper>
     </div>
   );

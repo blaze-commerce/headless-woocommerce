@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Dictionary } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
-import { find, isEmpty, keyBy, reduce } from 'lodash';
+import { find, isEmpty, keyBy } from 'lodash';
 import { useRouter } from 'next/router';
 import React, {
   Dispatch,
@@ -11,11 +11,12 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import resolveConfig from 'tailwindcss/resolveConfig';
+
 import { useLocalStorage, useUpdateEffect } from 'usehooks-ts';
 
 import regionSettings from '@public/region.json';
 import siteSettings from '@public/site.json';
+
 import { GET_CART, UPDATE_CUSTOMER, UPDATE_SHIPPING_METHOD } from '@src/lib/graphql/queries';
 import { useCalculateShipping } from '@src/lib/hooks';
 import { FormattedCart, getFormattedCart } from '@src/lib/hooks/cart';
@@ -24,38 +25,11 @@ import { getCookie, setCookie } from '@src/lib/helpers/cookie';
 import { Settings } from '@src/models/settings';
 import { RegionalData, ShippingMethodRates } from '@src/types';
 import type { CalculateShippingHook } from '@src/lib/hooks';
-
-import tailwindConfig from '../../tailwind.config';
-
-const fullConfig = resolveConfig(tailwindConfig);
-//@ts-ignore
-const tailwindBreakpoints = fullConfig.theme.screens || {
-  sm: '640px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
-  '2xl': '1536px',
-};
-
-const country = reduce<
-  RegionalData,
-  {
-    [code: string]: {
-      currency: string;
-    };
-  }
->(
-  regionSettings,
-  (accumulator, currentData) => {
-    if (typeof accumulator[currentData.baseCountry] === 'undefined') {
-      accumulator[currentData.baseCountry] = {
-        currency: currentData.currency,
-      };
-    }
-    return accumulator;
-  },
-  {}
-);
+import {
+  getCurrencyByCountry,
+  getDefaultCountry,
+  getDefaultCurrency,
+} from '@src/lib/helpers/country';
 
 type SiteContextType = Partial<{
   settings: Settings;
@@ -128,7 +102,8 @@ export const SiteContext = createContext<SiteContextType>({
 export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { asPath, push, pathname } = useRouter();
   const [history, setHistory] = useState<string[]>([]);
-  const [currentCurrency, setCurrentCurrency] = useState('');
+  const defaultCurrency = getDefaultCurrency();
+  const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
   const [currentCountry, setCurrentCountry] = useState('');
 
   const [openLoginPopUp, setOpenLoginPopUp] = useState(false);
@@ -165,6 +140,10 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
   const [selectedCountry, setSelectedCountry] = useLocalStorage('wooless-selected-country', '');
   const [selectedState, setSelectedState] = useLocalStorage('wooless-selected-state', '');
   const [ageVerified, setAgeVerified] = useLocalStorage<boolean>('age-verified', false);
+
+  useEffect(() => {
+    setShowMenu(false);
+  }, [asPath]);
 
   useMutation(UPDATE_CUSTOMER, {
     variables: {
@@ -230,6 +209,8 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
     }
   );
 
+  useEffect(() => setCartUpdating(loading), [loading]);
+
   useUpdateEffect(() => {
     if (true === miniCartOpen && false === loading) {
       track.viewCart(cart);
@@ -255,11 +236,11 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
 
   useEffect(() => {
     setHistory((previous) => [...previous, asPath]);
-    const baseCountry = regionSettings?.[0]?.baseCountry;
-    const selectedCountry = getCookie('currentCountry') || baseCountry || 'AU';
-    const currency = country[selectedCountry].currency;
+    const selectedCountry = getCookie('currentCountry') || getDefaultCountry();
+    const currency = getCurrencyByCountry(selectedCountry);
     setCurrentCountry(selectedCountry);
     setCurrentCurrency(currency);
+
     setCookie('aelia_cs_selected_currency', currency, 30);
     setShowSearch(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -271,7 +252,7 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
     const selectedCountry = e.target.value;
     setCurrentCountry(selectedCountry);
     setCookie('currentCountry', selectedCountry, 30);
-    const currency = country[selectedCountry].currency;
+    const currency = getCurrencyByCountry(selectedCountry);
     setCookie('aelia_cs_selected_currency', currency, 30);
     setCurrentCurrency(currency);
     await updateCustomer({
@@ -346,6 +327,7 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --colors-brandIcons: ${settings?.colors?.background?.icons};
           --colors-brandFont: ${settings.fonts?.siteFont?.fontColor};
           --colors-brandLinks: ${settings.fonts?.link?.fontColor};
+          --colors-subTitle: #333;
           --colors-brandHoverLinks: ${settings.fonts?.link?.hoverFontColor};
           --colors-brandButtonBackground: ${settings.buttonColor?.background};
           --colors-brandButtonText: ${settings.buttonColor?.text};
@@ -371,14 +353,6 @@ export const SiteContextProvider: React.FC<{ children: React.ReactNode }> = (pro
           --price-font-weight: ${settings?.product?.font?.price?.weight};
           --price-regurlar-color: ${settings?.product?.font?.regularPrice?.color};
           --price-sale-color: ${settings?.product?.font?.salePrice?.color ?? 'rgb(75 85 99)'};
-
-          --container-width: ${settings?.store?.containerWidth?.desktop}px;
-        }
-
-        @media screen and (min-width: ${tailwindBreakpoints.lg}) {
-          .container {
-            max-width: var(--container-width);
-          }
         }
       `}</style>
       {props.children}

@@ -1,7 +1,7 @@
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
-
+import { ParsedBlock } from '@src/components/blocks';
 import { NewsLetter } from '@src/components/blocks/gravityforms/news-letter';
 import { BlockAttributes } from '@src/lib/block/types';
+import { FormPicker } from '@src/components/blocks/gravityforms/form-picker';
 
 type FormProps = {
   block: ParsedBlock;
@@ -18,5 +18,5 @@ export const Form = ({ block }: FormProps) => {
   }
 
   // @TODO: Think of a way to get the form data from api and show it properly
-  return null;
+  return <FormPicker block={block} />;
 };

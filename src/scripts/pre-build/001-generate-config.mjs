@@ -10,19 +10,14 @@ const configNames = [
   'site_logo',
   'stock_display_format',
   'currencies',
-  'homepage_layout',
   'homepage_slug',
-  'site_message_top_header',
+  'shop_page_slug',
+  'blog_page_slug',
+  'woocommerce_permalinks',
   'site_message',
-  'footer_content_before',
-  'footer_content_1',
-  'footer_content_2',
-  'footer_content_3',
-  'footer_content_4',
-  'footer_content_5',
-  'footer_content_after',
   'woocommerce_calc_taxes',
   'woocommerce_prices_include_tax',
+  'woocommerce_tax_setup',
   'free_shipping_threshold',
   'description_after_content',
   'woographql_is_composite_enabled',
@@ -30,8 +25,9 @@ const configNames = [
   'show_free_shipping_banner',
   'show_free_shipping_minicart_component',
   'is_multicurrency',
-  'ec_supreme_all_header_logo',
-  'ec_supreme_all_footer_text',
+  'gift_card_header_logo',
+  'gift_card_header_text',
+  'gift_card_footer_text',
   'regions',
   'show_variant_as_separate_product_cards',
   'judgeme_settings',
@@ -39,9 +35,9 @@ const configNames = [
   'business_reviews_bundle_settings',
   'reviews_plugin',
   'category_page_default_sort',
-  'font_family',
   'site_icon_url',
-  'is_bundle_product_enabled'
+  'is_bundle_product_enabled',
+  'show_share_to_pinterest_button',
 ];
 
 const loadFile = (file) => {
@@ -83,40 +79,6 @@ export const isJsonString = (str) => {
   return true;
 };
 
-const transformedData = (data) => {
-  return data?.reduce((previousValue, currentValue) => {
-    const arr = currentValue.meta_key.split('.');
-    const chainedProperty = _.chain(arr).map(_.camelCase).value().join('.');
-    let value = currentValue.meta_value;
-    if (isJsonString(value)) {
-      value = transformJson(JSON.parse(value));
-    }
-
-    value = maybeConvertToBool(value);
-
-    _.set(previousValue, chainedProperty, value);
-
-    return previousValue;
-  }, {});
-};
-
-const transformJson = (obj) => {
-  return _.mapKeys(
-    _.mapValues(obj, (value) => {
-      if (value !== null && isJsonString(value)) {
-        return transformJson(JSON.parse(value));
-      }
-
-      if (value !== null && typeof value === 'object') {
-        return transformJson(value);
-      }
-
-      return maybeConvertToBool(value);
-    }),
-    (v, k) => _.camelCase(k)
-  );
-};
-
 const parseJSON = (value, fallback = '') => {
   if (typeof value === 'string' && value === '""') {
     return fallback;
@@ -145,11 +107,11 @@ const normalizeJsonArray = (obj) => {
 
 const getDefaultSettings = () => {
   return loadFile(path.resolve(process.cwd(), 'config', 'default-settings.json'));
-
 };
 
 const generateMenuJSON = async (params) => {
-  const { NEXT_PUBLIC_STORE_ID, NEXT_PUBLIC_TYPESENSE_HOST, NEXT_PUBLIC_TYPESENSE_PUBLIC_KEY } = params.env;
+  const { NEXT_PUBLIC_STORE_ID, NEXT_PUBLIC_TYPESENSE_HOST, NEXT_PUBLIC_TYPESENSE_PUBLIC_KEY } =
+    params.env;
   let menuArray = [];
   const fullFilePath = path.join(process.cwd(), 'public', 'menu.json');
 
@@ -204,7 +166,6 @@ const deleteFile = async (fullFilePath) => {
   }
 };
 
-
 const getTypesenseConfigs = async (client, storeId) => {
   const siteInfos = await client
     .collections(`site_info-${storeId}`)
@@ -227,13 +188,20 @@ export default async function execute(params) {
 
   const typesenseConfigs = await getTypesenseConfigs(client, NEXT_PUBLIC_STORE_ID);
 
+  console.log('typesenseConfigs', typesenseConfigs);
   try {
-
     settingsWithDefaults.header.logo.desktop.wpSrc = typesenseConfigs?.siteLogo?.value;
 
     settingsWithDefaults.header.logo.mobile.wpSrc = typesenseConfigs?.siteLogo?.value;
     settingsWithDefaults.homepageSlug = typesenseConfigs?.homepageSlug?.value;
-    settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(typesenseConfigs?.isBundleProductEnabled?.value);
+    settingsWithDefaults.showShareToPinterestButton = maybeConvertToBool(
+      typesenseConfigs?.showShareToPinterestButton?.value
+    );
+    settingsWithDefaults.shopPageSlug = typesenseConfigs?.shopPageSlug?.value;
+    settingsWithDefaults.blogPageSlug = typesenseConfigs?.blogPageSlug?.value;
+    settingsWithDefaults.isBundleProductEnabled = maybeConvertToBool(
+      typesenseConfigs?.isBundleProductEnabled?.value
+    );
     settingsWithDefaults.categoryPageDefaultSort = typesenseConfigs?.categoryPageDefaultSort?.value;
     const favIcon = typesenseConfigs?.siteIconUrl?.value;
     if (!_.isEmpty(favIcon)) {
@@ -247,6 +215,12 @@ export default async function execute(params) {
       typesenseConfigs?.freeShippingThreshold?.value,
       {}
     );
+
+    settingsWithDefaults.woocommercePermalinks = parseJSON(
+      typesenseConfigs?.woocommercePermalinks?.value,
+      {}
+    );
+
     settingsWithDefaults.store.woocommerceCalcTaxes = maybeConvertToBool(
       typesenseConfigs?.woocommerceCalcTaxes?.value
     );
@@ -278,10 +252,11 @@ export default async function execute(params) {
       typesenseConfigs?.woocommerceIsAfterpayEnabled?.value
     );
 
-    settingsWithDefaults.store.giftCardHeaderImage =
-      typesenseConfigs?.ecSupremeAllHeaderLogo?.value;
+    settingsWithDefaults.store.giftCardHeaderImage = typesenseConfigs?.giftCardHeaderLogo?.value;
 
-    settingsWithDefaults.store.giftCardFooterText = typesenseConfigs?.ecSupremeAllFooterText?.value;
+    settingsWithDefaults.store.giftCardHeaderText = typesenseConfigs?.giftCardHeaderText?.value;
+
+    settingsWithDefaults.store.giftCardFooterText = typesenseConfigs?.giftCardFooterText?.value;
 
     settingsWithDefaults.store.isMulticurrency = maybeConvertToBool(
       typesenseConfigs?.isMulticurrency?.value
@@ -289,22 +264,8 @@ export default async function execute(params) {
 
     settingsWithDefaults.siteMessage = parseJSON(typesenseConfigs?.siteMessage?.value, []);
     settingsWithDefaults.regions = parseJSON(typesenseConfigs?.regions?.value, {});
-    settingsWithDefaults.homepageLayout = parseJSON(typesenseConfigs?.homepageLayout?.value, []);
     settingsWithDefaults.siteMessageTopHeader = parseJSON(
       typesenseConfigs?.siteMessageTopHeader?.value,
-      []
-    );
-    settingsWithDefaults.footerContentBefore = parseJSON(
-      typesenseConfigs?.footerContentBefore?.value,
-      []
-    );
-    settingsWithDefaults.footerContent1 = parseJSON(typesenseConfigs?.footerContent1?.value, []);
-    settingsWithDefaults.footerContent2 = parseJSON(typesenseConfigs?.footerContent2?.value, []);
-    settingsWithDefaults.footerContent3 = parseJSON(typesenseConfigs?.footerContent3?.value, []);
-    settingsWithDefaults.footerContent4 = parseJSON(typesenseConfigs?.footerContent4?.value, []);
-    settingsWithDefaults.footerContent5 = parseJSON(typesenseConfigs?.footerContent5?.value, []);
-    settingsWithDefaults.footerContentAfter = parseJSON(
-      typesenseConfigs?.footerContentAfter?.value,
       []
     );
 
@@ -351,7 +312,6 @@ export default async function execute(params) {
   const fullFilePath = path.join(process.cwd(), 'public', 'site.json');
   console.log('Creating Site config file');
   settingsWithDefaults = _.omit(settingsWithDefaults, omitValues);
-  console.log({ settingsWithDefaults });
   try {
     await deleteFile(fullFilePath);
     await fs.promises.writeFile(fullFilePath, JSON.stringify(settingsWithDefaults));

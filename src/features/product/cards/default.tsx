@@ -1,24 +1,35 @@
 import { find } from 'lodash';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import siteData from '@public/site.json';
 import { useEffectOnce, useIntersectionObserver } from 'usehooks-ts';
 
-import { Image } from '@src/components/common/image';
 import { CardRating } from '@src/features/product/card-elements/rating';
 import { CardTitle } from '@src/features/product/card-elements/title';
 import { CardLabel } from '@src/features/product/card-elements/label';
-import { CardImage } from '@src/features/product/card-elements/image';
 import { seoUrlParser } from '@src/components/page-seo';
 import { CardAddToCart } from '@src/features/product/card-elements/add-to-cart';
 import { CardPrice } from '@src/features/product/card-elements/price';
+import { CardProductCategory } from '@src/features/product/card-elements/category';
 import { useSiteContext } from '@src/context/site-context';
 import { track } from '@src/lib/track';
 import { Product, ProductTypesenseResponse } from '@src/models/product';
-import { Image as ImageType } from '@src/models/product/types';
 import { cn } from '@src/lib/helpers/helper';
-import TSThumbnail from '@src/lib/typesense/image';
 import type { ProductCards } from '@src/models/settings/shop';
+import { GliderMethods } from 'react-glider/dist/types';
+import productCards from '@public/product-cards.json';
+import { PinterestSaveButton } from '@src/features/pinterest-save-button';
+
+const CardGalleryThumbnail = dynamic(() =>
+  import('@src/features/product/card-elements/slideshow-thumbnail').then(
+    (mod) => mod.CardGalleryThumbnail
+  )
+);
+
+const CardImage = dynamic(() =>
+  import('@src/features/product/card-elements/image').then((mod) => mod.CardImage)
+);
 
 const CardDiscountLabel = dynamic(() =>
   import('@src/features/product/card-elements/discount-label').then((mod) => mod.CardDiscountLabel)
@@ -34,6 +45,15 @@ const CardItemsLeftBadge = dynamic(() =>
     (mod) => mod.CardItemsLeftBadge
   )
 );
+const CardOutOfStock = dynamic(() =>
+  import('@src/features/product/card-elements/out-of-stock').then((mod) => mod.CardOutOfStock)
+);
+
+const CardWishlishButton = dynamic(() =>
+  import('@src/features/product/card-elements/wishlist-button').then(
+    (mod) => mod.CardWishlishButton
+  )
+);
 
 interface Props extends ProductCards {
   product: Product;
@@ -43,6 +63,9 @@ interface Props extends ProductCards {
   imageClassNames?: string;
   layout?: 'primary' | 'secondary';
   showWishlistButton?: boolean;
+  showVariants?: boolean;
+  showBadge?: boolean;
+  showCategory?: boolean;
   newBadgeColor?: string;
   newBadgeType?: number;
   saleBadgeColor?: string;
@@ -60,6 +83,9 @@ export const DefaultProductCard = (props: Props) => {
     hasAddToCart = false,
     layout = 'primary',
     showWishlistButton = false,
+    showVariants = true,
+    showCategory = false,
+    showBadge = true,
     newBadgeColor = '#FF0000',
     newBadgeType = 1,
     saleBadgeColor = '#FF0000',
@@ -67,8 +93,9 @@ export const DefaultProductCard = (props: Props) => {
   } = props;
 
   const productLink = seoUrlParser(product?.permalink || '');
-  const thumbnailSrc = TSThumbnail.clean(product?.thumbnail?.src || '');
   const { currentCurrency, settings, currentCountry } = useSiteContext();
+  const [showImageVariant, setShowImageVariant] = useState<string>('');
+  const [hovered, setHovered] = useState(false);
   // const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -94,10 +121,7 @@ export const DefaultProductCard = (props: Props) => {
     prefetch(`/${currentCountry}${productLink}`);
   };
 
-  const mainImage: ImageType = {
-    src: thumbnailSrc,
-    altText: product?.thumbnail?.altText || product?.name || '',
-  };
+  const gliderRef = useRef<GliderMethods>(null);
 
   const displayPrice =
     (regularPrice as { [key: string]: number })?.[currentCurrency] != 0 ? regularPrice : price;
@@ -107,115 +131,122 @@ export const DefaultProductCard = (props: Props) => {
     isOnSale = !!find(product.variations, ['onSale', true]);
   }
 
-  // const renderAvailableOptions = () => {
-  //   const { showAvailableOptions, availableOptionsCount } = props;
-  //   const compositeProductsCount = (compositeComponents?.length as number) ?? availableOptionsCount;
-  //   const hasAvailableOptions = compositeProductsCount > 0;
-
-  //   return (
-  //     <div className={`text-${detailsAlignment} text-gray-500 z-[7]`}>
-  //       {showAvailableOptions && hasAvailableOptions && (
-  //         <>{`${compositeProductsCount} available options`}</>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
-  if ('secondary' === layout) {
-    return (
-      <div
-        key={product.id}
-        className={cn(
-          'product-card !justify-start group relative content-between transition-all ease-linear duration-300 h-full flex flex-col !left-0',
-          {
-            'border border-solid border-[#ECEEEF]': hasBorders,
-            'hover:shadow-xl': cardShadow,
-          },
-          classNames
-        )}
-        style={{
-          padding: `${props?.imagePadding}px`,
-        }}
-      >
-        <div className="flex gap-4 w-full justify-start">
-          <Image
-            src={mainImage.src}
-            alt={mainImage.altText as string}
-            width={60}
-            height={60}
-            className="w-[60px] h-[60px]"
-          />
-
-          <div className="flex flex-col flex-start">
-            <div className="product-card-label">
-              <CardTitle
+  const renderProductCardsFromTemplate = () => {
+    const productCardTemplate = productCards[0];
+    return productCardTemplate.innerBlocks.map((block) => {
+      switch (block.blockName) {
+        case 'woocommerce/product-image': {
+          return (
+            <div
+              className="product-header"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
+              <CardImage
                 product={parsedProduct}
-                ref={ref}
-                handleMouseEnter={handleMouseEnter}
-                layout={layout}
-                fontSize={props.titleFontSize as string}
-                link={productLink}
+                imageClassNames={props.imageClassNames}
+                productFilters={props.productFilters}
+                productColumns={props.productColumns}
+                showWishlistButton={showWishlistButton}
+                showImageVariant={showImageVariant}
               />
+              {showBadge && (
+                <div className="product-badges">
+                  {siteData.showShareToPinterestButton && hovered && (
+                    <PinterestSaveButton src={parsedProduct?.thumbnail?.src} />
+                  )}
+                  {isOnSale && (
+                    <CardSaleBadge
+                      badgeType={saleBadgeType}
+                      badgeColor={saleBadgeColor}
+                    />
+                  )}
+                  <CardNewBadge
+                    product={parsedProduct}
+                    badgeType={newBadgeType}
+                    badgeColor={newBadgeColor}
+                  />
+                  <CardItemsLeftBadge
+                    product={parsedProduct}
+                    hasItemsLeftBadge={true}
+                  />
+                </div>
+              )}
+
+              {showWishlistButton && (
+                <CardWishlishButton
+                  product={product}
+                  hasItemsLeftBadge={true}
+                />
+              )}
+
+              {product.isOutOfStock && <CardOutOfStock />}
             </div>
+          );
+        }
+        case 'core/post-title': {
+          return (
+            <CardTitle
+              product={parsedProduct}
+              handleMouseEnter={handleMouseEnter}
+              layout={layout}
+              link={productLink}
+              className={block.attrs.className}
+            />
+          );
+        }
+        case 'woocommerce/product-price': {
+          return (
             <CardPrice
               product={parsedProduct}
               currency={currentCurrency}
               isTaxExclusive={settings?.isTaxExclusive}
-              className="mt-4 !text-base !font-normal justify-start flex-nowrap "
+              className={cn('!text-base !font-normal flex-wrap', block.attrs.className, {
+                'justify-left': detailsAlignment === 'left',
+                'justify-center': detailsAlignment === 'center',
+              })}
             />
-            <div className="relative z-[8] mt-auto max-w-max">
-              <CardAddToCart
-                product={parsedProduct}
-                hasAddToCart={hasAddToCart}
-                detailsAlignment={detailsAlignment}
-                layout={layout}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+          );
+        }
+        case 'woocommerce/product-rating': {
+          return (
+            <CardRating
+              product={parsedProduct}
+              detailsAlignment={detailsAlignment}
+              showRating={showRating}
+            />
+          );
+        }
+        default:
+          return null;
+      }
+    });
+  };
 
   return (
     <div
       key={product.id}
       className={cn(
-        'product-card bg-white group !justify-start relative content-between transition-all ease-linear duration-300 h-full flex flex-col !left-0',
+        'product-card',
         {
-          'border border-solid border-[#ECEEEF] max-w-xs': hasBorders,
-          'hover:shadow-xl': cardShadow,
+          'has-border': hasBorders,
+          'has-shadow': cardShadow,
+          'is-variable': product.hasVariations,
+          'is-simple': product.isSimple,
+          'is-on-sale': isOnSale,
+          'is-composite': product.isComposite,
+          'is-bundle': product.hasBundle,
+          'is-gift-card': product.isGiftCard,
+          'is-out-of-stock': product.isOutOfStock,
         },
-        classNames
+        classNames,
+        `product-${product.id}`
       )}
       style={{
         padding: `${props?.imagePadding}px`,
       }}
     >
-      <div className="mb-4">
-        <CardImage
-          product={parsedProduct}
-          imageClassNames={props.imageClassNames}
-          productFilters={props.productFilters}
-          productColumns={props.productFilters}
-          showWishlistButton={showWishlistButton}
-        />
-        {isOnSale && (
-          <CardSaleBadge
-            badgeType={saleBadgeType}
-            badgeColor={saleBadgeColor}
-          />
-        )}
-        <CardNewBadge
-          product={parsedProduct}
-          badgeType={newBadgeType}
-          badgeColor={newBadgeColor}
-        />
-        <CardItemsLeftBadge
-          product={parsedProduct}
-          hasItemsLeftBadge={true}
-        />
-      </div>
+      {renderProductCardsFromTemplate()}
       <CardDiscountLabel
         showLabel={props.showDiscountLabel as boolean}
         discount={props.discountPercent as string}
@@ -223,35 +254,19 @@ export const DefaultProductCard = (props: Props) => {
       />
       <div className={`product-card-label text-${detailsAlignment}`}>
         <CardLabel product={parsedProduct} />
-        <CardTitle
-          product={parsedProduct}
-          ref={ref}
-          handleMouseEnter={handleMouseEnter}
-          layout={layout}
-          fontSize={props.titleFontSize as string}
-          link={productLink}
-        />
-      </div>
-      <div className="flex flex-col justify-end">
-        <CardRating
-          product={parsedProduct}
-          detailsAlignment={detailsAlignment}
-          showRating={showRating}
-        />
-        <div className={`text-${detailsAlignment} w-full lg:w-auto mt-2`}>
-          <CardPrice
-            product={parsedProduct}
-            currency={currentCurrency}
-            isTaxExclusive={settings?.isTaxExclusive}
-            className={cn('!text-base !font-normal flex-wrap', {
-              'justify-left': detailsAlignment === 'left',
-              'justify-center': detailsAlignment === 'center',
-            })}
+
+        {/* {showCategory && <CardProductCategory product={parsedProduct} />} */}
+        {showVariants && product.hasVariations && (
+          <CardGalleryThumbnail
+            product={product}
+            detailsAlignment={detailsAlignment}
+            setShowImageVariant={setShowImageVariant}
           />
-        </div>
+        )}
+
         {/* {renderAvailableOptions()} */}
       </div>
-      <div className="relative mt-auto z-[8]">
+      <div className="add-to-cart-container">
         <CardAddToCart
           product={parsedProduct}
           hasAddToCart={hasAddToCart}

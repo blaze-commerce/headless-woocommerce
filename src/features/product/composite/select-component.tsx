@@ -1,8 +1,7 @@
-import parse from 'html-react-parser';
-
 import { useProductContext } from '@src/context/product-context';
 import { OUT_OF_STOCK } from '@src/lib/helpers/constants';
 import { CompositeProductComponent } from '@src/types';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   component: CompositeProductComponent;
@@ -27,7 +26,7 @@ export const SelectComponent: React.FC<Props> = ({ component }) => {
         className="block text-sm font-bold mb-1"
         htmlFor={component.slug}
       >
-        {parse(component.title)}:
+        <ReactHTMLParser html={component.title} />:
       </label>
       <select
         className="w-full border p-2"

@@ -8,6 +8,7 @@ import { track } from '@src/lib/track';
 import { Settings } from '@src/models/settings';
 import { cn } from '@src/lib/helpers/helper';
 
+//@TODO: to be removed because of SearchInput component that uses gutenber block
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CustomSearchBox = ({ onFocus, setSearchTerm, searchTerm, className, style }: any) => {
   const { settings } = useSiteContext();

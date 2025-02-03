@@ -1,5 +1,6 @@
 import { BlockComponentProps } from '@src/components/blocks';
 import { Search as SearchComponent } from '@src/components/header/search';
+import { SearchContextProvider } from '@src/context/search-context';
 import { useSiteContext } from '@src/context/site-context';
 import { isBlockA } from '@src/lib/block';
 import { BlockAttributes } from '@src/lib/block/types';
@@ -24,13 +25,13 @@ export const Search = ({ block }: BlockComponentProps) => {
     return null;
   }
 
-  const attribute = block.attrs as BlockAttributes;
   return (
-    <div className={cn(`_${block.id} w-full`, attribute.className)}>
+    <SearchContextProvider>
       <SearchComponent
         input={search.input}
         results={search.results}
+        block={block}
       />
-    </div>
+    </SearchContextProvider>
   );
 };

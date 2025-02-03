@@ -20,12 +20,10 @@ import { HeroBanner } from '@src/components/blocks/hero-banner';
 import { HtmlContent } from '@src/components/blocks/html-content';
 import { Testimonial } from '@src/components/blocks/testimonial';
 import { VideoBanner } from '@src/components/blocks/video-banner';
-import { ContentBlock, ContentBlockMetaData, MetaDataBlock } from '@src/types';
+import { ContentBlock, ContentBlockMetaData } from '@src/types';
 import TSProduct from '@src/lib/typesense/product';
-import { Content } from '@src/components/blocks/content';
 
-import HOMEPAGE_DATA from '@public/homepage.json';
-import { ParsedBlock, parse } from '@wordpress/block-serialization-default-parser';
+import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { ParsedBlock as NewParsedBlock } from '@src/components/blocks';
 import { CustomerTestimonials } from '@src/components/blocks/customer-testimonials';
 type Props = {
@@ -91,18 +89,6 @@ export const ContentBlocks = ({
           <Text
             {...metaData}
             config={content.config}
-          />
-        );
-      case 'gutenbergBlocks':
-        metaData = content.metaData as MetaDataBlock;
-        metaDataContent = metaData?.[currentCountry]?.content || metaData?.[baseCountry]?.content;
-        parsedContent =
-          typeof metaDataContent === 'string' ? parse(metaDataContent) : metaDataContent;
-
-        if (!parsedContent) return null;
-        return (
-          <Content
-            content={restructureHomepageContent(HOMEPAGE_DATA as ParsedBlock[], parsedContent)}
           />
         );
       case 'singleImage':

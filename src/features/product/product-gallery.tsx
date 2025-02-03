@@ -6,7 +6,12 @@ import { ProductSettings } from '@src/models/settings/product';
 import { Shop, ProductCards } from '@src/models/settings/shop';
 import { toDateTime, isWithInMonthsAgo } from '@src/lib/helpers/date';
 
-export const ProductGallery = () => {
+type TProps = {
+  className?: string;
+  id?: string;
+};
+
+export const ProductGallery = ({ className, id }: TProps) => {
   const { product } = useProductContext();
   const { settings } = useSiteContext();
 
@@ -26,17 +31,17 @@ export const ProductGallery = () => {
   const isTwoMonthsAgo = isWithInMonthsAgo(publishedDate, newBadgeThreshold);
 
   return (
-    <div className="w-full lg:basis-6/12 lg:px-4 lg:mb-20">
-      <Gallery
-        images={product.galleryImages}
-        onSale={product.onSale}
-        isNew={isTwoMonthsAgo}
-        isGrid={productGallery?.isGrid}
-        zoomType={productGallery?.zoomType}
-        badgeType={badgeType}
-        saleBadgeColor={saleBadgeColor}
-        newBadgeColor={newBadgeColor}
-      />
-    </div>
+    <Gallery
+      id={id}
+      className={className}
+      images={product.galleryImages}
+      onSale={product.onSale}
+      isNew={isTwoMonthsAgo}
+      isGrid={productGallery?.isGrid}
+      zoomType={productGallery?.zoomType}
+      badgeType={badgeType}
+      saleBadgeColor={saleBadgeColor}
+      newBadgeColor={newBadgeColor}
+    />
   );
 };

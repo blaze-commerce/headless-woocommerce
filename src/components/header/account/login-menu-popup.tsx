@@ -12,29 +12,33 @@ import { useUserContext } from '@src/context/user-context';
 import { REMOVE_CART_ITEM } from '@src/lib/graphql/queries';
 import { FormattedCart } from '@src/lib/hooks/cart';
 import { setCookie } from '@src/lib/helpers/cookie';
-import { DisplayType, getDisplayTypeValues } from '@src/lib/helpers/menu';
+import { DisplayType } from '@src/lib/helpers/menu';
 import { useAuth } from '@src/lib/hooks';
+import { Html } from '@src/components/blocks/core/html';
+import { ParsedBlock } from '@src/components/blocks';
+import { Paragraph } from '@src/components/blocks/core/paragraph';
+import { isString } from 'lodash';
 
 type Props = {
   displayType?: DisplayType | string | null;
-  label?: string;
+  label?: ParsedBlock | string | null;
   hasChevronDownIcon?: boolean | null;
   color?: string;
+  iconBlock?: ParsedBlock | null;
 };
 
 export const LoginMenuPopup: React.FC<Props> = ({
-  displayType,
   label,
   hasChevronDownIcon,
   color,
+  iconBlock,
 }) => {
   const { logout, refetchViewer } = useAuth();
   const { push, query } = useRouter();
-  const { settings, setCart, loginPopupState } = useSiteContext();
+  const { setCart, loginPopupState } = useSiteContext();
   const [openLoginPopUp, setOpenLoginPopUp] = loginPopupState;
   const [isOpenLogin, setIsOpenLogin] = useState(openLoginPopUp);
   const { isLoggedIn, loginSessionId } = useUserContext();
-  const { showText } = getDisplayTypeValues(displayType);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
   const [removeItemFromCart] = useMutation(REMOVE_CART_ITEM);
 
@@ -92,11 +96,20 @@ export const LoginMenuPopup: React.FC<Props> = ({
 
   const renderAccountIcon = (): JSX.Element => (
     <>
-      <AccountIcon fillColor={color || ''} />
-      {showText && <span className="hidden lg:inline-block"> {label}</span>}
+      {iconBlock && iconBlock.blockName === 'core/html' ? (
+        <Html block={iconBlock} />
+      ) : (
+        <AccountIcon fillColor={color || ''} />
+      )}
+
+      {label && (
+        <span className="hidden md:inline-block">
+          {isString(label) ? label : <Paragraph block={label} />}
+        </span>
+      )}
       {hasChevronDownIcon && (
         <ChevronDown
-          className="hidden lg:inline-block ml-2"
+          className="hidden md:inline-block ml-2"
           color="none"
           fillColor={color || ''}
         />
@@ -109,17 +122,17 @@ export const LoginMenuPopup: React.FC<Props> = ({
     <div className="relative">
       <button
         onClick={() => setIsOpenLogin((prev) => !prev)}
-        className="menu-item-account group cursor-pointer h-full focus:outline-none space-x-2 my-account-popup-button"
+        className="menu-item-account group cursor-pointer h-full focus:outline-none space-x-2 my-account-popup-button items-center"
       >
         {renderAccountIcon()}
       </button>
       <div ref={loginPopOverRef}>
         {shouldShow && (
-          <div className="login-popup">
+          <div className="login-popup rounded">
             <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-5">
                 {isLoggedIn ? (
-                  <LoggedIn label={showText ? label : 'My Account'} />
+                  <LoggedIn label={'My Account'} />
                 ) : (
                   <Login onClose={() => setIsOpenLogin(false)} />
                 )}

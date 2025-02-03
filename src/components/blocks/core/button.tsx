@@ -1,5 +1,5 @@
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
-import parse from 'html-react-parser';
 
 type ButtonProps = {
   block: ParsedBlock;
@@ -10,5 +10,5 @@ export const Button = ({ block }: ButtonProps) => {
     return null;
   }
 
-  return <>{parse(block.innerHTML)}</>;
+  return <ReactHTMLParser html={block.innerHTML} />;
 };

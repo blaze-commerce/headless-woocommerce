@@ -48,7 +48,7 @@ export const MegaMenuSubMenuWrapper = styled.div<{
   `;
   }}
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     position: absolute;
     box-shadow: 0px 10px 40px 0px #0000001a;
     border-top: unset;

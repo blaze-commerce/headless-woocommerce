@@ -1,9 +1,7 @@
-import parse from 'html-react-parser';
-
 import { PrefetchLink } from '@src/components/common/prefetch-link';
 import { useSiteContext } from '@src/context/site-context';
 import { cn } from '@src/lib/helpers/helper';
-import { Search } from '@src/models/settings/search';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CategoryHit = ({ hit }: any) => {
@@ -27,7 +25,7 @@ export const CategoryHit = ({ hit }: any) => {
             fontWeight: settings?.search?.results?.texts?.font?.weight ?? '',
           }}
         >
-          {parse(hit.name)}
+          <ReactHTMLParser html={hit.name} />
         </p>
       </div>
     </PrefetchLink>

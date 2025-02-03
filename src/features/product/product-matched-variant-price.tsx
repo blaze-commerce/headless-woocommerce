@@ -29,9 +29,9 @@ export const ProductMatchedVariantPrice: React.FC<Props> = ({
   const { price, regularPrice, salePrice } = product;
   const isOnSale = product.onSale && (product.salePrice?.[currency] as number) > 0;
 
-  const renderSimpleProductPrice = () => {
-    if (product.isFree(currency)) return null;
+  if (product.isFree(currency)) return null;
 
+  const renderSimpleProductPrice = () => {
     const renderedResult = [];
 
     if (isOnSale && salePrice) {
@@ -41,11 +41,11 @@ export const ProductMatchedVariantPrice: React.FC<Props> = ({
     }
 
     if (isTaxExclusive) {
+      renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
+    } else {
       renderedResult.push(
         <span className="price">{formatPrice(product.metaData?.priceWithTax, currency)}</span>
       );
-    } else {
-      renderedResult.push(<span className="price">{formatPrice(price, currency)}</span>);
     }
 
     return renderedResult.map((price, i) => {
@@ -54,11 +54,14 @@ export const ProductMatchedVariantPrice: React.FC<Props> = ({
   };
 
   return (
-    <div className={cn('price', className)}>
-      <span>{renderSimpleProductPrice()}</span>
-      {priceDisplaySuffix && (
-        <span className="text-sm w-full md:w-auto font-thin"> {priceDisplaySuffix}</span>
+    <div className={cn(className)}>
+      {renderSimpleProductPrice()}
+      {typeof product.stockQuantity !== 'undefined' && product.stockQuantity > 0 && (
+        <div className="stock-status">
+          <span className="instock">{product.stockQuantity} in stock</span>
+        </div>
       )}
+      {priceDisplaySuffix && <span className="price-suffix"> {priceDisplaySuffix}</span>}
     </div>
   );
 };

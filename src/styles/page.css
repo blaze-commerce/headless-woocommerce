@@ -1,0 +1,11 @@
+.page p a {
+  @apply underline;
+}
+
+.page p.nounderline a {
+  @apply no-underline;
+}
+
+.page p.nounderline a:hover {
+  @apply text-primary;
+}

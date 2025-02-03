@@ -2,6 +2,7 @@ import { uniqueId } from 'lodash';
 import React from 'react';
 
 import { IFilterOptionData } from '@src/lib/types/taxonomy';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   options?: Array<{
@@ -27,6 +28,8 @@ export const SortByOptions = (props: Props) => {
       onSortChange(e);
       return selectedSort;
     });
+
+    localStorage.setItem('sortValue', JSON.stringify(selectedSort));
   };
 
   return (
@@ -64,7 +67,7 @@ export const SortByOptions = (props: Props) => {
                     htmlFor={uId}
                     className="ml-3 block text-sm font-medium text-gray-700"
                   >
-                    {option.label}
+                    <ReactHTMLParser html={option.label} />
                   </label>
                 </div>
               );

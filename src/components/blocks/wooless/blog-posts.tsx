@@ -16,10 +16,10 @@ import { RawLink } from '@src/components/common/raw-link';
 import { Day, Month, Year } from '@src/lib/types/date';
 import { ParsedBlock } from '@src/components/blocks';
 import { unixToDate } from '@src/lib/helpers/date';
-import HTMLReactParser from 'html-react-parser';
 import { PageTypesenseResponse } from '@src/lib/typesense/page';
-import { useHomeContext } from '@src/context/home-context';
+import { usePageContext } from '@src/context/page-context';
 import { ArrowRight3 } from '@src/components/svg/arrow-right-3';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   block: ParsedBlock;
@@ -28,7 +28,7 @@ type Props = {
 export const BlogPosts = ({ block }: Props) => {
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
-  const { blogPosts } = useHomeContext();
+  const { blogPosts } = usePageContext();
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [gliderPage, setGliderPage] = useState(1);
   const blockAttribute = block.attrs as BlockAttributes;
@@ -60,11 +60,12 @@ export const BlogPosts = ({ block }: Props) => {
     getAttributeValue(htmlAttributes, 'data-month-format') ?? 'numeric';
   const blogDay: Day | string = getAttributeValue(htmlAttributes, 'data-day-format') ?? 'numeric';
   const blogDateFormat = getAttributeValue(htmlAttributes, 'data-date-format') ?? 'en-US';
-  const hasDateEnabled = getAttributeValue(htmlAttributes, 'data-date-enabled') === '1' ?? false;
+  const hasDateEnabled = (getAttributeValue(htmlAttributes, 'data-date-enabled') ?? '0') === '1';
   const hasDescriptionEnabled =
-    getAttributeValue(htmlAttributes, 'data-description-enabled') === '1' ?? false;
+    (getAttributeValue(htmlAttributes, 'data-description-enabled') ?? '0') === '1';
   const hasReadMoreEnabled =
-    getAttributeValue(htmlAttributes, 'data-read-more-enabled') === '1' ?? false;
+    (getAttributeValue(htmlAttributes, 'data-read-more-enabled') ?? '0') === '1';
+
   const cardClasses = getAttributeValue(htmlAttributes, 'data-card-class') ?? '';
   const imageContainerClasses =
     getAttributeValue(htmlAttributes, 'data-image-container-class') ?? '';
@@ -167,7 +168,7 @@ export const BlogPosts = ({ block }: Props) => {
                 </span>
                 {hasDescriptionEnabled && (
                   <span className={cn(descriptionClasses, 'mt-2 line-clamp-4')}>
-                    {blog?.content && HTMLReactParser(blog?.content as string)}
+                    {blog?.content && <ReactHTMLParser html={blog?.content} />}
                   </span>
                 )}
                 {hasReadMoreEnabled && (

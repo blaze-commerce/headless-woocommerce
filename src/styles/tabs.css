@@ -1,0 +1,19 @@
+.tab-header {
+  @apply flex p-1;
+}
+
+.tab-header .tab-item {
+  @apply w-full text-sm md:text-lg leading-8 text-foreground font-medium box-border border-b-4;
+}
+
+.tab-header .tab-item.active {
+  @apply border-primary;
+}
+
+.tab-panels {
+  @apply mt-2;
+}
+
+.tab-panels .tab-content {
+  @apply bg-white flex flex-col gap-2;
+}

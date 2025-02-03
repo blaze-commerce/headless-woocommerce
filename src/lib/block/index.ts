@@ -241,6 +241,14 @@ export const getSpacingClasses = (block: ParsedBlock) => {
   ];
 };
 
+const fontSizeClasses = {
+  small: 'text-sm',
+  medium: 'text-base',
+  large: 'text-lg',
+  'x-large': 'text-xl',
+  'xx-large': 'text-2xl',
+};
+
 export const getTypographyClasses = (block: ParsedBlock) => {
   const attribute = block.attrs as BlockAttributes;
   const {
@@ -537,6 +545,23 @@ export const isBlockA = (block: ParsedBlock, blockLabel: string) => {
   return false;
 };
 
+export const isBlockNameA = (block: ParsedBlock, blockLabel: string) => {
+  const attribute = block.attrs as BlockAttributes;
+  if (blockLabel === attribute?.metadata?.name || blockLabel === attribute.blockLabel) {
+    return true;
+  }
+
+  return false;
+};
+
+export const getBlockName = (block: ParsedBlock) => {
+  const { metadata, blockLabel } = block.attrs as BlockAttributes;
+  return metadata?.name ?? blockLabel ?? block.blockName;
+};
+
+export const getBlockByName = (blocks: ParsedBlock[], name: string) =>
+  blocks.find((block) => getBlockName(block) === name);
+
 export const isMobileAccordion = (block: ParsedBlock) => {
   return isBlockA(block, 'MobileAccordion');
 };
@@ -809,4 +834,71 @@ export const getBorderClasses = (block: ParsedBlock): string[] => {
   }
 
   return classes;
+};
+
+export const formatDate = (unixTimestamp: number, format: string): string => {
+  const date: Date = new Date(unixTimestamp * 1000);
+
+  // Extract parts of the date
+  const day = date.getDate(); // Day of the month
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const month = monthNames[date.getMonth()]; // Short month name
+  const year = date.getFullYear(); // Full year
+
+  // Replace format string with actual date values
+  const formattedDate = format
+    .replace('M', month)
+    .replace('j', day.toString())
+    .replace('Y', year.toString());
+
+  return formattedDate;
+};
+
+type HTMLAttributes = { attribute: string; value: any }[];
+
+export const convertAttributes = (attrs: { htmlAttributes: HTMLAttributes }) => {
+  const convertedHtmlAttrs = attrs?.htmlAttributes.reduce((acc, { attribute, value }) => {
+    const camelCaseKey = attribute
+      .replace(/^data-/, '')
+      .replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+    acc[camelCaseKey] = value;
+    return acc;
+  }, {} as Record<string, any>);
+
+  return Object.assign({}, attrs, convertedHtmlAttrs);
+};
+
+export const findBlock = (blocks: ParsedBlock[], blockName: string): ParsedBlock | undefined => {
+  if (!blocks) return undefined;
+  for (const block of blocks) {
+    const name = get(block, 'attrs.metadata.name');
+    if (name === blockName) {
+      return block;
+    } else if (block.innerBlocks) {
+      const matchedBlock = findBlock(block.innerBlocks, blockName);
+      if (matchedBlock) {
+        return matchedBlock;
+      }
+    }
+  }
+  return undefined;
+};
+
+export const getHeadingTag = (level: number): keyof JSX.IntrinsicElements => {
+  const validLevels = [1, 2, 3, 4, 5, 6];
+  const selectedLevel = validLevels.includes(level) ? level : 6;
+  return `h${selectedLevel}` as keyof JSX.IntrinsicElements;
 };

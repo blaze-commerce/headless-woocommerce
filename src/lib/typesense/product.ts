@@ -124,6 +124,7 @@ export const getVariations = async (productId: number) => {
     query_by: 'name',
     filter_by: `parentId:=${productId}`,
     sort_by: '_text_match:desc',
+    per_page: 250,
   };
 
   const results = await client

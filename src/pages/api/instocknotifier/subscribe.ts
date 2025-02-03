@@ -74,8 +74,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               message: 'The email you entered is already subscribed',
             });
           }
+
           return res.status(status).json({
-            message: data,
+            message: data?.message || 'Internal Server Error',
           });
         } else if (error.request) {
           // The request was made but no response was received

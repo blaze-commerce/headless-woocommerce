@@ -129,7 +129,7 @@ export const CalculateShipping: React.FC<Props> = ({ products, showButton, showR
         )}
         {showButton && (
           <button
-            className="button-calculate-shipping w-[241px] px-10 py-2.5 rounded-sm border border-brand-font text-sm font-semibold leading-tight uppercase"
+            className="button-calculate-shipping w-full px-10 py-2.5 rounded-sm border border-brand-font text-sm font-semibold leading-tight uppercase"
             onClick={() => {
               if (handleCalculate) {
                 handleCalculate(products);

@@ -1,9 +1,8 @@
 import { Tab } from '@headlessui/react';
-import { default as cx } from 'classnames';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import GliderComponent from 'react-glider';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 import { Image } from '@src/components/common/image';
 import { SlideImages } from '@src/features/product/slide-images';
@@ -13,9 +12,11 @@ import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { Image as ImageType } from '@src/models/product/types';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
-import { isLightColor, isMp4 } from '@src/lib/helpers/helper';
+import { cn, isLightColor, isMp4 } from '@src/lib/helpers/helper';
 
 type Props = {
+  id?: string;
+  className?: string;
   images?: ImageType[];
   onSale?: boolean;
   isNew?: boolean;
@@ -26,29 +27,45 @@ type Props = {
   newBadgeColor?: string;
 };
 
-export const Gallery: React.FC<Props> = ({
-  images,
-  isNew,
-  onSale,
-  isGrid,
-  zoomType,
-  badgeType,
-  saleBadgeColor,
-  newBadgeColor,
-}) => {
+export const Gallery: React.FC<Props> = (props) => {
+  const {
+    id,
+    className,
+    images,
+    isNew,
+    onSale,
+    isGrid,
+    zoomType,
+    badgeType,
+    saleBadgeColor,
+    newBadgeColor,
+  } = props;
   const { settings } = useSiteContext();
   const {
     variation: {
-      image: [imageThumbnailAttribute],
+      image: [imageThumbnailAttribute, setImageThumbnailAttribute],
     },
+    state: { matchedVariant },
   } = useProductContext();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | undefined>(0);
   const { asPath } = useRouter();
 
   useEffect(() => {
     // On component mount reset the selected index of the image to the first element
     setSelectedImageIndex(0);
   }, [asPath]);
+
+  useEffect(() => {
+    // reset the image thumbnail attribute when the selected image index changes
+    setImageThumbnailAttribute({} as ImageType);
+  }, [selectedImageIndex, setImageThumbnailAttribute]);
+
+  useEffect(() => {
+    if (!matchedVariant) return;
+
+    setImageThumbnailAttribute(matchedVariant.thumbnail as ImageType);
+    setSelectedImageIndex(undefined);
+  }, [matchedVariant, setImageThumbnailAttribute, setSelectedImageIndex]);
 
   if (!images) return null;
 
@@ -58,13 +75,13 @@ export const Gallery: React.FC<Props> = ({
     if (!isNew) return false;
     return (
       <div
-        className={cx('absolute top-0 flex w-full h-1/4 overflow-hidden z-0', {
+        className={cn(`absolute top-0 flex w-full h-1/4 overflow-hidden z-0 ${id} ${className}`, {
           'left-0 justify-end': badgeType === 1 || badgeType === 3,
           'float-right': badgeType === 2,
         })}
       >
         <span
-          className={cx('', {
+          className={cn('', {
             'relative top-0 inset-x-0 flex items-center justify-center m-4 md:m-8 h-12 w-12 rounded-full':
               badgeType === 1,
             'absolute -top-4 -right-20 h-16 w-48 origin-center rotate-45 z-0': badgeType === 2,
@@ -73,7 +90,7 @@ export const Gallery: React.FC<Props> = ({
           style={{ backgroundColor: newBadgeColor }}
         >
           <p
-            className={cx('text-center text-xs font-normal', {
+            className={cn('text-center text-xs font-normal', {
               'relative p-2.5': badgeType === 1,
               'absolute w-full bottom-2.5': badgeType === 2,
               'text-white': !isLightColor(newBadgeColor),
@@ -90,27 +107,27 @@ export const Gallery: React.FC<Props> = ({
   const renderOnSaleBadge = () => {
     if (!onSale) return false;
     return (
-      <div className="absolute top-0 lg:m-8 flex space-x-1">
+      <div className="absolute top-0 lg:m-5 flex space-x-1">
         {onSale && (
           <span
-            className={cx('absolute', {
-              'top-0 inset-x-0 flex items-center justify-center h-12 w-12 rounded-full':
+            className={cn('absolutessssss ', {
+              'top-0 inset-x-0 flex items-center justify-center h-12 w-12 rounded-full bg-primary':
                 badgeType === 1,
-              '-top-4 -left-20 lg:-top-11 lg:-left-28 h-16 w-48 origin-center -rotate-45 z-0':
+              '-top-4 -left-20 lg:-top-11 lg:-left-28 h-16 w-48 origin-center -rotate-45 z-0 bg-primary':
+                badgeType === 3,
+              'top-0 inset-x-0 flex items-center justify-center h-7 w-16 bg-primary rounded-md':
                 badgeType === 2,
-              'top-0 inset-x-0 flex items-center justify-center h-7 w-16': badgeType === 3,
             })}
-            style={{ backgroundColor: saleBadgeColor }}
           >
             <p
-              className={cx('text-center text-xs font-normal', {
+              className={cn('text-center text-xs font-bold font-primary leading-normal', {
                 'relative p-2.5': badgeType === 1,
-                'w-full absolute bottom-2.5': badgeType === 2,
+                'w-full absolute bottom-2.5': badgeType === 3,
                 'text-white': !isLightColor(saleBadgeColor),
                 'text-black': isLightColor(saleBadgeColor),
               })}
             >
-              SALE!
+              SALE
             </p>
           </span>
         )}
@@ -124,7 +141,7 @@ export const Gallery: React.FC<Props> = ({
         {images.slice(0, 6).map((image, index) => (
           <div
             key={`grid-gallery-${image.id}-${index}`}
-            className={cx(
+            className={cn(
               'aspect-w-1 relative h-[82px] w-full lg:h-[237px] xl:h-[300px] 2xl:h-[365px] bg-white flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-offset-0',
               settings?.productCardAspectRatioClasses
             )}
@@ -135,7 +152,7 @@ export const Gallery: React.FC<Props> = ({
                 height="500"
                 src={image?.src}
                 alt={(image.altText || image.title) as string}
-                className={cx('w-full h-full object-center object-cover lg:w-full lg:h-full')}
+                className={cn('w-full h-full object-center object-cover lg:w-full lg:h-full')}
               />
             </span>
             {images?.length > 1 && index === 1 && (
@@ -171,7 +188,7 @@ export const Gallery: React.FC<Props> = ({
                 blur={false}
                 src={currentImageSrc}
                 alt={(currentAltText || image.title) as string}
-                className="w-full h-full lg:object-center lg:object-cover"
+                className="w-full h-full lg:object-center object-contain"
                 hasZoomHover={zoomType === '1'}
               />
             ) : (
@@ -187,31 +204,31 @@ export const Gallery: React.FC<Props> = ({
         )}
         {renderOnSaleBadge()}
         {renderNewBadge()}
-        <div className="product-gallery-arrows absolute flex justify-between align-middle w-full h-full z-[7]">
+        <div className="product-gallery-arrows">
           <button
-            className={cx('relative ml-1', {
+            className={cn('arrow arrow-left', {
               invisible: index === 0,
             })}
             onClick={() => setSelectedImageIndex(index - 1)}
           >
             <span>
-              <FiChevronLeft />
+              <FaArrowLeft className="w-6 h-6" />
             </span>
           </button>
           <button
-            className={cx('relative mr-1', {
+            className={cn('arrow arrow-right', {
               invisible: index === lastIndex,
             })}
             onClick={() => setSelectedImageIndex(index + 1)}
           >
             <span>
-              <FiChevronRight />
+              <FaArrowRight className="w-6 h-6" />
             </span>
           </button>
         </div>
         {image?.src && zoomType === '2' && (
           <SlideImages
-            className="bottom-0"
+            className="top-0"
             images={images}
             imageIndex={index}
           />
@@ -222,7 +239,7 @@ export const Gallery: React.FC<Props> = ({
 
   const renderDesktopMainImage = () => {
     return (
-      <Tab.Panels className="w-full aspect-w-1 aspect-h-1 overflow-hidden relative h-100">
+      <Tab.Panels className="w-full aspect-w-1 h-[500px] overflow-hidden relative">
         {images.length > 0 &&
           images.map((image, index) => (
             <Tab.Panel key={`desktop-image-${image.id}-${index}`}>
@@ -262,8 +279,8 @@ export const Gallery: React.FC<Props> = ({
     return (
       <>
         {images.length > 1 ? (
-          <div className="mt-5 lg:mt-2.5 w-full">
-            <Tab.List className="flex space-x-2.5 justify-center lg:space-x-0 lg:justify-normal lg:grid grid-cols-4 gap-[5px]">
+          <div className="mt-5 lg:mt-3 w-full">
+            <Tab.List className="space-x-2.5 justify-center lg:space-x-0 lg:justify-normal hidden lg:grid grid-cols-4 gap-3">
               {images.map((image, index) => (
                 <Tab
                   key={`image-gallery-${image.id}-${index}`}
@@ -274,7 +291,7 @@ export const Gallery: React.FC<Props> = ({
                       <span className="absolute lg:inset-0 overflow-hidden">
                         {isMp4(image?.src) ? (
                           <div
-                            className={cx(
+                            className={cn(
                               'absolute w-full h-full bg-black flex items-center justify-center',
                               {
                                 'opacity-50': !selected,
@@ -289,7 +306,7 @@ export const Gallery: React.FC<Props> = ({
                             height="155"
                             src={image?.src}
                             alt={(image.altText || image.title) as string}
-                            className={cx(
+                            className={cn(
                               'w-full h-full object-center object-cover lg:w-full lg:h-full',
                               { 'opacity-50': !selected }
                             )}
@@ -297,7 +314,7 @@ export const Gallery: React.FC<Props> = ({
                         )}
                       </span>
                       <span
-                        className={cx('absolute pointer-events-none', {
+                        className={cn('absolute pointer-events-none', {
                           'ring-transparent': !selected,
                           'ring-indigo-500': selected,
                         })}
@@ -317,19 +334,21 @@ export const Gallery: React.FC<Props> = ({
   return (
     <Tab.Group
       as="div"
-      className="flex flex-col-reverse mb-5"
+      className="product-gallery"
       selectedIndex={selectedImageIndex}
       onChange={setSelectedImageIndex}
     >
-      {isGrid && images.length > 1 && <div className="hidden lg:block">{renderGridGallery()}</div>}
+      {isGrid && images.length > 1 && (
+        <div className="product-thumbnails grid-style">{renderGridGallery()}</div>
+      )}
 
       <div
-        className={cx('product-thumbnail lg:inline-grid', {
+        className={cn('product-thumbnails default', {
           'lg:hidden': images.length > 1 && isGrid,
         })}
       >
-        <div className="lg:hidden">{renderMobileMainImage()}</div>
-        <div className="hidden lg:block">
+        <div className="mobile-view">{renderMobileMainImage()}</div>
+        <div className="desktop-view">
           {renderDesktopMainImage()}
           {renderImageGallery()}
         </div>

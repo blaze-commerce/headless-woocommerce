@@ -2,7 +2,7 @@ import { useProductContext } from '@src/context/product-context';
 import { useSiteContext } from '@src/context/site-context';
 import { ProductTaxonomy } from '@src/models/product/types';
 import { filter } from 'lodash';
-import HTMLReactParser from 'html-react-parser';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 export const ProductCategories = () => {
   const { product } = useProductContext();
@@ -22,7 +22,15 @@ export const ProductCategories = () => {
   }
   return (
     <p className="mb-4 text-xs font-normal leading-none">
-      Categories: {categories.map((tax) => HTMLReactParser(tax.name)).join(', ')}
+      Categories:{' '}
+      {categories
+        .map((tax, key) => (
+          <ReactHTMLParser
+            key={key}
+            html={tax.name}
+          />
+        ))
+        .join(', ')}
     </p>
   );
 };

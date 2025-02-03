@@ -1,5 +1,5 @@
+import { ParsedBlock } from '@src/components/blocks';
 import { CartBasketIcon } from '@src/features/mini-cart/cart-icon';
-import { ParsedBlock } from '@wordpress/block-serialization-default-parser';
 import { find } from 'lodash';
 
 type Props = {
@@ -15,13 +15,16 @@ export const MiniCart = ({ block, force = false }: Props) => {
   const attributes = block.attrs as any;
   const color = find(attributes?.htmlAttributes, ['attribute', 'data-color']);
   const iconColor = color?.value || attributes.iconColor?.color;
+  // Get the first innerblocks if not empty
+  const iconSvg = block.innerBlocks.length > 0 ? block.innerBlocks[0] : null;
 
   return (
-    <div>
+    <div className={attributes?.className}>
       <CartBasketIcon
         showText={false}
         showIcon={true}
         color={iconColor ?? '#F7F7F7'}
+        iconBlock={iconSvg}
       />
     </div>
   );

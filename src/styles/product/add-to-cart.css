@@ -1,0 +1,55 @@
+/** Add to Cart Button */
+.single-product .add-to-cart-form .button-container {
+  @apply fixed bottom-0 right-0 p-2.5 bg-background/80 w-full  z-10  max-w-[100vw];
+  @apply lg:w-auto lg:z-0 lg:bg-transparent lg:relative lg:p-0 lg:border-t lg:pt-4;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper {
+  @apply flex items-stretch justify-evenly xl:justify-start gap-1.5;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity-label {
+  @apply items-center text-sm text-black font-bold hidden md:flex;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity {
+  @apply text-black bg-white rounded-md;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .quantity * {
+  @apply border-none;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart {
+  @apply flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground hover:text-primary-foreground flex-grow px-4 py-2 text-sm font-bold rounded-md disabled:bg-muted disabled:text-muted-foreground;
+}
+
+.single-product .add-to-cart-form .button-container .button-wrapper .button-add-to-cart[disabled] {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.single-product .add-to-cart-form .atc-field-group {
+  @apply flex flex-col gap-y-2;
+}
+
+.single-product .add-to-cart-form .atc-field-group .atc-field-label {
+  @apply font-bold text-sm leading-6 text-[#333];
+}
+
+.single-product .add-to-cart-form .atc-field-group.required .atc-field-label::after {
+  @apply inline-block content-['*'] text-red-500 ml-1;
+}
+
+.single-product .add-to-cart-form .atc-field-group .atc-field-select,
+.single-product .add-to-cart-form .atc-field-group .atc-field-textarea,
+.single-product .add-to-cart-form .atc-field-group .atc-field-input {
+  @apply border border-[#e5e7eb] rounded-md text-[#777] text-sm;
+}
+
+.single-product .add-to-cart-form .atc-field-group .atc-field-input:focus {
+  @apply border-primary;
+}
+
+.single-product .add-to-cart-form .atc-field-group .atc-field-description {
+  @apply font-normal text-xs text-[#777];
+}

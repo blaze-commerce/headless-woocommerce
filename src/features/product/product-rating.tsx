@@ -17,7 +17,7 @@ export const ProductRating = ({ stats }: ProductReviews) => {
       ratingColor = '#BFB49A';
       break;
     case 'woocommerce_native_reviews':
-      ratingColor = '#ffb600';
+      ratingColor = '#5A768E';
       break;
   }
 
@@ -28,7 +28,7 @@ export const ProductRating = ({ stats }: ProductReviews) => {
       (!stats?.average_rating || !stats?.count_reviews))
   ) {
     return (
-      <div className="my-2 flex gap-2 items-center flex-col lg:flex-row">
+      <>
         <div className="flex justify-center items-center lg:justify-start">
           {[...new Array(5)].map((_rate, index) => {
             return (
@@ -47,7 +47,7 @@ export const ProductRating = ({ stats }: ProductReviews) => {
           })}
         </div>
         <span className="text-neutral-500 text-xs font-normal">No reviews</span>
-      </div>
+      </>
     );
   }
 

@@ -1,0 +1,190 @@
+/** Product Card */
+.product-card {
+  @apply bg-transparent !justify-start relative content-between transition-all ease-linear duration-300 h-full flex flex-col gap-4;
+}
+
+.product-card .product-header {
+  @apply relative;
+}
+
+.product-card .product-header .product-badges {
+  @apply absolute top-2 left-2 z-[1] flex gap-2;
+}
+
+.product-card .product-header .product-badges .badge {
+  @apply rounded-md uppercase text-white text-xs leading-6 block bg-[#333] px-4 py-1;
+}
+
+.product-card .product-header .product-badges .badge.sale-badge {
+  @apply bg-primary;
+}
+
+.product-card .product-header .wishlist-button-holder {
+  @apply absolute top-2 right-2 z-[1];
+}
+
+.product-card .product-header .wishlist-button-holder svg {
+  @apply fill-transparent stroke-[#777] cursor-pointer;
+}
+
+.product-card .product-header .wishlist-button-holder svg:hover {
+  @apply fill-[#1d1da5] stroke-[#1d1da5];
+}
+
+.product-card.has-border {
+  @apply border border-solid border-[#ECEEEF] max-w-xs;
+}
+
+.product-card.has-shadow:hover {
+  @apply hover:shadow-xl;
+}
+
+.product-card .wapl-label {
+  @apply !inline px-5 rounded-sm;
+}
+
+.product-card .woocommerce-advanced-product-label {
+  @apply !bg-black py-1 px-5;
+}
+
+.product-card .product-card-label {
+  @apply flex flex-col justify-center font-medium gap-2;
+}
+
+.product-card .product-card-label .product-title {
+  @apply font-bold leading-6 text-[20px] text-foreground font-secondary;
+}
+
+.product-card .product-card-label .product-category {
+  @apply text-[#777] text-sm font-normal;
+}
+
+.product-card .product-rating {
+  @apply flex mt-0 items-center space-x-2;
+}
+
+.product-card .product-image-holder {
+  @apply aspect-w-1 relative overflow-hidden mx-auto flex justify-center items-center bg-transparent object-cover;
+}
+
+.product-card .product-image-holder .wishlist-button {
+  @apply absolute w-full h-full flex justify-end overflow-hidden z-20 flex-col !top-0 !bottom-auto;
+}
+
+.product-card .product-image-holder .wishlist-button .button-label {
+  @apply hidden;
+}
+
+.product-card .product-image-holder a {
+  @apply block w-full h-full;
+}
+
+.product-card .product-image-holder a figure {
+  @apply w-full h-full;
+}
+
+.product-card .product-image-holder img {
+  @apply object-cover object-center w-full h-full;
+}
+
+.product-card .product-variant-image-holder {
+  @apply h-auto;
+}
+
+.product-card .product-variant-image-holder .glider-track {
+  @apply gap-0;
+}
+
+.product-card .product-variant-image-holder figure {
+  @apply lg:w-full border rounded-md overflow-hidden;
+}
+
+.product-card .product-variant-image-holder figure img {
+  @apply w-full h-full object-contain;
+}
+
+.product-card .product-image-holder .product-image {
+  @apply absolute;
+}
+
+.product-card .product-image-holder .product-image.is-hover-image {
+  @apply opacity-0;
+}
+
+.product-card .product-image-holder:hover .product-image.has-hover-image {
+  @apply !opacity-0 transition ease-linear duration-300;
+}
+
+.product-card .product-image-holder:hover .product-image.is-hover-image {
+  @apply !opacity-100 transition ease-linear duration-300;
+}
+
+.product-card .product-variants {
+  @apply flex flex-row gap-2 flex-wrap items-center;
+}
+
+.product-card .product-variants button {
+  @apply w-9 h-9 rounded border border-solid border-[#e7e7e7] !z-[5];
+}
+
+.product-card .product-variants button img {
+  @apply w-full h-full object-contain object-center;
+}
+
+.product-card .product-variants.display-more button:nth-child(n + 5) {
+  @apply hidden;
+}
+
+.product-card .product-variants .product-images-more {
+  @apply cursor-pointer text-sm text-[#777777];
+}
+
+.product-card .product-variants.hide-more .product-images-more {
+  @apply hidden;
+}
+
+.product-card .product-header .product-out-of-stock {
+  @apply absolute left-0 z-[1] w-full uppercase text-[20px] text-[#000180] font-bold leading-6 text-center p-4 bg-white bg-opacity-[0.78];
+  top: calc(50% - 28px);
+}
+
+.product-card .add-to-cart-container {
+  @apply relative mt-auto z-[8] flex-grow flex flex-col items-end justify-end;
+}
+
+.product-card .add-to-cart-container .add-to-cart-button {
+  @apply flex justify-center items-center gap-2 p-2 md:p-4 text-sm md:text-lg md:leading-6 border w-full uppercase;
+}
+
+.product-card .show-on-hover {
+  @apply !hidden;
+}
+
+.product-card:hover .show-on-hover,
+.product-card:active .show-on-hover {
+  @apply !flex;
+}
+
+.product-card .product-badges {
+  @apply absolute top-2 left-2 flex gap-2;
+}
+
+/* .product-card .product-header .product-badges .badge {
+  background-color: #5a768e;
+  border-radius: 0;
+  font-weight: 500;
+}
+
+.wishlist-button-holder {
+  top: unset !important;
+  bottom: 0.5rem;
+}
+
+.product-card .product-header .wishlist-button-holder svg {
+  stroke: #040711;
+}
+
+.product-card .product-image-holder {
+  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 247px);
+} */
+/** END | Product Card */

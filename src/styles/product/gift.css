@@ -1,0 +1,49 @@
+.gift-card-form input::-webkit-outer-spin-button,
+.gift-card-form input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.gift-card-form input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.gift-card-form .preview-button {
+  @apply rounded-md px-4 text-white bg-primary border-primary leading-10 text-sm font-bold;
+}
+
+.gift-card-message-preview {
+  @apply mb-6 space-y-4 flex flex-col text-[#777];
+}
+
+.gift-card-content-preview {
+  @apply bg-[#04A9F40F] border border-[#333] rounded-md py-8 flex flex-col gap-2 justify-center items-center text-center;
+}
+
+.gift-card-content-preview .shop-name {
+  @apply text-2xl font-bold font-primary;
+}
+
+.gift-card-content-preview .card-info-label {
+  @apply text-xs leading-6 text-[#777];
+}
+
+.gift-card-content-preview .card-info-value.amount {
+  @apply text-4xl font-semibold;
+}
+
+.gift-card-content-preview .card-info-value.card-number {
+  @apply text-xl font-bold font-courier;
+}
+
+.gift-card-content-preview .redeem-container {
+  @apply flex justify-between items-center;
+}
+
+.gift-card-content-preview .redeem-button {
+  @apply rounded-md px-4 bg-[#009688] text-[#e0f322] border-primary leading-10 text-sm font-bold cursor-pointer;
+}
+
+.gift-card-content-preview .redeem-container .expire-info {
+  @apply hidden;
+}

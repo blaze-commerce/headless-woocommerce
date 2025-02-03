@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AddToCartItemResponse } from '@src/lib/actions/add-to-cart/types';
 import { env } from '@src/lib/env';
-import { getBaseCurrency } from '@src/lib/track';
+import { getDefaultCurrency } from '@src/lib/helpers/country';
 import { Product } from '@src/models/product';
 const { NEXT_PUBLIC_META_PIXEL_ID } = env();
 
@@ -66,7 +66,7 @@ const META_PIXEL_ID = NEXT_PUBLIC_META_PIXEL_ID;
 const triggerEvent = (event: Event, data?: EventObjectProps) => {
   if (typeof window !== 'undefined' && window.fbq) {
     if (typeof data !== 'undefined') {
-      const currency = getBaseCurrency();
+      const currency = getDefaultCurrency();
       window.fbq('track', event, {
         ...data,
         currency,
@@ -101,7 +101,7 @@ const addToCart = (cartItem: AddToCartItemResponse) => {
 };
 
 const addToWishList = (product: Product) => {
-  const currency = getBaseCurrency();
+  const currency = getDefaultCurrency();
   const value = product.currencyPrice(currency);
   const data: AddToWishListEventProps = {
     content_ids: [product.name as string],
@@ -119,7 +119,7 @@ const addToWishList = (product: Product) => {
 };
 
 const viewItem = (product: Product) => {
-  const currency = getBaseCurrency();
+  const currency = getDefaultCurrency();
   const value = product.currencyPrice(currency);
   const data: ViewContentEventProps = {
     content_ids: [product.sku as string],

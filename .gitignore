@@ -37,15 +37,7 @@ next-env.d.ts
 storybook-static
 
 public/fonts.css
-public/footer.json
-public/header.json
-public/fonts.json
 public/fonts.ts
-public/menu.json
-public/site.json
-public/region.json
-public/product.json
-public/homepage.json
 public/fonts/
 public/favicon.*
 public/logo.*
@@ -54,10 +46,22 @@ public/images/banner/
 public/images/blog/
 public/images/homepage/
 public/images/product/
-public/categorypaths.json
-public/pageslugs.json
 public/page/*.*
+public/post/*.*
+public/*.json
+
+tailwind.config.js
 
 public/styles/styles.css
+src/styles/theme-variables.css
 build-storybook.log
 .env
+public/archive-product.json
+public/taxonomy-product-cat.json
+public/pageslugs.json
+
+.vercel
+.env*.local
+
+.vercel
+.env*.local

@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 
-import { ProductSlides } from '@src/features/product/product-slides/bbc';
+import { ProductSlides } from '@src/features/product/product-slides/v2';
 import { useProductContext } from '@src/context/product-context';
 
 export const YouMayAlsoLike = () => {

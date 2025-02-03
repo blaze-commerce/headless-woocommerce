@@ -59,12 +59,6 @@ export type SettingProps = Partial<{
   homepage: Homepage;
   siteMessageTopHeader: ContentBlock[];
   siteMessage: ContentBlock[];
-  footerContentBefore: ContentBlock[];
-  footerContent1: ContentBlock[];
-  footerContent2: ContentBlock[];
-  footerContent3: ContentBlock[];
-  footerContent4: ContentBlock[];
-  footerContent5: ContentBlock[];
   footerContentAfter: ContentBlock[];
   cookieDomain: string;
   showFreeShippingBanner: boolean;
@@ -85,12 +79,6 @@ export class Settings {
   readonly homepage?: Homepage;
   readonly siteMessageTopHeader?: ContentBlock[];
   readonly siteMessage?: ContentBlock[];
-  readonly footerContentBefore?: ContentBlock[];
-  readonly footerContent1?: ContentBlock[];
-  readonly footerContent2?: ContentBlock[];
-  readonly footerContent3?: ContentBlock[];
-  readonly footerContent4?: ContentBlock[];
-  readonly footerContent5?: ContentBlock[];
   readonly footerContentAfter?: ContentBlock[];
   readonly cookieDomain?: string;
   readonly props?: SettingProps;
@@ -108,12 +96,6 @@ export class Settings {
     this.homepage = props.homepage;
     this.siteMessageTopHeader = props.siteMessageTopHeader;
     this.siteMessage = props.siteMessage;
-    this.footerContentBefore = props.footerContentBefore;
-    this.footerContent1 = props.footerContent1;
-    this.footerContent2 = props.footerContent2;
-    this.footerContent3 = props.footerContent3;
-    this.footerContent4 = props.footerContent4;
-    this.footerContent5 = props.footerContent5;
     this.footerContentAfter = props.footerContentAfter;
     this.cookieDomain = props.cookieDomain;
     this.props = props;

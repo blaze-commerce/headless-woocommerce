@@ -6,16 +6,14 @@
       },
       "productCards": {
         "imageMaxWidth": 0,
-        "imagePadding": 20,
-        "titleFontSize": "16px",
-        "cardShadow": true,
+        "imagePadding": 0,
+        "cardShadow": false,
         "badgeType": 2,
-        "showRating": true,
         "hasAddToCart": true,
-        "detailsAlignment": "center",
+        "detailsAlignment": "left",
         "buttonTransparent": true,
         "imageLayout": "square",
-        "hasBorders": true,
+        "hasBorders": false,
         "cardPadding": 26,
         "saleBadgeColor": "#4A5468",
         "newBadgeColor": "#4A5468",
@@ -25,6 +23,9 @@
         "wishlistButtonType": 1,
         "showReviewCount": false,
         "showDiscountLabel": false,
+        "showVariants": true,
+        "showRating": true,
+        "showCategory": true,
         "discountLabelBackgroundColor": "#4A5468"
       },
       "priceRangeSlider": {
@@ -64,7 +65,7 @@
         "enabled": false
       },
       "calculateShipping": {
-        "enabled": false
+        "enabled": true
       },
       "averageRatingText": {
         "enabled": true
@@ -141,7 +142,7 @@
     "breadcrumbMobile": {
       "enabled": true
     },
-    "reviewService": "judge.me",
+    "reviewService": "woocommerce_native_reviews",
     "containerWidth": {
       "desktop": "1200"
     },
@@ -288,22 +289,14 @@
   },
   "siteMessageTopHeader": [],
   "siteMessage": [],
-  "footerContentBefore": [],
-  "footerContent1": [],
-  "footerContent2": [],
-  "footerContent3": [],
-  "footerContent4": [],
-  "footerContent5": [],
-  "footerContentAfter": [],
-  "cookieDomain": ".ezywiper-bc-v1.blz.onl",
+  "cookieDomain": "",
   "showFreeShippingBanner": false,
   "showFreeShippingMinicartComponent": false,
   "regions": {
-    "AU": [
-      "AU"
-    ]
+    "AU": ["AU"]
   },
   "homepageSlug": "home",
   "categoryPageDefaultSort": "{\"sort_option\":\"sort_0\"}",
-  "showVariantAsSeparateProductCards": false
+  "showVariantAsSeparateProductCards": false,
+  "showShareToPinterestButton": false
 }

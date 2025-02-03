@@ -1,12 +1,30 @@
 import type { NextRequest } from 'next/server';
+import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
 import siteData from '@public/site.json';
-import { PAGE_URL_PATTERN } from '@src/lib/constants/taxonomy';
-import { getDefaultCountry } from '@src/lib/helpers/country';
-import { getHomePageSlug, getPageSlugs } from '@src/lib/typesense/page';
-import { stripLeadingSlash } from '@src/lib/helpers/helper';
+import postSlugs from '@public/post-slugs.json';
+import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
+import pageSlugs from '@public/page-slugs.json';
+import { NextURL } from 'next/dist/server/web/next-url';
+
+export const PAGE_URL_PATTERN = /\/page\/\d+\//;
+
+function stripSlashes(str: string): string {
+  return str.replace(/^\/|\/$/g, '');
+}
+
+/**
+ *
+ * @returns string The homepage slug base on the wordpress settings
+ */
+export const getHomePageSlug = () => {
+  return siteData.homepageSlug;
+};
+
+const typedPostSlugs: string[] = postSlugs;
+const typedPageSlugs: string[] = pageSlugs;
 
 // Limit middleware pathname config
 export const config = {
@@ -20,7 +38,28 @@ export const config = {
     '/brands',
     '/((?!api|_next/static|_next/image|images|favicon.ico).*)',
   ],
-  unstable_allowDynamic: ['/node_modules/lodash/lodash.js'],
+  unstable_allowDynamic: ['/node_modules/lodash/lodash.js', '/node_modules/lodash/_root.js'],
+};
+
+const generateNextResponse = (nextUrl: NextURL, currentCountry: string, geoCountry: string) => {
+  const response = NextResponse.rewrite(nextUrl);
+  response.cookies.set('currentCountry', currentCountry);
+  response.cookies.set('geoCountry', geoCountry);
+  return response;
+};
+
+const getCurrentCountry = (country: string) => {
+  const region = getRegionByCountry(country);
+  if (region) {
+    return region.baseCountry;
+  }
+
+  return getDefaultCountry();
+};
+
+const isBlogPageUrl = (url: string): boolean => {
+  const pattern = /^blog\/page\/\d+$/;
+  return pattern.test(url);
 };
 
 export async function middleware(req: NextRequest) {
@@ -33,26 +72,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Extract country
-  let country = req.cookies.get('currentCountry')?.value;
-
-  const regionsMapping: { [key: string]: string[] } = siteData.regions;
-
-  if (!country) {
-    country = req.geo?.country || '';
-  }
-
-  let currentCountry = '';
-  for (const region in regionsMapping) {
-    currentCountry = region;
-    if (regionsMapping && regionsMapping[region].includes(country)) {
-      break;
-    }
-  }
-
-  if (currentCountry === '') {
-    currentCountry = getDefaultCountry();
-  }
+  const { country: geoCountry = '' } = geolocation(req);
+  const country = req.cookies.get('currentCountry')?.value || geoCountry;
+  const currentCountry = getCurrentCountry(country);
 
   if (req.nextUrl.pathname.startsWith('/products/new')) {
     req.nextUrl.pathname = `/${currentCountry}/new`;
@@ -68,12 +90,7 @@ export async function middleware(req: NextRequest) {
     return response;
   }
 
-  if (
-    req.nextUrl.pathname.startsWith('/shop') ||
-    req.nextUrl.pathname.startsWith('/product') ||
-    req.nextUrl.pathname.startsWith('/brand') ||
-    req.nextUrl.pathname.startsWith('/brands')
-  ) {
+  if (req.nextUrl.pathname.startsWith(siteData.woocommercePermalinks.product_base)) {
     const pathName = req.nextUrl.pathname;
     req.nextUrl.pathname = `/${currentCountry}${pathName}`;
 
@@ -83,10 +100,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // Rewrite to URL
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   const pathname = req.nextUrl.pathname;
@@ -95,39 +109,46 @@ export async function middleware(req: NextRequest) {
 
   if (isCatalogPage) {
     req.nextUrl.pathname = `/${currentCountry}/product-category${pathname}`;
-
-    // Rewrite to URL
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
-  const pageSlugs: string[] = await getPageSlugs();
   let modifiedPathName = pathname;
   if ('/' === modifiedPathName) {
     modifiedPathName = getHomePageSlug();
   }
 
   // We remove the leading slash since slugs we save doesn't have it to make sure this goes to the right nextjs page path
-  modifiedPathName = stripLeadingSlash(modifiedPathName);
+  modifiedPathName = stripSlashes(modifiedPathName);
+
+  if (modifiedPathName === siteData.shopPageSlug) {
+    req.nextUrl.pathname = `/${currentCountry}/shop`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
+
+  if (modifiedPathName === siteData.blogPageSlug) {
+    req.nextUrl.pathname = `/${currentCountry}/blog`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
+
+  if (isBlogPageUrl(modifiedPathName)) {
+    req.nextUrl.pathname = `/${currentCountry}/${modifiedPathName}/`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
 
   // @TODO we will handle parent child post/page url structure later
-
-  if (pageSlugs.includes(modifiedPathName)) {
+  if (typedPageSlugs.includes(modifiedPathName)) {
     req.nextUrl.pathname = `/${currentCountry}/page/${modifiedPathName}`;
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
+  }
+
+  if (typedPostSlugs.includes(String(modifiedPathName))) {
+    req.nextUrl.pathname = `/${currentCountry}/post/${modifiedPathName}`;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   if (['/search-results', '/search-results/'].includes(pathname)) {
     req.nextUrl.pathname = `/${currentCountry}${pathname}`;
-    const response = NextResponse.rewrite(req.nextUrl);
-    response.cookies.set('currentCountry', currentCountry);
-    response.cookies.set('geoCountry', req.geo?.country || '');
-    return response;
+    return generateNextResponse(req.nextUrl, currentCountry, geoCountry);
   }
 
   // Let next.js handle the clients/browser request

@@ -1,12 +1,8 @@
-import { useSiteContext } from '@src/context/site-context';
 import { COLOR_CLASSES, Icon } from './index';
-import { Settings } from '@src/models/settings';
+import siteData from '@public/site.json';
 
 export const HeartFilledIcon = ({ fillColor, color, className, strokeColor }: Icon) => {
-  const { settings } = useSiteContext();
-  const { store } = settings as Settings;
-
-  if (store?.url?.includes('byronbaycandles')) {
+  if (siteData.cookieDomain.includes('byronbaycandles')) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"

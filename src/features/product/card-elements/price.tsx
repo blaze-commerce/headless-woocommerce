@@ -17,6 +17,10 @@ const VariablePrice = dynamic(() =>
   import('@src/features/product/price/variant').then((mod) => mod.VariablePrice)
 );
 
+const GiftCardPrice = dynamic(() =>
+  import('@src/features/product/price/gift').then((mod) => mod.GiftCardPrice)
+);
+
 type Props = {
   currency: string;
   product: Product;
@@ -48,6 +52,11 @@ export const CardPrice: React.FC<Props> = ({
         />
       ) : product.hasBundle ? (
         <BundlePrice
+          product={product}
+          isTaxExclusive={isTaxExclusive}
+        />
+      ) : product.isGiftCard ? (
+        <GiftCardPrice
           product={product}
           isTaxExclusive={isTaxExclusive}
         />

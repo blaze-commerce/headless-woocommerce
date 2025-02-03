@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import '@public/styles/styles.css';
 import '@styles/globals.css';
+import '@styles/form.css';
 import 'glider-js/glider.min.css';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -18,6 +19,13 @@ import { env } from '@src/lib/env';
 import { ErrorBoundary } from '@src/components/error-boundary';
 import { useMetaPageView } from '@src/lib/hooks';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+import * as fonts from '@public/fonts';
+
+const fontClasses = Object.keys(fonts)
+  .map((key) => fonts[key as keyof typeof fonts].variable)
+  .filter(Boolean) // Ensure only defined variables are included
+  .join(' ');
 
 const { NEXT_PUBLIC_GTM_ID } = env();
 
@@ -53,7 +61,8 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             href="/favicon.ico"
           />
         </Head>
-        <div className="h-screen overflow-y-auto overflow-x-hidden">
+
+        <div className={`h-screen overflow-y-auto overflow-x-hidden ${fontClasses} font-primary`}>
           <TypesenseContextProvider>
             <SiteContextProvider>
               <UserContextProvider>

@@ -1,0 +1,32 @@
+.nipv-tablesorter-spwrapper {
+  @apply overflow-x-auto;
+}
+
+#nipv-tablesorter,
+#js-spec-table {
+  @apply w-full min-w-[600px] text-left text-sm border-collapse;
+}
+
+#nipv-tablesorter th,
+#js-spec-table th {
+  @apply text-sm px-2.5 py-4 border-b border-border text-left font-medium text-black/50;
+}
+
+#nipv-tablesorter td,
+#js-spec-table td {
+  @apply text-sm px-2.5 py-4 border-b border-border text-black/80 !text-left;
+}
+
+#nipv-tablesorter tr:nth-last-child(2) td,
+#js-spec-table tr:nth-last-child(2) td {
+  @apply border-b-0;
+}
+
+#nipv-tablesorter tr:hover,
+#js-spec-table tr:hover {
+  @apply bg-white/90;
+}
+
+#nipv-tablesorter .add-to-cart-row {
+  @apply hidden;
+}

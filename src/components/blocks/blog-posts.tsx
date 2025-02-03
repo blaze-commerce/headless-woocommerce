@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty, reduce } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -9,7 +8,7 @@ import { v4 } from 'uuid';
 import { PrefetchLink } from '@src/components/common/prefetch-link';
 import { ArrowRoundLeft } from '@components/svg/arrow-round-left';
 import { ArrowRoundRight } from '@components/svg/arrow-round-right';
-import { useHomeContext } from '@src/context/home-context';
+import { usePageContext } from '@src/context/page-context';
 import { useSiteContext } from '@src/context/site-context';
 import { unixToDate } from '@src/lib/helpers/date';
 import { emptyImagePlaceholder } from '@src/lib/constants/image';
@@ -17,6 +16,7 @@ import { RawLink } from '@src/components/common/raw-link';
 import { PageTypesenseResponse } from '@src/lib/typesense/page';
 import { cn } from '@src/lib/helpers/helper';
 import { Day, Month, Year } from '@src/lib/types/date';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
 type Props = {
   blogCount?: number;
@@ -38,7 +38,7 @@ export const BlogPosts = ({
   cardContentClasses,
 }: Props) => {
   const { settings } = useSiteContext();
-  const { blogPosts } = useHomeContext();
+  const { blogPosts } = usePageContext();
   const blogsSettings = settings?.homepage?.layout?.blogs;
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
@@ -183,7 +183,7 @@ export const BlogPosts = ({
                     </span>
                     {settings?.homepage?.layout?.blogs?.description?.enabled && (
                       <span className={cn(descriptionClasses, 'mt-2 line-clamp-4')}>
-                        {blog?.content && HTMLReactParser(blog?.content as string)}
+                        {blog?.content && <ReactHTMLParser html={blog?.content as string} />}
                       </span>
                     )}
                     {

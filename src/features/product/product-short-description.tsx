@@ -1,18 +1,21 @@
-import HTMLReactParser from 'html-react-parser';
 import { formatTextWithNewline } from '@src/lib/helpers/helper';
-import { useSiteContext } from '@src/context/site-context';
+import { cn } from '@src/lib/helpers/helper';
 import { useProductContext } from '@src/context/product-context';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
-export const ProductShortDescription: React.FC = () => {
-  const { settings } = useSiteContext();
+interface IProps {
+  id?: string;
+  classNames?: string;
+}
+
+export const ProductShortDescription = ({ classNames, id }: IProps) => {
   const { product } = useProductContext();
 
-  if (settings?.product?.features.shortDescription?.enabled === false) return null;
   if (!product || !product.shortDescription) return null;
 
   return (
-    <div className="mt-4 border-t py-4 product-short-description">
-      {HTMLReactParser(formatTextWithNewline(product.shortDescription))}
+    <div className={cn('product-short-description', classNames, id)}>
+      <ReactHTMLParser html={formatTextWithNewline(product.shortDescription)} />
     </div>
   );
 };

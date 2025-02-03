@@ -246,8 +246,65 @@ export interface BackgroundAttributes {
   backgroundColorHover?: string;
 }
 
+export interface BasicBlockAttributes {
+  uniqueId?: string;
+  blockLabel?: string;
+  align?: string;
+  className?: string;
+  isDynamic?: boolean;
+  blockVersion?: number;
+}
+
+export interface PostDateAttributes {
+  format?: string;
+}
+
+export interface GroupAttributes {
+  layout?: {
+    flexWrap?: string;
+    type: 'constrained' | 'flex' | 'grid';
+    verticalAlignment?: string;
+    justifyContent?: 'center' | 'left' | 'right' | 'space-between';
+    orientation?: 'horizontal' | 'vertical';
+  };
+}
+
+export interface CoverAttributes {
+  alt?: string;
+  contentPosition?: string;
+  customOverlayColor?: string;
+  overlayColor?: string;
+  dimRatio?: number;
+  id?: number;
+  isDark?: boolean;
+  isUserOverlayColor?: boolean;
+  sizeSlug?: string;
+  url?: string;
+}
+
+export interface ListItemsAttributes {
+  ordered?: boolean;
+}
+
+export type WoocommerceStockStatus = 'instock' | 'outofstock' | 'onbackorder';
+export interface WooCommerceProductCollectionAttributes {
+  query?: {
+    taxQuery: {
+      product_cat: number[];
+    };
+    woocommerceOnSale: boolean;
+    perPage: number;
+    woocommerceStockStatus: WoocommerceStockStatus[];
+    search: string;
+    order: 'asc' | 'desc';
+    orderBy: 'title' | 'date' | 'price' | 'sales' | 'rating' | 'menu_order' | 'random';
+    featured?: boolean;
+  };
+}
+
 export interface BlockAttributes
-  extends GridBlockAttributes,
+  extends BasicBlockAttributes,
+    GridBlockAttributes,
     SizeAttributes,
     ObjectFitAttributes,
     DisplayAttributes,
@@ -262,14 +319,12 @@ export interface BlockAttributes
     JustifyContentAttributes,
     RowGapAttributes,
     GradientAttributes,
-    BackgroundAttributes {
-  uniqueId?: string;
-  blockLabel?: string;
-  align?: string;
-  className?: string;
-  isDynamic?: boolean;
-  blockVersion?: number;
-
+    BackgroundAttributes,
+    PostDateAttributes,
+    GroupAttributes,
+    CoverAttributes,
+    ListItemsAttributes,
+    WooCommerceProductCollectionAttributes {
   variantRole?: string;
 
   textColor?: string;
@@ -300,5 +355,11 @@ export interface BlockAttributes
   };
   menuCentered?: boolean;
   menuFullWidth?: boolean;
-  [key: string]: ClassValue | { target: string; device: string; state: string }[];
+  [key: string]: ClassValue | { target: string; device: string; state: string }[] | string;
+}
+
+export interface WooCommerceBlockAttributes extends BasicBlockAttributes {
+  textColor?: string;
+  fontSize?: string;
+  style?: { [key: string]: string };
 }

@@ -90,8 +90,18 @@
   },
   {
     "family": "Noto Sans JP",
-    "variants": ["100", "300", "regular", "500", "700", "900"],
-    "subsets": ["japanese", "latin"],
+    "variants": [
+      "100",
+      "300",
+      "regular",
+      "500",
+      "700",
+      "900"
+    ],
+    "subsets": [
+      "japanese",
+      "latin"
+    ],
     "version": "v42",
     "lastModified": "2022-09-27",
     "files": {
@@ -127,7 +137,13 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v25",
     "lastModified": "2022-09-22",
     "files": {
@@ -167,7 +183,10 @@
       "900",
       "900italic"
     ],
-    "subsets": ["latin", "latin-ext"],
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
     "version": "v23",
     "lastModified": "2022-09-22",
     "files": {
@@ -207,7 +226,11 @@
       "900",
       "900italic"
     ],
-    "subsets": ["devanagari", "latin", "latin-ext"],
+    "subsets": [
+      "devanagari",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v20",
     "lastModified": "2022-09-22",
     "files": {
@@ -235,7 +258,14 @@
   },
   {
     "family": "Roboto Condensed",
-    "variants": ["300", "300italic", "regular", "italic", "700", "700italic"],
+    "variants": [
+      "300",
+      "300italic",
+      "regular",
+      "italic",
+      "700",
+      "700italic"
+    ],
     "subsets": [
       "cyrillic",
       "cyrillic-ext",
@@ -304,8 +334,12 @@
   },
   {
     "family": "Material Icons",
-    "variants": ["regular"],
-    "subsets": ["latin"],
+    "variants": [
+      "regular"
+    ],
+    "subsets": [
+      "latin"
+    ],
     "version": "v140",
     "lastModified": "2023-03-08",
     "files": {
@@ -316,7 +350,17 @@
   },
   {
     "family": "Inter",
-    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"],
+    "variants": [
+      "100",
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900"
+    ],
     "subsets": [
       "cyrillic",
       "cyrillic-ext",
@@ -344,8 +388,21 @@
   },
   {
     "family": "Oswald",
-    "variants": ["200", "300", "regular", "500", "600", "700"],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v49",
     "lastModified": "2022-09-22",
     "files": {
@@ -377,7 +434,14 @@
       "600italic",
       "700italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "greek", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "greek",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v22",
     "lastModified": "2022-09-22",
     "files": {
@@ -478,7 +542,13 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v28",
     "lastModified": "2022-09-22",
     "files": {
@@ -506,7 +576,17 @@
   },
   {
     "family": "Roboto Slab",
-    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"],
+    "variants": [
+      "100",
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900"
+    ],
     "subsets": [
       "cyrillic",
       "cyrillic-ext",
@@ -550,7 +630,13 @@
       "900",
       "900italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v12",
     "lastModified": "2022-09-22",
     "files": {
@@ -574,8 +660,24 @@
   },
   {
     "family": "Ubuntu",
-    "variants": ["300", "300italic", "regular", "italic", "500", "500italic", "700", "700italic"],
-    "subsets": ["cyrillic", "cyrillic-ext", "greek", "greek-ext", "latin", "latin-ext"],
+    "variants": [
+      "300",
+      "300italic",
+      "regular",
+      "italic",
+      "500",
+      "500italic",
+      "700",
+      "700italic"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "greek",
+      "greek-ext",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v20",
     "lastModified": "2022-09-22",
     "files": {
@@ -607,7 +709,12 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["cyrillic", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v30",
     "lastModified": "2022-09-22",
     "files": {
@@ -626,6 +733,30 @@
     },
     "category": "serif",
     "kind": "webfonts#webfont"
+  },
+  {
+    "family": "Play",
+    "variants": [
+      "regular",
+      "700"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "greek",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
+    "version": "v19",
+    "lastModified": "2024-09-04",
+    "files": {
+      "regular": "https://fonts.gstatic.com/s/play/v19/6aez4K2oVqwIjtI8Hp8Tx3A.ttf",
+      "700": "https://fonts.gstatic.com/s/play/v19/6ae84K2oVqwItm4TOpc423nTJTM.ttf"
+    },
+    "category": "sans-serif",
+    "kind": "webfonts#webfont",
+    "menu": "https://fonts.gstatic.com/s/play/v19/6aez4K2oVqwIvtM2Gg.ttf"
   },
   {
     "family": "Nunito",
@@ -647,7 +778,13 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v25",
     "lastModified": "2022-09-22",
     "files": {
@@ -673,8 +810,23 @@
   },
   {
     "family": "Merriweather",
-    "variants": ["300", "300italic", "regular", "italic", "700", "700italic", "900", "900italic"],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "300",
+      "300italic",
+      "regular",
+      "italic",
+      "700",
+      "700italic",
+      "900",
+      "900italic"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v30",
     "lastModified": "2022-09-22",
     "files": {
@@ -708,7 +860,13 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "hebrew", "latin", "latin-ext"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "hebrew",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v26",
     "lastModified": "2023-03-09",
     "files": {
@@ -732,8 +890,18 @@
   },
   {
     "family": "PT Sans",
-    "variants": ["regular", "italic", "700", "700italic"],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+    "variants": [
+      "regular",
+      "italic",
+      "700",
+      "700italic"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v17",
     "lastModified": "2022-09-22",
     "files": {
@@ -747,8 +915,18 @@
   },
   {
     "family": "Noto Sans KR",
-    "variants": ["100", "300", "regular", "500", "700", "900"],
-    "subsets": ["korean", "latin"],
+    "variants": [
+      "100",
+      "300",
+      "regular",
+      "500",
+      "700",
+      "900"
+    ],
+    "subsets": [
+      "korean",
+      "latin"
+    ],
     "version": "v27",
     "lastModified": "2022-09-27",
     "files": {
@@ -764,8 +942,20 @@
   },
   {
     "family": "Mukta",
-    "variants": ["200", "300", "regular", "500", "600", "700", "800"],
-    "subsets": ["devanagari", "latin", "latin-ext"],
+    "variants": [
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800"
+    ],
+    "subsets": [
+      "devanagari",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v13",
     "lastModified": "2022-09-22",
     "files": {
@@ -802,7 +992,12 @@
       "900",
       "900italic"
     ],
-    "subsets": ["latin", "latin-ext", "thai", "vietnamese"],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "thai",
+      "vietnamese"
+    ],
     "version": "v12",
     "lastModified": "2022-09-22",
     "files": {
@@ -850,7 +1045,11 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v18",
     "lastModified": "2022-09-22",
     "files": {
@@ -878,8 +1077,18 @@
   },
   {
     "family": "Noto Sans TC",
-    "variants": ["100", "300", "regular", "500", "700", "900"],
-    "subsets": ["chinese-traditional", "latin"],
+    "variants": [
+      "100",
+      "300",
+      "regular",
+      "500",
+      "700",
+      "900"
+    ],
+    "subsets": [
+      "chinese-traditional",
+      "latin"
+    ],
     "version": "v26",
     "lastModified": "2022-09-27",
     "files": {
@@ -895,8 +1104,23 @@
   },
   {
     "family": "Lora",
-    "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "regular",
+      "500",
+      "600",
+      "700",
+      "italic",
+      "500italic",
+      "600italic",
+      "700italic"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v32",
     "lastModified": "2023-02-22",
     "files": {
@@ -970,8 +1194,18 @@
   },
   {
     "family": "Quicksand",
-    "variants": ["300", "regular", "500", "600", "700"],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700"
+    ],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v30",
     "lastModified": "2022-09-22",
     "files": {
@@ -1006,7 +1240,11 @@
       "900",
       "900italic"
     ],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v12",
     "lastModified": "2022-09-22",
     "files": {
@@ -1052,7 +1290,13 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v12",
     "lastModified": "2022-09-22",
     "files": {
@@ -1078,8 +1322,21 @@
   },
   {
     "family": "Heebo",
-    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"],
-    "subsets": ["hebrew", "latin"],
+    "variants": [
+      "100",
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900"
+    ],
+    "subsets": [
+      "hebrew",
+      "latin"
+    ],
     "version": "v21",
     "lastModified": "2022-09-22",
     "files": {
@@ -1098,8 +1355,18 @@
   },
   {
     "family": "PT Serif",
-    "variants": ["regular", "italic", "700", "700italic"],
-    "subsets": ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+    "variants": [
+      "regular",
+      "italic",
+      "700",
+      "700italic"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v17",
     "lastModified": "2022-09-22",
     "files": {
@@ -1126,7 +1393,10 @@
       "700italic",
       "900"
     ],
-    "subsets": ["latin", "latin-ext"],
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
     "version": "v15",
     "lastModified": "2022-09-22",
     "files": {
@@ -1163,7 +1433,14 @@
       "700",
       "700italic"
     ],
-    "subsets": ["cyrillic", "cyrillic-ext", "greek", "latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "greek",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v14",
     "lastModified": "2022-09-22",
     "files": {
@@ -1187,8 +1464,18 @@
   },
   {
     "family": "DM Sans",
-    "variants": ["regular", "italic", "500", "500italic", "700", "700italic"],
-    "subsets": ["latin", "latin-ext"],
+    "variants": [
+      "regular",
+      "italic",
+      "500",
+      "500italic",
+      "700",
+      "700italic"
+    ],
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
     "version": "v11",
     "lastModified": "2022-09-22",
     "files": {
@@ -1204,8 +1491,23 @@
   },
   {
     "family": "Manrope",
-    "variants": ["200", "300", "regular", "500", "600", "700", "800"],
-    "subsets": ["cyrillic", "cyrillic-ext", "greek", "latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800"
+    ],
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "greek",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v13",
     "lastModified": "2022-09-22",
     "files": {
@@ -1222,8 +1524,21 @@
   },
   {
     "family": "Inconsolata",
-    "variants": ["200", "300", "regular", "500", "600", "700", "800", "900"],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900"
+    ],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v31",
     "lastModified": "2022-09-22",
     "files": {
@@ -1261,7 +1576,11 @@
       "800italic",
       "900italic"
     ],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v13",
     "lastModified": "2022-09-22",
     "files": {
@@ -1289,8 +1608,18 @@
   },
   {
     "family": "Hind Siliguri",
-    "variants": ["300", "regular", "500", "600", "700"],
-    "subsets": ["bengali", "latin", "latin-ext"],
+    "variants": [
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700"
+    ],
+    "subsets": [
+      "bengali",
+      "latin",
+      "latin-ext"
+    ],
     "version": "v12",
     "lastModified": "2022-09-22",
     "files": {
@@ -1305,7 +1634,12 @@
   },
   {
     "family": "Noto Serif",
-    "variants": ["regular", "italic", "700", "700italic"],
+    "variants": [
+      "regular",
+      "italic",
+      "700",
+      "700italic"
+    ],
     "subsets": [
       "cyrillic",
       "cyrillic-ext",
@@ -1328,8 +1662,15 @@
   },
   {
     "family": "Nanum Gothic",
-    "variants": ["regular", "700", "800"],
-    "subsets": ["korean", "latin"],
+    "variants": [
+      "regular",
+      "700",
+      "800"
+    ],
+    "subsets": [
+      "korean",
+      "latin"
+    ],
     "version": "v21",
     "lastModified": "2022-09-27",
     "files": {
@@ -1358,7 +1699,10 @@
       "700italic",
       "800italic"
     ],
-    "subsets": ["latin", "latin-ext"],
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
     "version": "v23",
     "lastModified": "2022-09-22",
     "files": {
@@ -1398,7 +1742,11 @@
       "600italic",
       "700italic"
     ],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v25",
     "lastModified": "2022-09-22",
     "files": {
@@ -1422,7 +1770,16 @@
   },
   {
     "family": "Arimo",
-    "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"],
+    "variants": [
+      "regular",
+      "500",
+      "600",
+      "700",
+      "italic",
+      "500italic",
+      "600italic",
+      "700italic"
+    ],
     "subsets": [
       "cyrillic",
       "cyrillic-ext",
@@ -1450,8 +1807,15 @@
   },
   {
     "family": "Libre Baskerville",
-    "variants": ["regular", "italic", "700"],
-    "subsets": ["latin", "latin-ext"],
+    "variants": [
+      "regular",
+      "italic",
+      "700"
+    ],
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
     "version": "v14",
     "lastModified": "2022-09-22",
     "files": {
@@ -1464,8 +1828,20 @@
   },
   {
     "family": "Dosis",
-    "variants": ["200", "300", "regular", "500", "600", "700", "800"],
-    "subsets": ["latin", "latin-ext", "vietnamese"],
+    "variants": [
+      "200",
+      "300",
+      "regular",
+      "500",
+      "600",
+      "700",
+      "800"
+    ],
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
     "version": "v27",
     "lastModified": "2022-09-22",
     "files": {
@@ -1482,8 +1858,12 @@
   },
   {
     "family": "Material Icons Outlined",
-    "variants": ["regular"],
-    "subsets": ["latin"],
+    "variants": [
+      "regular"
+    ],
+    "subsets": [
+      "latin"
+    ],
     "version": "v109",
     "lastModified": "2023-03-08",
     "files": {
@@ -1494,7 +1874,15 @@
   },
   {
     "family": "Futura Book",
-    "variants": ["300", "regular", "italic", "500", "600", "700", "900"],
+    "variants": [
+      "300",
+      "regular",
+      "italic",
+      "500",
+      "600",
+      "700",
+      "900"
+    ],
     "files": {
       "300": "https://lwnjqzgislyzmiuvinlu.supabase.co/storage/v1/object/public/uploads/fonts/Futura-Std-Light.otf",
       "regular": "https://lwnjqzgislyzmiuvinlu.supabase.co/storage/v1/object/public/uploads/fonts/Futura-Book.otf",

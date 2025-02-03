@@ -1,13 +1,13 @@
 import { Dictionary } from '@reduxjs/toolkit';
-import { isArray, isEmpty, reduce } from 'lodash';
+import { isArray, isEmpty, merge, reduce } from 'lodash';
 import { GetStaticProps } from 'next';
 
 import { TaxonomyItemPage } from '@src/components/content/taxonomy-item-page';
-import { defaultLayout } from '@src/components/layouts/default';
+import { defaultLayout } from '@src/components/layouts/taxonomy';
 import { SiteInfo } from '@src/lib/typesense/site-info';
 import { generatePathsByCountry, getPageParams } from '@src/lib/helpers';
 import { Country, getDefaultRegion } from '@src/lib/helpers/country';
-import { RegionalData, TaxonomyPaths } from '@src/types';
+import { TaxonomyPaths } from '@src/types';
 import { getCanonicalHref, parseJsonValue, updateCanonicalLink } from '@src/lib/helpers/helper';
 import { TaxonomyPathsParams } from '@src/lib/types/taxonomy';
 import TSTaxonomy, {
@@ -147,5 +147,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       notFound: true,
     };
   }
+
   return data;
 };

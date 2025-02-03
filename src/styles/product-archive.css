@@ -1,0 +1,161 @@
+/**
+  * Product Archive
+  */
+
+@import 'archive/filter.css';
+
+.product-archive-page {
+  @apply flex flex-col gap-y-4;
+}
+
+.product-archive-page .container {
+  @apply w-screen mx-auto;
+}
+
+.product-archive-page header {
+  @apply bg-brand-tertiary;
+}
+
+.product-archive-page header .breadcrumbs {
+  @apply mb-0;
+}
+
+.product-archive-page header .container {
+  @apply px-4 py-4;
+}
+
+.product-archive-page header .page-title {
+  @apply font-secondary text-3xl leading-[150%] md:text-5xl text-[#000180] font-bold;
+}
+
+.product-archive-page header .page-subtitle {
+  @apply text-center text-black;
+}
+
+.product-archive-container {
+  @apply grid grid-cols-1 gap-x-8 gap-y-10 xl:grid-cols-[268px_1fr] px-4;
+}
+
+.product-archive-filter-mobile {
+  @apply flex flex-col gap-4 lg:hidden mb-4;
+}
+
+/** Product Archive Mobile Filter & Sort  **/
+
+.product-archive-filter-sort-mobile {
+  @apply flex justify-normal items-center border rounded-lg;
+}
+
+.product-archive-filter-sort-mobile button {
+  @apply flex-grow flex items-center border-r justify-center h-10 gap-2 leading-6 text-sm font-bold;
+}
+
+.product-archive-filter-sort-mobile button:last-child {
+  @apply border-none;
+}
+
+.product-archive-filter-mobile .display-active-filters {
+  @apply flex justify-between items-center;
+}
+
+/** Product Archive Filter **/
+
+.product-archive-filter {
+  @apply flex flex-col gap-4;
+}
+
+.product-archive-filter-desktop {
+  @apply hidden xl:block;
+}
+
+.product-archive-filter .filter-main-title {
+  @apply flex justify-end flex-row-reverse items-center gap-2 font-bold font-secondary text-2xl text-sub-title pb-2;
+}
+
+.product-archive-filter .filter-widget {
+}
+
+.product-archive-filter .filter-widget .filter-widget-header {
+  @apply flex items-center w-full justify-between text-left focus:outline-none focus-visible:ring focus-visible:ring-brand-primary-light focus-visible:ring-opacity-75 pb-4;
+}
+
+.product-archive-filter .filter-widget .filter-widget-header .filter-widget-title {
+  @apply text-sub-title font-bold font-secondary text-lg;
+}
+
+.product-archive-filter .filter-widget .filter-widget-header .open-filter {
+  @apply h-5 w-5 text-[#3F3F46];
+}
+
+.product-archive-filter .filter-widget .filter-widget-header .open-filter.open {
+  @apply transform rotate-180;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content {
+  @apply text-sm text-gray-500 pb-4;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .fieldset {
+  @apply pb-2 flex flex-col gap-2;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .fieldset .option {
+  @apply relative flex gap-2 items-start font-primary font-normal text-[16px] leading-[24px];
+}
+
+.product-archive-filter
+  .filter-widget
+  .filter-widget-content
+  .fieldset
+  .option
+  .checkbox-container {
+  @apply flex items-center;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .fieldset .option input {
+  @apply h-4 w-4 mt-1 border-gray-300 focus:ring-brand-primary rounded;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .fieldset .option input.hasProduct {
+  @apply cursor-pointer;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .fieldset .option input.hasNoProduct {
+  @apply opacity-50 brightness-90;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .fieldset .option label.hasProduct {
+  @apply cursor-pointer;
+}
+
+.product-archive-filter .filter-widget .filter-widget-content .more-options {
+  @apply mt-2.5 text-sm font-bold font-primary text-[#777] underline uppercase;
+}
+
+.product-archive-display {
+  @apply flex flex-col gap-4;
+}
+
+.product-archive-display .product-filter-and-sort {
+  @apply flex flex-row gap-4 items-center;
+}
+
+.product-archive-display .product-filter-and-sort .active-filters {
+  @apply hidden md:flex;
+}
+
+.product-archive-display .product-filter-and-sort .filter-button {
+  @apply hidden lg:flex xl:hidden  items-center border justify-center h-10 gap-2 leading-6 text-sm font-bold rounded-lg px-4;
+}
+
+.product-archive-display .product-filter-and-sort .result-count {
+  @apply text-lg font-normal text-center leading-6 text-black/80;
+}
+
+.product-archive-display .product-filter-and-sort .button-sort-by {
+  @apply hidden lg:flex text-sm font-normal leading-6 justify-center items-center border border-gray-300 rounded py-2 px-4 text-[#777] gap-2;
+}
+
+.product-archive-display .product-filter-and-sort .button-sort-by label {
+  @apply font-bold text-[#333];
+}

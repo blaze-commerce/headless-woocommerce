@@ -1,0 +1,14 @@
+.mini-cart .product-card .product-title {
+  @apply text-primary text-sm font-bold font-secondary;
+}
+
+.mini-cart .product-card .price {
+  @apply text-sm font-bold;
+}
+
+.mini-cart input[type="number"]::-webkit-inner-spin-button,
+.mini-cart input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}

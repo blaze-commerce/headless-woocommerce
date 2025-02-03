@@ -22,7 +22,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M12.6667 14.6673V7.33398"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -30,7 +30,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M12.6667 4.66732V1.33398"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -38,7 +38,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M8 14.6673V11.334"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -46,7 +46,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M8 8.66732V1.33398"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -54,7 +54,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M3.33331 14.6673V7.33398"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -62,7 +62,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M3.33331 4.66732V1.33398"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -70,7 +70,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M2 7.33398H4.66667"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -78,7 +78,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M11.3333 7.33398H14"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -86,7 +86,7 @@ export const FilterIcon = ({ color, className, fillColor }: Icon) => {
       <path
         d="M6.66669 8.66602H9.33335"
         stroke={fill}
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"

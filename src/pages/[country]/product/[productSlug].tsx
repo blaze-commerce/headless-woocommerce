@@ -3,10 +3,14 @@ import { isEmpty, keyBy } from 'lodash';
 import type { GetStaticPropsContext } from 'next';
 import { GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
+import SINGLEPRODUCT_TEMPLATE from '@public/single-product.json';
+import Head from 'next/head';
 
-import { defaultLayout } from '@src/components/layouts/default';
+import { cn } from '@src/lib/helpers/helper';
+import { singleProductLayout } from '@src/components/layouts/single-product';
 import { NotFound } from '@src/components/not-found';
-import { Product } from '@src/features/product';
+import { PageSeo } from '@src/components/page-seo';
+import { Content } from '@src/components/blocks/content';
 import { ProductContextProvider } from '@src/context/product-context';
 import { getProductReviews, getProductStats } from '@src/lib/reviews/yotpo';
 import { SiteInfo } from '@src/lib/typesense/site-info';
@@ -14,7 +18,7 @@ import { Country, getDefaultRegion } from '@src/lib/helpers/country';
 import { Product as ProductModel, ProductTypesenseResponse } from '@src/models/product';
 import { ProductReviews } from '@src/models/product/reviews';
 import { ProductDialogs } from '@src/models/product/types';
-import { ProductPaths, ProductPathsParams, RegionalData } from '@src/types';
+import { ProductPaths, ProductPathsParams } from '@src/types';
 import { getProductsByIds } from '@src/lib/typesense/product';
 import { SkeletonProductPage } from '@src/components/skeletons/product-page';
 import { parseJsonValue } from '@src/lib/helpers/helper';
@@ -116,7 +120,7 @@ export const getProductStaticProps = async (slug: string) => {
         link: information_2.link ? information_2.link : '',
       },
       {
-        title: information_3.title ? information_3.title : 'Warrenty',
+        title: information_3.title ? information_3.title : 'Warranty',
         icon: information_3.icon ? information_3.icon : '',
         content: information_3.content ? information_3.content : '',
         link: information_3.link ? information_3.link : '',
@@ -185,22 +189,41 @@ export const ProductPage = (props: Props) => {
   const product = ProductModel.buildFromResponse(props.product);
 
   return (
-    <MainContentWrapper>
-      <div className="container flex flex-row flex-wrap mb-40">
-        <ProductContextProvider
-          product={product}
-          additionalData={props.additionalData}
-          customer={props.customer}
-          linkedProducts={props.linkedProducts}
-          key={product.id}
-        >
-          <Product />
-        </ProductContextProvider>
-      </div>
-    </MainContentWrapper>
+    <ProductContextProvider
+      product={product}
+      additionalData={props.additionalData}
+      customer={props.customer}
+      linkedProducts={props.linkedProducts}
+      key={product.id}
+    >
+      {product.seoFullHead ? (
+        <PageSeo seoFullHead={product.seoFullHead} />
+      ) : (
+        <Head>
+          <title>{product.name}</title>
+          <meta
+            name="description"
+            content={product.description}
+          />
+        </Head>
+      )}
+      <main
+        className={cn('single-product container mx-auto p-4', {
+          'out-of-stock': product.isOutOfStock,
+          'simple-product': product.productType === 'simple',
+          'variation-product': product.hasVariations,
+          'bundle-product': product.hasBundle,
+          'composite-product': product.isComposite,
+          'has-addons': product.hasAddons(),
+          'featured-product': product.isFeatured,
+        })}
+      >
+        <Content content={SINGLEPRODUCT_TEMPLATE} />
+      </main>
+    </ProductContextProvider>
   );
 };
 
-ProductPage.getLayout = defaultLayout;
+ProductPage.getLayout = singleProductLayout;
 
 export default ProductPage;

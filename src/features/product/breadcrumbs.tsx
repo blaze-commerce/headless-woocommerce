@@ -1,4 +1,3 @@
-import HTMLReactParser from 'html-react-parser';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
@@ -8,22 +7,25 @@ import { useSiteContext } from '@src/context/site-context';
 import { Settings } from '@src/models/settings';
 import { cn } from '@src/lib/helpers/helper';
 import { ITSBreadcrumbs } from '@src/lib/typesense/types';
-import Link from 'next/link';
 import { HomeIcon } from '@src/components/svg/home';
+import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 
-export const Separator = ({ separator = '/', className = 'text-[#AAAAAA]' }) => {
-  return <span className={`mx-1.5 ${className}`}>{separator}</span>;
+export const Separator = ({ separator = '/', className = '' }) => {
+  return <span className={`separator ${className}`}>{separator}</span>;
 };
 
-const BCLink = ({ uri, name, className }: { uri: string; name: string; className: string }) => {
+const BCLink = ({ uri, name, className }: { uri: string; name: string; className?: string }) => {
   return (
     <RawLink href={uri}>
-      <span className={className}>{HTMLReactParser(name)}</span>
+      <span className={className}>
+        <ReactHTMLParser html={name} />
+      </span>
     </RawLink>
   );
 };
 
 type Props = {
+  id?: string;
   className?: string;
   separator?: string;
   productName?: string;
@@ -34,7 +36,8 @@ const removeDash = (text: string) => {
   return text.replace('-', ' ');
 };
 
-export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName, crumbs }) => {
+export const BreadCrumbs: React.FC<Props> = (props) => {
+  const { id, className, separator, productName, crumbs } = props;
   const { asPath } = useRouter();
   const { settings } = useSiteContext();
   const { store } = settings as Settings;
@@ -57,12 +60,13 @@ export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName
         <BCLink
           uri="/shop"
           name="Products"
-          className="text-[#AAAAAA]"
         />
         {secondPath && (
           <>
             <Separator separator={separator} />
-            <span className="text-[#585858]">{HTMLReactParser(secondPath as string)}</span>
+            <span className="text-[#585858]">
+              <ReactHTMLParser html={secondPath as string} />
+            </span>
           </>
         )}
       </>
@@ -78,7 +82,7 @@ export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName
           <>
             <Separator separator={separator} />{' '}
             <span className="text-[#585858]">
-              {HTMLReactParser((isCategoryBrand ? 'brands' : firstPath) as string)}
+              <ReactHTMLParser html={(isCategoryBrand ? 'brands' : firstPath) as string} />
             </span>
           </>
         )}
@@ -97,12 +101,13 @@ export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName
             <BCLink
               uri={crumb?.permalink as string}
               name={crumb?.name as string}
-              className="text-brand-primary"
             />
           </Fragment>
         ))}
         <Separator separator={separator} />
-        <span className="text-brand-primary">{HTMLReactParser(productName as string)}</span>
+        <span>
+          <ReactHTMLParser html={productName as string} />
+        </span>
       </>
     );
   };
@@ -119,11 +124,10 @@ export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName
               <BCLink
                 uri={crumb?.permalink as string}
                 name={crumb?.name as string}
-                className="text-brand-primary"
               />
             ) : (
-              <span className="text-brand-primary px-1.5">
-                {HTMLReactParser(crumb?.name as string)}
+              <span>
+                <ReactHTMLParser html={crumb?.name as string} />
               </span>
             )}
           </Fragment>
@@ -133,27 +137,27 @@ export const BreadCrumbs: React.FC<Props> = ({ className, separator, productName
   };
 
   return (
-    <div
-      className={cn(
-        'breadcrumbs flex-wrap text-sm md:text-base font-normal text-brand-primary',
-        className,
-        {
-          'hidden md:flex': !store?.breadcrumbMobile?.enabled,
-        }
-      )}
+    <nav
+      id={id}
+      className={cn('breadcrumbs', className, {
+        'hidden md:flex': !store?.breadcrumbMobile?.enabled,
+      })}
     >
-      <span className="flex gap-1.5 items-center">
+      <span className="home-link">
         <HomeIcon />
         <BCLink
           uri="/"
           name="Home"
-          className="  text-brand-primary pr-1.5"
         />
       </span>
       {renderDefaultBreadcrumbs()}
       {renderProductBreadcrumbs()}
       {renderShopPagesBreadcrumbs()}
       {renderSecondaryPagesBreadcrumbs()}
-    </div>
+    </nav>
   );
+};
+
+BreadCrumbs.defaultProps = {
+  separator: '&gt;',
 };

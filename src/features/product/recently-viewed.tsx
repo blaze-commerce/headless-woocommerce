@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { ProductSlides } from '@src/features/product/product-slides/bbc';
+import { ProductSlides } from '@src/features/product/product-slides/v2';
 import { ProductGrid } from '@src/features/product/grids/product-grid';
 import { SkeletonProductCard } from '@src/components/skeletons/product-card';
 import { useSiteContext } from '@src/context/site-context';
