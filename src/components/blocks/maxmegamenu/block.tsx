@@ -103,7 +103,7 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
   return (
     <>
       <MenuWrapper
-        className={cn(`nav hidden lg:flex w-full ${attributes.className}`, {
+        className={cn(`nav hidden lg:flex w-full h-full ${attributes.className}`, {
           hovered: linkHovered,
           'justify-center': attributes.menuCentered,
         })}
@@ -113,8 +113,9 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
           $isCentered={attributes.menuCentered}
           $isFullWidth={attributes.menuFullWidth}
           $menuMaxWidth={attributes.menuMaxWidth}
-          className={cn('flex items-center relative', {
+          className={cn('flex items-center', {
             'w-full': attributes.submenuFullWidth,
+            relative: !attributes.menuFullWidth,
           })}
         >
           {Object.values(mainMenuItems).map((item, index) => {
@@ -126,7 +127,7 @@ export const MaxMegaMenu = ({ block }: BlockComponentProps) => {
               <MenuListItem
                 key={`${item?.url}-${index}`}
                 $attrs={attributes}
-                className="nav-item flex items-center"
+                className="nav-item flex items-center h-full"
                 onMouseEnter={() => setLinkHovered(true)}
                 onMouseLeave={() => setLinkHovered(false)}
               >
