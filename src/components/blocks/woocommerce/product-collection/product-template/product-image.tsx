@@ -1,15 +1,10 @@
 import { ParsedBlock } from '@src/components/blocks';
-import { Content } from '@src/components/blocks/content';
 import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
-import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
 import { useContentContext } from '@src/context/content-context';
 import { CardImage } from '@src/features/product/card-elements/image';
-import { getBlockName } from '@src/lib/block';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
-import { transformProductsForDisplay } from '@src/lib/helpers/product';
-import { ProductCartItem } from '@src/lib/hooks/cart';
 import { Product } from '@src/models/product';
 import { find } from 'lodash';
 import Image from 'next/image';
@@ -26,6 +21,7 @@ export const WooCommerceProductTemplateImage = ({
     return null;
   }
   const attributes = block.attrs as BlockAttributes;
+  const imageHeight = attributes?.height || '100%';
 
   if ('product' === type) {
     const product = data as Product;
@@ -33,6 +29,9 @@ export const WooCommerceProductTemplateImage = ({
       <CardImage
         product={product}
         imageClassNames={attributes.className}
+        style={{
+          paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * ${imageHeight})`,
+        }}
       />
     );
   }
@@ -47,6 +46,9 @@ export const WooCommerceProductTemplateImage = ({
             'w-[94px] h-[94px] flex-shrink-0 overflow-hidden bg-gray-300',
             attributes.className
           )}
+          style={{
+            paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * ${imageHeight})`,
+          }}
         ></div>
       );
     }
@@ -71,7 +73,12 @@ export const WooCommerceProductTemplateImage = ({
     }
 
     return (
-      <div className={cn('w-[94px] h-[94px] flex-shrink-0 overflow-hidden', attributes.className)}>
+      <div
+        className={cn('w-[94px] h-[94px] flex-shrink-0 overflow-hidden', attributes.className)}
+        style={{
+          paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * ${imageHeight})`,
+        }}
+      >
         <a href={'/product/' + cartItem.slug}>
           <Image
             src={cartItem.image.sourceUrl}

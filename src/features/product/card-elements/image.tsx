@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { isEmpty } from 'lodash';
 
@@ -21,6 +21,7 @@ interface ICardImage {
   imageMaxWidth?: number;
   showWishlistButton?: boolean;
   showImageVariant?: string;
+  style?: CSSProperties;
 }
 
 interface IHoverImage extends Omit<ICardImage, 'product'> {
@@ -143,6 +144,7 @@ export const CardImage = (props: ICardImage) => {
     productColumns,
     imageMaxWidth,
     showImageVariant,
+    style,
   } = props;
 
   const thumbnailSrc = TSThumbnail.clean(product?.thumbnail?.src || '');
@@ -172,7 +174,7 @@ export const CardImage = (props: ICardImage) => {
         },
         imageClassNames
       )}
-      style={{ width: imageMaxWidth !== 0 && !imgError ? `${imageMaxWidth}px` : '100%' }}
+      style={{ width: imageMaxWidth !== 0 && !imgError ? `${imageMaxWidth}px` : '100%', ...style }}
     >
       <RawLink
         href={productLink}
