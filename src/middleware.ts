@@ -3,10 +3,6 @@ import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
-import siteData from '@public/site.json';
-import postSlugs from '@public/post-slugs.json';
-import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
-import pageSlugs from '@public/page-slugs.json';
 import { NextURL } from 'next/dist/server/web/next-url';
 
 interface SiteData {
@@ -17,6 +13,12 @@ interface SiteData {
     product_base: string;
   };
 }
+
+const siteData = (await import('@public/site.json')).default as SiteData;
+
+import postSlugs from '@public/post-slugs.json';
+import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
+import pageSlugs from '@public/page-slugs.json';
 
 export const PAGE_URL_PATTERN = /\/page\/\d+\//;
 
