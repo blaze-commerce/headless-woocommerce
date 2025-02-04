@@ -1,4 +1,4 @@
-import { find } from 'lodash';
+import { find, isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
@@ -133,6 +133,7 @@ export const DefaultProductCard = (props: Props) => {
 
   const renderProductCardsFromTemplate = () => {
     const productCardTemplate = productCards[0];
+    if (isEmpty(productCardTemplate)) return null;
     return productCardTemplate.innerBlocks.map((block) => {
       switch (block.blockName) {
         case 'woocommerce/product-image': {
