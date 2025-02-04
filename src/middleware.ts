@@ -3,11 +3,20 @@ import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
-import siteData from '@public/site.json';
+import siteData from '@public/site.json' assert { type: 'json' } as SiteData;
 import postSlugs from '@public/post-slugs.json';
 import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
 import pageSlugs from '@public/page-slugs.json';
 import { NextURL } from 'next/dist/server/web/next-url';
+
+interface SiteData {
+  homepageSlug: string;
+  shopPageSlug: string;
+  blogPageSlug: string;
+  woocommercePermalinks: {
+    product_base: string;
+  };
+}
 
 export const PAGE_URL_PATTERN = /\/page\/\d+\//;
 
