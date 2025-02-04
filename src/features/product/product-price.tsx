@@ -84,6 +84,16 @@ export const ProductPrice: React.FC<Props> = ({ id, className }) => {
           </p>
         </>
       )}
+
+      {!product?.categoriesArray?.includes('patches') &&
+        ['aircraft-models', 'drinkware', 'swag', 'submarine-ship-and-sub', 'plaques'].some(
+          (category) => product?.categoriesArray?.includes(category)
+        ) && (
+          <p>
+            Modifications, Changes, and Additions may delay items up to 90 days and require
+            additional charges
+          </p>
+        )}
     </>
   );
 };

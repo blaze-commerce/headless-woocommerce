@@ -69,7 +69,7 @@ export const ProductTabs = ({ style, className }: TProductTabs) => {
     tabData.push(
       ...product.additionalTabs.map((tab) => {
         return {
-          title: tab.title + 'asdasd',
+          title: tab.title,
           content: <ReactHTMLParser html={tab.content as string} />,
           isOpen: false,
         };
