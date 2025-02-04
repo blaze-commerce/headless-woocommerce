@@ -3,7 +3,7 @@ import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
-import siteData from '@public/site.json' assert { type: 'json' } as SiteData;
+import siteData from '@public/site.json' as SiteData;
 import postSlugs from '@public/post-slugs.json';
 import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
 import pageSlugs from '@public/page-slugs.json';
