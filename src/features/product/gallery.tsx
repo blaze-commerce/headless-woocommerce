@@ -239,7 +239,7 @@ export const Gallery: React.FC<Props> = (props) => {
 
   const renderDesktopMainImage = () => {
     return (
-      <Tab.Panels className="w-full aspect-w-1 h-[500px] overflow-hidden relative">
+      <Tab.Panels className="w-full aspect-w-1 h-[285px] md:h-[450px] overflow-hidden relative">
         {images.length > 0 &&
           images.map((image, index) => (
             <Tab.Panel key={`desktop-image-${image.id}-${index}`}>

@@ -1,5 +1,6 @@
 import { useProductContext } from '@src/context/product-context';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 // import { MasterCard } from '@src/components/svg/payment-methods/mastercard';
 // import { Amex } from '@src/components/svg/payment-methods/amex';
@@ -9,12 +10,6 @@ import dynamic from 'next/dynamic';
 // import { Unionpay } from '@src/components/svg/payment-methods/unionpay';
 // import { MiniZip } from '@src/components/svg/payment-methods/mini-zip';
 
-const MasterCard = dynamic(() =>
-  import('@src/components/svg/payment-methods/mastercard').then((mod) => mod.MasterCard)
-);
-const Visa = dynamic(() =>
-  import('@src/components/svg/payment-methods/visa').then((mod) => mod.Visa)
-);
 const Amex = dynamic(() =>
   import('@src/components/svg/payment-methods/amex').then((mod) => mod.Amex)
 );
@@ -29,18 +24,6 @@ const MiniAfterpay = dynamic(() =>
 );
 const MiniZip = dynamic(() =>
   import('@src/components/svg/payment-methods/mini-zip').then((mod) => mod.MiniZip)
-);
-const Discover = dynamic(() =>
-  import('@src/components/svg/payment-methods/discover').then((mod) => mod.Discover)
-);
-const Venmo = dynamic(() =>
-  import('@src/components/svg/payment-methods/venmo').then((mod) => mod.Venmo)
-);
-const AmericanExpress = dynamic(() =>
-  import('@src/components/svg/payment-methods/american-express').then((mod) => mod.AmericanExpress)
-);
-const SecurityMetrix = dynamic(() =>
-  import('@src/components/svg/payment-methods/security-metrix').then((mod) => mod.SecurityMetrix)
 );
 
 // import { AfterpayIcon } from '@src/components/svg/payment-methods/afterpay';
@@ -58,6 +41,8 @@ export const ProductInstallment = (props: TProps) => {
 
   const providers: string[] = Array.isArray(provider) ? provider : provider.split(',');
 
+  console.log({ providers });
+
   return (
     <>
       <div className="product-installment hide-if-out-of-stock">
@@ -65,9 +50,26 @@ export const ProductInstallment = (props: TProps) => {
           {providers.map((provider) => {
             switch (provider) {
               case 'mastercard':
-                return <MasterCard key={provider} />;
+                return (
+                  <Image
+                    key={provider}
+                    src="/images/mastercard.png"
+                    alt="MasterCard"
+                    width={50}
+                    height={30}
+                  />
+                );
+
               case 'visa':
-                return <Visa key={provider} />;
+                return (
+                  <Image
+                    key={provider}
+                    src="/images/visa.png"
+                    alt="Visa"
+                    width={50}
+                    height={30}
+                  />
+                );
               case 'amex':
                 return <Amex key={provider} />;
               case 'unionpay':
@@ -79,13 +81,45 @@ export const ProductInstallment = (props: TProps) => {
               case 'zip':
                 return <MiniZip key={provider} />;
               case 'discover':
-                return <Discover key={provider} />;
+                return (
+                  <Image
+                    key={provider}
+                    src="/images/discover.png"
+                    alt="Discover"
+                    width={50}
+                    height={30}
+                  />
+                );
               case 'venmo':
-                return <Venmo key={provider} />;
+                return (
+                  <Image
+                    key={provider}
+                    src="/images/venmo.png"
+                    alt="Venmo"
+                    width={50}
+                    height={30}
+                  />
+                );
               case 'american-express':
-                return <AmericanExpress key={provider} />;
+                return (
+                  <Image
+                    key={provider}
+                    src="/images/american-express.png"
+                    alt="American Express"
+                    width={50}
+                    height={30}
+                  />
+                );
               case 'security-metrix':
-                return <SecurityMetrix key={provider} />;
+                return (
+                  <Image
+                    key={provider}
+                    src="/images/security-metrix.png"
+                    alt="Security Metrix"
+                    width={50}
+                    height={30}
+                  />
+                );
               default:
                 return null;
             }
