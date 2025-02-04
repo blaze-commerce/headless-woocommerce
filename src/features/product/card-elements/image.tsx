@@ -21,7 +21,6 @@ interface ICardImage {
   imageMaxWidth?: number;
   showWishlistButton?: boolean;
   showImageVariant?: string;
-  style?: CSSProperties;
 }
 
 interface IHoverImage extends Omit<ICardImage, 'product'> {
@@ -144,7 +143,6 @@ export const CardImage = (props: ICardImage) => {
     productColumns,
     imageMaxWidth,
     showImageVariant,
-    style,
   } = props;
 
   const thumbnailSrc = TSThumbnail.clean(product?.thumbnail?.src || '');
@@ -167,14 +165,14 @@ export const CardImage = (props: ICardImage) => {
   return (
     <div
       className={cn(
-        'product-image-holder',
+        'product-image-holder aspect-w-1',
         settings?.productCardAspectRatioClasses,
         {
           'bg-gray-200': imgError,
         },
         imageClassNames
       )}
-      style={{ width: imageMaxWidth !== 0 && !imgError ? `${imageMaxWidth}px` : '100%', ...style }}
+      style={{ width: imageMaxWidth !== 0 && !imgError ? `${imageMaxWidth}px` : '100%' }}
     >
       <RawLink
         href={productLink}

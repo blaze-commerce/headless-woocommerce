@@ -21,7 +21,6 @@ export const WooCommerceProductTemplateImage = ({
     return null;
   }
   const attributes = block.attrs as BlockAttributes;
-  const imageHeight = attributes?.height || '100%';
 
   if ('product' === type) {
     const product = data as Product;
@@ -29,9 +28,6 @@ export const WooCommerceProductTemplateImage = ({
       <CardImage
         product={product}
         imageClassNames={attributes.className}
-        style={{
-          paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * ${imageHeight})`,
-        }}
       />
     );
   }
@@ -46,9 +42,6 @@ export const WooCommerceProductTemplateImage = ({
             'w-[94px] h-[94px] flex-shrink-0 overflow-hidden bg-gray-300',
             attributes.className
           )}
-          style={{
-            paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * ${imageHeight})`,
-          }}
         ></div>
       );
     }
@@ -73,12 +66,7 @@ export const WooCommerceProductTemplateImage = ({
     }
 
     return (
-      <div
-        className={cn('w-[94px] h-[94px] flex-shrink-0 overflow-hidden', attributes.className)}
-        style={{
-          paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * ${imageHeight})`,
-        }}
-      >
+      <div className={cn('w-[94px] h-[94px] flex-shrink-0 overflow-hidden', attributes.className)}>
         <a href={'/product/' + cartItem.slug}>
           <Image
             src={cartItem.image.sourceUrl}
