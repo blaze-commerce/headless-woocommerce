@@ -208,7 +208,7 @@ export const Filter: React.FC<Props> = (props) => {
           onSortChange={onSortChange}
         />
       </Modal>
-      <div className="product-archive-filter-mobile">
+      <div className="product-archive-filter-mobile px-3 md:hidden">
         <MobileFilterSortButtons
           handleFilterByClicked={handleFilterByClicked}
           handleSortByClicked={handleSortByClicked}
