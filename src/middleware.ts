@@ -1,13 +1,21 @@
 import type { NextRequest } from 'next/server';
 import { geolocation } from '@vercel/functions';
 import { NextResponse } from 'next/server';
+import siteData from '@public/site.json';
+import type { SiteData } from '@src/types/site';
 
 import CATEGORY_PATHS from '@public/categorypaths.json';
-import siteData from '@public/site.json';
 import postSlugs from '@public/post-slugs.json';
 import { getDefaultCountry, getRegionByCountry } from '@src/lib/helpers/country';
 import pageSlugs from '@public/page-slugs.json';
 import { NextURL } from 'next/dist/server/web/next-url';
+
+const typedSiteData = {
+  ...siteData,
+  woocommercePermalinks: {
+    product_base: '/product',
+  },
+} as SiteData;
 
 export const PAGE_URL_PATTERN = /\/page\/\d+\//;
 
@@ -90,7 +98,7 @@ export async function middleware(req: NextRequest) {
     return response;
   }
 
-  if (req.nextUrl.pathname.startsWith(siteData.woocommercePermalinks.product_base)) {
+  if (req.nextUrl.pathname.startsWith(typedSiteData.woocommercePermalinks.product_base)) {
     const pathName = req.nextUrl.pathname;
     req.nextUrl.pathname = `/${currentCountry}${pathName}`;
 
