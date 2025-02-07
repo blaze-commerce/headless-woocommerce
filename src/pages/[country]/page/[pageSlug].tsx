@@ -99,21 +99,20 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   }
 };
 
-const Page: NextPageWithLayout<Props> = (props: {
-  page: ITSPage | null | undefined;
-  blocks: string | ParsedBlock[];
-}) => {
-  if (!props.page) {
+const Page: NextPageWithLayout<Props> = ({ page, blocks, country }) => {
+  if (!page) {
     return null;
   }
 
+  const content = page.template ? (PAGE_TEMPLATE as ParsedBlock[]) : (blocks as ParsedBlock[]);
+
   return (
     <div className="page">
-      {props.page.seoFullHead && <PageSeo seoFullHead={props.page.seoFullHead} />}
-      <PageContextProvider page={props.page}>
+      {page.seoFullHead && <PageSeo seoFullHead={page.seoFullHead} />}
+      <PageContextProvider page={page}>
         <Content
           type="page"
-          content={props.page.template ? PAGE_TEMPLATE : props.blocks}
+          content={content}
         />
       </PageContextProvider>
     </div>
