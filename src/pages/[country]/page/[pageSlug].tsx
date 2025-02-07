@@ -97,9 +97,13 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
       country: country || '',
     };
 
-    // Ensure safeProps is JSON serializable
+    // Validate that safeProps is JSON serializable
+    if (typeof safeProps !== 'object' || safeProps === null) {
+      return { notFound: true };
+    }
+
     return {
-      props: JSON.parse(JSON.stringify(safeProps)),
+      props: safeProps,
       revalidate: 43200,
     };
   } catch {
