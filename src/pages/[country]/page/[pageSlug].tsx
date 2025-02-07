@@ -34,14 +34,6 @@ interface Params extends ParsedUrlQuery {
   pageSlug: string;
 }
 
-interface BlockAttrs {
-  className?: string;
-  uniqueId?: string;
-  metadata?: Partial<{ name?: string }>;
-  htmlAttributes?: Partial<{ attribute: string; value: string }>;
-  [key: string]: unknown;
-}
-
 export const getStaticPaths = async () => {
   const countries = getAllBaseContries();
 
@@ -77,13 +69,19 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
 
     const blocks = addIds(parsedBlocks as ParsedBlock[]);
     const processedBlocks = await Promise.all(
-      blocks.map((block) =>
-        processBlockData({
+      blocks.map((block) => {
+        // Ensure all string values are properly handled
+        const safeAttrs =
+          typeof block.attrs === 'string'
+            ? JSON.parse(block.attrs)
+            : (block.attrs as { [key: string]: unknown }) || {};
+
+        return processBlockData({
           ...block,
-          attrs: (block.attrs as { [key: string]: unknown }) || {},
-          innerBlocks: block.innerBlocks || [],
-        })
-      )
+          attrs: safeAttrs,
+          innerBlocks: Array.isArray(block.innerBlocks) ? block.innerBlocks : [],
+        });
+      })
     );
 
     const cleanedProps = cleanDeep({
@@ -92,7 +90,6 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
       country: country || '',
     });
 
-    // Ensure the props are JSON-serializable
     return {
       props: JSON.parse(JSON.stringify(cleanedProps)),
       revalidate: 43200,
