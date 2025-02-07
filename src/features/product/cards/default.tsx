@@ -141,7 +141,18 @@ export const DefaultProductCard = (props: Props) => {
   }
 
   const renderProductCardsFromTemplate = () => {
+    // No product card template found
+    if (!productCards?.[0]) {
+      return null;
+    }
+
     const productCardTemplate = productCards[0] as ProductCardTemplate;
+
+    // Product card template has no inner blocks
+    if (!productCardTemplate.innerBlocks) {
+      return null;
+    }
+
     return productCardTemplate.innerBlocks.map((block) => {
       switch (block.blockName) {
         case 'woocommerce/product-image': {
