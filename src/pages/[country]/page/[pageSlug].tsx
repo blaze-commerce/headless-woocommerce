@@ -75,28 +75,30 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
     const blocks = addIds(parsedBlocks as ParsedBlock[]);
     const processedBlocks = await Promise.all(
       blocks.map((block) => {
-        // Ensure all string values are properly handled
-        const safeAttrs =
-          typeof block.attrs === 'string'
-            ? JSON.parse(block.attrs)
-            : (block.attrs as { [key: string]: unknown }) || {};
+        let safeAttrs = {};
+        try {
+          safeAttrs = typeof block.attrs === 'string' ? JSON.parse(block.attrs) : block.attrs || {};
+        } catch (e) {
+          // console.error('Error parsing block attrs:', e);
+        }
 
         return processBlockData({
           ...block,
-          attrs: safeAttrs,
+          attrs: safeAttrs as { [key: string]: unknown },
           innerBlocks: Array.isArray(block.innerBlocks) ? block.innerBlocks : [],
         });
       })
     );
 
-    const cleanedProps = cleanDeep({
-      blocks: processedBlocks.filter(Boolean),
+    const filteredBlocks = processedBlocks.filter(Boolean);
+    const safeProps = {
+      blocks: filteredBlocks,
       page: pageData || null,
       country: country || '',
-    });
+    };
 
     return {
-      props: JSON.parse(JSON.stringify(cleanedProps)),
+      props: safeProps,
       revalidate: 43200,
     };
   } catch (error) {
