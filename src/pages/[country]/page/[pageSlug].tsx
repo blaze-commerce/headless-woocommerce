@@ -63,7 +63,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
 
   try {
     const pageData = await getPageBySlug(pageSlug);
-    if (!pageData?.rawContent) {
+    if (!pageData || !pageData.rawContent) {
       return { notFound: true };
     }
 
@@ -78,8 +78,8 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
         let safeAttrs = {};
         try {
           safeAttrs = typeof block.attrs === 'string' ? JSON.parse(block.attrs) : block.attrs || {};
-        } catch (e) {
-          // console.error('Error parsing block attrs:', e);
+        } catch {
+          // Handle parsing error silently
         }
 
         return processBlockData({
@@ -97,11 +97,12 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
       country: country || '',
     };
 
+    // Ensure safeProps is JSON serializable
     return {
-      props: safeProps,
+      props: JSON.parse(JSON.stringify(safeProps)),
       revalidate: 43200,
     };
-  } catch (error) {
+  } catch {
     return { notFound: true };
   }
 };
