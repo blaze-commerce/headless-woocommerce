@@ -37,8 +37,13 @@ interface Params extends ParsedUrlQuery {
 export const getStaticPaths = async () => {
   const countries = getAllBaseContries();
 
+  // Filter out trashed pages
+  const validSlugs = pageSlugs.filter(
+    (slug) => !slug.includes('__trashed') && !slug.match(/__trashed-\d+$/)
+  );
+
   const paths = countries.flatMap((country) =>
-    pageSlugs.map((pageSlug) => ({
+    validSlugs.map((pageSlug) => ({
       params: { country, pageSlug },
     }))
   );
