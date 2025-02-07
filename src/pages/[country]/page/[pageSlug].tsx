@@ -21,6 +21,7 @@ import { ITSPage } from '@src/lib/typesense/types';
 import { GetStaticProps, GetStaticPropsContext } from 'next/dist/types';
 import { parse } from '@wordpress/block-serialization-default-parser';
 import { addIds } from '@src/scripts/utils';
+import cleanDeep from 'clean-deep';
 
 interface Props {
   country: string;
@@ -56,19 +57,12 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<Props, Params> = async (
-  context: GetStaticPropsContext<Params>
-) => {
-  const params = context.params;
-  if (!params) {
+export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
+  if (!context.params) {
     return { notFound: true };
   }
 
-  const { country, pageSlug } = params;
-
-  if (pageSlug === '__trashed') {
-    return { notFound: true };
-  }
+  const { country, pageSlug } = context.params;
 
   try {
     const pageData = await getPageBySlug(pageSlug);
@@ -76,22 +70,31 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
       return { notFound: true };
     }
 
-    const blocks = addIds(parse(pageData.rawContent) as ParsedBlock[]);
+    const parsedBlocks = parse(pageData.rawContent);
+    if (!Array.isArray(parsedBlocks)) {
+      return { notFound: true };
+    }
+
+    const blocks = addIds(parsedBlocks as ParsedBlock[]);
     const processedBlocks = await Promise.all(
       blocks.map((block) =>
         processBlockData({
           ...block,
-          attrs: (block.attrs || {}) as BlockAttrs,
+          attrs: (block.attrs as { [key: string]: unknown }) || {},
+          innerBlocks: block.innerBlocks || [],
         })
       )
     );
 
+    const cleanedProps = cleanDeep({
+      blocks: processedBlocks.filter(Boolean),
+      page: pageData || null,
+      country: country || '',
+    });
+
+    // Ensure the props are JSON-serializable
     return {
-      props: {
-        blocks: processedBlocks.filter(Boolean),
-        page: pageData || null,
-        country: country || '',
-      },
+      props: JSON.parse(JSON.stringify(cleanedProps)),
       revalidate: 43200,
     };
   } catch (error) {
@@ -99,7 +102,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   }
 };
 
-const Page: NextPageWithLayout<Props> = ({ page, blocks, country }) => {
+const Page: NextPageWithLayout<Props> = ({ page, blocks }) => {
   if (!page) {
     return null;
   }
