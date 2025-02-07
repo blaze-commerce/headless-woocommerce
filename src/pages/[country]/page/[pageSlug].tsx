@@ -33,6 +33,14 @@ interface Params extends ParsedUrlQuery {
   pageSlug: string;
 }
 
+interface BlockAttrs {
+  className?: string;
+  uniqueId?: string;
+  metadata?: Partial<{ name?: string }>;
+  htmlAttributes?: Partial<{ attribute: string; value: string }>;
+  [key: string]: unknown;
+}
+
 export const getStaticPaths = async () => {
   const countries = getAllBaseContries();
 
@@ -53,24 +61,42 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 ) => {
   const params = context.params;
   if (!params) {
-    return {
-      notFound: true,
-    };
+    return { notFound: true };
   }
 
   const { country, pageSlug } = params;
-  const pageData = await getPageBySlug(pageSlug);
 
-  const blocks = addIds(parse(pageData?.rawContent || '') as ParsedBlock[]);
+  if (pageSlug === '__trashed') {
+    return { notFound: true };
+  }
 
-  return {
-    props: {
-      blocks: await Promise.all(blocks.map((block) => processBlockData(block))),
-      page: pageData,
-      country,
-    },
-    revalidate: 43200, // Refresh the generated page every 12 hours,
-  };
+  try {
+    const pageData = await getPageBySlug(pageSlug);
+    if (!pageData?.rawContent) {
+      return { notFound: true };
+    }
+
+    const blocks = addIds(parse(pageData.rawContent) as ParsedBlock[]);
+    const processedBlocks = await Promise.all(
+      blocks.map((block) =>
+        processBlockData({
+          ...block,
+          attrs: (block.attrs || {}) as BlockAttrs,
+        })
+      )
+    );
+
+    return {
+      props: {
+        blocks: processedBlocks.filter(Boolean),
+        page: pageData || null,
+        country: country || '',
+      },
+      revalidate: 43200,
+    };
+  } catch (error) {
+    return { notFound: true };
+  }
 };
 
 const Page: NextPageWithLayout<Props> = (props: {
