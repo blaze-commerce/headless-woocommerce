@@ -55,6 +55,15 @@ const CardWishlishButton = dynamic(() =>
   )
 );
 
+interface ProductCardTemplate {
+  innerBlocks: {
+    blockName: string;
+    attrs: {
+      className?: string;
+    };
+  }[];
+}
+
 interface Props extends ProductCards {
   product: Product;
   productFilters?: string;
@@ -132,7 +141,18 @@ export const DefaultProductCard = (props: Props) => {
   }
 
   const renderProductCardsFromTemplate = () => {
-    const productCardTemplate = productCards[0];
+    // No product card template found
+    if (!productCards?.[0]) {
+      return null;
+    }
+
+    const productCardTemplate = productCards[0] as ProductCardTemplate;
+
+    // Product card template has no inner blocks
+    if (!productCardTemplate.innerBlocks) {
+      return null;
+    }
+
     return productCardTemplate.innerBlocks.map((block) => {
       switch (block.blockName) {
         case 'woocommerce/product-image': {
