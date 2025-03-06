@@ -21,6 +21,7 @@ import { ITSPage } from '@src/lib/typesense/types';
 import { GetStaticProps, GetStaticPropsContext } from 'next/dist/types';
 import { parse } from '@wordpress/block-serialization-default-parser';
 import { addIds } from '@src/scripts/utils';
+import cleanDeep from 'clean-deep';
 
 interface Props {
   country: string;
@@ -36,8 +37,13 @@ interface Params extends ParsedUrlQuery {
 export const getStaticPaths = async () => {
   const countries = getAllBaseContries();
 
+  // Filter out trashed pages
+  const validSlugs = pageSlugs.filter(
+    (slug) => !slug.includes('__trashed') && !slug.match(/__trashed-\d+$/)
+  );
+
   const paths = countries.flatMap((country) =>
-    pageSlugs.map((pageSlug) => ({
+    validSlugs.map((pageSlug) => ({
       params: { country, pageSlug },
     }))
   );
@@ -48,46 +54,77 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<Props, Params> = async (
-  context: GetStaticPropsContext<Params>
-) => {
-  const params = context.params;
-  if (!params) {
-    return {
-      notFound: true,
-    };
+export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
+  if (!context.params) {
+    return { notFound: true };
   }
 
-  const { country, pageSlug } = params;
-  const pageData = await getPageBySlug(pageSlug);
+  const { country, pageSlug } = context.params;
 
-  const blocks = addIds(parse(pageData?.rawContent || '') as ParsedBlock[]);
+  try {
+    const pageData = await getPageBySlug(pageSlug);
+    if (!pageData || !pageData.rawContent) {
+      return { notFound: true };
+    }
 
-  return {
-    props: {
-      blocks: await Promise.all(blocks.map((block) => processBlockData(block))),
-      page: pageData,
-      country,
-    },
-    revalidate: 43200, // Refresh the generated page every 12 hours,
-  };
+    const parsedBlocks = parse(pageData.rawContent);
+    if (!Array.isArray(parsedBlocks)) {
+      return { notFound: true };
+    }
+
+    const blocks = addIds(parsedBlocks as ParsedBlock[]);
+    const processedBlocks = await Promise.all(
+      blocks.map((block) => {
+        let safeAttrs = {};
+        try {
+          safeAttrs = typeof block.attrs === 'string' ? JSON.parse(block.attrs) : block.attrs || {};
+        } catch {
+          // Handle parsing error silently
+        }
+
+        return processBlockData({
+          ...block,
+          attrs: safeAttrs as { [key: string]: unknown },
+          innerBlocks: Array.isArray(block.innerBlocks) ? block.innerBlocks : [],
+        });
+      })
+    );
+
+    const filteredBlocks = processedBlocks.filter(Boolean);
+    const safeProps = {
+      blocks: filteredBlocks,
+      page: pageData || null,
+      country: country || '',
+    };
+
+    // Validate that safeProps is JSON serializable
+    if (typeof safeProps !== 'object' || safeProps === null) {
+      return { notFound: true };
+    }
+
+    return {
+      props: safeProps,
+      revalidate: 43200,
+    };
+  } catch {
+    return { notFound: true };
+  }
 };
 
-const Page: NextPageWithLayout<Props> = (props: {
-  page: ITSPage | null | undefined;
-  blocks: string | ParsedBlock[];
-}) => {
-  if (!props.page) {
+const Page: NextPageWithLayout<Props> = ({ page, blocks }) => {
+  if (!page) {
     return null;
   }
 
+  const content = page.template ? (PAGE_TEMPLATE as ParsedBlock[]) : (blocks as ParsedBlock[]);
+
   return (
     <div className="page">
-      {props.page.seoFullHead && <PageSeo seoFullHead={props.page.seoFullHead} />}
-      <PageContextProvider page={props.page}>
+      {page.seoFullHead && <PageSeo seoFullHead={page.seoFullHead} />}
+      <PageContextProvider page={page}>
         <Content
           type="page"
-          content={props.page.template ? PAGE_TEMPLATE : props.blocks}
+          content={content}
         />
       </PageContextProvider>
     </div>

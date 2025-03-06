@@ -9,7 +9,7 @@
 }
 
 .product-archive-page .container {
-  @apply w-screen mx-auto;
+  @apply mx-auto;
 }
 
 .product-archive-page header {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { isEmpty } from 'lodash';
 
@@ -165,7 +165,7 @@ export const CardImage = (props: ICardImage) => {
   return (
     <div
       className={cn(
-        'product-image-holder',
+        'product-image-holder aspect-w-1',
         settings?.productCardAspectRatioClasses,
         {
           'bg-gray-200': imgError,

@@ -1,15 +1,10 @@
 import { ParsedBlock } from '@src/components/blocks';
-import { Content } from '@src/components/blocks/content';
 import { CartItemGlobalProps } from '@src/components/blocks/woocommerce/product-collection/product-template/cart-item';
-import { RecentlyViewedProductCollection } from '@src/components/blocks/woocommerce/product-collection/recently-viewed';
 import { useContentContext } from '@src/context/content-context';
 import { CardImage } from '@src/features/product/card-elements/image';
-import { getBlockName } from '@src/lib/block';
 import { ReactHTMLParser } from '@src/lib/block/react-html-parser';
 import { BlockAttributes } from '@src/lib/block/types';
 import { cn } from '@src/lib/helpers/helper';
-import { transformProductsForDisplay } from '@src/lib/helpers/product';
-import { ProductCartItem } from '@src/lib/hooks/cart';
 import { Product } from '@src/models/product';
 import { find } from 'lodash';
 import Image from 'next/image';
