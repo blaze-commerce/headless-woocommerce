@@ -188,7 +188,7 @@ export const Gallery: React.FC<Props> = (props) => {
                 blur={false}
                 src={currentImageSrc}
                 alt={(currentAltText || image.title) as string}
-                className="w-full h-full lg:object-center object-contain"
+                className="w-full h-full lg:object-center object-cover"
                 hasZoomHover={zoomType === '1'}
               />
             ) : (
@@ -280,7 +280,7 @@ export const Gallery: React.FC<Props> = (props) => {
       <>
         {images.length > 1 ? (
           <div className="mt-5 lg:mt-3 w-full">
-            <Tab.List className="space-x-2.5 justify-center lg:space-x-0 lg:justify-normal hidden lg:grid grid-cols-4 gap-3">
+            <Tab.List className="space-x-0 justify-normal grid grid-cols-4 gap-3">
               {images.map((image, index) => (
                 <Tab
                   key={`image-gallery-${image.id}-${index}`}
@@ -288,7 +288,7 @@ export const Gallery: React.FC<Props> = (props) => {
                 >
                   {({ selected }) => (
                     <>
-                      <span className="absolute lg:inset-0 overflow-hidden">
+                      <span className="lg:absolute lg:inset-0 overflow-hidden">
                         {isMp4(image?.src) ? (
                           <div
                             className={cn(

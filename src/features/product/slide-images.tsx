@@ -85,9 +85,9 @@ export const SlideImages = (props: Props) => {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="bg-white border border-foreground w-12 h-12 flex justify-center items-center"
+        className="bg-white border border-foreground w-6 h-6 lg:w-12 lg:h-12 flex justify-center items-center"
       >
-        <GoZoomIn className="w-6 h-6" />
+        <GoZoomIn className="h-4 w-4 md:w-6 md:h-6" />
       </button>
       <Lightbox
         open={open}
