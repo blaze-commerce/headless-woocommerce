@@ -1,5 +1,5 @@
 .single-product .product-gallery {
-  @apply flex flex-col-reverse mb-5;
+  @apply flex flex-col-reverse md:mb-5;
 }
 
 .single-product .product-gallery .product-thumbnails.grid-style {
@@ -35,9 +35,13 @@
 }
 
 .single-product .product-gallery .product-gallery-arrows .arrow span {
-  @apply rounded-none p-3 shadow-none border border-foreground;
+  @apply rounded-none p-0 md:p-3 shadow-none border border-foreground;
+}
+
+.single-product .product-gallery .product-gallery-arrows > button > span {
+  @apply w-6 h-6 md:w-12 md:h-12;
 }
 
 .single-product .product-gallery .product-gallery-arrows .arrow span svg {
-  @apply w-6 h-6 fill-foreground;
+  @apply w-4 h-4 md:w-6 md:h-6 fill-foreground;
 }

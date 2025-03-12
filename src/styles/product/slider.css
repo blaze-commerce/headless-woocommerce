@@ -8,12 +8,12 @@
 }
 
 .product-slider .title-holder h2 {
-  @apply text-[#333333] text-xl sm:text-3xl shrink-0 font-bold;
+  @apply font-primary text-primary text-xl sm:text-4xl shrink-0 font-normal;
 }
 
 .product-slider .title-holder hr {
-  /** @apply w-full  border-t border-[#E4E5E7] */
-  @apply hidden;
+  @apply w-full  border-t border-[#E4E5E7]
+  /* @apply hidden; */;
 }
 
 .product-slider .title-holder .button-holder {

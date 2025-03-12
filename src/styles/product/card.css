@@ -1,6 +1,6 @@
 /** Product Card */
 .product-card {
-  @apply bg-transparent !justify-start relative content-between transition-all ease-linear duration-300 h-full flex flex-col gap-4;
+  @apply bg-transparent !justify-start relative content-between transition-all ease-linear duration-300 h-full flex flex-col gap-3;
 }
 
 .product-card .product-header {
@@ -12,7 +12,7 @@
 }
 
 .product-card .product-header .product-badges .badge {
-  @apply rounded-md uppercase text-white text-xs leading-6 block bg-[#333] px-4 py-1;
+  @apply font-primary rounded-none uppercase text-white text-base leading-6 block bg-[#333] py-1 px-2;
 }
 
 .product-card .product-header .product-badges .badge.sale-badge {
@@ -146,6 +146,14 @@
 .product-card .product-header .product-out-of-stock {
   @apply absolute left-0 z-[1] w-full uppercase text-[20px] text-[#000180] font-bold leading-6 text-center p-4 bg-white bg-opacity-[0.78];
   top: calc(50% - 28px);
+}
+
+.product-card .product-card-inner {
+  @apply flex flex-col gap-3 px-3;
+}
+
+.product-card .product-title {
+  @apply font-bold font-secondary text-lg leading-7;
 }
 
 .product-card .add-to-cart-container {

@@ -113,6 +113,10 @@
   @apply flex flex-col font-normal text-xs text-[#6F6F6F] gap-2;
 }
 
+.single-product hr + hr {
+  @apply hidden;
+}
+
 .single-product .product-installment .provider {
   @apply flex items-center gap-2;
 }

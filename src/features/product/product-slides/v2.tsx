@@ -12,7 +12,7 @@ import { Shop } from '@src/models/settings/shop';
 import { cn } from '@src/lib/helpers/helper';
 
 const DynamicDefaultProductCard = dynamic(() =>
-  import('@src/features/product/cards/default').then((mod) => mod.DefaultProductCard)
+  import('@src/features/product/cards/old-way').then((mod) => mod.DefaultProductCard)
 );
 
 import { transformProductsForDisplay } from '@src/lib/helpers/product';
