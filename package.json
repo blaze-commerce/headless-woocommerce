@@ -19,6 +19,7 @@
     "ts-prebuild": "yarn tsx ./src/scripts/prebuild.ts",
     "build": "next build",
     "start": "next start",
+    "p": "next build && next start",
     "lint": "next lint",
     "type-check": "tsc",
     "test": "jest",
