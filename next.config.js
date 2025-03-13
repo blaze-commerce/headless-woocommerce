@@ -1,5 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const envParsedURL = new URL(process.env.NEXT_PUBLIC_WORDPRESS_SITE_URL);
+const skipStaticBuild = process.env.SKIP_BUILD_STATIC_GENERATION;
 
 const nextConfig = {
   reactStrictMode: true,
@@ -107,6 +111,17 @@ const nextConfig = {
   trailingSlash: true,
   compiler: {
     styledComponents: true,
+  },
+  webpack: (config) => {
+    config.cache = skipStaticBuild === 'true' ? false : true; // Disable cache when static generation is skipped
+    config.watchOptions = {
+      ignored: [
+        path.resolve(__dirname, 'node_modules'),
+        path.resolve(__dirname, '.next/cache'),
+        path.resolve(__dirname, 'public'),
+      ],
+    };
+    return config;
   },
 };
 
