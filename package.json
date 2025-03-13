@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "next dev",
     "d": "yarn prebuild && next dev",
+    "b": "yarn ts-prebuild blocks && next dev",
     "dev-blocks": "yarn ts-prebuild blocks && yarn dev",
     "prebuild": "ts-node --esm ./src/scripts/runner.mjs && yarn ts-prebuild",
     "ts-prebuild": "yarn tsx ./src/scripts/prebuild.ts",
