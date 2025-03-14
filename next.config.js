@@ -1,3 +1,9 @@
+let path;
+
+if (process.env.NODE_ENV === 'development' && !process.env.VERCEL) {
+  path = require('path');
+}
+
 /** @type {import('next').NextConfig} */
 const envParsedURL = new URL(process.env.NEXT_PUBLIC_WORDPRESS_SITE_URL);
 
@@ -107,6 +113,19 @@ const nextConfig = {
   trailingSlash: true,
   compiler: {
     styledComponents: true,
+  },
+  webpack: (config) => {
+    if (process.env.NODE_ENV === 'development' && !process.env.VERCEL) {
+      config.cache = false; // Disable cache when in local development
+      config.watchOptions = {
+        ignored: [
+          path.resolve(__dirname, 'node_modules'),
+          path.resolve(__dirname, '.next/cache'),
+          path.resolve(__dirname, 'public'),
+        ],
+      };
+    }
+    return config;
   },
 };
 
