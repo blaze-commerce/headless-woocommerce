@@ -1,9 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path');
+let path;
+
+if (process.env.NODE_ENV === 'development' && !process.env.VERCEL) {
+  path = require('path');
+}
 
 /** @type {import('next').NextConfig} */
 const envParsedURL = new URL(process.env.NEXT_PUBLIC_WORDPRESS_SITE_URL);
-const skipStaticBuild = process.env.SKIP_BUILD_STATIC_GENERATION;
 
 const nextConfig = {
   reactStrictMode: true,
@@ -113,14 +115,16 @@ const nextConfig = {
     styledComponents: true,
   },
   webpack: (config) => {
-    config.cache = skipStaticBuild === 'true' ? false : true; // Disable cache when static generation is skipped
-    config.watchOptions = {
-      ignored: [
-        path.resolve(__dirname, 'node_modules'),
-        path.resolve(__dirname, '.next/cache'),
-        path.resolve(__dirname, 'public'),
-      ],
-    };
+    if (process.env.NODE_ENV === 'development' && !process.env.VERCEL) {
+      config.cache = false; // Disable cache when in local development
+      config.watchOptions = {
+        ignored: [
+          path.resolve(__dirname, 'node_modules'),
+          path.resolve(__dirname, '.next/cache'),
+          path.resolve(__dirname, 'public'),
+        ],
+      };
+    }
     return config;
   },
 };
