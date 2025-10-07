@@ -4,13 +4,9 @@
 
 Blaze Commerce is how WooCommerce stores go headless with ease. Our open-source platform covers everything from seamless integration and blazing-fast performance to exceptional user experience and SEO optimization for thriving in today’s competitive market.
 
-[Website](https://blazecommerce.io/) | [Docs](https://docs.blazecommerce.io/) | [Slack Community](https://join.slack.com/t/blaze-community/shared_invite/zt-2pov0vyr8-7eEk2nGY~NJsjGfrrXP4Sg)
+[Website](https://blazecommerce.io/) | [Docs](https://docs.blazecommerce.io/)
 
 ---
-
-## Who is using Blaze Commerce? 
-
-[Gourmet Baseket](https://gourmetbasket.com.au/), [Jackie Mack Designs](https://www.jackiemackdesigns.com/), [Admerch](https://admerch.com.au/)
 
 ## Our Point of View
 
@@ -72,7 +68,7 @@ Blaze Commerce is designed for:
 
 - **Managed via WordPress/WooCommerce:** Harnessing the power and familiarity of WordPress and WooCommerce for seamless store management.
 
-[Website](https://blazecommerce.io/) | [Docs](https://docs.blazecommerce.io/) | [Slack Community](https://join.slack.com/t/blaze-community/shared_invite/zt-2pov0vyr8-7eEk2nGY~NJsjGfrrXP4Sg)
+[Website](https://blazecommerce.io/) | [Docs](https://docs.blazecommerce.io/)
 
 ## Quick Start
 
