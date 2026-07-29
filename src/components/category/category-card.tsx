@@ -19,7 +19,7 @@ interface Props extends ProductCards {
 export const CategoryCard = (props: Props) => {
   const { name, permalink, thumbnail } = props.taxonomies;
   const { classNames, detailsAlignment = 'center', hasBorders, imagePadding } = props;
-  const { currentCountry, settings } = useSiteContext();
+  const { settings } = useSiteContext();
 
   const [imgError, setImgError] = useState(false);
 
@@ -29,13 +29,13 @@ export const CategoryCard = (props: Props) => {
   const isVisible = !!entry?.isIntersecting;
 
   useEffect(() => {
-    if (isVisible) {
-      prefetch(`/${currentCountry}${permalink}`);
+    if (isVisible && permalink) {
+      prefetch(permalink);
     }
-  }, [isVisible, currentCountry, prefetch, permalink]);
+  }, [isVisible, prefetch, permalink]);
 
   const handleMouseEnter = () => {
-    prefetch(`/${currentCountry}${permalink}`);
+    if (permalink) prefetch(permalink);
   };
 
   const renderCardTitle = () => {

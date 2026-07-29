@@ -1,8 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useEffect, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { makeLinkRelative } from '@src/lib/helpers/helper';
-import { useSiteContext } from '@src/context/site-context';
 import { useRouter } from 'next/router';
 import type { BoxControlProps } from '@components/blocks/maxmegamenu/block';
 import Link from 'next/link';
@@ -19,7 +18,15 @@ type StyledMenuProps = {
   $hoverBackgroundColor?: string;
 };
 
-export const StyledMenuLink = styled(Link)<StyledMenuProps>`
+/**
+ * WordPress uses `#` as the URL of a menu item that exists only to open a dropdown.
+ * It is not a destination, so it must never reach next/link: next/link resolves `#`
+ * against the current route, which turns one menu item into a different dead URL on
+ * every page of the site.
+ */
+const isNonNavigable = (href?: string) => !href || href === '#';
+
+const menuLinkStyles = css<StyledMenuProps>`
   ${(props) => {
     if (!props.$padding) return null;
 
@@ -58,21 +65,34 @@ export const StyledMenuLink = styled(Link)<StyledMenuProps>`
   }
 `;
 
+export const StyledMenuLink = styled(Link)<StyledMenuProps>`
+  ${menuLinkStyles}
+`;
+
+/**
+ * The dropdown trigger. Same element and same styling as StyledMenuLink, but with no
+ * href, so it looks and measures identically while not being a link: nothing to
+ * prefetch, nothing for a crawler to follow, and no route resolution.
+ */
+export const StyledMenuTrigger = styled.a<StyledMenuProps>`
+  ${menuLinkStyles}
+`;
+
 type Props = React.LinkHTMLAttributes<HTMLAnchorElement> & StyledMenuProps;
 
 export const MenuLink: React.FC<Props> = ({ children, href, onClick, as, ...props }) => {
-  const { currentCountry } = useSiteContext();
   const { push, prefetch } = useRouter();
 
   const ref = useRef<HTMLDivElement | null>(null);
   const entry = useIntersectionObserver(ref, {});
   const isVisible = !!entry?.isIntersecting;
+  const nonNavigable = isNonNavigable(href);
 
   useEffect(() => {
-    if (isVisible && href) {
-      prefetch(`/${currentCountry}${makeLinkRelative(href)}`);
+    if (isVisible && href && !nonNavigable) {
+      prefetch(makeLinkRelative(href));
     }
-  }, [currentCountry, href, isVisible, prefetch]);
+  }, [href, isVisible, nonNavigable, prefetch]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onClick) {
@@ -81,10 +101,32 @@ export const MenuLink: React.FC<Props> = ({ children, href, onClick, as, ...prop
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+    if (!onClick || (e.key !== 'Enter' && e.key !== ' ')) return;
+    e.preventDefault();
+    onClick(e as unknown as React.MouseEvent<HTMLAnchorElement>);
+  };
+
+  if (nonNavigable) {
+    return (
+      <div ref={ref}>
+        <StyledMenuTrigger
+          role="button"
+          tabIndex={0}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          {...props}
+        >
+          {children}
+        </StyledMenuTrigger>
+      </div>
+    );
+  }
+
   return (
     <div ref={ref}>
       <StyledMenuLink
-        href={href ? makeLinkRelative(href) : '#'}
+        href={makeLinkRelative(href as string)}
         onClick={handleClick}
         {...props}
       >

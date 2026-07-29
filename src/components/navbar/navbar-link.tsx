@@ -27,7 +27,7 @@ export const NavbarLink = ({ children, href, hasChevronDownIcon }: NavbarLinkPro
   const [isOpen, setIsOpen] = useState(false);
   const { push, prefetch } = useRouter();
   const matches = useMediaQuery('(min-width: 768px)');
-  const { settings, currentCountry } = useSiteContext();
+  const { settings } = useSiteContext();
   const { header } = settings as Settings;
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -44,13 +44,13 @@ export const NavbarLink = ({ children, href, hasChevronDownIcon }: NavbarLinkPro
 
   useEffect(() => {
     if (isVisible) {
-      prefetch(`/${currentCountry}${href}`);
+      prefetch(href);
     }
-  }, [isVisible, currentCountry, prefetch, href]);
+  }, [isVisible, prefetch, href]);
 
   const handleMouseEnter = () => {
     if (!prefetched) {
-      prefetch(`/${currentCountry}${href}`);
+      prefetch(href);
       setPrefetched(true);
     }
   };

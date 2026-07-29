@@ -64,9 +64,9 @@ export const MenuItem: React.FC<MenuItemType> = ({
 
   useEffect(() => {
     if (isVisible && href) {
-      prefetch(`/${currentCountry}${relativeLink}`);
+      prefetch(relativeLink);
     }
-  }, [isVisible, currentCountry, prefetch, href, relativeLink]);
+  }, [isVisible, prefetch, href, relativeLink]);
 
   if (component) return React.cloneElement(component, { isLast });
 
@@ -74,7 +74,7 @@ export const MenuItem: React.FC<MenuItemType> = ({
 
   const handleMouseLinkHover = () => {
     if (href) {
-      prefetch(`/${currentCountry}${relativeLink}`);
+      prefetch(relativeLink);
     }
   };
 

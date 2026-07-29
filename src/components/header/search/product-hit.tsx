@@ -26,7 +26,7 @@ export const ProductHit = ({ hit }: any) => {
   const isFree = parseFloat(hit.price[currentCurrency]) === 0;
 
   const handleMouseEnter = () => {
-    prefetch(`/${currentCountry}${productLink}`);
+    prefetch(productLink);
   };
 
   const handleMouseClick = () => {
@@ -35,9 +35,9 @@ export const ProductHit = ({ hit }: any) => {
 
   useEffect(() => {
     if (isVisible) {
-      prefetch(`/${currentCountry}${productLink}`);
+      prefetch(productLink);
     }
-  }, [isVisible, productLink, currentCountry, prefetch]);
+  }, [isVisible, productLink, prefetch]);
 
   return (
     <div
