@@ -37,7 +37,7 @@ export const MenuItem: React.FC<MenuItemType> = ({
   megaMenuItems,
   children,
 }) => {
-  const { currentCountry, settings } = useSiteContext();
+  const { settings } = useSiteContext();
 
   const { push, prefetch, asPath } = useRouter();
 
@@ -56,14 +56,14 @@ export const MenuItem: React.FC<MenuItemType> = ({
 
   useEffect(() => {
     if (isVisible && href) {
-      prefetch(`/${currentCountry}${relativeLink}`);
+      prefetch(relativeLink);
     }
-  }, [isVisible, currentCountry, prefetch, href, relativeLink]);
+  }, [isVisible, prefetch, href, relativeLink]);
 
   const handleMouseOver = () => {
     setIsHovering(true);
     if (href) {
-      prefetch(`/${currentCountry}${relativeLink}`);
+      prefetch(relativeLink);
     }
   };
 

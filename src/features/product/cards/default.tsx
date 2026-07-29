@@ -93,7 +93,7 @@ export const DefaultProductCard = (props: Props) => {
   } = props;
 
   const productLink = seoUrlParser(product?.permalink || '');
-  const { currentCurrency, settings, currentCountry } = useSiteContext();
+  const { currentCurrency, settings } = useSiteContext();
   const [showImageVariant, setShowImageVariant] = useState<string>('');
   const [hovered, setHovered] = useState(false);
   // const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
@@ -113,12 +113,12 @@ export const DefaultProductCard = (props: Props) => {
 
   useEffect(() => {
     if (isVisible) {
-      prefetch(`/${currentCountry}${productLink}`);
+      prefetch(productLink);
     }
-  }, [isVisible, productLink, currentCountry, prefetch]);
+  }, [isVisible, productLink, prefetch]);
 
   const handleMouseEnter = () => {
-    prefetch(`/${currentCountry}${productLink}`);
+    prefetch(productLink);
   };
 
   const gliderRef = useRef<GliderMethods>(null);

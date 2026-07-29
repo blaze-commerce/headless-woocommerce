@@ -4,7 +4,6 @@ import { ReactNode, useEffect, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 import { RawLink } from '@src/components/common/raw-link';
-import { useSiteContext } from '@src/context/site-context';
 import Link from 'next/link';
 
 type Props = {
@@ -30,7 +29,6 @@ export const PrefetchLink: React.FC<Props> = ({
   style = {},
   target = '_self',
 }) => {
-  const { currentCountry } = useSiteContext();
 
   const { push, prefetch } = useRouter();
   const ref = useRef<HTMLDivElement | null>(null);
@@ -39,14 +37,14 @@ export const PrefetchLink: React.FC<Props> = ({
 
   useEffect(() => {
     if (isVisible && href) {
-      prefetch(`/${currentCountry}${href}`);
+      prefetch(href);
     }
-  }, [isVisible, currentCountry, prefetch, href]);
+  }, [isVisible, prefetch, href]);
 
   if (!href) return null;
 
   const handleMouseEnter = () => {
-    prefetch(`/${currentCountry}${href}`);
+    prefetch(href);
   };
 
   return (

@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import { useEffect, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { makeLinkRelative } from '@src/lib/helpers/helper';
-import { useSiteContext } from '@src/context/site-context';
 import { useRouter } from 'next/router';
 import type { BoxControlProps } from '@components/blocks/maxmegamenu/block';
 import Link from 'next/link';
@@ -82,7 +81,6 @@ export const StyledMenuTrigger = styled.a<StyledMenuProps>`
 type Props = React.LinkHTMLAttributes<HTMLAnchorElement> & StyledMenuProps;
 
 export const MenuLink: React.FC<Props> = ({ children, href, onClick, as, ...props }) => {
-  const { currentCountry } = useSiteContext();
   const { push, prefetch } = useRouter();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -92,9 +90,9 @@ export const MenuLink: React.FC<Props> = ({ children, href, onClick, as, ...prop
 
   useEffect(() => {
     if (isVisible && href && !nonNavigable) {
-      prefetch(`/${currentCountry}${makeLinkRelative(href)}`);
+      prefetch(makeLinkRelative(href));
     }
-  }, [currentCountry, href, isVisible, nonNavigable, prefetch]);
+  }, [href, isVisible, nonNavigable, prefetch]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onClick) {

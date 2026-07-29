@@ -52,7 +52,7 @@ export const ProductCard = (props: Props) => {
 
   const productLink = seoUrlParser(product?.permalink || '');
   const thumbnailSrc = TSThumbnail.clean(product?.thumbnail?.src || '');
-  const { currentCurrency, settings, currentCountry } = useSiteContext();
+  const { currentCurrency, settings } = useSiteContext();
   // const [compositeComponents, setCompositeComponents] = useState<CompositeProductComponent[]>();
 
   const { isProductInWishList } = useWishListStorage();
@@ -73,12 +73,12 @@ export const ProductCard = (props: Props) => {
 
   useEffect(() => {
     if (isVisible) {
-      prefetch(`/${currentCountry}${productLink}`);
+      prefetch(productLink);
     }
-  }, [isVisible, productLink, currentCountry, prefetch]);
+  }, [isVisible, productLink, prefetch]);
 
   const handleMouseEnter = () => {
-    prefetch(`/${currentCountry}${productLink}`);
+    prefetch(productLink);
   };
 
   const galleryImages = product?.galleryImages;
